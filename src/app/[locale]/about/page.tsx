@@ -15,12 +15,6 @@ const STATS = [
   { value: "15년+", label: "업계 경험" },
 ];
 
-// 팀 소개 더미 데이터 — 실제 팀원 정보로 교체 필요
-const TEAM = [
-  { name: "김민준", role: "대표이사 / CEO", bio: "前 글로벌 의료관광 컨설팅 15년 경력" },
-  { name: "이수연", role: "콘텐츠 디렉터", bio: "의학 저널리스트 출신, 헬스케어 콘텐츠 전문" },
-  { name: "박지훈", role: "기술 총괄 / CTO", bio: "AI 추천 알고리즘 개발 담당" },
-];
 
 // About 페이지 — 서버 컴포넌트 (인터랙션 없음)
 // E-E-A-T(경험·전문성·권위·신뢰) 4가지 항목을 섹션별로 명시
@@ -94,24 +88,6 @@ export default function AboutPage() {
               병원 정보는 최소 분기 1회 업데이트하며, 사용자 리뷰의 진위를 직접 확인합니다.
               개인정보는 GDPR 및 한국 개인정보보호법을 준수하여 처리합니다.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 팀 소개 카드 그리드 */}
-      <section className="bg-gray-50 px-4 py-14">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="mb-8 text-2xl font-bold text-gray-900">팀 소개</h2>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {TEAM.map((member) => (
-              <div key={member.name} className="rounded-2xl bg-white p-6 shadow-sm">
-                {/* 아바타 플레이스홀더 — 실제 이미지로 교체 */}
-                <div className="mb-3 h-12 w-12 rounded-full bg-pink-100" />
-                <h3 className="font-semibold text-gray-900">{member.name}</h3>
-                <p className="text-sm font-medium text-pink-500">{member.role}</p>
-                <p className="mt-2 text-sm text-gray-500">{member.bio}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
