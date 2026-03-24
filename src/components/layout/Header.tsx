@@ -19,7 +19,7 @@ const LOCALES = [
 // 네비게이션 링크 목록
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/ai-recommend", label: "AI 추천" },
+  { href: "/recommend", label: "AI 추천" },
   { href: "/community", label: "Community" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
