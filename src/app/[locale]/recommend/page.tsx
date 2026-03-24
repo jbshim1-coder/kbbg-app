@@ -2,28 +2,51 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
-// 퀴즈 단계 정의 — 각 단계별 질문과 선택지
+// 퀴즈 단계 정의 — 번역 키를 사용하는 구조로 변경
 const STEPS = [
   {
     step: 1,
-    title: "원하는 시술을 선택하세요",
-    options: ["성형외과", "피부과", "치과", "안과", "한방/기타"],
+    titleKey: "recommend.step1_title",
+    optionKeys: [
+      "recommend.step1_plastic",
+      "recommend.step1_derma",
+      "recommend.step1_dental",
+      "recommend.step1_eye",
+      "recommend.step1_other",
+    ],
   },
   {
     step: 2,
-    title: "예산 범위를 선택하세요",
-    options: ["50만원 미만", "50~150만원", "150~300만원", "300만원 이상"],
+    titleKey: "recommend.step2_title",
+    optionKeys: [
+      "recommend.step2_low",
+      "recommend.step2_mid",
+      "recommend.step2_high",
+      "recommend.step2_premium",
+    ],
   },
   {
     step: 3,
-    title: "선호 지역을 선택하세요",
-    options: ["서울 강남", "서울 기타", "부산", "대구", "상관없음"],
+    titleKey: "recommend.step3_title",
+    optionKeys: [
+      "recommend.step3_gangnam",
+      "recommend.step3_seoul",
+      "recommend.step3_busan",
+      "recommend.step3_daegu",
+      "recommend.step3_other",
+    ],
   },
   {
     step: 4,
-    title: "언어 지원이 필요하신가요?",
-    options: ["영어", "일본어", "중국어", "필요없음"],
+    titleKey: "recommend.step4_title",
+    optionKeys: [
+      "recommend.step4_en",
+      "recommend.step4_ja",
+      "recommend.step4_zh",
+      "recommend.step4_no",
+    ],
   },
 ];
 
@@ -78,6 +101,7 @@ export default function RecommendPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
+  const t = useTranslations();
 
   // 다음 단계로 진행 — 선택한 답변을 누적 저장
   function handleNext() {
@@ -101,18 +125,16 @@ export default function RecommendPage() {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
         <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm text-center">
           <p className="text-4xl">🤖</p>
-          <h1 className="mt-4 text-2xl font-bold text-gray-900">AI 병원 추천</h1>
-          <p className="mt-2 text-gray-500">
-            4가지 질문에 답하면 나에게 맞는 병원 TOP 3를 추천해 드립니다.
-          </p>
+          <h1 className="mt-4 text-2xl font-bold text-gray-900">{t("recommend.title")}</h1>
+          <p className="mt-2 text-gray-500">{t("recommend.subtitle")}</p>
           <button
             onClick={() => setCurrentStep(1)}
             className="mt-8 w-full rounded-xl bg-pink-500 py-3 font-semibold text-white hover:bg-pink-600"
           >
-            시작하기
+            {t("recommend.start")}
           </button>
           <Link href="/" className="mt-3 block text-sm text-gray-400 hover:underline">
-            홈으로 돌아가기
+            {t("recommend.back_home")}
           </Link>
         </div>
       </main>
@@ -126,8 +148,8 @@ export default function RecommendPage() {
     return (
       <main className="min-h-screen bg-gray-50 px-4 py-12">
         <div className="mx-auto max-w-2xl">
-          <h1 className="text-2xl font-bold text-gray-900">AI 추천 결과</h1>
-          <p className="mt-1 text-gray-500">선택 조건: {answers.join(" · ")}</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t("recommend.results_title")}</h1>
+          <p className="mt-1 text-gray-500">{t("recommend.results_subtitle", { conditions: answers.join(" · ") })}</p>
 
           <div className="mt-6 flex flex-col gap-4">
             {allClinics.map((clinic) => (
@@ -140,7 +162,7 @@ export default function RecommendPage() {
                 {/* 광고 레이블 — 투명성을 위해 명확하게 표시 */}
                 {clinic.isAd && (
                   <span className="mb-2 inline-block rounded bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700">
-                    광고
+                    {t("recommend.ad_label")}
                   </span>
                 )}
                 <div className="flex items-start justify-between">
@@ -151,7 +173,7 @@ export default function RecommendPage() {
                   {/* 추천 점수 — 광고 병원에는 표시하지 않음 */}
                   {clinic.score && (
                     <span className="rounded-full bg-pink-50 px-3 py-1 text-sm font-bold text-pink-600">
-                      {clinic.score}점
+                      {t("recommend.score_label", { score: clinic.score })}
                     </span>
                   )}
                 </div>
@@ -177,7 +199,7 @@ export default function RecommendPage() {
             onClick={handleReset}
             className="mt-8 w-full rounded-xl border border-gray-300 py-3 font-semibold text-gray-700 hover:bg-gray-50"
           >
-            다시 추천받기
+            {t("recommend.try_again")}
           </button>
         </div>
       </main>
@@ -207,23 +229,26 @@ export default function RecommendPage() {
         </div>
 
         <div className="rounded-2xl bg-white p-8 shadow-sm">
-          <h2 className="text-xl font-bold text-gray-900">{step.title}</h2>
+          <h2 className="text-xl font-bold text-gray-900">{t(step.titleKey as Parameters<typeof t>[0])}</h2>
 
           {/* 선택지 버튼 목록 — 선택된 항목은 핑크 강조 */}
           <div className="mt-6 flex flex-col gap-3">
-            {step.options.map((option) => (
-              <button
-                key={option}
-                onClick={() => setSelected(option)}
-                className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${
-                  selected === option
-                    ? "border-pink-500 bg-pink-50 text-pink-700"
-                    : "border-gray-200 text-gray-700 hover:border-pink-200 hover:bg-pink-50"
-                }`}
-              >
-                {option}
-              </button>
-            ))}
+            {step.optionKeys.map((optionKey) => {
+              const label = t(optionKey as Parameters<typeof t>[0]);
+              return (
+                <button
+                  key={optionKey}
+                  onClick={() => setSelected(label)}
+                  className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${
+                    selected === label
+                      ? "border-pink-500 bg-pink-50 text-pink-700"
+                      : "border-gray-200 text-gray-700 hover:border-pink-200 hover:bg-pink-50"
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
 
           {/* 다음 단계 버튼 — 선택 전 비활성화 */}
@@ -232,7 +257,7 @@ export default function RecommendPage() {
             disabled={!selected}
             className="mt-8 w-full rounded-xl bg-pink-500 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-pink-200 hover:bg-pink-600"
           >
-            {currentStep === STEPS.length ? "결과 보기" : "다음"}
+            {currentStep === STEPS.length ? t("recommend.get_results") : t("recommend.next")}
           </button>
         </div>
       </div>

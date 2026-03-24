@@ -2,12 +2,21 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase";
+import { useTranslations } from "next-intl";
 
-// 문의 유형 선택지 목록
-const INQUIRY_TYPES = ["병원 정보 문의", "광고/파트너십", "서비스 오류 신고", "개인정보 관련", "기타"];
+// 문의 유형 키 목록
+const INQUIRY_TYPE_KEYS = [
+  "contact.type_clinic",
+  "contact.type_partnership",
+  "contact.type_bug",
+  "contact.type_privacy",
+  "contact.type_other",
+];
 
 // 문의 폼 페이지 — 클라이언트 컴포넌트 (폼 상태 관리 필요)
 export default function ContactPage() {
+  const t = useTranslations();
+
   // 폼 필드 상태
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,7 +41,8 @@ export default function ContactPage() {
 
     try {
       const supabase = createClient();
-      const { error: dbError } = await supabase.from("contact_inquiries").insert({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: dbError } = await (supabase as any).from("contact_inquiries").insert({
         name,
         email,
         category: type,
@@ -44,7 +54,7 @@ export default function ContactPage() {
       if (dbError) throw dbError;
       setSubmitted(true);
     } catch {
-      setError("문의 접수에 실패했습니다. 이메일(help@2bstory.com)로 직접 문의해주세요.");
+      setError(t("contact.error"));
     } finally {
       setLoading(false);
     }
@@ -56,10 +66,9 @@ export default function ContactPage() {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
         <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-sm">
           <p className="text-4xl">✅</p>
-          <h2 className="mt-4 text-xl font-bold text-gray-900">문의가 접수되었습니다</h2>
+          <h2 className="mt-4 text-xl font-bold text-gray-900">{t("contact.success_title")}</h2>
           <p className="mt-2 text-gray-500">
-            영업일 기준 1~2일 내로{" "}
-            <strong>help@2bstory.com</strong>에서 답변드립니다.
+            {t("contact.success_desc")}
           </p>
         </div>
       </main>
@@ -69,11 +78,11 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-14">
       <div className="mx-auto max-w-xl">
-        <h1 className="text-3xl font-bold text-gray-900">문의하기</h1>
+        <h1 className="text-3xl font-bold text-gray-900">{t("contact.title")}</h1>
         <p className="mt-2 text-gray-500">
-          궁금한 점이 있으시면 아래 양식을 작성해 주세요.
+          {t("contact.subtitle")}
           <br />
-          이메일 문의:{" "}
+          {t("contact.email_label")}{" "}
           <a href="mailto:help@2bstory.com" className="text-pink-500 hover:underline">
             help@2bstory.com
           </a>
@@ -83,13 +92,13 @@ export default function ContactPage() {
           {/* 이름 입력 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              이름 <span className="text-pink-500">*</span>
+              {t("contact.name")} <span className="text-pink-500">*</span>
             </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="홍길동"
+              placeholder={t("contact.name_placeholder")}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
             />
           </div>
@@ -97,13 +106,13 @@ export default function ContactPage() {
           {/* 이메일 입력 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              이메일 <span className="text-pink-500">*</span>
+              {t("contact.email")} <span className="text-pink-500">*</span>
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@email.com"
+              placeholder={t("contact.email_placeholder")}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
             />
           </div>
@@ -111,16 +120,18 @@ export default function ContactPage() {
           {/* 문의 유형 선택 드롭다운 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              문의 유형 <span className="text-pink-500">*</span>
+              {t("contact.type")} <span className="text-pink-500">*</span>
             </label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value)}
               className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-pink-400"
             >
-              <option value="">선택해 주세요</option>
-              {INQUIRY_TYPES.map((t) => (
-                <option key={t} value={t}>{t}</option>
+              <option value="">{t("contact.type_placeholder")}</option>
+              {INQUIRY_TYPE_KEYS.map((key) => (
+                <option key={key} value={t(key as Parameters<typeof t>[0])}>
+                  {t(key as Parameters<typeof t>[0])}
+                </option>
               ))}
             </select>
           </div>
@@ -128,12 +139,12 @@ export default function ContactPage() {
           {/* 메시지 본문 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              메시지 <span className="text-pink-500">*</span>
+              {t("contact.message")} <span className="text-pink-500">*</span>
             </label>
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="문의 내용을 자세히 작성해 주세요."
+              placeholder={t("contact.message_placeholder")}
               rows={6}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
             />
@@ -145,7 +156,7 @@ export default function ContactPage() {
             disabled={!isValid}
             className="w-full rounded-xl bg-pink-500 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-pink-200 hover:bg-pink-600"
           >
-            {loading ? "전송 중..." : "문의 보내기"}
+            {loading ? t("contact.sending") : t("contact.submit")}
           </button>
           {/* 에러 메시지 표시 */}
           {error && <p className="text-sm text-red-500 text-center">{error}</p>}

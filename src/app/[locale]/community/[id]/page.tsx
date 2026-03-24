@@ -2,6 +2,7 @@
 
 import { use, useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 // 게시글 타입 정의
 type Comment = { id: number; author: string; body: string; createdAt: string };
@@ -48,6 +49,7 @@ export default function PostDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const t = useTranslations();
   // Promise params를 use()로 동기적으로 읽기
   const { id } = use(params);
   const post = POSTS[id];
@@ -65,9 +67,9 @@ export default function PostDetailPage({
   if (!post) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-4">
-        <p className="text-gray-500">게시글을 찾을 수 없습니다.</p>
+        <p className="text-gray-500">{t("community.post_not_found")}</p>
         <Link href="/community" className="mt-4 text-pink-500 hover:underline">
-          커뮤니티로 돌아가기
+          {t("community.back_to_community")}
         </Link>
       </main>
     );
@@ -102,7 +104,7 @@ export default function PostDetailPage({
       <div className="mx-auto max-w-2xl px-4 py-10">
         {/* 뒤로가기 링크 */}
         <Link href="/community" className="text-sm text-gray-400 hover:text-gray-600">
-          ← 커뮤니티
+          {t("community.back")}
         </Link>
 
         {/* 게시글 본문 카드 */}
@@ -130,7 +132,7 @@ export default function PostDetailPage({
                   : "bg-gray-100 text-gray-600 hover:bg-pink-50"
               }`}
             >
-              ↑ 추천 {upvotes}
+              ↑ {t("community.upvote")} {upvotes}
             </button>
             <button
               onClick={() => handleVote("down")}
@@ -140,7 +142,7 @@ export default function PostDetailPage({
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              ↓ 비추천 {downvotes}
+              ↓ {t("community.downvote")} {downvotes}
             </button>
           </div>
         </article>
@@ -148,7 +150,7 @@ export default function PostDetailPage({
         {/* 댓글 섹션 */}
         <section className="mt-6">
           <h2 className="mb-4 text-lg font-bold text-gray-900">
-            댓글 {comments.length}개
+            {t("community.comments_count", { count: comments.length })}
           </h2>
 
           {/* 댓글 목록 */}
@@ -169,7 +171,7 @@ export default function PostDetailPage({
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder="댓글을 작성하세요..."
+              placeholder={t("community.comment_placeholder")}
               rows={3}
               className="w-full rounded-xl border border-gray-200 p-3 text-sm outline-none focus:border-pink-400"
             />
@@ -177,7 +179,7 @@ export default function PostDetailPage({
               type="submit"
               className="mt-2 rounded-xl bg-pink-500 px-6 py-2 text-sm font-semibold text-white hover:bg-pink-600"
             >
-              댓글 작성
+              {t("community.comment_submit")}
             </button>
           </form>
         </section>

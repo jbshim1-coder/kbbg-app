@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Globe, Menu, X, ChevronDown } from "lucide-react";
 import SearchBar from "@/components/ui/SearchBar";
+import { useTranslations } from "next-intl";
 
 // 지원 언어 목록 — 국기 순서는 기획 기준 고정
 const LOCALES = [
@@ -17,18 +18,11 @@ const LOCALES = [
   { code: "mn", flag: "🇲🇳", label: "Монгол" },
 ] as const;
 
-// 네비게이션 링크 목록
-const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/recommend", label: "AI 추천" },
-  { href: "/community", label: "Community" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
-
 // 헤더 컴포넌트 — 상단 고정 네비게이션 바
 // sticky 포지션으로 스크롤 시에도 항상 상단에 유지
 export default function Header() {
+  const t = useTranslations();
+
   // 현재 URL 경로에서 locale 추출
   const pathname = usePathname();
   const router = useRouter();
@@ -42,6 +36,15 @@ export default function Header() {
   const [currentLocale, setCurrentLocale] = useState<(typeof LOCALES)[number]>(
     LOCALES.find((l) => l.code === currentLocaleCode) || LOCALES[0]
   );
+
+  // 네비게이션 링크 목록 — 번역 키 사용
+  const NAV_LINKS = [
+    { href: "/", labelKey: "nav.home" },
+    { href: "/recommend", labelKey: "nav.recommend" },
+    { href: "/community", labelKey: "nav.community" },
+    { href: "/about", labelKey: "nav.about" },
+    { href: "/contact", labelKey: "nav.contact" },
+  ];
 
   // locale 포함된 링크 생성 헬퍼
   const localePath = (path: string) => `/${currentLocaleCode}${path === "/" ? "" : path}`;
@@ -69,7 +72,7 @@ export default function Header() {
   // 검색 실행 핸들러 — 검색어를 받아 검색 라우팅으로 연결
   const handleSearch = (query: string) => {
     // TODO: 실제 검색 라우팅으로 교체
-    console.log("검색:", query);
+    console.log("search:", query);
   };
 
   // 언어 선택 핸들러 — 선택한 언어로 URL 변경
@@ -90,7 +93,7 @@ export default function Header() {
           <Link
             href={localePath("/")}
             className="flex-shrink-0 text-xl font-bold text-blue-600 tracking-tight"
-            aria-label="K-Beauty Buyers Guide 홈"
+            aria-label="K-Beauty Buyers Guide"
           >
             K-Beauty<span className="text-pink-400">BG</span>
           </Link>
@@ -98,7 +101,7 @@ export default function Header() {
           {/* ── PC 네비게이션 ── */}
           <nav
             className="hidden lg:flex items-center gap-1"
-            aria-label="주요 메뉴"
+            aria-label={t("nav.home")}
           >
             {NAV_LINKS.map((link) => (
               <Link
@@ -107,7 +110,7 @@ export default function Header() {
                 className="px-3 py-2 rounded-lg text-sm font-medium text-gray-600
                   hover:text-blue-600 hover:bg-blue-50 transition-colors duration-150"
               >
-                {link.label}
+                {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
             ))}
           </nav>
@@ -115,7 +118,7 @@ export default function Header() {
           {/* ── PC 검색바 ── */}
           <div className="hidden md:flex flex-1 max-w-xs">
             <SearchBar
-              placeholder="병원, 시술, 지역 검색..."
+              placeholder={t("nav.search_placeholder")}
               onSearch={handleSearch}
               size="sm"
             />
@@ -128,7 +131,7 @@ export default function Header() {
             <div ref={langRef} className="relative">
               <button
                 onClick={() => setLangOpen((prev) => !prev)}
-                aria-label="언어 선택"
+                aria-label={t("nav.language")}
                 aria-expanded={langOpen}
                 aria-haspopup="listbox"
                 className="flex items-center gap-1 p-2 rounded-lg text-gray-500
@@ -151,7 +154,7 @@ export default function Header() {
               {langOpen && (
                 <div
                   role="listbox"
-                  aria-label="언어 목록"
+                  aria-label={t("nav.language")}
                   className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg
                     border border-gray-100 py-1 z-40"
                 >
@@ -183,21 +186,21 @@ export default function Header() {
                 className="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-700
                   hover:bg-gray-100 transition-colors"
               >
-                로그인
+                {t("nav.login")}
               </Link>
               <Link
                 href={localePath("/signup")}
                 className="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600
                   text-white hover:bg-blue-700 transition-colors"
               >
-                회원가입
+                {t("nav.signup")}
               </Link>
             </div>
 
             {/* 모바일 햄버거 버튼 — lg 미만에서만 표시 */}
             <button
               onClick={() => setMobileOpen((prev) => !prev)}
-              aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
+              aria-label={mobileOpen ? t("common.back") : t("nav.home")}
               aria-expanded={mobileOpen}
               className="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
             >
@@ -214,14 +217,14 @@ export default function Header() {
           {/* 모바일 검색바 */}
           <div className="px-4 pt-4 pb-2">
             <SearchBar
-              placeholder="병원, 시술, 지역 검색..."
+              placeholder={t("nav.search_placeholder")}
               onSearch={(q) => { handleSearch(q); setMobileOpen(false); }}
               size="md"
             />
           </div>
 
           {/* 모바일 네비 링크 */}
-          <nav aria-label="모바일 메뉴" className="px-4 py-2 flex flex-col gap-1">
+          <nav aria-label={t("nav.home")} className="px-4 py-2 flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -230,7 +233,7 @@ export default function Header() {
                 className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700
                   hover:bg-blue-50 hover:text-blue-600 transition-colors"
               >
-                {link.label}
+                {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
             ))}
           </nav>
@@ -238,20 +241,20 @@ export default function Header() {
           {/* 모바일 로그인/회원가입 */}
           <div className="px-4 py-4 flex gap-3 border-t border-gray-100">
             <Link
-              href="/login"
+              href={localePath("/login")}
               onClick={() => setMobileOpen(false)}
               className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
                 border border-blue-600 text-blue-600 hover:bg-blue-50 transition-colors"
             >
-              로그인
+              {t("nav.login")}
             </Link>
             <Link
-              href="/signup"
+              href={localePath("/signup")}
               onClick={() => setMobileOpen(false)}
               className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
                 bg-blue-600 text-white hover:bg-blue-700 transition-colors"
             >
-              회원가입
+              {t("nav.signup")}
             </Link>
           </div>
         </div>

@@ -5,7 +5,6 @@
 // ============================================================
 
 import { createBrowserClient, createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import type { Database } from '@/types/database'
 
 // ============================================================
@@ -31,6 +30,7 @@ export function createClient() {
 // 쿠키를 통해 세션을 읽고 갱신
 // ============================================================
 export async function createServerSupabaseClient() {
+  const { cookies } = await import('next/headers')
   const cookieStore = await cookies()
 
   return createServerClient<Database>(supabaseUrl, supabaseAnonKey, {

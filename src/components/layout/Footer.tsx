@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, Globe, Share2, MessageCircle, ExternalLink } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 // SNS 링크 목록 (lucide-react에서 지원하는 아이콘 사용)
 const SNS_LINKS = [
@@ -9,48 +10,48 @@ const SNS_LINKS = [
   { label: "X (Twitter)", href: "https://twitter.com", icon: ExternalLink },
 ];
 
-// 법률/정책 링크
-const LEGAL_LINKS = [
-  { href: "/disclaimer", label: "면책 조항" },
-  { href: "/terms", label: "이용약관" },
-  { href: "/privacy", label: "개인정보보호" },
-];
-
-// 푸터 네비게이션 섹션
-const FOOTER_SECTIONS = [
-  {
-    title: "서비스",
-    links: [
-      { href: "/ai-recommend", label: "AI 추천" },
-      { href: "/community", label: "커뮤니티" },
-      { href: "/hospitals", label: "병원 찾기" },
-      { href: "/procedures", label: "시술 안내" },
-    ],
-  },
-  {
-    title: "회사",
-    links: [
-      { href: "/about", label: "회사 소개" },
-      { href: "/contact", label: "문의하기" },
-      { href: "/careers", label: "채용" },
-      { href: "/press", label: "언론 보도" },
-    ],
-  },
-  {
-    title: "지원",
-    links: [
-      { href: "/faq", label: "FAQ" },
-      { href: "/guide", label: "이용 가이드" },
-      { href: "/safety", label: "안전 정보" },
-      { href: "/report", label: "신고하기" },
-    ],
-  },
-];
-
 // 푸터 컴포넌트 — 브랜드 정보, 네비게이션, 저작권 및 법률 링크 포함
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations();
   // 저작권 연도를 동적으로 생성 (렌더링 시점 기준)
   const currentYear = new Date().getFullYear();
+
+  // 푸터 네비게이션 섹션 — 번역 키 사용
+  const FOOTER_SECTIONS = [
+    {
+      titleKey: "footer.services",
+      links: [
+        { href: "/ai-recommend", labelKey: "footer.service_ai" },
+        { href: "/community", labelKey: "footer.service_community" },
+        { href: "/hospitals", labelKey: "footer.service_hospitals" },
+        { href: "/procedures", labelKey: "footer.service_procedures" },
+      ],
+    },
+    {
+      titleKey: "footer.company",
+      links: [
+        { href: "/about", labelKey: "footer.company_about" },
+        { href: "/contact", labelKey: "footer.company_contact" },
+        { href: "/careers", labelKey: "footer.company_careers" },
+        { href: "/press", labelKey: "footer.company_press" },
+      ],
+    },
+    {
+      titleKey: "footer.support",
+      links: [
+        { href: "/faq", labelKey: "footer.support_faq" },
+        { href: "/guide", labelKey: "footer.support_guide" },
+        { href: "/safety", labelKey: "footer.support_safety" },
+        { href: "/report", labelKey: "footer.support_report" },
+      ],
+    },
+  ];
+
+  const LEGAL_LINKS = [
+    { href: "/disclaimer", labelKey: "footer.disclaimer" },
+    { href: "/terms", labelKey: "footer.terms" },
+    { href: "/privacy", labelKey: "footer.privacy" },
+  ];
 
   return (
     <footer className="bg-gray-50 border-t border-gray-200">
@@ -64,20 +65,19 @@ export default function Footer() {
             <Link
               href="/"
               className="text-xl font-bold text-blue-600 tracking-tight"
-              aria-label="K-Beauty Buyers Guide 홈"
+              aria-label="K-Beauty Buyers Guide"
             >
               K-Beauty<span className="text-pink-400">BG</span>
             </Link>
 
             <p className="mt-3 text-sm text-gray-500 leading-relaxed max-w-xs">
-              한국 뷰티 의료 관광을 위한 신뢰할 수 있는 가이드.
-              AI 기반 맞춤 추천으로 최적의 병원과 시술을 찾아드립니다.
+              {t("footer.company_desc")}
             </p>
 
             {/* 투비스토리 회사 정보 */}
             <div className="mt-5 space-y-1 text-xs text-gray-400">
-              <p className="font-medium text-gray-500">㈜ 투비스토리</p>
-              <p>2008년 설립 · 국내 500여 개 병원 파트너</p>
+              <p className="font-medium text-gray-500">{t("footer.company_name")}</p>
+              <p>{t("footer.company_info")}</p>
               <a
                 href="mailto:help@2bstory.com"
                 className="inline-flex items-center gap-1 hover:text-blue-600 transition-colors"
@@ -107,9 +107,9 @@ export default function Footer() {
 
           {/* 네비게이션 섹션 3개 */}
           {FOOTER_SECTIONS.map((section) => (
-            <div key={section.title}>
+            <div key={section.titleKey}>
               <h3 className="text-sm font-semibold text-gray-900 mb-4">
-                {section.title}
+                {t(section.titleKey as Parameters<typeof t>[0])}
               </h3>
               <ul className="space-y-2.5">
                 {section.links.map((link) => (
@@ -118,7 +118,7 @@ export default function Footer() {
                       href={link.href}
                       className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
                     >
-                      {link.label}
+                      {t(link.labelKey as Parameters<typeof t>[0])}
                     </Link>
                   </li>
                 ))}
@@ -132,11 +132,11 @@ export default function Footer() {
           items-center justify-between gap-4">
 
           <p className="text-xs text-gray-400">
-            © {currentYear} 투비스토리(2bstory). All rights reserved.
+            {t("footer.copyright", { year: currentYear })}
           </p>
 
           <nav
-            aria-label="법률 링크"
+            aria-label="legal"
             className="flex items-center gap-4"
           >
             {LEGAL_LINKS.map((link, idx) => (
@@ -148,7 +148,7 @@ export default function Footer() {
                   href={link.href}
                   className="text-xs text-gray-400 hover:text-blue-600 transition-colors"
                 >
-                  {link.label}
+                  {t(link.labelKey as Parameters<typeof t>[0])}
                 </Link>
               </span>
             ))}

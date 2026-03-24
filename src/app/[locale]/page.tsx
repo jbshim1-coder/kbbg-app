@@ -1,7 +1,6 @@
-// locale별 홈페이지 - useTranslations로 다국어 텍스트 적용
+// locale별 홈페이지 - 서버 컴포넌트에서 getTranslations 사용
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 // 인기 시술 더미 데이터
 const TOP_PROCEDURES = [
@@ -21,9 +20,9 @@ const RECENT_POSTS = [
 
 // 신뢰 배지 데이터
 const TRUST_BADGES = [
-  { stat: "500+", label: "병원 데이터" },
-  { stat: "7개국", label: "언어 지원" },
-  { stat: "AI", label: "맞춤 추천" },
+  { stat: "500+", labelKey: "trust.clinics" },
+  { stat: "7", labelKey: "trust.languages" },
+  { stat: "AI", labelKey: "trust.ai" },
 ];
 
 export default async function HomePage({
@@ -34,13 +33,7 @@ export default async function HomePage({
   const { locale } = await params;
   // 정적 렌더링 활성화
   setRequestLocale(locale);
-
-  return <HomePageContent />;
-}
-
-// 클라이언트 훅(useTranslations)을 사용하기 위해 분리
-function HomePageContent() {
-  const t = useTranslations();
+  const t = await getTranslations();
 
   return (
     <main className="min-h-screen">
@@ -58,13 +51,13 @@ function HomePageContent() {
               href="/recommend"
               className="rounded-xl bg-pink-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-pink-600 active:bg-pink-700"
             >
-              {t("hero.cta")}
+              {t("hero.cta_recommend")}
             </Link>
             <Link
               href="/community"
               className="rounded-xl border border-gray-300 px-8 py-3 text-lg font-semibold text-gray-700 transition hover:bg-gray-50"
             >
-              {t("nav.community")}
+              {t("hero.cta_community")}
             </Link>
           </div>
         </div>
@@ -74,9 +67,9 @@ function HomePageContent() {
       <section className="border-y border-gray-100 bg-white px-4 py-6">
         <div className="mx-auto flex max-w-3xl justify-around">
           {TRUST_BADGES.map((badge) => (
-            <div key={badge.label} className="text-center">
+            <div key={badge.labelKey} className="text-center">
               <p className="text-2xl font-bold text-pink-500">{badge.stat}</p>
-              <p className="text-sm text-gray-500">{badge.label}</p>
+              <p className="text-sm text-gray-500">{t(badge.labelKey as Parameters<typeof t>[0])}</p>
             </div>
           ))}
         </div>
@@ -85,7 +78,7 @@ function HomePageContent() {
       {/* 인기 시술 TOP 5 */}
       <section className="px-4 py-14">
         <div className="mx-auto max-w-4xl">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900">인기 시술 TOP 5</h2>
+          <h2 className="mb-6 text-2xl font-bold text-gray-900">{t("procedures.title")}</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TOP_PROCEDURES.map((proc, idx) => (
               <div
@@ -100,7 +93,7 @@ function HomePageContent() {
                 </div>
                 <h3 className="mt-2 text-lg font-semibold text-gray-900">{proc.name}</h3>
                 <p className="mt-1 text-sm text-gray-500">{proc.price}</p>
-                <p className="mt-1 text-xs text-gray-400">관련 병원 {proc.clinics}개</p>
+                <p className="mt-1 text-xs text-gray-400">{t("procedures.related_clinics", { count: proc.clinics })}</p>
               </div>
             ))}
           </div>
@@ -111,9 +104,9 @@ function HomePageContent() {
       <section className="bg-gray-50 px-4 py-14">
         <div className="mx-auto max-w-4xl">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">{t("community.title")}</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("community_preview.title")}</h2>
             <Link href="/community" className="text-sm text-pink-500 hover:underline">
-              {t("common.see_more")} →
+              {t("community_preview.view_all")}
             </Link>
           </div>
           <div className="flex flex-col gap-3">
@@ -149,7 +142,7 @@ function HomePageContent() {
           <Link href="/privacy" className="hover:text-gray-600">{t("footer.privacy")}</Link>
           <Link href="/disclaimer" className="hover:text-gray-600">{t("footer.disclaimer")}</Link>
         </div>
-        <p className="mt-4">{t("footer.copyright")}</p>
+        <p className="mt-4">{t("footer.copyright", { year: new Date().getFullYear() })}</p>
       </footer>
     </main>
   );
