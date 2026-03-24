@@ -28,11 +28,32 @@
   },
   "procedures": {
     "title": "人気施術トップ5",
-    "related_clinics": "関連クリニック：{count}件"
+    "related_clinics": "関連クリニック：{count}件",
+    "p1_name": "二重まぶた手術",
+    "p1_category": "整形外科",
+    "p1_price": "$500~$1,500",
+    "p2_name": "ボトックス",
+    "p2_category": "皮膚科",
+    "p2_price": "$100~$300",
+    "p3_name": "レーシック/ラセック",
+    "p3_category": "眼科",
+    "p3_price": "$1,000~$2,000",
+    "p4_name": "ホワイトニング",
+    "p4_category": "歯科",
+    "p4_price": "$200~$800",
+    "p5_name": "フィラー",
+    "p5_category": "皮膚科",
+    "p5_price": "$200~$600"
   },
   "community_preview": {
     "title": "最新コミュニティ投稿",
-    "view_all": "すべて見る →"
+    "view_all": "すべて見る →",
+    "post1_title": "カンナム二重手術レビュー — 3ヶ月後",
+    "post1_category": "整形外科",
+    "post2_title": "外国人は保険なしで皮膚科に行けますか？",
+    "post2_category": "皮膚科",
+    "post3_title": "歯列矯正の価格比較（カンナム vs ホンデ）",
+    "post3_category": "歯科"
   },
   "recommend": {
     "title": "AIクリニックおすすめ",

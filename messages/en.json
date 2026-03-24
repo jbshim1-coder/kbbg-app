@@ -28,11 +28,32 @@
   },
   "procedures": {
     "title": "Top 5 Popular Procedures",
-    "related_clinics": "Related clinics: {count}"
+    "related_clinics": "Related clinics: {count}",
+    "p1_name": "Double Eyelid Surgery",
+    "p1_category": "Plastic Surgery",
+    "p1_price": "$500~$1,500",
+    "p2_name": "Botox",
+    "p2_category": "Dermatology",
+    "p2_price": "$100~$300",
+    "p3_name": "LASIK/LASEK",
+    "p3_category": "Ophthalmology",
+    "p3_price": "$1,000~$2,000",
+    "p4_name": "Teeth Whitening",
+    "p4_category": "Dental",
+    "p4_price": "$200~$800",
+    "p5_name": "Filler",
+    "p5_category": "Dermatology",
+    "p5_price": "$200~$600"
   },
   "community_preview": {
     "title": "Latest Community Posts",
-    "view_all": "View All →"
+    "view_all": "View All →",
+    "post1_title": "Gangnam Double Eyelid Review — 3 Months Later",
+    "post1_category": "Plastic Surgery",
+    "post2_title": "Can foreigners visit a dermatologist without insurance?",
+    "post2_category": "Dermatology",
+    "post3_title": "Dental Braces Price Comparison (Gangnam vs Hongdae)",
+    "post3_category": "Dental"
   },
   "recommend": {
     "title": "AI Clinic Recommendation",
@@ -118,7 +139,7 @@
   "about": {
     "title": "About Us",
     "description": "We are specialists in Korean medical beauty, helping international visitors find the best clinics and experiences.",
-    "experience": "Since 2008, we have been planning and marketing Korean medical beauty, partnering with over 500 clinics.",
+    "experience": "Since 2008, we have been partnering with over 500 clinics to connect international visitors with trusted Korean medical beauty services.",
     "badge": "About Us",
     "founded": "Founded",
     "partners": "Partner Clinics",
@@ -134,7 +155,6 @@
     "partnership_title": "Hospital Partnership Inquiry",
     "partnership_desc": "Interested in clinic registration and marketing cooperation?",
     "contact_btn": "Contact Us",
-    "experience": "Since 2008, we have been partnering with over 500 clinics to connect international visitors with trusted Korean medical beauty services.",
     "experience_stat": "Years of Experience"
   },
   "contact": {

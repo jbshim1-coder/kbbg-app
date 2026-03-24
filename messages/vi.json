@@ -28,11 +28,32 @@
   },
   "procedures": {
     "title": "Top 5 dịch vụ phổ biến nhất",
-    "related_clinics": "Phòng khám liên quan: {count}"
+    "related_clinics": "Phòng khám liên quan: {count}",
+    "p1_name": "Phẫu thuật mắt hai mí",
+    "p1_category": "Phẫu thuật thẩm mỹ",
+    "p1_price": "$500~$1,500",
+    "p2_name": "Botox",
+    "p2_category": "Da liễu",
+    "p2_price": "$100~$300",
+    "p3_name": "LASIK/LASEK",
+    "p3_category": "Nhãn khoa",
+    "p3_price": "$1,000~$2,000",
+    "p4_name": "Tẩy trắng răng",
+    "p4_category": "Nha khoa",
+    "p4_price": "$200~$800",
+    "p5_name": "Filler",
+    "p5_category": "Da liễu",
+    "p5_price": "$200~$600"
   },
   "community_preview": {
     "title": "Bài viết cộng đồng mới nhất",
-    "view_all": "Xem tất cả →"
+    "view_all": "Xem tất cả →",
+    "post1_title": "Đánh giá mắt hai mí Gangnam — Sau 3 tháng",
+    "post1_category": "Phẫu thuật thẩm mỹ",
+    "post2_title": "Người nước ngoài có thể đi khám da liễu không có bảo hiểm?",
+    "post2_category": "Da liễu",
+    "post3_title": "So sánh giá niềng răng (Gangnam vs Hongdae)",
+    "post3_category": "Nha khoa"
   },
   "recommend": {
     "title": "AI đề xuất phòng khám",

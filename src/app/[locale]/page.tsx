@@ -2,20 +2,20 @@
 import Link from "next/link";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-// 인기 시술 더미 데이터
+// 인기 시술 더미 데이터 — 번역 키 사용
 const TOP_PROCEDURES = [
-  { id: 1, name: "쌍꺼풀 수술", category: "성형", price: "50~150만원", clinics: 120 },
-  { id: 2, name: "보톡스", category: "피부", price: "10~30만원", clinics: 280 },
-  { id: 3, name: "라식/라섹", category: "안과", price: "100~200만원", clinics: 85 },
-  { id: 4, name: "치아 미백", category: "치과", price: "20~80만원", clinics: 150 },
-  { id: 5, name: "필러", category: "피부", price: "20~60만원", clinics: 210 },
+  { id: 1, nameKey: "procedures.p1_name", categoryKey: "procedures.p1_category", priceKey: "procedures.p1_price", clinics: 120 },
+  { id: 2, nameKey: "procedures.p2_name", categoryKey: "procedures.p2_category", priceKey: "procedures.p2_price", clinics: 280 },
+  { id: 3, nameKey: "procedures.p3_name", categoryKey: "procedures.p3_category", priceKey: "procedures.p3_price", clinics: 85 },
+  { id: 4, nameKey: "procedures.p4_name", categoryKey: "procedures.p4_category", priceKey: "procedures.p4_price", clinics: 150 },
+  { id: 5, nameKey: "procedures.p5_name", categoryKey: "procedures.p5_category", priceKey: "procedures.p5_price", clinics: 210 },
 ];
 
-// 최신 커뮤니티 글 더미 데이터
+// 최신 커뮤니티 글 더미 데이터 — 번역 키 사용
 const RECENT_POSTS = [
-  { id: 1, title: "강남 쌍꺼풀 후기 — 3개월 경과", category: "성형", author: "user_kr", comments: 24, upvotes: 87 },
-  { id: 2, title: "외국인도 보험 없이 피부과 갈 수 있나요?", category: "피부", author: "sarah_jp", comments: 15, upvotes: 42 },
-  { id: 3, title: "치아 교정 가격 비교 (강남 vs 홍대)", category: "치과", author: "mike_us", comments: 31, upvotes: 63 },
+  { id: 1, titleKey: "community_preview.post1_title", categoryKey: "community_preview.post1_category", author: "user_kr", comments: 24, upvotes: 87 },
+  { id: 2, titleKey: "community_preview.post2_title", categoryKey: "community_preview.post2_category", author: "sarah_jp", comments: 15, upvotes: 42 },
+  { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community_preview.post3_category", author: "mike_us", comments: 31, upvotes: 63 },
 ];
 
 // 신뢰 배지 데이터
@@ -88,11 +88,11 @@ export default async function HomePage({
                 <div className="flex items-start justify-between">
                   <span className="text-3xl font-black text-pink-100">0{idx + 1}</span>
                   <span className="rounded-full bg-pink-50 px-2 py-0.5 text-xs font-medium text-pink-600">
-                    {proc.category}
+                    {t(proc.categoryKey as Parameters<typeof t>[0])}
                   </span>
                 </div>
-                <h3 className="mt-2 text-lg font-semibold text-gray-900">{proc.name}</h3>
-                <p className="mt-1 text-sm text-gray-500">{proc.price}</p>
+                <h3 className="mt-2 text-lg font-semibold text-gray-900">{t(proc.nameKey as Parameters<typeof t>[0])}</h3>
+                <p className="mt-1 text-sm text-gray-500">{t(proc.priceKey as Parameters<typeof t>[0])}</p>
                 <p className="mt-1 text-xs text-gray-400">{t("procedures.related_clinics", { count: proc.clinics })}</p>
               </div>
             ))}
@@ -118,9 +118,9 @@ export default async function HomePage({
               >
                 <div>
                   <span className="mr-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
-                    {post.category}
+                    {t(post.categoryKey as Parameters<typeof t>[0])}
                   </span>
-                  <span className="text-sm font-medium text-gray-900">{post.title}</span>
+                  <span className="text-sm font-medium text-gray-900">{t(post.titleKey as Parameters<typeof t>[0])}</span>
                   <p className="mt-0.5 text-xs text-gray-400">by {post.author}</p>
                 </div>
                 <div className="ml-4 flex shrink-0 gap-3 text-xs text-gray-400">

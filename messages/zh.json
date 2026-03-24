@@ -28,11 +28,32 @@
   },
   "procedures": {
     "title": "最受欢迎的5大项目",
-    "related_clinics": "相关诊所：{count}家"
+    "related_clinics": "相关诊所：{count}家",
+    "p1_name": "双眼皮手术",
+    "p1_category": "整形外科",
+    "p1_price": "$500~$1,500",
+    "p2_name": "肉毒素",
+    "p2_category": "皮肤科",
+    "p2_price": "$100~$300",
+    "p3_name": "近视矫正(LASIK/LASEK)",
+    "p3_category": "眼科",
+    "p3_price": "$1,000~$2,000",
+    "p4_name": "牙齿美白",
+    "p4_category": "牙科",
+    "p4_price": "$200~$800",
+    "p5_name": "玻尿酸填充",
+    "p5_category": "皮肤科",
+    "p5_price": "$200~$600"
   },
   "community_preview": {
     "title": "最新社区帖子",
-    "view_all": "查看全部 →"
+    "view_all": "查看全部 →",
+    "post1_title": "江南双眼皮后记 — 3个月后",
+    "post1_category": "整形外科",
+    "post2_title": "外国人可以不买保险就去皮肤科吗？",
+    "post2_category": "皮肤科",
+    "post3_title": "牙齿矫正价格对比（江南 vs 弘大）",
+    "post3_category": "牙科"
   },
   "recommend": {
     "title": "AI诊所推荐",
