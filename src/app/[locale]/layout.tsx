@@ -6,6 +6,8 @@ import { getMessages } from "next-intl/server";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -116,7 +118,9 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
