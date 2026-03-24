@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createClient } from "@/lib/supabase";
 
 // 문의 유형 선택지 목록
 const INQUIRY_TYPES = ["병원 정보 문의", "광고/파트너십", "서비스 오류 신고", "개인정보 관련", "기타"];
@@ -18,12 +19,35 @@ export default function ContactPage() {
   // 필수 필드 모두 입력된 경우에만 제출 버튼 활성화
   const isValid = name.trim() && email.trim() && type && message.trim();
 
-  // 폼 제출 처리 — 실제 이메일 발송 API 연동 전 로컬 상태만 업데이트
-  function handleSubmit(e: React.FormEvent) {
+  // 제출 중 상태
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // 폼 제출 처리 — Supabase contact_inquiries 테이블에 저장
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isValid) return;
-    // TODO: 이메일 발송 API 또는 Supabase insert 호출
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+
+    try {
+      const supabase = createClient();
+      const { error: dbError } = await supabase.from("contact_inquiries").insert({
+        name,
+        email,
+        category: type,
+        subject: type,
+        message,
+        status: "open",
+      });
+
+      if (dbError) throw dbError;
+      setSubmitted(true);
+    } catch {
+      setError("문의 접수에 실패했습니다. 이메일(help@2bstory.com)로 직접 문의해주세요.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   // 제출 완료 후 감사 메시지 화면
@@ -121,8 +145,10 @@ export default function ContactPage() {
             disabled={!isValid}
             className="w-full rounded-xl bg-pink-500 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-pink-200 hover:bg-pink-600"
           >
-            문의 보내기
+            {loading ? "전송 중..." : "문의 보내기"}
           </button>
+          {/* 에러 메시지 표시 */}
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
         </form>
       </div>
     </main>
