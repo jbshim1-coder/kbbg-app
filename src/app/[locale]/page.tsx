@@ -1,6 +1,9 @@
+// locale별 홈페이지 - useTranslations로 다국어 텍스트 적용
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 
-// 인기 시술 TOP 5 더미 데이터 — 실제 데이터 연동 전 UI 확인용
+// 인기 시술 더미 데이터
 const TOP_PROCEDURES = [
   { id: 1, name: "쌍꺼풀 수술", category: "성형", price: "50~150만원", clinics: 120 },
   { id: 2, name: "보톡스", category: "피부", price: "10~30만원", clinics: 280 },
@@ -9,58 +12,65 @@ const TOP_PROCEDURES = [
   { id: 5, name: "필러", category: "피부", price: "20~60만원", clinics: 210 },
 ];
 
-// 최신 커뮤니티 글 미리보기 더미 데이터
+// 최신 커뮤니티 글 더미 데이터
 const RECENT_POSTS = [
   { id: 1, title: "강남 쌍꺼풀 후기 — 3개월 경과", category: "성형", author: "user_kr", comments: 24, upvotes: 87 },
   { id: 2, title: "외국인도 보험 없이 피부과 갈 수 있나요?", category: "피부", author: "sarah_jp", comments: 15, upvotes: 42 },
   { id: 3, title: "치아 교정 가격 비교 (강남 vs 홍대)", category: "치과", author: "mike_us", comments: 31, upvotes: 63 },
 ];
 
-// 신뢰 배지 — 서비스 핵심 지표를 강조해 신뢰도 확보
+// 신뢰 배지 데이터
 const TRUST_BADGES = [
   { stat: "500+", label: "병원 데이터" },
   { stat: "7개국", label: "언어 지원" },
   { stat: "AI", label: "맞춤 추천" },
 ];
 
-// 메인 홈페이지 — 서버 컴포넌트 (인터랙티브 요소 없음)
-export default function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  // 정적 렌더링 활성화
+  setRequestLocale(locale);
+
+  return <HomePageContent />;
+}
+
+// 클라이언트 훅(useTranslations)을 사용하기 위해 분리
+function HomePageContent() {
+  const t = useTranslations();
+
   return (
     <main className="min-h-screen">
-      {/* 히어로 섹션 — 핵심 가치 제안과 CTA */}
+      {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-pink-50 to-blue-50 px-4 py-20 text-center">
         <div className="mx-auto max-w-3xl">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            Find Your Perfect
-            <br />
-            <span className="text-pink-500">Korean Beauty Clinic</span>
+            {t("hero.title")}
           </h1>
           <p className="mt-4 text-lg text-gray-600">
-            AI가 당신에게 맞는 병원을 추천해 드립니다. 500개 이상의 검증된 병원 데이터.
+            {t("hero.subtitle")}
           </p>
-          {/* CTA 버튼 그룹 */}
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/recommend"
               className="rounded-xl bg-pink-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-pink-600 active:bg-pink-700"
             >
-              AI 추천 시작
+              {t("hero.cta")}
             </Link>
             <Link
               href="/community"
               className="rounded-xl border border-gray-300 px-8 py-3 text-lg font-semibold text-gray-700 transition hover:bg-gray-50"
             >
-              커뮤니티 보기
+              {t("nav.community")}
             </Link>
           </div>
-          {/* 소셜 프루프 — 누적 추천 수로 신뢰성 강화 */}
-          <p className="mt-6 text-sm text-gray-500">
-            <span className="font-semibold text-pink-500">12,483명</span>이 추천 받았습니다
-          </p>
         </div>
       </section>
 
-      {/* 신뢰 배지 섹션 — 서비스 핵심 수치 요약 */}
+      {/* 신뢰 배지 */}
       <section className="border-y border-gray-100 bg-white px-4 py-6">
         <div className="mx-auto flex max-w-3xl justify-around">
           {TRUST_BADGES.map((badge) => (
@@ -72,7 +82,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 인기 시술 TOP 5 카드 그리드 */}
+      {/* 인기 시술 TOP 5 */}
       <section className="px-4 py-14">
         <div className="mx-auto max-w-4xl">
           <h2 className="mb-6 text-2xl font-bold text-gray-900">인기 시술 TOP 5</h2>
@@ -83,7 +93,6 @@ export default function HomePage() {
                 className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition hover:shadow-md"
               >
                 <div className="flex items-start justify-between">
-                  {/* 순위 번호 — 대형 연한 색상으로 배경 장식 효과 */}
                   <span className="text-3xl font-black text-pink-100">0{idx + 1}</span>
                   <span className="rounded-full bg-pink-50 px-2 py-0.5 text-xs font-medium text-pink-600">
                     {proc.category}
@@ -98,18 +107,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 최신 커뮤니티 글 미리보기 */}
+      {/* 최신 커뮤니티 글 */}
       <section className="bg-gray-50 px-4 py-14">
         <div className="mx-auto max-w-4xl">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">최신 커뮤니티 글</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("community.title")}</h2>
             <Link href="/community" className="text-sm text-pink-500 hover:underline">
-              전체 보기 →
+              {t("common.see_more")} →
             </Link>
           </div>
           <div className="flex flex-col gap-3">
             {RECENT_POSTS.map((post) => (
-              // 각 게시글 카드 — 클릭 시 상세 페이지로 이동
               <Link
                 key={post.id}
                 href={`/community/${post.id}`}
@@ -122,7 +130,6 @@ export default function HomePage() {
                   <span className="text-sm font-medium text-gray-900">{post.title}</span>
                   <p className="mt-0.5 text-xs text-gray-400">by {post.author}</p>
                 </div>
-                {/* 투표/댓글 카운터 */}
                 <div className="ml-4 flex shrink-0 gap-3 text-xs text-gray-400">
                   <span>↑ {post.upvotes}</span>
                   <span>💬 {post.comments}</span>
@@ -133,16 +140,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 사이트 푸터 — 주요 페이지 링크 */}
+      {/* 푸터 */}
       <footer className="border-t border-gray-100 px-4 py-8 text-center text-xs text-gray-400">
         <div className="flex justify-center gap-4">
-          <Link href="/about" className="hover:text-gray-600">About</Link>
-          <Link href="/contact" className="hover:text-gray-600">Contact</Link>
-          <Link href="/terms" className="hover:text-gray-600">이용약관</Link>
-          <Link href="/privacy" className="hover:text-gray-600">개인정보처리방침</Link>
-          <Link href="/disclaimer" className="hover:text-gray-600">면책조항</Link>
+          <Link href="/about" className="hover:text-gray-600">{t("nav.about")}</Link>
+          <Link href="/contact" className="hover:text-gray-600">{t("nav.contact")}</Link>
+          <Link href="/terms" className="hover:text-gray-600">{t("footer.terms")}</Link>
+          <Link href="/privacy" className="hover:text-gray-600">{t("footer.privacy")}</Link>
+          <Link href="/disclaimer" className="hover:text-gray-600">{t("footer.disclaimer")}</Link>
         </div>
-        <p className="mt-4">© 2025 2bStory. All rights reserved.</p>
+        <p className="mt-4">{t("footer.copyright")}</p>
       </footer>
     </main>
   );

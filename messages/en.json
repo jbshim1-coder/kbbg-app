@@ -1,0 +1,70 @@
+{
+  "nav": {
+    "home": "Home",
+    "community": "Community",
+    "recommend": "Find a Clinic",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "search": "Search",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "Your Trusted Guide to Korean Medical Beauty",
+    "subtitle": "Discover top-rated clinics, real reviews, and personalized recommendations for your beauty journey in Korea.",
+    "cta": "Find My Clinic"
+  },
+  "recommend": {
+    "title": "Find Your Perfect Clinic",
+    "subtitle": "Answer a few questions and we'll match you with the best clinics for your needs.",
+    "quiz_start": "Start the Quiz",
+    "result_title": "Recommended Clinics for You",
+    "hospital_name": "Clinic Name",
+    "location": "Location",
+    "specialty": "Specialty",
+    "reason": "Why We Recommend"
+  },
+  "community": {
+    "title": "Community",
+    "categories": "Categories",
+    "trending": "Trending",
+    "new_post": "New Post",
+    "upvote": "Upvote",
+    "downvote": "Downvote",
+    "comments": "Comments",
+    "share": "Share"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "We are specialists in Korean medical beauty, helping international visitors find the best clinics and experiences.",
+    "experience": "Since 2008, we have been planning and marketing Korean medical beauty, partnering with over 500 clinics."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "email_label": "Email",
+    "message_label": "Message",
+    "send": "Send Message"
+  },
+  "footer": {
+    "disclaimer": "This site provides informational content only and does not constitute medical advice.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© 2024 KBBG. All rights reserved."
+  },
+  "auth": {
+    "login": "Log In",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "social_login": "Continue with {provider}",
+    "logout": "Log Out"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong. Please try again.",
+    "no_results": "No results found.",
+    "see_more": "See More",
+    "back": "Back"
+  }
+}

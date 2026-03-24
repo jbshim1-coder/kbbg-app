@@ -1,0 +1,70 @@
+{
+  "nav": {
+    "home": "首页",
+    "community": "社区",
+    "recommend": "寻找诊所",
+    "about": "关于我们",
+    "contact": "联系我们",
+    "login": "登录",
+    "signup": "注册",
+    "search": "搜索",
+    "language": "语言"
+  },
+  "hero": {
+    "title": "您信赖的韩国医美导航",
+    "subtitle": "探索顶级诊所、真实评价，获取专为您定制的韩国美容之旅建议。",
+    "cta": "找到我的诊所"
+  },
+  "recommend": {
+    "title": "找到您的理想诊所",
+    "subtitle": "回答几个问题，我们将为您匹配最适合的诊所。",
+    "quiz_start": "开始测试",
+    "result_title": "为您推荐的诊所",
+    "hospital_name": "诊所名称",
+    "location": "位置",
+    "specialty": "专科",
+    "reason": "推荐理由"
+  },
+  "community": {
+    "title": "社区",
+    "categories": "分类",
+    "trending": "热门",
+    "new_post": "发帖",
+    "upvote": "点赞",
+    "downvote": "踩",
+    "comments": "评论",
+    "share": "分享"
+  },
+  "about": {
+    "title": "关于我们",
+    "description": "我们是韩国医美领域的专家，帮助国际访客找到最优质的诊所和体验。",
+    "experience": "自2008年起，我们深耕韩国医美策划与营销，合作诊所超过500家。"
+  },
+  "contact": {
+    "title": "联系我们",
+    "email_label": "邮箱",
+    "message_label": "留言",
+    "send": "发送消息"
+  },
+  "footer": {
+    "disclaimer": "本网站仅提供信息性内容，不构成医疗建议。",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "copyright": "© 2024 KBBG. 保留所有权利。"
+  },
+  "auth": {
+    "login": "登录",
+    "signup": "注册",
+    "email": "邮箱",
+    "password": "密码",
+    "social_login": "使用 {provider} 继续",
+    "logout": "退出登录"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "出现错误，请重试。",
+    "no_results": "未找到结果。",
+    "see_more": "查看更多",
+    "back": "返回"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "community": "コミュニティ",
+    "recommend": "クリニックを探す",
+    "about": "私たちについて",
+    "contact": "お問い合わせ",
+    "login": "ログイン",
+    "signup": "新規登録",
+    "search": "検索",
+    "language": "言語"
+  },
+  "hero": {
+    "title": "韓国美容医療の信頼できるガイド",
+    "subtitle": "トップクリニックの発見、リアルな口コミ、あなたの韓国美容旅行に合わせたパーソナライズされたおすすめをお届けします。",
+    "cta": "クリニックを見つける"
+  },
+  "recommend": {
+    "title": "理想のクリニックを見つけよう",
+    "subtitle": "いくつかの質問に答えるだけで、あなたに最適なクリニックをご提案します。",
+    "quiz_start": "診断スタート",
+    "result_title": "あなたへのおすすめクリニック",
+    "hospital_name": "クリニック名",
+    "location": "所在地",
+    "specialty": "専門分野",
+    "reason": "おすすめの理由"
+  },
+  "community": {
+    "title": "コミュニティ",
+    "categories": "カテゴリ",
+    "trending": "トレンド",
+    "new_post": "投稿する",
+    "upvote": "いいね",
+    "downvote": "よくない",
+    "comments": "コメント",
+    "share": "シェア"
+  },
+  "about": {
+    "title": "私たちについて",
+    "description": "韓国美容医療の専門家として、海外からのお客様が最高のクリニックと体験を見つけられるよう支援しています。",
+    "experience": "2008年から韓国美容医療の企画・マーケティングに携わり、500以上のクリニックと提携してきました。"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "email_label": "メールアドレス",
+    "message_label": "メッセージ",
+    "send": "送信する"
+  },
+  "footer": {
+    "disclaimer": "本サイトは情報提供のみを目的としており、医療アドバイスを構成するものではありません。",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "copyright": "© 2024 KBBG. All rights reserved."
+  },
+  "auth": {
+    "login": "ログイン",
+    "signup": "新規登録",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "social_login": "{provider}で続ける",
+    "logout": "ログアウト"
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました。もう一度お試しください。",
+    "no_results": "結果が見つかりませんでした。",
+    "see_more": "もっと見る",
+    "back": "戻る"
+  }
+}

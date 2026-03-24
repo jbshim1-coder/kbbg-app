@@ -1,0 +1,70 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "community": "Cộng đồng",
+    "recommend": "Tìm phòng khám",
+    "about": "Giới thiệu",
+    "contact": "Liên hệ",
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "search": "Tìm kiếm",
+    "language": "Ngôn ngữ"
+  },
+  "hero": {
+    "title": "Hướng dẫn thẩm mỹ y tế Hàn Quốc đáng tin cậy của bạn",
+    "subtitle": "Khám phá các phòng khám hàng đầu, đánh giá thực tế và gợi ý cá nhân hóa cho hành trình làm đẹp của bạn tại Hàn Quốc.",
+    "cta": "Tìm phòng khám phù hợp"
+  },
+  "recommend": {
+    "title": "Tìm phòng khám lý tưởng của bạn",
+    "subtitle": "Trả lời một vài câu hỏi và chúng tôi sẽ ghép bạn với những phòng khám phù hợp nhất.",
+    "quiz_start": "Bắt đầu kiểm tra",
+    "result_title": "Phòng khám được đề xuất cho bạn",
+    "hospital_name": "Tên phòng khám",
+    "location": "Địa điểm",
+    "specialty": "Chuyên khoa",
+    "reason": "Lý do đề xuất"
+  },
+  "community": {
+    "title": "Cộng đồng",
+    "categories": "Danh mục",
+    "trending": "Xu hướng",
+    "new_post": "Bài viết mới",
+    "upvote": "Thích",
+    "downvote": "Không thích",
+    "comments": "Bình luận",
+    "share": "Chia sẻ"
+  },
+  "about": {
+    "title": "Giới thiệu về chúng tôi",
+    "description": "Chúng tôi là chuyên gia về thẩm mỹ y tế Hàn Quốc, giúp du khách quốc tế tìm được phòng khám và trải nghiệm tốt nhất.",
+    "experience": "Từ năm 2008, chúng tôi đã hoạt động trong lĩnh vực lập kế hoạch và marketing thẩm mỹ y tế Hàn Quốc, hợp tác với hơn 500 phòng khám."
+  },
+  "contact": {
+    "title": "Liên hệ với chúng tôi",
+    "email_label": "Email",
+    "message_label": "Tin nhắn",
+    "send": "Gửi tin nhắn"
+  },
+  "footer": {
+    "disclaimer": "Trang web này chỉ cung cấp thông tin và không cấu thành lời khuyên y tế.",
+    "privacy": "Chính sách bảo mật",
+    "terms": "Điều khoản dịch vụ",
+    "copyright": "© 2024 KBBG. Tất cả quyền được bảo lưu."
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "social_login": "Tiếp tục với {provider}",
+    "logout": "Đăng xuất"
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi. Vui lòng thử lại.",
+    "no_results": "Không tìm thấy kết quả.",
+    "see_more": "Xem thêm",
+    "back": "Quay lại"
+  }
+}
