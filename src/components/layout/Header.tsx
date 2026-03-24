@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Globe, Menu, X, ChevronDown } from "lucide-react";
 import SearchBar from "@/components/ui/SearchBar";
 
@@ -28,14 +29,22 @@ const NAV_LINKS = [
 // 헤더 컴포넌트 — 상단 고정 네비게이션 바
 // sticky 포지션으로 스크롤 시에도 항상 상단에 유지
 export default function Header() {
+  // 현재 URL 경로에서 locale 추출
+  const pathname = usePathname();
+  const router = useRouter();
+  const currentLocaleCode = pathname.split("/")[1] || "en";
+
   // 모바일 메뉴 열림/닫힘 상태
   const [mobileOpen, setMobileOpen] = useState(false);
   // 언어 선택 드롭다운 열림/닫힘 상태
   const [langOpen, setLangOpen] = useState(false);
-  // 현재 선택된 언어 (초기값: 영어)
+  // 현재 선택된 언어 (URL 기반으로 초기화)
   const [currentLocale, setCurrentLocale] = useState<(typeof LOCALES)[number]>(
-    LOCALES[0]
+    LOCALES.find((l) => l.code === currentLocaleCode) || LOCALES[0]
   );
+
+  // locale 포함된 링크 생성 헬퍼
+  const localePath = (path: string) => `/${currentLocaleCode}${path === "/" ? "" : path}`;
 
   // 언어 드롭다운 DOM 참조 — 외부 클릭 감지에 사용
   const langRef = useRef<HTMLDivElement>(null);
@@ -63,11 +72,13 @@ export default function Header() {
     console.log("검색:", query);
   };
 
-  // 언어 선택 핸들러 — 선택한 언어로 상태 업데이트 후 드롭다운 닫기
+  // 언어 선택 핸들러 — 선택한 언어로 URL 변경
   const handleSelectLocale = (locale: (typeof LOCALES)[number]) => {
     setCurrentLocale(locale);
     setLangOpen(false);
-    // TODO: next-intl 라우터로 locale 전환
+    // 현재 경로에서 locale 부분만 교체하여 이동
+    const restPath = pathname.split("/").slice(2).join("/");
+    router.push(`/${locale.code}${restPath ? `/${restPath}` : ""}`);
   };
 
   return (
@@ -77,7 +88,7 @@ export default function Header() {
 
           {/* ── 로고 ── */}
           <Link
-            href="/"
+            href={localePath("/")}
             className="flex-shrink-0 text-xl font-bold text-blue-600 tracking-tight"
             aria-label="K-Beauty Buyers Guide 홈"
           >
@@ -92,7 +103,7 @@ export default function Header() {
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={localePath(link.href)}
                 className="px-3 py-2 rounded-lg text-sm font-medium text-gray-600
                   hover:text-blue-600 hover:bg-blue-50 transition-colors duration-150"
               >
@@ -168,14 +179,14 @@ export default function Header() {
             {/* 로그인 / 회원가입 버튼 — PC에서만 표시 */}
             <div className="hidden sm:flex items-center gap-2">
               <Link
-                href="/login"
+                href={localePath("/login")}
                 className="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-700
                   hover:bg-gray-100 transition-colors"
               >
                 로그인
               </Link>
               <Link
-                href="/signup"
+                href={localePath("/signup")}
                 className="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600
                   text-white hover:bg-blue-700 transition-colors"
               >
@@ -214,7 +225,7 @@ export default function Header() {
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={localePath(link.href)}
                 onClick={() => setMobileOpen(false)}
                 className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700
                   hover:bg-blue-50 hover:text-blue-600 transition-colors"
