@@ -18,12 +18,6 @@ const RECENT_POSTS = [
   { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community_preview.post3_category", author: "mike_us", comments: 31, upvotes: 63 },
 ];
 
-// 신뢰 배지 데이터
-const TRUST_BADGES = [
-  { stat: "500+", labelKey: "trust.clinics" },
-  { stat: "7", labelKey: "trust.languages" },
-  { stat: "AI", labelKey: "trust.ai" },
-];
 
 export default async function HomePage({
   params,
@@ -60,18 +54,6 @@ export default async function HomePage({
               {t("hero.cta_community")}
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* 신뢰 배지 */}
-      <section className="border-y border-gray-100 bg-white px-4 py-6">
-        <div className="mx-auto flex max-w-3xl justify-around">
-          {TRUST_BADGES.map((badge) => (
-            <div key={badge.labelKey} className="text-center">
-              <p className="text-2xl font-bold text-pink-500">{badge.stat}</p>
-              <p className="text-sm text-gray-500">{t(badge.labelKey as Parameters<typeof t>[0])}</p>
-            </div>
-          ))}
         </div>
       </section>
 
