@@ -4,8 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { createClient } from "@/lib/supabase";
 
-// 로그인 페이지 — 이메일 + 소셜 로그인
+// 로그인 페이지 — 이메일 + Google 소셜 로그인
 export default function LoginPage() {
   const t = useTranslations();
   const pathname = usePathname();
@@ -19,6 +20,17 @@ export default function LoginPage() {
     console.log("login:", email);
   };
 
+  // Google OAuth 로그인 — Supabase가 Google 인증 페이지로 리다이렉트
+  const handleGoogleLogin = async () => {
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/${locale}/auth/callback`,
+      },
+    });
+  };
+
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
@@ -27,11 +39,11 @@ export default function LoginPage() {
 
         {/* 소셜 로그인 버튼 */}
         <div className="mt-6 space-y-3">
-          <button className="w-full flex items-center justify-center gap-2 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-2 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+          >
             <span>🔵</span> {t("auth.google")}
-          </button>
-          <button className="w-full flex items-center justify-center gap-2 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-            <span>⚫</span> {t("auth.github")}
           </button>
         </div>
 

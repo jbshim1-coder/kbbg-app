@@ -11,44 +11,48 @@ const SNS_LINKS = [
 ];
 
 // 푸터 컴포넌트 — 브랜드 정보, 네비게이션, 저작권 및 법률 링크 포함
-export default async function Footer() {
+// locale prop을 받아 모든 내부 링크에 locale prefix를 적용
+export default async function Footer({ locale }: { locale: string }) {
   const t = await getTranslations();
   // 저작권 연도를 동적으로 생성 (렌더링 시점 기준)
   const currentYear = new Date().getFullYear();
+
+  // locale prefix 헬퍼
+  const lp = (path: string) => `/${locale}${path}`;
 
   // 푸터 네비게이션 섹션 — 번역 키 사용
   const FOOTER_SECTIONS = [
     {
       titleKey: "footer.services",
       links: [
-        { href: "/ai-recommend", labelKey: "footer.service_ai" },
-        { href: "/community", labelKey: "footer.service_community" },
-        { href: "/hospitals", labelKey: "footer.service_hospitals" },
-        { href: "/procedures", labelKey: "footer.service_procedures" },
+        { href: lp("/ai-recommend"), labelKey: "footer.service_ai" },
+        { href: lp("/community"), labelKey: "footer.service_community" },
+        { href: lp("/hospitals"), labelKey: "footer.service_hospitals" },
+        { href: lp("/procedures"), labelKey: "footer.service_procedures" },
       ],
     },
     {
       titleKey: "footer.company",
       links: [
-        { href: "/about", labelKey: "footer.company_about" },
-        { href: "/contact", labelKey: "footer.company_contact" },
+        { href: lp("/about"), labelKey: "footer.company_about" },
+        { href: lp("/contact"), labelKey: "footer.company_contact" },
       ],
     },
     {
       titleKey: "footer.support",
       links: [
-        { href: "/faq", labelKey: "footer.support_faq" },
-        { href: "/guide", labelKey: "footer.support_guide" },
-        { href: "/safety", labelKey: "footer.support_safety" },
-        { href: "/report", labelKey: "footer.support_report" },
+        { href: lp("/faq"), labelKey: "footer.support_faq" },
+        { href: lp("/guide"), labelKey: "footer.support_guide" },
+        { href: lp("/safety"), labelKey: "footer.support_safety" },
+        { href: lp("/report"), labelKey: "footer.support_report" },
       ],
     },
   ];
 
   const LEGAL_LINKS = [
-    { href: "/disclaimer", labelKey: "footer.disclaimer" },
-    { href: "/terms", labelKey: "footer.terms" },
-    { href: "/privacy", labelKey: "footer.privacy" },
+    { href: lp("/disclaimer"), labelKey: "footer.disclaimer" },
+    { href: lp("/terms"), labelKey: "footer.terms" },
+    { href: lp("/privacy"), labelKey: "footer.privacy" },
   ];
 
   return (
@@ -61,7 +65,7 @@ export default async function Footer() {
           {/* 회사 정보 블록 */}
           <div className="lg:col-span-2">
             <Link
-              href="/"
+              href={lp("/")}
               className="text-xl font-bold text-blue-600 tracking-tight"
               aria-label="K-Beauty Buyers Guide"
             >

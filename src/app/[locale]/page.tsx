@@ -42,13 +42,13 @@ export default async function HomePage({
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
-              href="/recommend"
+              href={`/${locale}/recommend`}
               className="rounded-xl bg-pink-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-pink-600 active:bg-pink-700"
             >
               {t("hero.cta_recommend")}
             </Link>
             <Link
-              href="/community"
+              href={`/${locale}/community`}
               className="rounded-xl border border-gray-300 px-8 py-3 text-lg font-semibold text-gray-700 transition hover:bg-gray-50"
             >
               {t("hero.cta_community")}
@@ -87,7 +87,7 @@ export default async function HomePage({
         <div className="mx-auto max-w-4xl">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-2xl font-bold text-gray-900">{t("community_preview.title")}</h2>
-            <Link href="/community" className="text-sm text-pink-500 hover:underline">
+            <Link href={`/${locale}/community`} className="text-sm text-pink-500 hover:underline">
               {t("community_preview.view_all")}
             </Link>
           </div>
@@ -95,7 +95,7 @@ export default async function HomePage({
             {RECENT_POSTS.map((post) => (
               <Link
                 key={post.id}
-                href={`/community/${post.id}`}
+                href={`/${locale}/community/${post.id}`}
                 className="flex items-center justify-between rounded-xl bg-white px-5 py-4 shadow-sm transition hover:shadow-md"
               >
                 <div>
@@ -118,11 +118,11 @@ export default async function HomePage({
       {/* 푸터 */}
       <footer className="border-t border-gray-100 px-4 py-8 text-center text-xs text-gray-400">
         <div className="flex justify-center gap-4">
-          <Link href="/about" className="hover:text-gray-600">{t("nav.about")}</Link>
-          <Link href="/contact" className="hover:text-gray-600">{t("nav.contact")}</Link>
-          <Link href="/terms" className="hover:text-gray-600">{t("footer.terms")}</Link>
-          <Link href="/privacy" className="hover:text-gray-600">{t("footer.privacy")}</Link>
-          <Link href="/disclaimer" className="hover:text-gray-600">{t("footer.disclaimer")}</Link>
+          <Link href={`/${locale}/about`} className="hover:text-gray-600">{t("nav.about")}</Link>
+          <Link href={`/${locale}/contact`} className="hover:text-gray-600">{t("nav.contact")}</Link>
+          <Link href={`/${locale}/terms`} className="hover:text-gray-600">{t("footer.terms")}</Link>
+          <Link href={`/${locale}/privacy`} className="hover:text-gray-600">{t("footer.privacy")}</Link>
+          <Link href={`/${locale}/disclaimer`} className="hover:text-gray-600">{t("footer.disclaimer")}</Link>
         </div>
         <p className="mt-4">{t("footer.copyright", { year: new Date().getFullYear() })}</p>
       </footer>

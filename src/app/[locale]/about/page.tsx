@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 // SEO 메타데이터 — E-E-A-T 강화를 위해 구체적 설명 작성
 export const metadata: Metadata = {
@@ -20,6 +20,7 @@ const STATS = [
 // E-E-A-T(경험·전문성·권위·신뢰) 4가지 항목을 섹션별로 명시
 export default async function AboutPage() {
   const t = await getTranslations("about");
+  const locale = await getLocale();
 
   return (
     <main className="min-h-screen bg-white">
@@ -90,7 +91,7 @@ export default async function AboutPage() {
         <h2 className="text-xl font-bold text-gray-900">{t("partnership_title")}</h2>
         <p className="mt-2 text-gray-500">{t("partnership_desc")}</p>
         <Link
-          href="/contact"
+          href={`/${locale}/contact`}
           className="mt-6 inline-block rounded-xl bg-pink-500 px-8 py-3 font-semibold text-white hover:bg-pink-600"
         >
           {t("contact_btn")}

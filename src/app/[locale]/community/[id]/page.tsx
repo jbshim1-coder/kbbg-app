@@ -3,6 +3,7 @@
 import { use, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
 // 게시글 타입 정의
 type Comment = { id: number; author: string; body: string; createdAt: string };
@@ -47,6 +48,9 @@ export default function PostDetailPage({
   // Promise params를 use()로 동기적으로 읽기
   const { id } = use(params);
   const post = POSTS[id];
+  // 현재 경로에서 locale 추출 (pathname: /{locale}/community/{id})
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "en";
 
   // 투표 상태 — 초기값은 더미 데이터의 upvotes/downvotes
   const [upvotes, setUpvotes] = useState(post?.upvotes ?? 0);
@@ -62,7 +66,7 @@ export default function PostDetailPage({
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-4">
         <p className="text-gray-500">{t("community.post_not_found")}</p>
-        <Link href="/community" className="mt-4 text-pink-500 hover:underline">
+        <Link href={`/${locale}/community`} className="mt-4 text-pink-500 hover:underline">
           {t("community.back_to_community")}
         </Link>
       </main>
@@ -97,7 +101,7 @@ export default function PostDetailPage({
     <main className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-2xl px-4 py-10">
         {/* 뒤로가기 링크 */}
-        <Link href="/community" className="text-sm text-gray-400 hover:text-gray-600">
+        <Link href={`/${locale}/community`} className="text-sm text-gray-400 hover:text-gray-600">
           {t("community.back")}
         </Link>
 
