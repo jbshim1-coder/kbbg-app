@@ -16,6 +16,7 @@ const LOCALES = [
   { code: "vi", flag: "🇻🇳", label: "Tiếng Việt" },
   { code: "th", flag: "🇹🇭", label: "ภาษาไทย" },
   { code: "mn", flag: "🇲🇳", label: "Монгол" },
+  { code: "ko", flag: "🇰🇷", label: "한국어" },
 ] as const;
 
 // 헤더 컴포넌트 — 상단 고정 네비게이션 바

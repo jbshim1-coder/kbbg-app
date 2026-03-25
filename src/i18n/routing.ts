@@ -3,8 +3,8 @@
 import { defineRouting } from 'next-intl/routing';
 
 export const routing = defineRouting({
-  // 지원하는 7개 언어: 영어, 중국어, 일본어, 러시아어, 베트남어, 태국어, 몽골어
-  locales: ['en', 'zh', 'ja', 'ru', 'vi', 'th', 'mn'] as const,
+  // 지원하는 8개 언어: 영어, 중국어, 일본어, 러시아어, 베트남어, 태국어, 몽골어, 한국어
+  locales: ['en', 'zh', 'ja', 'ru', 'vi', 'th', 'mn', 'ko'] as const,
 
   // 기본 언어는 영어 — locale 감지 실패 시 폴백
   defaultLocale: 'en',
