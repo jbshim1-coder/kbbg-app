@@ -26,6 +26,16 @@
     "ai": "AI 추천"
   },
   "procedures": {
+    "coming_soon_label": "오픈 예정",
+    "page_title": "시술 정보",
+    "page_subtitle": "한국에서 인기 있는 시술에 대한 비용, 회복 기간, 주의사항 안내를 준비 중입니다. 곧 오픈합니다.",
+    "categories_title": "제공 예정 카테고리",
+    "cat_plastic": "성형외과",
+    "cat_derma": "피부과",
+    "cat_dental": "치과",
+    "cat_vision": "시력 교정",
+    "cat_nonsurgical": "비수술",
+    "cat_ortho": "정형외과",
     "title": "인기 시술 TOP 5",
     "related_clinics": "관련 병원 {count}개",
     "p1_name": "쌍꺼풀 수술",
@@ -367,18 +377,6 @@
     "feature_contact_title": "직접 연락",
     "feature_contact_desc": "영어 가능한 클리닉 코디네이터와 직접 연결됩니다."
   },
-  "procedures": {
-    "coming_soon_label": "오픈 예정",
-    "page_title": "시술 정보",
-    "page_subtitle": "한국에서 인기 있는 시술에 대한 비용, 회복 기간, 주의사항 안내를 준비 중입니다. 곧 오픈합니다.",
-    "categories_title": "제공 예정 카테고리",
-    "cat_plastic": "성형외과",
-    "cat_derma": "피부과",
-    "cat_dental": "치과",
-    "cat_vision": "시력 교정",
-    "cat_nonsurgical": "비수술",
-    "cat_ortho": "정형외과"
-  },
   "faq": {
     "label": "FAQ",
     "title": "자주 묻는 질문",
@@ -468,5 +466,23 @@
     "type5": "불안전한 의료 행위",
     "type6": "부적절한 콘텐츠",
     "type7": "기타"
+  },
+  "search": {
+    "title": "검색 결과",
+    "results": "{count}개의 결과",
+    "no_results": "검색 결과가 없습니다.",
+    "clinics": "병원",
+    "posts": "커뮤니티 글",
+    "faqs": "FAQ"
+  },
+  "mypage": {
+    "title": "마이페이지",
+    "profile": "프로필",
+    "my_posts": "내 글",
+    "my_comments": "내 댓글",
+    "recommendations": "AI 추천 이력",
+    "settings": "계정 설정",
+    "logout": "로그아웃",
+    "login_required": "로그인이 필요한 페이지입니다."
   }
 }

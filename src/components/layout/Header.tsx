@@ -93,10 +93,10 @@ export default function Header() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  // 검색 실행 핸들러 — 검색어를 받아 검색 라우팅으로 연결
+  // 검색 실행 핸들러 — 검색어를 받아 검색 결과 페이지로 이동
   const handleSearch = (query: string) => {
-    // TODO: 실제 검색 라우팅으로 교체
-    console.log("search:", query);
+    if (!query.trim()) return;
+    router.push(`/${currentLocaleCode}/search?q=${encodeURIComponent(query.trim())}`);
   };
 
   // 언어 선택 핸들러 — 선택한 언어로 URL 변경
@@ -207,9 +207,12 @@ export default function Header() {
             <div className="hidden sm:flex items-center gap-2">
               {user ? (
                 <>
-                  <span className="text-sm text-gray-600 truncate max-w-[120px]">
+                  <Link
+                    href={localePath("/mypage")}
+                    className="text-sm text-gray-600 truncate max-w-[120px] hover:text-blue-600 transition-colors"
+                  >
                     {user.user_metadata?.full_name || user.email?.split("@")[0]}
-                  </span>
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="p-1.5 text-sm font-medium rounded-lg text-gray-500

@@ -27,6 +27,16 @@
     "ai": "AI Recommendation"
   },
   "procedures": {
+    "coming_soon_label": "Coming Soon",
+    "page_title": "Procedure Information",
+    "page_subtitle": "Detailed guides on the most popular procedures in Korea — costs, recovery, and what to expect. Launching soon.",
+    "categories_title": "Categories we are covering",
+    "cat_plastic": "Plastic Surgery",
+    "cat_derma": "Dermatology",
+    "cat_dental": "Dental",
+    "cat_vision": "Vision Correction",
+    "cat_nonsurgical": "Non-Surgical",
+    "cat_ortho": "Orthopedics",
     "title": "Top 5 Popular Procedures",
     "related_clinics": "Related clinics: {count}",
     "p1_name": "Double Eyelid Surgery",
@@ -370,18 +380,6 @@
     "feature_contact_title": "Direct Contact",
     "feature_contact_desc": "Connect directly with English-speaking clinic coordinators."
   },
-  "procedures": {
-    "coming_soon_label": "Coming Soon",
-    "page_title": "Procedure Information",
-    "page_subtitle": "Detailed guides on the most popular procedures in Korea — costs, recovery, and what to expect. Launching soon.",
-    "categories_title": "Categories we are covering",
-    "cat_plastic": "Plastic Surgery",
-    "cat_derma": "Dermatology",
-    "cat_dental": "Dental",
-    "cat_vision": "Vision Correction",
-    "cat_nonsurgical": "Non-Surgical",
-    "cat_ortho": "Orthopedics"
-  },
   "faq": {
     "label": "FAQ",
     "title": "Frequently Asked Questions",
@@ -471,5 +469,23 @@
     "type5": "Unsafe medical practices",
     "type6": "Inappropriate content",
     "type7": "Other"
+  },
+  "search": {
+    "title": "Search Results",
+    "results": "{count} results found",
+    "no_results": "No results found.",
+    "clinics": "Clinics",
+    "posts": "Community Posts",
+    "faqs": "FAQs"
+  },
+  "mypage": {
+    "title": "My Page",
+    "profile": "Profile",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
+    "recommendations": "AI Recommendation History",
+    "settings": "Account Settings",
+    "logout": "Log Out",
+    "login_required": "Please log in to view this page."
   }
 }

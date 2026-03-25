@@ -27,7 +27,17 @@
     "ai": "Đề xuất AI"
   },
   "procedures": {
-    "title": "Top 5 dịch vụ phổ biến nhất",
+    "coming_soon_label": "Sắp ra mắt",
+    "page_title": "Thông tin dịch vụ",
+    "page_subtitle": "Hướng dẫn chi tiết về các dịch vụ phổ biến nhất tại Hàn Quốc — chi phí, thời gian phục hồi và những gì cần biết. Sắp ra mắt.",
+    "categories_title": "Danh mục sắp ra mắt",
+    "cat_plastic": "Phẫu thuật thẩm mỹ",
+    "cat_derma": "Da liễu",
+    "cat_dental": "Nha khoa",
+    "cat_vision": "Điều chỉnh thị lực",
+    "cat_nonsurgical": "Không phẫu thuật",
+    "cat_ortho": "Chỉnh hình",
+    "title": "TOP 5 thủ thuật phổ biến",
     "related_clinics": "Phòng khám liên quan: {count}",
     "p1_name": "Phẫu thuật mắt hai mí",
     "p1_category": "Phẫu thuật thẩm mỹ",
@@ -369,18 +379,6 @@
     "feature_reviews_desc": "Đánh giá bệnh nhân xác thực từ khách quốc tế.",
     "feature_contact_title": "Liên hệ trực tiếp",
     "feature_contact_desc": "Kết nối trực tiếp với điều phối viên phòng khám nói tiếng Anh."
-  },
-  "procedures": {
-    "coming_soon_label": "Sắp ra mắt",
-    "page_title": "Thông tin dịch vụ",
-    "page_subtitle": "Hướng dẫn chi tiết về các dịch vụ phổ biến nhất tại Hàn Quốc — chi phí, thời gian phục hồi và những gì cần biết. Sắp ra mắt.",
-    "categories_title": "Danh mục sắp ra mắt",
-    "cat_plastic": "Phẫu thuật thẩm mỹ",
-    "cat_derma": "Da liễu",
-    "cat_dental": "Nha khoa",
-    "cat_vision": "Điều chỉnh thị lực",
-    "cat_nonsurgical": "Không phẫu thuật",
-    "cat_ortho": "Chỉnh hình"
   },
   "faq": {
     "label": "FAQ",
