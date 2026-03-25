@@ -11,6 +11,7 @@ export const config = {
   // _next/static, _next/image, favicon.ico, 확장자 있는 정적 파일은 제외
   matcher: [
     // 루트 경로 및 locale prefix가 있는 모든 경로 처리
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)',
+    // auth 콜백 경로는 locale 처리에서 제외
+    '/((?!api|auth|_next/static|_next/image|favicon.ico|.*\\..*).*)',
   ],
 };
