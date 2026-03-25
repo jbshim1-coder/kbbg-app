@@ -6,7 +6,13 @@ import { NextResponse } from 'next/server'
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/en'
+  const error = searchParams.get('error')
+  const errorDescription = searchParams.get('error_description')
+
+  // OAuth 에러가 있으면 로그인 페이지로
+  if (error) {
+    return NextResponse.redirect(`${origin}/en/login?error=${encodeURIComponent(errorDescription || error)}`)
+  }
 
   if (code) {
     const cookieStore = await cookies()
@@ -28,15 +34,16 @@ export async function GET(request: Request) {
       }
     )
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { error: authError } = await supabase.auth.exchangeCodeForSession(code)
 
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+    if (!authError) {
+      return NextResponse.redirect(`${origin}/en`)
     }
 
-    console.error('Auth callback error:', error.message)
+    // 에러 메시지를 로그인 페이지에 전달
+    return NextResponse.redirect(`${origin}/en/login?error=${encodeURIComponent(authError.message)}`)
   }
 
-  // 실패 시 로그인 페이지로 돌아가기
-  return NextResponse.redirect(`${origin}/en/login`)
+  // code 없으면 로그인으로
+  return NextResponse.redirect(`${origin}/en/login?error=no_code`)
 }
