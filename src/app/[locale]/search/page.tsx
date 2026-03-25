@@ -81,9 +81,31 @@ export default function SearchPage() {
                   key={clinic.id}
                   className="bg-white rounded-xl border border-gray-100 px-5 py-4 shadow-sm"
                 >
-                  <p className="font-semibold text-gray-800">{clinic.name}</p>
-                  <p className="text-sm text-gray-500">{clinic.nameEn} · {clinic.region} · {clinic.specialty}</p>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="font-semibold text-gray-800">
+                        {locale === "ko" ? clinic.name : clinic.nameEn}
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        {locale === "ko" ? clinic.nameEn : clinic.name}
+                      </p>
+                    </div>
+                    {clinic.website && (
+                      <a
+                        href={clinic.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-500 hover:underline shrink-0 ml-3"
+                      >
+                        {t("search.visit_website" as Parameters<typeof t>[0])}
+                      </a>
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-500 mt-1">{clinic.region} · {clinic.specialty} · ⭐ {clinic.rating}</p>
                   <p className="text-sm text-gray-600 mt-1 line-clamp-2">{clinic.description}</p>
+                  {clinic.foreignLanguages.length > 0 && (
+                    <p className="text-xs text-green-600 mt-1">🌐 {clinic.foreignLanguages.join(", ")}</p>
+                  )}
                 </li>
               ))}
             </ul>
