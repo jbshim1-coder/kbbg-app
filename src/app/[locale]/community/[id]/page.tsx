@@ -19,23 +19,7 @@ type Post = {
   comments: Comment[];
 };
 
-// 게시글 더미 데이터 — id를 키로 사용하는 맵 구조 (실제 API 연동 전)
-const POSTS: Record<string, Post> = {
-  "1": {
-    id: 1,
-    titleKey: "community_preview.post1_title",
-    categoryKey: "community.plastic_surgery",
-    author: "user_kr",
-    contentKey: "community.dummy_post1_content",
-    upvotes: 87,
-    downvotes: 3,
-    createdAt: "2025-03-22",
-    comments: [
-      { id: 1, author: "sarah_jp", body: "Which clinic specifically?", createdAt: "1h ago" },
-      { id: 2, author: "mike_us", body: "Could you share swelling photos too!", createdAt: "30m ago" },
-    ],
-  },
-};
+// 더미 데이터는 컴포넌트 내부에서 t()로 번역하여 생성 (getPosts 함수)
 
 // 게시글 상세 페이지 — 클라이언트 컴포넌트 (투표·댓글 상태 필요)
 // Next.js 16: params는 Promise이므로 use() 훅으로 언래핑
@@ -47,6 +31,24 @@ export default function PostDetailPage({
   const t = useTranslations();
   // Promise params를 use()로 동기적으로 읽기
   const { id } = use(params);
+
+  // 더미 데이터를 t()로 번역하여 생성
+  const POSTS: Record<string, Post> = {
+    "1": {
+      id: 1,
+      titleKey: "community_preview.post1_title",
+      categoryKey: "community.plastic_surgery",
+      author: "user_kr",
+      contentKey: "community.dummy_post1_content",
+      upvotes: 87,
+      downvotes: 3,
+      createdAt: "2025-03-22",
+      comments: [
+        { id: 1, author: "sarah_jp", body: t("community.comment1_body" as Parameters<typeof t>[0]), createdAt: t("community.comment1_time" as Parameters<typeof t>[0]) },
+        { id: 2, author: "mike_us", body: t("community.comment2_body" as Parameters<typeof t>[0]), createdAt: t("community.comment2_time" as Parameters<typeof t>[0]) },
+      ],
+    },
+  };
   const post = POSTS[id];
   // 현재 경로에서 locale 추출 (pathname: /{locale}/community/{id})
   const pathname = usePathname();

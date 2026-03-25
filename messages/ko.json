@@ -9,7 +9,8 @@
     "signup": "회원가입",
     "search": "검색",
     "search_placeholder": "병원, 시술, 지역 검색...",
-    "language": "언어"
+    "language": "언어",
+    "live": "한국의 거리"
   },
   "hero": {
     "title": "당신에게 딱 맞는\n한국 뷰티 클리닉을 찾아보세요",
@@ -488,5 +489,18 @@
     "settings": "계정 설정",
     "logout": "로그아웃",
     "login_required": "로그인이 필요한 페이지입니다."
+  },
+  "live": {
+    "title": "한국의 거리 라이브",
+    "subtitle": "한국의 대표 명소를 실시간으로 만나보세요.",
+    "select_camera": "카메라 선택",
+    "view_more": "모든 카메라 보기 →",
+    "home_caption": "🔴 서울 명동 라이브",
+    "disclaimer": "유튜브 라이브 스트림입니다. 영상 내용은 변경될 수 있습니다.",
+    "ch_myeongdong": "명동",
+    "ch_gangnam": "강남역",
+    "ch_hongdae": "홍대",
+    "ch_haeundae": "해운대 해변",
+    "ch_gyeongbokgung": "경복궁"
   }
 }

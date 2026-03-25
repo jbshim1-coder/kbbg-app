@@ -9,7 +9,8 @@
     "signup": "Sign Up",
     "search": "Search",
     "language": "Language",
-    "search_placeholder": "Search clinics, procedures, regions..."
+    "search_placeholder": "Search clinics, procedures, regions...",
+    "live": "Live Korea"
   },
   "hero": {
     "title": "Your Trusted Guide to Korean Medical Beauty",
@@ -491,5 +492,18 @@
     "settings": "Account Settings",
     "logout": "Log Out",
     "login_required": "Please log in to view this page."
+  },
+  "live": {
+    "title": "Live Streets of Korea",
+    "subtitle": "Watch real-time street cams from Korea's most iconic locations.",
+    "select_camera": "Select Camera",
+    "view_more": "View All Cameras →",
+    "home_caption": "🔴 Live from Myeongdong, Seoul",
+    "disclaimer": "Stream provided by YouTube. Content may vary.",
+    "ch_myeongdong": "Myeongdong",
+    "ch_gangnam": "Gangnam",
+    "ch_hongdae": "Hongdae",
+    "ch_haeundae": "Haeundae Beach",
+    "ch_gyeongbokgung": "Gyeongbokgung"
   }
 }

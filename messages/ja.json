@@ -9,7 +9,8 @@
     "signup": "新規登録",
     "search": "検索",
     "language": "言語",
-    "search_placeholder": "クリニック、施術、地域を検索..."
+    "search_placeholder": "クリニック、施術、地域を検索...",
+    "live": "韓国ライブ"
   },
   "hero": {
     "title": "韓国美容医療の信頼できるガイド",
@@ -491,5 +492,18 @@
     "settings": "アカウント設定",
     "logout": "ログアウト",
     "login_required": "このページを表示するにはログインが必要です。"
+  },
+  "live": {
+    "title": "韓国のストリートライブ",
+    "subtitle": "韓国の代表的な場所をリアルタイムでご覧ください。",
+    "select_camera": "カメラを選択",
+    "view_more": "すべてのカメラを見る →",
+    "home_caption": "🔴 ソウル明洞ライブ",
+    "disclaimer": "YouTubeによるライブストリームです。内容は変わる場合があります。",
+    "ch_myeongdong": "明洞",
+    "ch_gangnam": "江南駅",
+    "ch_hongdae": "弘大",
+    "ch_haeundae": "海雲台ビーチ",
+    "ch_gyeongbokgung": "景福宮"
   }
 }

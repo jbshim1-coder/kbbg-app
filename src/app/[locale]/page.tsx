@@ -115,6 +115,36 @@ export default async function HomePage({
         </div>
       </section>
 
+      {/* 한국의 거리 라이브 섹션 */}
+      <section className="px-4 py-14">
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-0.5 text-xs font-semibold text-white">
+                <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                LIVE
+              </span>
+              <h2 className="text-2xl font-bold text-gray-900">{t("live.title")}</h2>
+            </div>
+            <Link href={`/${locale}/live`} className="text-sm text-pink-500 hover:underline">
+              {t("live.view_more")}
+            </Link>
+          </div>
+          <div className="overflow-hidden rounded-2xl bg-black shadow-lg">
+            <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube.com/embed/Nu9MT2tFAOc?autoplay=0&mute=1&rel=0&modestbranding=1"
+                title="Myeongdong Live"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
+          <p className="mt-3 text-center text-xs text-gray-400">{t("live.home_caption")}</p>
+        </div>
+      </section>
+
       {/* 푸터 */}
       <footer className="border-t border-gray-100 px-4 py-8 text-center text-xs text-gray-400">
         <div className="flex justify-center gap-4">

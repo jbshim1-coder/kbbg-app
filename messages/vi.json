@@ -9,7 +9,8 @@
     "signup": "Đăng ký",
     "search": "Tìm kiếm",
     "language": "Ngôn ngữ",
-    "search_placeholder": "Tìm kiếm phòng khám, dịch vụ, khu vực..."
+    "search_placeholder": "Tìm kiếm phòng khám, dịch vụ, khu vực...",
+    "live": "Hàn Quốc Trực Tiếp"
   },
   "hero": {
     "title": "Hướng dẫn thẩm mỹ y tế Hàn Quốc đáng tin cậy của bạn",
@@ -491,5 +492,18 @@
     "settings": "Cài đặt tài khoản",
     "logout": "Đăng xuất",
     "login_required": "Vui lòng đăng nhập để xem trang này."
+  },
+  "live": {
+    "title": "Phố Hàn Quốc Trực Tiếp",
+    "subtitle": "Xem camera trực tiếp từ các địa điểm nổi tiếng của Hàn Quốc.",
+    "select_camera": "Chọn Camera",
+    "view_more": "Xem tất cả camera →",
+    "home_caption": "🔴 Trực tiếp từ Myeongdong, Seoul",
+    "disclaimer": "Phát trực tiếp qua YouTube. Nội dung có thể thay đổi.",
+    "ch_myeongdong": "Myeongdong",
+    "ch_gangnam": "Ga Gangnam",
+    "ch_hongdae": "Hongdae",
+    "ch_haeundae": "Bãi biển Haeundae",
+    "ch_gyeongbokgung": "Cung Gyeongbokgung"
   }
 }

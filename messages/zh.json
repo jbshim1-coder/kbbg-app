@@ -9,7 +9,8 @@
     "signup": "注册",
     "search": "搜索",
     "language": "语言",
-    "search_placeholder": "搜索诊所、项目、地区..."
+    "search_placeholder": "搜索诊所、项目、地区...",
+    "live": "韩国街头直播"
   },
   "hero": {
     "title": "您信赖的韩国医美导航",
@@ -491,5 +492,18 @@
     "settings": "账户设置",
     "logout": "退出登录",
     "login_required": "请登录后查看此页面。"
+  },
+  "live": {
+    "title": "韩国街头实时直播",
+    "subtitle": "实时观看韩国标志性地点的街头摄像头。",
+    "select_camera": "选择摄像头",
+    "view_more": "查看全部摄像头 →",
+    "home_caption": "🔴 首尔明洞实时直播",
+    "disclaimer": "由YouTube提供的直播流，内容可能有所变化。",
+    "ch_myeongdong": "明洞",
+    "ch_gangnam": "江南站",
+    "ch_hongdae": "弘大",
+    "ch_haeundae": "海云台海滩",
+    "ch_gyeongbokgung": "景福宫"
   }
 }
