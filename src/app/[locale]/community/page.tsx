@@ -9,13 +9,13 @@ const CATEGORY_KEYS = ["community.all", "community.plastic_surgery", "community.
 
 // 게시글 더미 데이터 — 실제 DB 연동 전 UI 확인용
 const POSTS = [
-  { id: 1, title: "강남 쌍꺼풀 후기 — 3개월 경과", categoryKey: "community.plastic_surgery", author: "user_kr", upvotes: 87, downvotes: 3, comments: 24, createdAt: "2시간 전" },
-  { id: 2, title: "외국인도 보험 없이 피부과 갈 수 있나요?", categoryKey: "community.dermatology", author: "sarah_jp", upvotes: 42, downvotes: 1, comments: 15, createdAt: "4시간 전" },
-  { id: 3, title: "치아 교정 가격 비교 (강남 vs 홍대)", categoryKey: "community.dental", author: "mike_us", upvotes: 63, downvotes: 5, comments: 31, createdAt: "6시간 전" },
-  { id: 4, title: "보톡스 처음인데 어느 병원이 좋을까요?", categoryKey: "community.dermatology", author: "lisa_cn", upvotes: 29, downvotes: 0, comments: 18, createdAt: "8시간 전" },
-  { id: 5, title: "코 성형 후 붓기 얼마나 걸려요?", categoryKey: "community.plastic_surgery", author: "tom_vn", upvotes: 54, downvotes: 2, comments: 27, createdAt: "1일 전" },
-  { id: 6, title: "임플란트 가격 정보 공유합니다", categoryKey: "community.dental", author: "anna_ru", upvotes: 71, downvotes: 4, comments: 12, createdAt: "2일 전" },
-  { id: 7, title: "한방 피부 관리 경험담", categoryKey: "community.general", author: "yuki_jp", upvotes: 38, downvotes: 1, comments: 9, createdAt: "3일 전" },
+  { id: 1, titleKey: "community_preview.post1_title", categoryKey: "community.plastic_surgery", author: "user_kr", upvotes: 87, downvotes: 3, comments: 24, createdAtKey: "community.time_2h" },
+  { id: 2, titleKey: "community_preview.post2_title", categoryKey: "community.dermatology", author: "sarah_jp", upvotes: 42, downvotes: 1, comments: 15, createdAtKey: "community.time_4h" },
+  { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community.dental", author: "mike_us", upvotes: 63, downvotes: 5, comments: 31, createdAtKey: "community.time_6h" },
+  { id: 4, titleKey: "community.dummy_post4_title", categoryKey: "community.dermatology", author: "lisa_cn", upvotes: 29, downvotes: 0, comments: 18, createdAtKey: "community.time_8h" },
+  { id: 5, titleKey: "community.dummy_post5_title", categoryKey: "community.plastic_surgery", author: "tom_vn", upvotes: 54, downvotes: 2, comments: 27, createdAtKey: "community.time_1d" },
+  { id: 6, titleKey: "community.dummy_post6_title", categoryKey: "community.dental", author: "anna_ru", upvotes: 71, downvotes: 4, comments: 12, createdAtKey: "community.time_2d" },
+  { id: 7, titleKey: "community.dummy_post7_title", categoryKey: "community.general", author: "yuki_jp", upvotes: 38, downvotes: 1, comments: 9, createdAtKey: "community.time_3d" },
 ];
 
 // 정렬 타입 — "popular": 추천순, "latest": 최신순
@@ -108,10 +108,10 @@ export default function CommunityPage() {
                   </div>
                   {/* 제목 — 긴 제목은 말줄임표 처리 */}
                   <h2 className="mt-1 truncate text-base font-semibold text-gray-900">
-                    {post.title}
+                    {t(post.titleKey as Parameters<typeof t>[0])}
                   </h2>
                   <p className="mt-1 text-xs text-gray-400">
-                    {post.author} · {post.createdAt}
+                    {post.author} · {t(post.createdAtKey as Parameters<typeof t>[0])}
                   </p>
                 </div>
                 {/* 추천 수 및 댓글 수 */}

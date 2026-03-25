@@ -8,10 +8,10 @@ import { useTranslations } from "next-intl";
 type Comment = { id: number; author: string; body: string; createdAt: string };
 type Post = {
   id: number;
-  title: string;
-  category: string;
+  titleKey: string;
+  categoryKey: string;
   author: string;
-  content: string;
+  contentKey: string;
   upvotes: number;
   downvotes: number;
   createdAt: string;
@@ -22,22 +22,16 @@ type Post = {
 const POSTS: Record<string, Post> = {
   "1": {
     id: 1,
-    title: "강남 쌍꺼풀 후기 — 3개월 경과",
-    category: "성형",
+    titleKey: "community_preview.post1_title",
+    categoryKey: "community.plastic_surgery",
     author: "user_kr",
-    content: `강남 뷰티클리닉에서 쌍꺼풀 수술을 받은 지 3개월이 지났습니다.
-
-붓기는 수술 후 약 2주 정도 지속되었고, 한 달 반쯤 지나니 자연스러워졌습니다.
-의사 선생님이 영어 소통도 잘 되셔서 외국인이어도 불편함이 없었어요.
-
-가격은 150만원이었고, 사후 관리 2회가 포함되어 있었습니다.
-전반적으로 매우 만족스럽고 다음에 코 수술도 고려 중입니다.`,
+    contentKey: "community.dummy_post1_content",
     upvotes: 87,
     downvotes: 3,
     createdAt: "2025-03-22",
     comments: [
-      { id: 1, author: "sarah_jp", body: "어느 병원인지 자세히 알 수 있을까요?", createdAt: "1시간 전" },
-      { id: 2, author: "mike_us", body: "붓기 사진도 공유해 주시면 좋겠어요!", createdAt: "30분 전" },
+      { id: 1, author: "sarah_jp", body: "Which clinic specifically?", createdAt: "1h ago" },
+      { id: 2, author: "mike_us", body: "Could you share swelling photos too!", createdAt: "30m ago" },
     ],
   },
 };
@@ -94,7 +88,7 @@ export default function PostDetailPage({
     if (!newComment.trim()) return;
     setComments((prev) => [
       ...prev,
-      { id: Date.now(), author: "나", body: newComment, createdAt: "방금" },
+      { id: Date.now(), author: "me", body: newComment, createdAt: t("community.just_now") },
     ]);
     setNewComment("");
   }
@@ -110,16 +104,18 @@ export default function PostDetailPage({
         {/* 게시글 본문 카드 */}
         <article className="mt-4 rounded-2xl bg-white p-6 shadow-sm">
           <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
-            {post.category}
+            {t(post.categoryKey as Parameters<typeof t>[0])}
           </span>
-          <h1 className="mt-3 text-2xl font-bold text-gray-900">{post.title}</h1>
+          <h1 className="mt-3 text-2xl font-bold text-gray-900">
+            {t(post.titleKey as Parameters<typeof t>[0])}
+          </h1>
           <p className="mt-1 text-xs text-gray-400">
             {post.author} · {post.createdAt}
           </p>
 
           {/* 본문 — 줄바꿈 보존 */}
           <div className="mt-6 whitespace-pre-line leading-relaxed text-gray-700">
-            {post.content}
+            {t(post.contentKey as Parameters<typeof t>[0])}
           </div>
 
           {/* 투표 버튼 — 선택 시 색상 강조 */}

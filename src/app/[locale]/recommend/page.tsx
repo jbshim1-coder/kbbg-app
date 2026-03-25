@@ -55,30 +55,30 @@ const RESULTS = [
   {
     id: 1,
     rank: 1,
-    name: "강남 뷰티클리닉",
-    location: "서울 강남구 신사동",
-    specialty: ["성형외과", "피부과"],
-    reason: "10년 이상 외국인 환자 전문, 영어·중국어 통역 상시 배치",
+    nameKey: "recommend.result1_name",
+    locationKey: "recommend.result1_location",
+    specialtyKeys: ["recommend.specialty_plastic", "recommend.specialty_derma"],
+    reasonKey: "recommend.result1_reason",
     score: 97,
     isAd: false,
   },
   {
     id: 2,
     rank: 2,
-    name: "JK 성형외과",
-    location: "서울 강남구 청담동",
-    specialty: ["성형외과"],
-    reason: "쌍꺼풀·코 성형 전문, 사후 관리 프로그램 우수",
+    nameKey: "recommend.result2_name",
+    locationKey: "recommend.result2_location",
+    specialtyKeys: ["recommend.specialty_plastic"],
+    reasonKey: "recommend.result2_reason",
     score: 94,
     isAd: false,
   },
   {
     id: 3,
     rank: 3,
-    name: "라온 피부과",
-    location: "서울 강남구 역삼동",
-    specialty: ["피부과"],
-    reason: "레이저 시술 특화, 합리적 가격대",
+    nameKey: "recommend.result3_name",
+    locationKey: "recommend.result3_location",
+    specialtyKeys: ["recommend.specialty_derma"],
+    reasonKey: "recommend.result3_reason",
     score: 91,
     isAd: false,
   },
@@ -87,10 +87,10 @@ const RESULTS = [
 // 광고 병원 더미 데이터 — 결과 목록에 삽입되는 광고 슬롯
 const AD_CLINIC = {
   id: 99,
-  name: "미르 성형외과 [광고]",
-  location: "서울 강남구 논현동",
-  specialty: ["성형외과", "피부과"],
-  reason: "신규 오픈 특가 이벤트 진행 중 — 첫 방문 20% 할인",
+  nameKey: "recommend.ad_name",
+  locationKey: "recommend.ad_location",
+  specialtyKeys: ["recommend.specialty_plastic", "recommend.specialty_derma"],
+  reasonKey: "recommend.ad_reason",
   score: null,
   isAd: true,
 };
@@ -167,8 +167,12 @@ export default function RecommendPage() {
                 )}
                 <div className="flex items-start justify-between">
                   <div>
-                    <h2 className="text-lg font-bold text-gray-900">{clinic.name}</h2>
-                    <p className="text-sm text-gray-500">{clinic.location}</p>
+                    <h2 className="text-lg font-bold text-gray-900">
+                      {t(clinic.nameKey as Parameters<typeof t>[0])}
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      {t(clinic.locationKey as Parameters<typeof t>[0])}
+                    </p>
                   </div>
                   {/* 추천 점수 — 광고 병원에는 표시하지 않음 */}
                   {clinic.score && (
@@ -179,17 +183,19 @@ export default function RecommendPage() {
                 </div>
                 {/* 전문 분야 태그 */}
                 <div className="mt-3 flex flex-wrap gap-1">
-                  {clinic.specialty.map((s) => (
+                  {clinic.specialtyKeys.map((key) => (
                     <span
-                      key={s}
+                      key={key}
                       className="rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-600"
                     >
-                      {s}
+                      {t(key as Parameters<typeof t>[0])}
                     </span>
                   ))}
                 </div>
                 {/* 추천 이유 */}
-                <p className="mt-3 text-sm text-gray-600">{clinic.reason}</p>
+                <p className="mt-3 text-sm text-gray-600">
+                  {t(clinic.reasonKey as Parameters<typeof t>[0])}
+                </p>
               </div>
             ))}
           </div>
