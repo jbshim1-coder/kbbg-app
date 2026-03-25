@@ -25,7 +25,7 @@ export default async function Footer({ locale }: { locale: string }) {
     {
       titleKey: "footer.services",
       links: [
-        { href: lp("/ai-recommend"), labelKey: "footer.service_ai" },
+        { href: lp("/recommend"), labelKey: "footer.service_ai" },
         { href: lp("/community"), labelKey: "footer.service_community" },
         { href: lp("/hospitals"), labelKey: "footer.service_hospitals" },
         { href: lp("/procedures"), labelKey: "footer.service_procedures" },

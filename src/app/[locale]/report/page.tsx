@@ -1,0 +1,188 @@
+"use client";
+
+// 신고하기 페이지 — 클라이언트 컴포넌트 (폼 상태 관리)
+// contact 페이지와 유사한 구조, 신고 특화 필드 포함
+
+import { useState } from "react";
+import { createClient } from "@/lib/supabase";
+
+// 신고 유형 목록
+const REPORT_TYPES = [
+  "Fake or misleading clinic information",
+  "Fraudulent reviews",
+  "Unlicensed practitioner",
+  "Price gouging or hidden fees",
+  "Unsafe medical practices",
+  "Inappropriate content",
+  "Other",
+];
+
+export default function ReportPage() {
+  // 폼 필드 상태
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [type, setType] = useState("");
+  const [description, setDescription] = useState("");
+  const [clinicName, setClinicName] = useState("");
+
+  // 제출 상태
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  // 필수 필드 유효성 검사
+  const isValid = email.trim() && type && description.trim();
+
+  // 폼 제출 — Supabase contact_inquiries 테이블 재사용 (category: "report")
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!isValid) return;
+    setLoading(true);
+    setError("");
+
+    try {
+      const supabase = createClient();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: dbError } = await (supabase as any).from("contact_inquiries").insert({
+        name: name || "Anonymous",
+        email,
+        category: "report",
+        subject: type,
+        message: clinicName ? `[Clinic: ${clinicName}]\n\n${description}` : description,
+        status: "open",
+      });
+
+      if (dbError) throw dbError;
+      setSubmitted(true);
+    } catch {
+      setError("Failed to submit report. Please try again or email us at help@2bstory.com.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // 제출 완료 화면
+  if (submitted) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-sm">
+          <p className="text-4xl">✅</p>
+          <h2 className="mt-4 text-xl font-bold text-gray-900">Report Received</h2>
+          <p className="mt-2 text-gray-500">
+            Thank you for helping keep our community safe. We will review your report
+            and take appropriate action.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-gray-50 px-4 py-14">
+      <div className="mx-auto max-w-xl">
+        {/* 헤더 */}
+        <h1 className="text-3xl font-bold text-gray-900">Submit a Report</h1>
+        <p className="mt-2 text-gray-500">
+          Help us maintain trust and safety on KBBG. All reports are reviewed by our team.
+          <br />
+          For urgent matters, email{" "}
+          <a href="mailto:help@2bstory.com" className="text-pink-500 hover:underline">
+            help@2bstory.com
+          </a>
+        </p>
+
+        <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
+          {/* 신고 유형 선택 */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+              Report Type <span className="text-pink-500">*</span>
+            </label>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-pink-400"
+            >
+              <option value="">Select a report type</option>
+              {REPORT_TYPES.map((rt) => (
+                <option key={rt} value={rt}>{rt}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* 관련 클리닉명 (선택) */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+              Clinic or Business Name{" "}
+              <span className="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <input
+              type="text"
+              value={clinicName}
+              onChange={(e) => setClinicName(e.target.value)}
+              placeholder="e.g. ABC Plastic Surgery Clinic"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+            />
+          </div>
+
+          {/* 상세 설명 */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+              Description <span className="text-pink-500">*</span>
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Please describe the issue in detail. Include any relevant dates, links, or evidence."
+              rows={6}
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+            />
+          </div>
+
+          {/* 이름 (선택) */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+              Your Name{" "}
+              <span className="text-gray-400 font-normal">(optional — will be kept confidential)</span>
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Anonymous"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+            />
+          </div>
+
+          {/* 이메일 (필수 — 후속 연락용) */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+              Your Email <span className="text-pink-500">*</span>
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+            />
+            <p className="mt-1 text-xs text-gray-400">
+              Used only to follow up on your report. Never shared publicly.
+            </p>
+          </div>
+
+          {/* 제출 버튼 */}
+          <button
+            type="submit"
+            disabled={!isValid || loading}
+            className="w-full rounded-xl bg-pink-500 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-pink-200 hover:bg-pink-600 transition-colors"
+          >
+            {loading ? "Submitting..." : "Submit Report"}
+          </button>
+
+          {/* 에러 메시지 */}
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+        </form>
+      </div>
+    </main>
+  );
+}
