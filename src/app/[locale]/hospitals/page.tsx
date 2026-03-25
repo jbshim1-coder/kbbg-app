@@ -1,67 +1,161 @@
-// 병원 찾기 페이지 — 서버 컴포넌트, 곧 오픈 예정 안내
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Find Hospitals — KBBG",
-  description: "Browse verified Korean medical clinics and hospitals for cosmetic and medical procedures.",
-};
+// 병원 검색 페이지 — 심평원 API 연동
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import type { HiraClinic } from "@/lib/hira-api";
+import { SIDO_CODES, SUBJECT_CODES } from "@/lib/hira-api";
 
-export default async function HospitalsPage() {
-  const t = await getTranslations();
+export default function HospitalsPage() {
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "en";
 
-  const FEATURES = [
-    {
-      icon: "🏥",
-      titleKey: "hospitals.feature_verified_title" as const,
-      descKey: "hospitals.feature_verified_desc" as const,
-    },
-    {
-      icon: "⭐",
-      titleKey: "hospitals.feature_reviews_title" as const,
-      descKey: "hospitals.feature_reviews_desc" as const,
-    },
-    {
-      icon: "💬",
-      titleKey: "hospitals.feature_contact_title" as const,
-      descKey: "hospitals.feature_contact_desc" as const,
-    },
-  ];
+  // 검색 상태
+  const [keyword, setKeyword] = useState("");
+  const [region, setRegion] = useState("");
+  const [subject, setSubject] = useState("");
+  const [page, setPage] = useState(1);
+
+  // 결과 상태
+  const [clinics, setClinics] = useState<HiraClinic[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
+
+  // 검색 실행
+  const handleSearch = async (newPage = 1) => {
+    setLoading(true);
+    setPage(newPage);
+    try {
+      const params = new URLSearchParams();
+      if (keyword) params.set("keyword", keyword);
+      if (region) params.set("region", region);
+      if (subject) params.set("subject", subject);
+      params.set("page", String(newPage));
+
+      const res = await fetch(`/api/hira?${params.toString()}`);
+      const data = await res.json();
+
+      setClinics(data.clinics || []);
+      setTotalCount(data.totalCount || 0);
+      setSearched(true);
+    } catch {
+      setClinics([]);
+      setTotalCount(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSearch(1);
+  };
+
+  const totalPages = Math.ceil(totalCount / 10);
+  const isKo = locale === "ko";
 
   return (
-    <main className="min-h-screen bg-white">
-      {/* 히어로 섹션 */}
-      <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-20 text-center">
-        <div className="mx-auto max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
-            {t("hospitals.coming_soon_label")}
-          </p>
-          <h1 className="mt-3 text-4xl font-bold text-gray-900">
-            {t("hospitals.title")}
-          </h1>
-          <p className="mt-4 text-lg text-gray-600">
-            {t("hospitals.subtitle")}
-          </p>
-        </div>
-      </section>
+    <main className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 py-10">
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          {isKo ? "병원 찾기" : "Find Clinics"}
+        </h1>
+        <p className="text-sm text-gray-500 mb-6">
+          {isKo ? "건강보험심사평가원 데이터 기반 병원 검색" : "Search clinics based on HIRA data"}
+        </p>
 
-      {/* 예정 기능 미리보기 */}
-      <section className="px-4 py-14">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-xl font-bold text-gray-900 text-center mb-8">
-            {t("hospitals.what_to_expect")}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {FEATURES.map((item) => (
-              <div key={item.titleKey} className="rounded-2xl border border-gray-100 p-6 text-center">
-                <p className="text-3xl">{item.icon}</p>
-                <h3 className="mt-3 font-semibold text-gray-900">{t(item.titleKey)}</h3>
-                <p className="mt-2 text-sm text-gray-500">{t(item.descKey)}</p>
-              </div>
-            ))}
+        {/* 검색 폼 */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "병원명" : "Clinic Name"}</label>
+              <input type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)}
+                placeholder={isKo ? "병원명 입력" : "Enter clinic name"}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "지역" : "Region"}</label>
+              <select value={region} onChange={(e) => setRegion(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">{isKo ? "전체 지역" : "All Regions"}</option>
+                {Object.entries(SIDO_CODES).map(([code, name]) => (
+                  <option key={code} value={code}>{name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "진료과" : "Specialty"}</label>
+              <select value={subject} onChange={(e) => setSubject(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">{isKo ? "전체 진료과" : "All Specialties"}</option>
+                {Object.entries(SUBJECT_CODES).map(([code, name]) => (
+                  <option key={code} value={code}>{name}</option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
-      </section>
+          <button type="submit" disabled={loading}
+            className="mt-4 w-full sm:w-auto px-8 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:bg-blue-300 transition">
+            {loading ? (isKo ? "검색 중..." : "Searching...") : (isKo ? "검색" : "Search")}
+          </button>
+        </form>
+
+        {/* 검색 결과 */}
+        {searched && (
+          <>
+            <p className="text-sm text-gray-500 mb-4">
+              {isKo ? `총 ${totalCount.toLocaleString()}개 병원` : `${totalCount.toLocaleString()} clinics found`}
+            </p>
+            {clinics.length === 0 ? (
+              <div className="text-center py-20 text-gray-400">
+                {isKo ? "검색 결과가 없습니다" : "No results found"}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {clinics.map((clinic, idx) => (
+                  <div key={clinic.ykiho || idx} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-semibold text-gray-800">{clinic.yadmNm}</h3>
+                        <p className="text-xs text-gray-400 mt-0.5">{clinic.clCdNm} · {clinic.dgsbjtCdNm}</p>
+                      </div>
+                      {clinic.hospUrl && (
+                        <a href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
+                          target="_blank" rel="noopener noreferrer"
+                          className="text-xs text-blue-500 hover:underline shrink-0 ml-3">
+                          {isKo ? "홈페이지" : "Website"}
+                        </a>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-600 mt-2">{clinic.addr}</p>
+                    <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-500">
+                      {clinic.telno && <span>📞 {clinic.telno}</span>}
+                      {clinic.drTotCnt > 0 && <span>👨‍⚕️ {isKo ? `의사 ${clinic.drTotCnt}명` : `${clinic.drTotCnt} doctors`}</span>}
+                      {clinic.sdrCnt > 0 && <span>🏅 {isKo ? `전문의 ${clinic.sdrCnt}명` : `${clinic.sdrCnt} specialists`}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {totalPages > 1 && (
+              <div className="flex justify-center gap-2 mt-8">
+                <button onClick={() => handleSearch(page - 1)} disabled={page <= 1}
+                  className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50">←</button>
+                <span className="px-3 py-1.5 text-sm text-gray-600">{page} / {totalPages}</span>
+                <button onClick={() => handleSearch(page + 1)} disabled={page >= totalPages}
+                  className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50">→</button>
+              </div>
+            )}
+          </>
+        )}
+
+        {!searched && (
+          <div className="text-center py-20 text-gray-400">
+            {isKo ? "병원명, 지역, 진료과를 선택하여 검색하세요" : "Search by clinic name, region, or specialty"}
+          </div>
+        )}
+      </div>
     </main>
   );
 }
