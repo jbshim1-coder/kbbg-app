@@ -171,7 +171,11 @@
     "time_8h": "8小时前",
     "time_1d": "1天前",
     "time_2d": "2天前",
-    "time_3d": "3天前"
+    "time_3d": "3天前",
+    "comment1_body": "具体是哪家医院？",
+    "comment1_time": "1小时前",
+    "comment2_body": "可以分享消肿照片吗！",
+    "comment2_time": "30分钟前"
   },
   "about": {
     "title": "关于我们",
@@ -469,5 +473,23 @@
     "type5": "不安全的医疗行为",
     "type6": "不当内容",
     "type7": "其他"
+  },
+  "search": {
+    "title": "搜索结果",
+    "results": "找到 {count} 条结果",
+    "no_results": "没有找到结果。",
+    "clinics": "诊所",
+    "posts": "社区帖子",
+    "faqs": "常见问题"
+  },
+  "mypage": {
+    "title": "我的页面",
+    "profile": "个人资料",
+    "my_posts": "我的帖子",
+    "my_comments": "我的评论",
+    "recommendations": "AI推荐历史",
+    "settings": "账户设置",
+    "logout": "退出登录",
+    "login_required": "请登录后查看此页面。"
   }
 }

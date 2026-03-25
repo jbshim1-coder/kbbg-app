@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 
-// 게시글 타입 정의
+// 게시글 타입 정의 — body/createdAt은 직접 표시 텍스트 (번역 키 또는 실제 텍스트)
 type Comment = { id: number; author: string; body: string; createdAt: string };
 type Post = {
   id: number;

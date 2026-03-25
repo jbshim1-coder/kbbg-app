@@ -171,7 +171,11 @@
     "time_8h": "8時間前",
     "time_1d": "1日前",
     "time_2d": "2日前",
-    "time_3d": "3日前"
+    "time_3d": "3日前",
+    "comment1_body": "具体的にどのクリニックですか？",
+    "comment1_time": "1時間前",
+    "comment2_body": "腫れの写真も共有してもらえますか！",
+    "comment2_time": "30分前"
   },
   "about": {
     "title": "私たちについて",
@@ -469,5 +473,23 @@
     "type5": "危険な医療行為",
     "type6": "不適切なコンテンツ",
     "type7": "その他"
+  },
+  "search": {
+    "title": "検索結果",
+    "results": "{count}件の結果",
+    "no_results": "検索結果がありません。",
+    "clinics": "クリニック",
+    "posts": "コミュニティ投稿",
+    "faqs": "FAQ"
+  },
+  "mypage": {
+    "title": "マイページ",
+    "profile": "プロフィール",
+    "my_posts": "投稿した記事",
+    "my_comments": "投稿したコメント",
+    "recommendations": "AI推薦履歴",
+    "settings": "アカウント設定",
+    "logout": "ログアウト",
+    "login_required": "このページを表示するにはログインが必要です。"
   }
 }

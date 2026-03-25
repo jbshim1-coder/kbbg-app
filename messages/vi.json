@@ -171,7 +171,11 @@
     "time_8h": "8 giờ trước",
     "time_1d": "1 ngày trước",
     "time_2d": "2 ngày trước",
-    "time_3d": "3 ngày trước"
+    "time_3d": "3 ngày trước",
+    "comment1_body": "Cụ thể là phòng khám nào?",
+    "comment1_time": "1 giờ trước",
+    "comment2_body": "Bạn có thể chia sẻ ảnh sưng không!",
+    "comment2_time": "30 phút trước"
   },
   "about": {
     "title": "Giới thiệu về chúng tôi",
@@ -469,5 +473,23 @@
     "type5": "Hành vi y tế không an toàn",
     "type6": "Nội dung không phù hợp",
     "type7": "Khác"
+  },
+  "search": {
+    "title": "Kết quả tìm kiếm",
+    "results": "Tìm thấy {count} kết quả",
+    "no_results": "Không tìm thấy kết quả.",
+    "clinics": "Phòng khám",
+    "posts": "Bài viết cộng đồng",
+    "faqs": "Câu hỏi thường gặp"
+  },
+  "mypage": {
+    "title": "Trang của tôi",
+    "profile": "Hồ sơ",
+    "my_posts": "Bài viết của tôi",
+    "my_comments": "Bình luận của tôi",
+    "recommendations": "Lịch sử đề xuất AI",
+    "settings": "Cài đặt tài khoản",
+    "logout": "Đăng xuất",
+    "login_required": "Vui lòng đăng nhập để xem trang này."
   }
 }

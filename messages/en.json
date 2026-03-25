@@ -171,7 +171,11 @@
     "time_8h": "8 hours ago",
     "time_1d": "1 day ago",
     "time_2d": "2 days ago",
-    "time_3d": "3 days ago"
+    "time_3d": "3 days ago",
+    "comment1_body": "Which clinic specifically?",
+    "comment1_time": "1h ago",
+    "comment2_body": "Could you share swelling photos too!",
+    "comment2_time": "30m ago"
   },
   "about": {
     "title": "About Us",
