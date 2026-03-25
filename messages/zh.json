@@ -491,7 +491,17 @@
     "recommendations": "AI推荐历史",
     "settings": "账户设置",
     "logout": "退出登录",
-    "login_required": "请登录后查看此页面。"
+    "login_required": "请登录后查看此页面。",
+    "post1_title": "江南隆鼻手术体验",
+    "post2_title": "最适合外国人的皮肤科？",
+    "comment1": "整体体验很好！",
+    "comment1_post": "江南双眼皮后记",
+    "comment2": "感谢分享信息。",
+    "comment2_post": "牙齿矫正价格对比",
+    "rec1_name": "美丽整形外科",
+    "rec1_specialty": "整形外科",
+    "rec2_name": "Raon皮肤科",
+    "rec2_specialty": "皮肤科"
   },
   "live": {
     "title": "韩国街头实时直播",

@@ -491,7 +491,17 @@
     "recommendations": "AI推薦履歴",
     "settings": "アカウント設定",
     "logout": "ログアウト",
-    "login_required": "このページを表示するにはログインが必要です。"
+    "login_required": "このページを表示するにはログインが必要です。",
+    "post1_title": "カンナムで鼻整形の体験",
+    "post2_title": "外国人におすすめの皮膚科は？",
+    "comment1": "全体的に良い経験でした！",
+    "comment1_post": "カンナム二重手術レビュー",
+    "comment2": "情報共有ありがとうございます。",
+    "comment2_post": "歯列矯正の価格比較",
+    "rec1_name": "アルムダウン整形外科",
+    "rec1_specialty": "整形外科",
+    "rec2_name": "ラオン皮膚科",
+    "rec2_specialty": "皮膚科"
   },
   "live": {
     "title": "韓国のストリートライブ",

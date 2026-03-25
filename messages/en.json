@@ -491,7 +491,17 @@
     "recommendations": "AI Recommendation History",
     "settings": "Account Settings",
     "logout": "Log Out",
-    "login_required": "Please log in to view this page."
+    "login_required": "Please log in to view this page.",
+    "post1_title": "My rhinoplasty experience at a Gangnam clinic",
+    "post2_title": "Best dermatology clinics for foreigners?",
+    "comment1": "Great experience overall!",
+    "comment1_post": "Gangnam Double Eyelid Review",
+    "comment2": "Thanks for sharing this info.",
+    "comment2_post": "Dental Braces Price Comparison",
+    "rec1_name": "Aeumdaun Plastic Surgery",
+    "rec1_specialty": "Plastic Surgery",
+    "rec2_name": "Raon Dermatology",
+    "rec2_specialty": "Dermatology"
   },
   "live": {
     "title": "Live Streets of Korea",

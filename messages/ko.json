@@ -488,7 +488,17 @@
     "recommendations": "AI 추천 이력",
     "settings": "계정 설정",
     "logout": "로그아웃",
-    "login_required": "로그인이 필요한 페이지입니다."
+    "login_required": "로그인이 필요한 페이지입니다.",
+    "post1_title": "강남 코성형 후기",
+    "post2_title": "외국인을 위한 베스트 피부과는?",
+    "comment1": "전반적으로 좋은 경험이었어요!",
+    "comment1_post": "강남 쌍꺼풀 후기",
+    "comment2": "정보 공유 감사합니다.",
+    "comment2_post": "치아 교정 가격 비교",
+    "rec1_name": "아름다운 성형외과",
+    "rec1_specialty": "성형외과",
+    "rec2_name": "라온 피부과",
+    "rec2_specialty": "피부과"
   },
   "live": {
     "title": "한국의 거리 라이브",

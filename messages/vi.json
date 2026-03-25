@@ -491,7 +491,17 @@
     "recommendations": "Lịch sử đề xuất AI",
     "settings": "Cài đặt tài khoản",
     "logout": "Đăng xuất",
-    "login_required": "Vui lòng đăng nhập để xem trang này."
+    "login_required": "Vui lòng đăng nhập để xem trang này.",
+    "post1_title": "Trải nghiệm nâng mũi tại Gangnam",
+    "post2_title": "Phòng khám da liễu tốt nhất cho người nước ngoài?",
+    "comment1": "Trải nghiệm tuyệt vời!",
+    "comment1_post": "Đánh giá mắt hai mí Gangnam",
+    "comment2": "Cảm ơn đã chia sẻ thông tin.",
+    "comment2_post": "So sánh giá niềng răng",
+    "rec1_name": "Aeumdaun Phẫu thuật Thẩm mỹ",
+    "rec1_specialty": "Phẫu thuật thẩm mỹ",
+    "rec2_name": "Raon Da liễu",
+    "rec2_specialty": "Da liễu"
   },
   "live": {
     "title": "Phố Hàn Quốc Trực Tiếp",

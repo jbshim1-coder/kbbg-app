@@ -6,24 +6,6 @@ import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 
-// 더미 내 글 목록
-const DUMMY_POSTS = [
-  { id: 1, title: "My rhinoplasty experience at a Gangnam clinic", board: "plastic-surgery" },
-  { id: 2, title: "Best dermatology clinics for foreigners?", board: "dermatology" },
-];
-
-// 더미 내 댓글 목록
-const DUMMY_COMMENTS = [
-  { id: 1, content: "Great experience overall!", postTitle: "Gangnam Double Eyelid Review" },
-  { id: 2, content: "Thanks for sharing this info.", postTitle: "Dental Braces Price Comparison" },
-];
-
-// 더미 AI 추천 이력
-const DUMMY_RECOMMENDATIONS = [
-  { id: 1, date: "2024-12-10", specialty: "Plastic Surgery", result: "Aeumdaun Plastic Surgery" },
-  { id: 2, date: "2024-11-22", specialty: "Dermatology", result: "Raon Dermatology" },
-];
-
 // 마이페이지 — 로그인 사용자 프로필 및 활동 이력
 export default function MyPage() {
   const t = useTranslations();
@@ -38,7 +20,6 @@ export default function MyPage() {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }) => {
       if (!data.user) {
-        // 비로그인 시 로그인 페이지로 리다이렉트
         router.replace(`/${locale}/login`);
         return;
       }
@@ -52,6 +33,22 @@ export default function MyPage() {
     await supabase.auth.signOut();
     router.push(`/${locale}/`);
   };
+
+  // 더미 데이터를 t()로 번역하여 생성
+  const DUMMY_POSTS = [
+    { id: 1, title: t("mypage.post1_title" as Parameters<typeof t>[0]), board: t("community.plastic_surgery" as Parameters<typeof t>[0]) },
+    { id: 2, title: t("mypage.post2_title" as Parameters<typeof t>[0]), board: t("community.dermatology" as Parameters<typeof t>[0]) },
+  ];
+
+  const DUMMY_COMMENTS = [
+    { id: 1, content: t("mypage.comment1" as Parameters<typeof t>[0]), postTitle: t("mypage.comment1_post" as Parameters<typeof t>[0]) },
+    { id: 2, content: t("mypage.comment2" as Parameters<typeof t>[0]), postTitle: t("mypage.comment2_post" as Parameters<typeof t>[0]) },
+  ];
+
+  const DUMMY_RECOMMENDATIONS = [
+    { id: 1, date: "2024-12-10", specialty: t("mypage.rec1_specialty" as Parameters<typeof t>[0]), result: t("mypage.rec1_name" as Parameters<typeof t>[0]) },
+    { id: 2, date: "2024-11-22", specialty: t("mypage.rec2_specialty" as Parameters<typeof t>[0]), result: t("mypage.rec2_name" as Parameters<typeof t>[0]) },
+  ];
 
   if (loading) {
     return (
@@ -78,11 +75,7 @@ export default function MyPage() {
           <div className="flex items-center gap-4">
             {avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={avatarUrl}
-                alt={displayName}
-                className="w-14 h-14 rounded-full object-cover"
-              />
+              <img src={avatarUrl} alt={displayName} className="w-14 h-14 rounded-full object-cover" />
             ) : (
               <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl font-bold">
                 {displayName.charAt(0).toUpperCase()}
