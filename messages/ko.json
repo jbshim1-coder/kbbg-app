@@ -353,6 +353,8 @@
     "description": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",
     "home": "홈으로 이동",
     "recommend": "AI 추천",
-    "community": "커뮤니티"
+    "community": "커뮤니티",
+    "contact_hint": "문제가 지속되면 문의해주세요.",
+    "contact_link": "문의하기"
   }
 }
