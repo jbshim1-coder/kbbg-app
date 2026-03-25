@@ -68,14 +68,6 @@ export default async function AboutPage() {
             </p>
           </div>
 
-          {/* 권위성 (Authoritativeness) */}
-          <div>
-            <h2 className="text-xl font-bold text-gray-900">{t("authority_title")}</h2>
-            <p className="mt-3 leading-relaxed text-gray-600">
-              {t("authority_desc")}
-            </p>
-          </div>
-
           {/* 신뢰성 (Trustworthiness) */}
           <div>
             <h2 className="text-xl font-bold text-gray-900">{t("trust_title")}</h2>
