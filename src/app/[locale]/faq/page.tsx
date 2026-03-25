@@ -4,22 +4,27 @@
 // seed-faqs.ts 데이터를 사용하여 실제 FAQ 표시
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { seedFaqs, type FaqCategory } from "@/data/seed-faqs";
 
-// 카테고리 레이블 매핑
-const CATEGORY_LABELS: Record<FaqCategory | "all", string> = {
-  all: "All",
-  general: "General",
-  visa: "Visa",
-  cost: "Cost",
-  procedure: "Procedure",
-  recovery: "Recovery",
-  language: "Language",
+// 카테고리 키 목록
+const ALL_CATEGORIES = ["all", "general", "visa", "cost", "procedure", "recovery", "language"] as const;
+type CategoryKey = (typeof ALL_CATEGORIES)[number];
+
+// 카테고리 → 번역 키 매핑
+const CATEGORY_TRANSLATION_KEYS: Record<CategoryKey, string> = {
+  all: "faq.cat_all",
+  general: "faq.cat_general",
+  visa: "faq.cat_visa",
+  cost: "faq.cat_cost",
+  procedure: "faq.cat_procedure",
+  recovery: "faq.cat_recovery",
+  language: "faq.cat_language",
 };
 
-const ALL_CATEGORIES = ["all", "general", "visa", "cost", "procedure", "recovery", "language"] as const;
-
 export default function FaqPage() {
+  const t = useTranslations();
+
   // 선택된 카테고리 — 기본값 전체
   const [activeCategory, setActiveCategory] = useState<FaqCategory | "all">("all");
   // 열린 FAQ 항목 ID 집합
@@ -49,13 +54,13 @@ export default function FaqPage() {
       <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-16 text-center">
         <div className="mx-auto max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
-            FAQ
+            {t("faq.label")}
           </p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">
-            Frequently Asked Questions
+            {t("faq.title")}
           </h1>
           <p className="mt-4 text-lg text-gray-600">
-            Everything you need to know about medical tourism in South Korea.
+            {t("faq.subtitle")}
           </p>
         </div>
       </section>
@@ -73,7 +78,7 @@ export default function FaqPage() {
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              {CATEGORY_LABELS[cat]}
+              {t(CATEGORY_TRANSLATION_KEYS[cat] as Parameters<typeof t>[0])}
             </button>
           ))}
         </div>
@@ -127,7 +132,7 @@ export default function FaqPage() {
 
           {/* 결과 없음 */}
           {filtered.length === 0 && (
-            <p className="text-center text-gray-400 py-10">No questions found.</p>
+            <p className="text-center text-gray-400 py-10">{t("faq.no_questions")}</p>
           )}
         </div>
       </section>

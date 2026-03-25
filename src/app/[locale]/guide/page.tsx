@@ -1,54 +1,37 @@
 // 이용 가이드 페이지 — 서버 컴포넌트, 사이트 사용법 안내
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "How to Use KBBG — User Guide",
   description: "Step-by-step guide to planning your medical trip to South Korea using K-Beauty Buyers Guide.",
 };
 
-// 이용 단계 데이터
-const STEPS = [
-  {
-    step: "01",
-    title: "Get AI Recommendations",
-    desc: "Answer a few questions about your goals and budget. Our AI matches you with the right procedures and clinics.",
-  },
-  {
-    step: "02",
-    title: "Browse Clinics & Procedures",
-    desc: "Explore our verified directory of Korean clinics. Filter by procedure type, location, and price range.",
-  },
-  {
-    step: "03",
-    title: "Read Community Reviews",
-    desc: "See real experiences from other medical tourists. Ask questions and get honest answers from the community.",
-  },
-  {
-    step: "04",
-    title: "Contact the Clinic",
-    desc: "Reach out directly to English-speaking clinic coordinators to schedule consultations and get quotes.",
-  },
-  {
-    step: "05",
-    title: "Plan Your Trip",
-    desc: "Use our resources on visas, accommodation, and recovery to plan a safe and comfortable stay.",
-  },
-];
+export default async function GuidePage() {
+  const t = await getTranslations();
 
-export default function GuidePage() {
+  // 이용 단계 데이터 — 번역 키 사용
+  const STEPS = [
+    { step: "01", titleKey: "guide.step1_title" as const, descKey: "guide.step1_desc" as const },
+    { step: "02", titleKey: "guide.step2_title" as const, descKey: "guide.step2_desc" as const },
+    { step: "03", titleKey: "guide.step3_title" as const, descKey: "guide.step3_desc" as const },
+    { step: "04", titleKey: "guide.step4_title" as const, descKey: "guide.step4_desc" as const },
+    { step: "05", titleKey: "guide.step5_title" as const, descKey: "guide.step5_desc" as const },
+  ];
+
   return (
     <main className="min-h-screen bg-white">
       {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-16 text-center">
         <div className="mx-auto max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
-            User Guide
+            {t("guide.label")}
           </p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">
-            How to Use KBBG
+            {t("guide.title")}
           </h1>
           <p className="mt-4 text-lg text-gray-600">
-            Everything you need to plan a safe, well-informed medical trip to South Korea.
+            {t("guide.subtitle")}
           </p>
         </div>
       </section>
@@ -63,8 +46,8 @@ export default function GuidePage() {
                 <span className="text-sm font-bold text-pink-600">{item.step}</span>
               </div>
               <div>
-                <h2 className="font-semibold text-gray-900">{item.title}</h2>
-                <p className="mt-1 text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                <h2 className="font-semibold text-gray-900">{t(item.titleKey)}</h2>
+                <p className="mt-1 text-sm text-gray-500 leading-relaxed">{t(item.descKey)}</p>
               </div>
             </div>
           ))}
@@ -74,13 +57,13 @@ export default function GuidePage() {
       {/* 추가 도움말 링크 */}
       <section className="border-t border-gray-100 px-4 py-12 text-center">
         <p className="text-gray-500">
-          Still have questions?{" "}
+          {t("guide.help_text")}{" "}
           <a href="../faq" className="text-pink-500 hover:underline font-medium">
-            Browse our FAQ
+            {t("guide.faq_link")}
           </a>{" "}
-          or{" "}
+          {t("guide.or")}{" "}
           <a href="../contact" className="text-pink-500 hover:underline font-medium">
-            contact us
+            {t("guide.contact_link")}
           </a>.
         </p>
       </section>

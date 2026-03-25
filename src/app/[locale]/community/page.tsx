@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 // 카테고리 탭 — 번역 키 기반으로 변경
@@ -24,6 +25,9 @@ type SortType = "popular" | "latest";
 // 커뮤니티 메인 페이지 — 카테고리 필터 + 정렬 + 게시글 목록
 export default function CommunityPage() {
   const t = useTranslations();
+  const pathname = usePathname();
+  // pathname: /ko/community → locale = "ko"
+  const locale = pathname.split("/")[1] || "en";
 
   // 선택된 카테고리 키 상태 (기본값: community.all)
   const [activeCategoryKey, setActiveCategoryKey] = useState("community.all");
@@ -47,7 +51,7 @@ export default function CommunityPage() {
         <div className="mx-auto max-w-3xl flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-900">{t("community.title")}</h1>
           <Link
-            href="/community/new"
+            href={`/${locale}/community/new`}
             className="rounded-xl bg-pink-500 px-4 py-2 text-sm font-semibold text-white hover:bg-pink-600"
           >
             {t("community.new_post")}
@@ -95,7 +99,7 @@ export default function CommunityPage() {
             // 각 게시글 카드 — 클릭 시 상세 페이지로 이동
             <Link
               key={post.id}
-              href={`/community/${post.id}`}
+              href={`/${locale}/community/${post.id}`}
               className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
             >
               <div className="flex items-start justify-between gap-4">

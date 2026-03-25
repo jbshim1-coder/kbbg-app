@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 // 퀴즈 단계 정의 — 번역 키를 사용하는 구조로 변경
@@ -102,6 +103,8 @@ export default function RecommendPage() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const t = useTranslations();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "en";
 
   // 다음 단계로 진행 — 선택한 답변을 누적 저장
   function handleNext() {
@@ -133,7 +136,7 @@ export default function RecommendPage() {
           >
             {t("recommend.start")}
           </button>
-          <Link href="/" className="mt-3 block text-sm text-gray-400 hover:underline">
+          <Link href={`/${locale}`} className="mt-3 block text-sm text-gray-400 hover:underline">
             {t("recommend.back_home")}
           </Link>
         </div>
