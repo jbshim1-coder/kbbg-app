@@ -3,9 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Globe, Menu, X, ChevronDown } from "lucide-react";
+import { Globe, Menu, X, ChevronDown, LogOut } from "lucide-react";
 import SearchBar from "@/components/ui/SearchBar";
 import { useTranslations } from "next-intl";
+import { createClient } from "@/lib/supabase";
+import type { User } from "@supabase/supabase-js";
 
 // 지원 언어 목록 — 국기 순서는 기획 기준 고정
 const LOCALES = [
@@ -28,6 +30,27 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const currentLocaleCode = pathname.split("/")[1] || "en";
+
+  // 로그인 사용자 상태
+  const [user, setUser] = useState<User | null>(null);
+
+  // Supabase에서 현재 로그인 사용자 확인
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // 로그아웃 핸들러
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setUser(null);
+    router.push(localePath("/"));
+  };
 
   // 모바일 메뉴 열림/닫힘 상태
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -180,22 +203,40 @@ export default function Header() {
               )}
             </div>
 
-            {/* 로그인 / 회원가입 버튼 — PC에서만 표시 */}
+            {/* 로그인 상태에 따라 다른 UI 표시 */}
             <div className="hidden sm:flex items-center gap-2">
-              <Link
-                href={localePath("/login")}
-                className="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-700
-                  hover:bg-gray-100 transition-colors"
-              >
-                {t("nav.login")}
-              </Link>
-              <Link
-                href={localePath("/signup")}
-                className="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600
-                  text-white hover:bg-blue-700 transition-colors"
-              >
-                {t("nav.signup")}
-              </Link>
+              {user ? (
+                <>
+                  <span className="text-sm text-gray-600 truncate max-w-[120px]">
+                    {user.user_metadata?.full_name || user.email?.split("@")[0]}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="p-1.5 text-sm font-medium rounded-lg text-gray-500
+                      hover:bg-gray-100 transition-colors"
+                    aria-label="Logout"
+                  >
+                    <LogOut size={16} />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href={localePath("/login")}
+                    className="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-700
+                      hover:bg-gray-100 transition-colors"
+                  >
+                    {t("nav.login")}
+                  </Link>
+                  <Link
+                    href={localePath("/signup")}
+                    className="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600
+                      text-white hover:bg-blue-700 transition-colors"
+                  >
+                    {t("nav.signup")}
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* 모바일 햄버거 버튼 — lg 미만에서만 표시 */}
