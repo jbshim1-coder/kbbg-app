@@ -81,8 +81,7 @@ export default function SearchPage() {
                   key={clinic.id}
                   className="bg-white rounded-xl border border-gray-100 px-5 py-4 shadow-sm"
                 >
-                  <div className="flex items-start justify-between">
-                    <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-gray-800">
                     {locale === "ko" ? clinic.name : clinic.nameEn}
                   </p>
                   <p className="text-xs text-gray-400">
