@@ -32,8 +32,6 @@ export default async function Footer() {
       links: [
         { href: "/about", labelKey: "footer.company_about" },
         { href: "/contact", labelKey: "footer.company_contact" },
-        { href: "/careers", labelKey: "footer.company_careers" },
-        { href: "/press", labelKey: "footer.company_press" },
       ],
     },
     {
