@@ -137,7 +137,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
           <select value={specialty} onChange={(e) => setSpecialty(e.target.value)} className={selectClass}>
             {SPECIALTIES.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>

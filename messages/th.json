@@ -10,7 +10,9 @@
     "search": "ค้นหา",
     "language": "ภาษา",
     "search_placeholder": "ค้นหาคลินิก บริการ หรือพื้นที่...",
-    "live": "เกาหลีสด"
+    "live": "เกาหลีสด",
+    "cosmetics": "เครื่องสำอาง",
+    "influencer": "อินฟลูเอนเซอร์"
   },
   "hero": {
     "title": "ค้นหาโรงพยาบาลในเกาหลีที่เหมาะกับคุณที่สุด",
@@ -566,5 +568,28 @@
     "search_btn": "ค้นหาคลินิก",
     "ai_placeholder": "บอกความต้องการของคุณ — AI จะหาโรงพยาบาลที่ดีที่สุด...",
     "detail_filter": "ตัวกรองละเอียด"
+  },
+  "cosmetics": {
+    "title": "K-Beauty เครื่องสำอาง",
+    "subtitle": "แบรนด์สกินแคร์และความงามเกาหลีที่ได้รับความนิยมทั่วโลก",
+    "cat_skincare": "สกินแคร์",
+    "cat_makeup": "เมคอัพ",
+    "cat_hair": "ผม",
+    "cat_body": "ร่างกาย",
+    "all": "ทั้งหมด",
+    "price_label": "ช่วงราคา",
+    "brand_label": "แบรนด์",
+    "category_label": "หมวดหมู่"
+  },
+  "influencer": {
+    "title": "K-Beauty อินฟลูเอนเซอร์",
+    "subtitle": "ติดตามอินฟลูเอนเซอร์ความงามและการแพทย์ชาวเกาหลีชั้นนำ",
+    "field_beauty": "ความงาม",
+    "field_plastic": "ศัลยกรรม",
+    "field_skin": "สกินแคร์",
+    "followers_label": "ผู้ติดตาม",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "intro_label": "แนะนำตัว"
   }
 }

@@ -10,7 +10,9 @@
     "search": "検索",
     "language": "言語",
     "search_placeholder": "クリニック、施術、地域を検索...",
-    "live": "韓国ライブ"
+    "live": "韓国ライブ",
+    "cosmetics": "コスメ",
+    "influencer": "インフルエンサー"
   },
   "hero": {
     "title": "あなたにぴったりの韓国の病院を見つけましょう",
@@ -566,5 +568,28 @@
     "search_btn": "クリニック検索",
     "ai_placeholder": "ご要望をお聞かせください — AIが最適な病院をお探しします...",
     "detail_filter": "詳細フィルター"
+  },
+  "cosmetics": {
+    "title": "K-ビューティーコスメ",
+    "subtitle": "世界中に愛される韓国スキンケア＆ビューティーブランド",
+    "cat_skincare": "スキンケア",
+    "cat_makeup": "メイクアップ",
+    "cat_hair": "ヘア",
+    "cat_body": "ボディ",
+    "all": "すべて",
+    "price_label": "価格帯",
+    "brand_label": "ブランド",
+    "category_label": "カテゴリー"
+  },
+  "influencer": {
+    "title": "K-ビューティーインフルエンサー",
+    "subtitle": "韓国のビューティー＆医療インフルエンサーをフォローしよう。",
+    "field_beauty": "ビューティー",
+    "field_plastic": "整形",
+    "field_skin": "スキンケア",
+    "followers_label": "フォロワー",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "intro_label": "紹介"
   }
 }

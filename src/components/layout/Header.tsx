@@ -69,6 +69,8 @@ export default function Header() {
     { href: "/about", labelKey: "nav.about" },
     { href: "/contact", labelKey: "nav.contact" },
     { href: "/live", labelKey: "nav.live" },
+    { href: "/cosmetics", labelKey: "nav.cosmetics" },
+    { href: "/influencer", labelKey: "nav.influencer" },
   ];
 
   // locale 포함된 링크 생성 헬퍼

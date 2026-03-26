@@ -10,7 +10,9 @@
     "search": "Tìm kiếm",
     "language": "Ngôn ngữ",
     "search_placeholder": "Tìm kiếm phòng khám, dịch vụ, khu vực...",
-    "live": "Hàn Quốc Trực Tiếp"
+    "live": "Hàn Quốc Trực Tiếp",
+    "cosmetics": "Mỹ Phẩm",
+    "influencer": "Người Ảnh Hưởng"
   },
   "hero": {
     "title": "Tìm bệnh viện phù hợp nhất tại Hàn Quốc cho bạn",
@@ -566,5 +568,28 @@
     "search_btn": "Tìm kiếm",
     "ai_placeholder": "Hãy cho chúng tôi biết nhu cầu — AI sẽ tìm bệnh viện tốt nhất...",
     "detail_filter": "Bộ lọc chi tiết"
+  },
+  "cosmetics": {
+    "title": "K-Beauty Mỹ Phẩm",
+    "subtitle": "Các thương hiệu skincare & làm đẹp Hàn Quốc được yêu thích nhất.",
+    "cat_skincare": "Chăm sóc da",
+    "cat_makeup": "Trang điểm",
+    "cat_hair": "Tóc",
+    "cat_body": "Cơ thể",
+    "all": "Tất cả",
+    "price_label": "Khoảng giá",
+    "brand_label": "Thương hiệu",
+    "category_label": "Danh mục"
+  },
+  "influencer": {
+    "title": "K-Beauty Người Ảnh Hưởng",
+    "subtitle": "Theo dõi các influencer làm đẹp và y tế hàng đầu Hàn Quốc.",
+    "field_beauty": "Làm đẹp",
+    "field_plastic": "Phẫu thuật thẩm mỹ",
+    "field_skin": "Chăm sóc da",
+    "followers_label": "Người theo dõi",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "intro_label": "Giới thiệu"
   }
 }

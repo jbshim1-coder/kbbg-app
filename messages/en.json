@@ -10,7 +10,9 @@
     "search": "Search",
     "language": "Language",
     "search_placeholder": "Search clinics, procedures, regions...",
-    "live": "Live Korea"
+    "live": "Live Korea",
+    "cosmetics": "Cosmetics",
+    "influencer": "Influencer"
   },
   "hero": {
     "title": "Find the Perfect Hospital in Korea for You",
@@ -565,5 +567,28 @@
     "search_btn": "Search Clinics",
     "ai_placeholder": "Tell us what you need — AI will find the best hospital for you...",
     "detail_filter": "Detailed Filters"
+  },
+  "cosmetics": {
+    "title": "K-Beauty Cosmetics",
+    "subtitle": "Curated Korean skincare and beauty brands loved worldwide.",
+    "cat_skincare": "Skincare",
+    "cat_makeup": "Makeup",
+    "cat_hair": "Hair",
+    "cat_body": "Body",
+    "all": "All",
+    "price_label": "Price Range",
+    "brand_label": "Brand",
+    "category_label": "Category"
+  },
+  "influencer": {
+    "title": "K-Beauty Influencers",
+    "subtitle": "Follow top Korean beauty and medical influencers.",
+    "field_beauty": "Beauty",
+    "field_plastic": "Plastic Surgery",
+    "field_skin": "Skincare",
+    "followers_label": "Followers",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "intro_label": "About"
   }
 }

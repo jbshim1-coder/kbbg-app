@@ -10,7 +10,9 @@
     "search": "Поиск",
     "language": "Язык",
     "search_placeholder": "Поиск клиник, процедур, регионов...",
-    "live": "Живая Корея"
+    "live": "Живая Корея",
+    "cosmetics": "Косметика",
+    "influencer": "Инфлюенсер"
   },
   "hero": {
     "title": "Найдите идеальную больницу в Корее для вас",
@@ -566,5 +568,28 @@
     "search_btn": "Поиск клиник",
     "ai_placeholder": "Расскажите о ваших потребностях — ИИ найдёт лучшую больницу...",
     "detail_filter": "Подробные фильтры"
+  },
+  "cosmetics": {
+    "title": "K-Beauty Косметика",
+    "subtitle": "Лучшие корейские бренды ухода и красоты.",
+    "cat_skincare": "Уход за кожей",
+    "cat_makeup": "Макияж",
+    "cat_hair": "Волосы",
+    "cat_body": "Тело",
+    "all": "Все",
+    "price_label": "Ценовой диапазон",
+    "brand_label": "Бренд",
+    "category_label": "Категория"
+  },
+  "influencer": {
+    "title": "K-Beauty Инфлюенсеры",
+    "subtitle": "Следите за топовыми корейскими бьюти и медицинскими инфлюенсерами.",
+    "field_beauty": "Красота",
+    "field_plastic": "Пластическая хирургия",
+    "field_skin": "Уход за кожей",
+    "followers_label": "Подписчики",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "intro_label": "О себе"
   }
 }

@@ -10,7 +10,9 @@
     "search": "搜索",
     "language": "语言",
     "search_placeholder": "搜索诊所、项目、地区...",
-    "live": "韩国街头直播"
+    "live": "韩国街头直播",
+    "cosmetics": "化妆品",
+    "influencer": "网红"
   },
   "hero": {
     "title": "找到最适合您的韩国医院",
@@ -566,5 +568,28 @@
     "search_btn": "搜索医院",
     "ai_placeholder": "告诉我们您的需求 — AI将为您找到最佳医院...",
     "detail_filter": "详细筛选"
+  },
+  "cosmetics": {
+    "title": "K-美妆",
+    "subtitle": "全球热爱的韩国护肤美妆品牌精选",
+    "cat_skincare": "护肤",
+    "cat_makeup": "彩妆",
+    "cat_hair": "发护",
+    "cat_body": "身体",
+    "all": "全部",
+    "price_label": "价格区间",
+    "brand_label": "品牌",
+    "category_label": "分类"
+  },
+  "influencer": {
+    "title": "K-美妆达人",
+    "subtitle": "关注韩国美妆与医美网红。",
+    "field_beauty": "美妆",
+    "field_plastic": "整形",
+    "field_skin": "护肤",
+    "followers_label": "粉丝数",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "intro_label": "简介"
   }
 }
