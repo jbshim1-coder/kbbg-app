@@ -590,6 +590,14 @@
     "followers_label": "粉丝数",
     "instagram": "Instagram",
     "youtube": "YouTube",
-    "intro_label": "简介"
+    "intro_label": "简介",
+    "benefit1_title": "收益分成",
+    "benefit1_desc": "通过医院推荐和内容合作获得佣金",
+    "benefit2_title": "免费体验",
+    "benefit2_desc": "在合作医院体验手术，撰写真实评价",
+    "benefit3_title": "数据面板",
+    "benefit3_desc": "实时分析追踪您的表现",
+    "benefit4_title": "全球曝光",
+    "benefit4_desc": "通过平台向8个国家的用户展示内容"
   }
 }

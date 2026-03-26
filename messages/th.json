@@ -590,6 +590,14 @@
     "followers_label": "ผู้ติดตาม",
     "instagram": "Instagram",
     "youtube": "YouTube",
-    "intro_label": "แนะนำตัว"
+    "intro_label": "แนะนำตัว",
+    "benefit1_title": "แบ่งรายได้",
+    "benefit1_desc": "ค่าคอมมิชชันจากการแนะนำคลินิกและพาร์ทเนอร์คอนเทนต์",
+    "benefit2_title": "ทดลองฟรี",
+    "benefit2_desc": "ทดลองหัตถการที่คลินิกพาร์ทเนอร์",
+    "benefit3_title": "แดชบอร์ด",
+    "benefit3_desc": "ติดตามผลงานแบบเรียลไทม์",
+    "benefit4_title": "เปิดตัวทั่วโลก",
+    "benefit4_desc": "เข้าถึงผู้ใช้ใน 8 ประเทศ"
   }
 }

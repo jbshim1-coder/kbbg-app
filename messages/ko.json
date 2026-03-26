@@ -641,6 +641,14 @@
     "followers_label": "팔로워",
     "instagram": "인스타그램",
     "youtube": "유튜브",
-    "intro_label": "소개"
+    "intro_label": "소개",
+    "benefit1_title": "수익 공유",
+    "benefit1_desc": "병원 추천 및 콘텐츠 제휴를 통한 수수료 수익",
+    "benefit2_title": "무료 시술 체험",
+    "benefit2_desc": "제휴 병원에서 시술을 체험하고 진정성 있는 후기 작성",
+    "benefit3_title": "성과 대시보드",
+    "benefit3_desc": "실시간 분석으로 성과를 추적하세요",
+    "benefit4_title": "글로벌 노출",
+    "benefit4_desc": "8개국 사용자에게 콘텐츠를 노출하세요"
   }
 }

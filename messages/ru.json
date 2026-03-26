@@ -590,6 +590,14 @@
     "followers_label": "Подписчики",
     "instagram": "Instagram",
     "youtube": "YouTube",
-    "intro_label": "О себе"
+    "intro_label": "О себе",
+    "benefit1_title": "Разделение дохода",
+    "benefit1_desc": "Комиссии от рекомендаций клиник и контент-партнёрств",
+    "benefit2_title": "Бесплатные процедуры",
+    "benefit2_desc": "Попробуйте процедуры в партнёрских клиниках",
+    "benefit3_title": "Аналитика",
+    "benefit3_desc": "Отслеживайте результаты в реальном времени",
+    "benefit4_title": "Глобальный охват",
+    "benefit4_desc": "Охватите аудиторию в 8 странах"
   }
 }

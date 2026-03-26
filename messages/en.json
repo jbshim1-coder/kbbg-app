@@ -589,6 +589,14 @@
     "followers_label": "Followers",
     "instagram": "Instagram",
     "youtube": "YouTube",
-    "intro_label": "About"
+    "intro_label": "About",
+    "benefit1_title": "Revenue Sharing",
+    "benefit1_desc": "Earn commissions from clinic referrals and content partnerships",
+    "benefit2_title": "Free Treatments",
+    "benefit2_desc": "Experience procedures at partner clinics for authentic reviews",
+    "benefit3_title": "Analytics Dashboard",
+    "benefit3_desc": "Track your performance with real-time analytics",
+    "benefit4_title": "Global Exposure",
+    "benefit4_desc": "Reach audiences in 8 countries through our platform"
   }
 }

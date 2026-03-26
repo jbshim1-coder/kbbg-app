@@ -590,6 +590,14 @@
     "followers_label": "Дагагчид",
     "instagram": "Instagram",
     "youtube": "YouTube",
-    "intro_label": "Танилцуулга"
+    "intro_label": "Танилцуулга",
+    "benefit1_title": "Орлого хуваалцах",
+    "benefit1_desc": "Эмнэлэг санал болгох, агуулга хамтрахаас шимтгэл",
+    "benefit2_title": "Үнэгүй туршилт",
+    "benefit2_desc": "Түнш эмнэлгүүдэд эмчилгээ туршиж үзэх",
+    "benefit3_title": "Аналитик",
+    "benefit3_desc": "Бодит цагийн шинжилгээгээр гүйцэтгэлээ хянах",
+    "benefit4_title": "Дэлхийн хэмжээнд",
+    "benefit4_desc": "8 орны хэрэглэгчдэд хүрэх"
   }
 }

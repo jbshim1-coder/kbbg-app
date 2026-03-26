@@ -590,6 +590,14 @@
     "followers_label": "フォロワー",
     "instagram": "Instagram",
     "youtube": "YouTube",
-    "intro_label": "紹介"
+    "intro_label": "紹介",
+    "benefit1_title": "収益シェア",
+    "benefit1_desc": "クリニック紹介とコンテンツ提携で報酬獲得",
+    "benefit2_title": "無料施術体験",
+    "benefit2_desc": "提携クリニックで施術を体験しレビュー作成",
+    "benefit3_title": "分析ダッシュボード",
+    "benefit3_desc": "リアルタイム分析で成果を追跡",
+    "benefit4_title": "グローバル露出",
+    "benefit4_desc": "8カ国のユーザーにコンテンツを配信"
   }
 }
