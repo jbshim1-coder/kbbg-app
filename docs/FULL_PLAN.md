@@ -1,6 +1,6 @@
 # K-Beauty Buyers Guide — 통합 기획서
 
-> 작성일: 2026-03-26
+> 작성일: 2026-03-27
 > 원본 기획서(개발 전) + 최신 개발 현황 통합본
 
 ---
@@ -197,27 +197,34 @@
 | 17 | 시드 데이터 (병원30, 게시글20, FAQ30, 시술20) | ✅ 완료 |
 | 18 | Vercel 배포 + GitHub 자동 배포 연동 | ✅ 완료 |
 | 19 | 스팸 방지 시스템 (설계) | ✅ 완료 |
-| 20 | 심평원 API 클라이언트 + 동기화 코드 | ✅ 완료 |
-| 21 | Google Places API 클라이언트 | ✅ 완료 |
-| 22 | 심평원 실제 데이터 수집 | ⏳ API 활성화 대기 중 |
-| 23 | Google Places 별점 연동 | ⏳ API 키 설정 필요 |
-| 24 | Vercel 환경변수 (HIRA_API_KEY, GOOGLE_PLACES_API_KEY) | ❌ 미완료 |
-| 25 | 도메인 연결 (kbeautybuyersguide.com) | ❌ 미완료 |
-| 26 | Google Analytics | ❌ 미완료 |
-| 27 | 라이브캠 추가 (24시간 검증 채널) | ❌ 미완료 |
-| 28 | AI 추천 실제 엔진 (Claude API) | ❌ 미완료 |
-| 29 | Vercel Cron (매일 데이터 동기화) | ❌ 미완료 |
+| 20 | 심평원 병원정보서비스 API 실데이터 연동 (79,569개 병원) | ✅ 완료 |
+| 21 | 메인 조건 검색 → 심평원 실데이터 즉시 표시 (페이지 이동 없음) | ✅ 완료 |
+| 22 | AI 검색 기능 (자연어 입력 → 서술형 결과) | ✅ 완료 |
+| 23 | 관리자 모드 (admin@2bstory.com / kbbg2026!admin) | ✅ 완료 |
+| 24 | 회원관리 대시보드 | ✅ 완료 |
+| 25 | 광고관리 대시보드 | ✅ 완료 |
+| 26 | 검색 결과 최상단 광고 노출 (광고 표시) | ✅ 완료 |
+| 27 | Google Places API 클라이언트 준비 | ✅ 완료 |
+| 28 | Google Places 별점 연동 | ⏳ API 키 설정 필요 |
+| 29 | Vercel 환경변수 (HIRA_API_KEY, GOOGLE_PLACES_API_KEY) | ❌ 미완료 |
+| 30 | 도메인 연결 (kbeautybuyersguide.com) | ❌ 미완료 |
+| 31 | Google Analytics | ❌ 미완료 |
+| 32 | Claude API 연동 (AI 검색 고도화) | ❌ 미완료 |
+| 33 | Cloudinary 이미지 업로드 연동 | ❌ 미완료 |
+| 34 | 라이브캠 추가 (24시간 검증 채널) | ❌ 미완료 |
+| 35 | Vercel Cron (매일 데이터 동기화) | ❌ 미완료 |
 
 ---
 
 ## 5. 데이터 소스
 
-### 5-1. 심평원 의료기관 상세정보 API
+### 5-1. 심평원 병원정보서비스 API (실데이터 연동 완료)
 
 - **출처**: 건강보험심사평가원 (hira.or.kr) / 공공데이터포털 (data.go.kr)
-- **Endpoint**: `https://apis.data.go.kr/B551182/MadmDtlInfoService2.7`
-- **수집 방식**: 하루 1회 Supabase에 저장, 매일 갱신
-- **API 키 상태**: 발급 완료, 데이터 활성화 대기 중
+- **Endpoint**: `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList`
+- **연동 상태**: **실데이터 연동 완료** (79,569개 병원)
+- **수집 방식**: 하루 1회 Supabase에 저장, 매일 갱신 (예정)
+- **메인 기능**: 조건 검색 시 페이지 이동 없이 즉시 결과 표시
 
 | 오퍼레이션 | 정보 | 주요 표시 필드 |
 |-----------|------|--------------|
@@ -781,14 +788,17 @@ PostgreSQL 업서트 (이력 보존)
 | Supabase DB | ✅ 연결 |
 | Vercel 배포 | ✅ 라이브 (https://kbbg-app.vercel.app) |
 | GitHub 연동 | ✅ 자동 배포 |
-| 심평원 API 코드 | ✅ 완료 |
-| Google Places 코드 | ✅ 완료 |
-| 심평원 데이터 활성화 | ⏳ 대기 중 |
-| Google Places API 연동 | ⏳ API 키 설정 필요 |
+| 심평원 실데이터 연동 | ✅ 완료 (79,569개 병원) |
+| AI 검색 기능 | ✅ 완료 (자연어 → 서술형 결과) |
+| 관리자 모드 | ✅ 완료 (admin@2bstory.com) |
+| 광고 관리 | ✅ 완료 (검색 결과 최상단 노출) |
+| Google Places API 클라이언트 | ✅ 준비 완료 |
+| Google Places 별점 연동 | ⏳ API 키 설정 필요 |
+| Cloudinary 이미지 업로드 | ⏳ 계획 완료, 연동 예정 |
 | 도메인 연결 | ❌ 미완료 |
 | Google Analytics | ❌ 미완료 |
 | Vercel 환경변수 설정 | ❌ 미완료 |
-| AI 추천 실제 엔진 | ❌ 미완료 |
+| Claude API 연동 (AI 고도화) | ❌ 미완료 |
 | Vercel Cron 자동화 | ❌ 미완료 |
 
 ---
@@ -797,11 +807,11 @@ PostgreSQL 업서트 (이력 보존)
 
 | 순서 | 할 일 | 상태 |
 |------|------|------|
-| 1 | 심평원 API 데이터 활성화 확인 → 실제 수집 | ⏳ |
-| 2 | Google Places API 연동 (구글별점) | ⏳ |
-| 3 | Vercel에 HIRA_API_KEY, GOOGLE_PLACES_API_KEY 환경변수 추가 | ❌ |
-| 4 | Vercel Cron 설정 (매일 데이터 동기화) | ❌ |
-| 5 | AI 추천 실제 엔진 연결 (Claude API) | ❌ |
+| 1 | Google Places API 별점 연동 (구글별점 + 리뷰수) | ⏳ |
+| 2 | Claude API 연동 (AI 검색 고도화) | ❌ |
+| 3 | Cloudinary 이미지 업로드 연동 | ❌ |
+| 4 | Vercel에 HIRA_API_KEY, GOOGLE_PLACES_API_KEY 환경변수 추가 | ❌ |
+| 5 | Vercel Cron 설정 (매일 데이터 동기화) | ❌ |
 | 6 | 도메인 구매 + 연결 (kbeautybuyersguide.com) | ❌ |
 | 7 | Google Analytics 설정 | ❌ |
 | 8 | 라이브캠 추가 (24시간 검증된 채널 발굴) | ❌ |

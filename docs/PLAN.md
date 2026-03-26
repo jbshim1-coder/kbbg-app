@@ -1,6 +1,6 @@
 # K-Beauty Buyers Guide — 개발 기준 문서
 
-> 최종 업데이트: 2026-03-26
+> 최종 업데이트: 2026-03-27
 > 개발자용 핵심 참조 문서
 
 ---
@@ -21,22 +21,29 @@
 | 10 | Google 로그인 (OAuth + Supabase Auth) | ✅ |
 | 11 | 마이페이지 (프로필/내 글/내 댓글/AI 추천 이력) | ✅ |
 | 12 | 통합 검색 | ✅ |
-| 13 | 관리자 대시보드 (6페이지) | ✅ |
+| 13 | 관리자 대시보드 (회원관리/광고관리 포함) | ✅ |
 | 14 | 법적 페이지 (약관/개인정보/면책/가이드/안전/신고) | ✅ |
 | 15 | Contact 폼 → Supabase 저장 | ✅ |
 | 16 | SEO (sitemap.xml, robots.txt, OG태그) | ✅ |
 | 17 | 시드 데이터 (병원 30, 게시글 20, FAQ 30, 시술 20) | ✅ |
 | 18 | Vercel 배포 + GitHub 자동 배포 | ✅ |
 | 19 | 스팸 방지 시스템 (설계 완료) | ✅ |
-| 20 | Google Places API 클라이언트 코드 | ✅ |
-| 21 | 심평원 API 데이터 실제 수집 | ⏳ API 활성화 대기 |
-| 22 | Google Places 별점 연동 | ⏳ API 키 설정 필요 |
-| 23 | Vercel 환경변수 등록 | ❌ |
-| 24 | Vercel Cron (매일 자동 동기화) | ❌ |
-| 25 | AI 추천 실제 엔진 (Claude API) | ❌ |
-| 26 | 도메인 연결 (kbeautybuyersguide.com) | ❌ |
-| 27 | Google Analytics | ❌ |
-| 28 | 라이브캠 추가 채널 (24시간 검증) | ❌ |
+| 20 | Google Places API 클라이언트 코드 준비 | ✅ |
+| 21 | 심평원 병원정보서비스 API 실데이터 연동 (79,569개 병원) | ✅ |
+| 22 | 메인 조건 검색 → 심평원 실데이터 즉시 표시 (페이지 이동 없음) | ✅ |
+| 23 | AI 검색 기능 (자연어 입력 → 서술형 결과) | ✅ |
+| 24 | 관리자 모드 (admin@2bstory.com / kbbg2026!admin) | ✅ |
+| 25 | 회원관리 대시보드 | ✅ |
+| 26 | 광고관리 대시보드 | ✅ |
+| 27 | 검색 결과 최상단 광고 노출 (광고 표시) | ✅ |
+| 28 | Google Places 별점 연동 | ⏳ API 키 설정 필요 |
+| 29 | Vercel 환경변수 등록 | ❌ |
+| 30 | Vercel Cron (매일 자동 동기화) | ❌ |
+| 31 | AI 추천 실제 엔진 고도화 (Claude API) | ❌ |
+| 32 | 도메인 연결 (kbeautybuyersguide.com) | ❌ |
+| 33 | Google Analytics | ❌ |
+| 34 | Cloudinary 이미지 업로드 연동 | ❌ |
+| 35 | 라이브캠 추가 채널 (24시간 검증) | ❌ |
 
 ---
 
@@ -44,17 +51,16 @@
 
 | 순서 | 할 일 |
 |------|------|
-| 1 | 심평원 API 데이터 활성화 확인 → 실제 수집 테스트 |
+| 1 | Google Places API 별점 연동 (구글별점 + 리뷰수) |
 | 2 | Vercel에 환경변수 추가: `HIRA_API_KEY`, `GOOGLE_PLACES_API_KEY` |
-| 3 | Google Places API 연동 (구글별점 + 리뷰수) |
-| 4 | Vercel Cron 설정 (매일 심평원 + Google Places 동기화) |
-| 5 | AI 추천 실제 엔진 연결 (Claude API) |
-| 6 | 도메인 구매 + Vercel 연결 (kbeautybuyersguide.com) |
-| 7 | Google Analytics 설정 |
-| 8 | 라이브캠 추가 (24시간 검증된 채널 발굴) |
-| 9 | 커뮤니티 이미지 업로드 → Cloudinary 연동 (Supabase 1GB 제한 대응) |
-| 10 | 이미지 업로드 시 자동 압축/리사이즈 (1장당 1MB 이하) |
-| 11 | 게시글당 이미지 업로드 개수 제한 (최대 3장) |
+| 3 | Vercel Cron 설정 (매일 심평원 + Google Places 동기화) |
+| 4 | Claude API 연동 (AI 검색 고도화) |
+| 5 | 도메인 구매 + Vercel 연결 (kbeautybuyersguide.com) |
+| 6 | Google Analytics 설정 |
+| 7 | Cloudinary 이미지 업로드 연동 (Supabase 1GB 제한 대응) |
+| 8 | 이미지 업로드 시 자동 압축/리사이즈 (1장당 1MB 이하) |
+| 9 | 게시글당 이미지 업로드 개수 제한 (최대 3장) |
+| 10 | 라이브캠 추가 (24시간 검증된 채널 발굴) |
 
 ---
 
@@ -76,11 +82,12 @@
 
 ## 4. 데이터 소스
 
-### 심평원 의료기관 상세정보 API
+### 심평원 병원정보서비스 API (실데이터 연동 완료)
 
-- Endpoint: `https://apis.data.go.kr/B551182/MadmDtlInfoService2.7`
-- 수집 주기: 하루 1회 (Vercel Cron) → Supabase `clinics` 테이블 저장
-- API 키 상태: 발급 완료, 데이터 활성화 대기 중
+- Endpoint: `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList`
+- 연동 상태: **실데이터 연동 완료** (79,569개 병원)
+- 메인 페이지에서 조건 검색 시 페이지 이동 없이 즉시 결과 표시
+- 수집 주기: 하루 1회 (Vercel Cron, 예정) → Supabase `clinics` 테이블 저장
 
 | 오퍼레이션 | 수집 정보 |
 |-----------|---------|
