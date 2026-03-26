@@ -20,8 +20,7 @@
     "title_2": "韓国美容クリニックを探そう",
     "cta_recommend": "AIおすすめを始める",
     "cta_community": "コミュニティを見る",
-    "social_proof": "{count}人がおすすめを受けました",
-    "ai_question": "どの病院をお探しですか？"
+    "social_proof": "{count}人がおすすめを受けました"
   },
   "trust": {
     "clinics": "クリニックデータ",
@@ -554,8 +553,6 @@
     "rating_2": "2点以上",
     "all_specialist": "専門医",
     "has_specialist": "専門医あり",
-    "search_btn": "クリニック検索",
-    "ai_placeholder": "病院名、施術、地域で検索...",
-    "detail_filter": "詳細フィルター"
+    "search_btn": "クリニック検索"
   }
 }

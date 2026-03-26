@@ -20,8 +20,7 @@
     "title_2": "Korean Beauty Clinic",
     "cta_recommend": "Start AI Recommendation",
     "cta_community": "View Community",
-    "social_proof": "{count} people have received recommendations",
-    "ai_question": "What hospital are you looking for?"
+    "social_proof": "{count} people have received recommendations"
   },
   "trust": {
     "clinics": "Clinic Data",
@@ -553,8 +552,6 @@
     "rating_2": "2+ Stars",
     "all_specialist": "Specialist",
     "has_specialist": "Has Specialist",
-    "search_btn": "Search Clinics",
-    "ai_placeholder": "Search by hospital name, procedure, or region...",
-    "detail_filter": "Detailed Filters"
+    "search_btn": "Search Clinics"
   }
 }

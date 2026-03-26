@@ -20,8 +20,7 @@
     "title_2": "ที่เหมาะกับคุณที่สุด",
     "cta_recommend": "เริ่มรับคำแนะนำจาก AI",
     "cta_community": "ดูชุมชน",
-    "social_proof": "มีผู้รับคำแนะนำแล้ว {count} คน",
-    "ai_question": "คุณกำลังมองหาโรงพยาบาลอะไร?"
+    "social_proof": "มีผู้รับคำแนะนำแล้ว {count} คน"
   },
   "trust": {
     "clinics": "ข้อมูลคลินิก",
@@ -554,8 +553,6 @@
     "rating_2": "2+ ดาว",
     "all_specialist": "แพทย์เฉพาะทาง",
     "has_specialist": "มีแพทย์เฉพาะทาง",
-    "search_btn": "ค้นหาคลินิก",
-    "ai_placeholder": "ค้นหาตามชื่อ หัตถการ หรือพื้นที่...",
-    "detail_filter": "ตัวกรองละเอียด"
+    "search_btn": "ค้นหาคลินิก"
   }
 }
