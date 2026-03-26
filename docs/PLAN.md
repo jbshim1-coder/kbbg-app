@@ -52,6 +52,9 @@
 | 6 | 도메인 구매 + Vercel 연결 (kbeautybuyersguide.com) |
 | 7 | Google Analytics 설정 |
 | 8 | 라이브캠 추가 (24시간 검증된 채널 발굴) |
+| 9 | 커뮤니티 이미지 업로드 → Cloudinary 연동 (Supabase 1GB 제한 대응) |
+| 10 | 이미지 업로드 시 자동 압축/리사이즈 (1장당 1MB 이하) |
+| 11 | 게시글당 이미지 업로드 개수 제한 (최대 3장) |
 
 ---
 
