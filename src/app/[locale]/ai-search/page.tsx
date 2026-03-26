@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -26,7 +26,15 @@ function buildNarrativeIntro(query: string, results: HiraClinic[], totalCount: n
   return `"${query}"(으)로 검색한 결과입니다.\n\n총 ${totalCount.toLocaleString()}개의 병원이 있으며, 상위 ${topCount}곳을 보여드립니다:`;
 }
 
-export default function AiSearchPage() {
+export default function AiSearchPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-400">Loading...</div>}>
+      <AiSearchContent />
+    </Suspense>
+  );
+}
+
+function AiSearchContent() {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const router = useRouter();
