@@ -11,9 +11,8 @@ export default function AiSearchBox({ locale }: { locale: string }) {
   const [query, setQuery] = useState("");
 
   const handleSubmit = () => {
-    // AI 추천 페이지로 이동 (검색어 전달)
-    const params = query ? `?q=${encodeURIComponent(query)}` : "";
-    router.push(`/${locale}/recommend${params}`);
+    if (!query.trim()) return;
+    router.push(`/${locale}/ai-search?q=${encodeURIComponent(query.trim())}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -44,6 +43,13 @@ export default function AiSearchBox({ locale }: { locale: string }) {
           </span>
         </div>
 
+        {/* AI 추천 시작 버튼 */}
+        <button
+          onClick={handleSubmit}
+          className="mt-4 px-6 py-2.5 bg-pink-500 hover:bg-pink-600 text-white text-sm font-medium rounded-full transition-colors"
+        >
+          AI 추천 시작
+        </button>
       </div>
     </div>
   );

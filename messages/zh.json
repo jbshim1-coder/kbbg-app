@@ -366,6 +366,15 @@
     "s7_contact_prefix": "有关免责声明的咨询，请联系",
     "s7_contact_suffix": "。"
   },
+  "ai_search": {
+    "title": "AI搜索结果",
+    "thinking": "AI正在分析中...",
+    "found": "找到搜索结果",
+    "no_results": "未找到符合条件的诊所",
+    "more_filter": "使用更多条件搜索",
+    "specialist_count": "专科医生 {count}名",
+    "languages": "外语支持"
+  },
   "not_found": {
     "title": "页面未找到",
     "description": "您查找的页面不存在或已被移动。\n请检查网址或使用以下链接。",

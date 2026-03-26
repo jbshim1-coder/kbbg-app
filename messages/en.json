@@ -365,6 +365,15 @@
     "s7_contact_prefix": "For inquiries regarding this disclaimer, please contact",
     "s7_contact_suffix": "."
   },
+  "ai_search": {
+    "title": "AI Search Results",
+    "thinking": "AI is analyzing...",
+    "found": "Search results found",
+    "no_results": "No clinics found matching your criteria",
+    "more_filter": "Search with more filters",
+    "specialist_count": "{count} specialists",
+    "languages": "Languages supported"
+  },
   "not_found": {
     "title": "Page Not Found",
     "description": "The page you are looking for does not exist or has been moved.\nPlease check the URL or use the links below.",

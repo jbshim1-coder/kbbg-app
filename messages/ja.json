@@ -366,6 +366,15 @@
     "s7_contact_prefix": "免責事項に関するお問い合わせは",
     "s7_contact_suffix": "までご連絡ください。"
   },
+  "ai_search": {
+    "title": "AI検索結果",
+    "thinking": "AIが分析中です...",
+    "found": "検索結果が見つかりました",
+    "no_results": "条件に一致するクリニックが見つかりませんでした",
+    "more_filter": "条件を絞って検索する",
+    "specialist_count": "専門医 {count}名",
+    "languages": "外国語対応"
+  },
   "not_found": {
     "title": "ページが見つかりません",
     "description": "お探しのページは存在しないか、移動された可能性があります。\nURLをご確認いただくか、以下のリンクをご利用ください。",

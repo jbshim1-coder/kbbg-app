@@ -365,6 +365,15 @@
     "s7_contact_prefix": "본 면책조항에 관한 문의는",
     "s7_contact_suffix": "으로 연락주시기 바랍니다."
   },
+  "ai_search": {
+    "title": "AI 검색 결과",
+    "thinking": "AI가 분석 중입니다...",
+    "found": "검색 결과를 찾았습니다",
+    "no_results": "조건에 맞는 병원을 찾지 못했습니다",
+    "more_filter": "조건 검색으로 더 찾기",
+    "specialist_count": "전문의 {count}명",
+    "languages": "외국어 지원"
+  },
   "not_found": {
     "title": "페이지를 찾을 수 없습니다",
     "description": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",

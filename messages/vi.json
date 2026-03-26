@@ -366,6 +366,15 @@
     "s7_contact_prefix": "Mọi thắc mắc về tuyên bố miễn trách nhiệm, vui lòng liên hệ",
     "s7_contact_suffix": "."
   },
+  "ai_search": {
+    "title": "Kết quả tìm kiếm AI",
+    "thinking": "AI đang phân tích...",
+    "found": "Đã tìm thấy kết quả",
+    "no_results": "Không tìm thấy phòng khám phù hợp",
+    "more_filter": "Tìm kiếm với nhiều bộ lọc hơn",
+    "specialist_count": "{count} bác sĩ chuyên khoa",
+    "languages": "Ngôn ngữ hỗ trợ"
+  },
   "not_found": {
     "title": "Không tìm thấy trang",
     "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.\nVui lòng kiểm tra URL hoặc sử dụng các liên kết bên dưới.",
