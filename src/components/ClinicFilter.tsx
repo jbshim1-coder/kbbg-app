@@ -94,7 +94,9 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       const params = new URLSearchParams();
       if (region) params.set("region", region);
       if (specialty) params.set("subject", specialty);
-      if (clinicType && clinicType !== "specialized") params.set("type", clinicType);
+      // 병원 유형 미선택 시 기본값 의원(31) — 전문 클리닉 중심 검색
+      const typeValue = clinicType && clinicType !== "specialized" ? clinicType : "31";
+      params.set("type", typeValue);
       params.set("page", String(newPage));
 
       const res = await fetch(`/api/hira?${params.toString()}`);
