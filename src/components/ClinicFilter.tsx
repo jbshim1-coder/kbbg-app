@@ -138,15 +138,6 @@ export default function ClinicFilter({ locale }: { locale: string }) {
         </button>
       </div>
 
-      {/* 병원명 검색 */}
-      <input
-        type="text"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        placeholder={locale === "ko" ? "병원명으로 검색..." : "Search by clinic name..."}
-        className="w-full mb-3 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
-      />
-
       {/* 필터 그리드 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
         {/* 진료과 */}
