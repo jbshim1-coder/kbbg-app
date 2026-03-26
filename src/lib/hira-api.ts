@@ -19,6 +19,8 @@ export interface HiraClinic {
   XPos: string;         // 경도
   YPos: string;         // 위도
   ykiho: string;        // 요양기관기호 (고유 ID)
+  googleRating: number | null;      // 구글 별점 (API 응답 후 추가)
+  googleReviewCount: number | null; // 구글 리뷰 수 (API 응답 후 추가)
 }
 
 // API 응답 구조

@@ -207,6 +207,12 @@ export default function ClinicFilter({ locale }: { locale: string }) {
                     {(clinic.mdeptSdrCnt || clinic.sdrCnt) > 0 && (
                       <span>🏅 {isKo ? `전문의 ${clinic.mdeptSdrCnt || clinic.sdrCnt}명` : `${clinic.mdeptSdrCnt || clinic.sdrCnt} specialists`}</span>
                     )}
+                    {clinic.googleRating && clinic.googleRating > 0 && (
+                      <span className="text-yellow-600 font-medium">
+                        ⭐ {clinic.googleRating.toFixed(1)} 구글별점
+                        {clinic.googleReviewCount ? ` · 리뷰 ${clinic.googleReviewCount.toLocaleString()}건` : ""}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
