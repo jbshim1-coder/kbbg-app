@@ -20,8 +20,7 @@
     "title_2": "韩国美容诊所",
     "cta_recommend": "开始AI推荐",
     "cta_community": "查看社区",
-    "social_proof": "已有{count}人获得推荐",
-    "ai_question": "您在寻找什么医院？"
+    "social_proof": "已有{count}人获得推荐"
   },
   "trust": {
     "clinics": "诊所数据",
@@ -554,7 +553,6 @@
     "rating_2": "2分以上",
     "all_specialist": "专科医生",
     "has_specialist": "有专科医生",
-    "search_btn": "搜索医院",
-    "ai_placeholder": "告诉我们您的需求 — AI将为您找到最佳医院..."
+    "search_btn": "搜索医院"
   }
 }

@@ -185,11 +185,15 @@ export default function ClinicFilter({ locale }: { locale: string }) {
         </select>
       </div>
 
-      {/* 병원 검색 버튼 */}
-      <div className="mt-5">
+      {/* 버튼 */}
+      <div className="mt-5 flex flex-col sm:flex-row gap-3">
         <button onClick={handleSearch}
-          className="w-full rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 transition">
+          className="flex-1 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 transition">
           {t("filter.search_btn" as Parameters<typeof t>[0])}
+        </button>
+        <button onClick={() => router.push(`/${locale}/recommend`)}
+          className="flex-1 rounded-xl bg-pink-500 px-6 py-3 text-sm font-semibold text-white hover:bg-pink-600 transition">
+          {t("hero.cta_recommend" as Parameters<typeof t>[0])}
         </button>
       </div>
     </div>
