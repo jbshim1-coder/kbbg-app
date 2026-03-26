@@ -74,6 +74,13 @@ const DOCTOR_COUNTS = [
   { value: "11", label: "11명 이상" },
 ];
 
+// 홈페이지 여부
+const WEBSITE = [
+  { value: "", label: "홈페이지" },
+  { value: "yes", label: "있음" },
+  { value: "no", label: "없음" },
+];
+
 // 구글 평점
 const RATINGS = [
   { value: "", label: "구글 평점" },
@@ -96,6 +103,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
   const [specialist, setSpecialist] = useState("");
   const [doctorCount, setDoctorCount] = useState("");
   const [rating, setRating] = useState("");
+  const [website, setWebsite] = useState("");
 
   // 병원 검색 실행
   const handleSearch = () => {
@@ -107,14 +115,14 @@ export default function ClinicFilter({ locale }: { locale: string }) {
     if (specialist) params.set("specialist", specialist);
     if (doctorCount) params.set("doctors", doctorCount);
     if (rating) params.set("rating", rating);
-    if (language) params.set("lang", language);
+    if (website) params.set("website", website);
     router.push(`/${locale}/hospitals?${params.toString()}`);
   };
 
   // 초기화
   const handleReset = () => {
     setKeyword(""); setSpecialty(""); setRegion(""); setClinicType("");
-    setSpecialist(""); setDoctorCount(""); setRating("");
+    setSpecialist(""); setDoctorCount(""); setRating(""); setWebsite("");
   };
 
   const selectClass = "w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 appearance-none";
@@ -171,6 +179,10 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           {RATINGS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
 
+        {/* 홈페이지 */}
+        <select value={website} onChange={(e) => setWebsite(e.target.value)} className={selectClass}>
+          {WEBSITE.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
       </div>
 
       {/* 버튼 */}
