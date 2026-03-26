@@ -19,7 +19,8 @@
     "cta_community": "커뮤니티 보기",
     "social_proof": "{count}명이 추천 받았습니다",
     "title_1": "당신에게 딱 맞는",
-    "title_2": "한국 뷰티 클리닉"
+    "title_2": "한국 뷰티 클리닉",
+    "ai_question": "지금 어떤 병원을 찾으시나요?"
   },
   "trust": {
     "clinics": "병원 데이터",
@@ -604,6 +605,8 @@
     "rating_2": "2점 이상",
     "all_specialist": "전문의 여부",
     "has_specialist": "전문의 있음",
-    "search_btn": "병원 검색"
+    "search_btn": "병원 검색",
+    "ai_placeholder": "어떤 병원이 필요한지 알려주세요 — AI가 최적의 병원을 찾아드립니다...",
+    "detail_filter": "상세 필터"
   }
 }
