@@ -23,20 +23,30 @@ export default async function HomePage({
 
   return (
     <main className="min-h-screen">
-      {/* 히어로 섹션 */}
-      <section className="bg-gradient-to-br from-pink-50 to-blue-50 px-4 py-20 text-center">
-        <div className="mx-auto max-w-3xl">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl whitespace-nowrap">
-            {t("hero.title")}
+      {/* AI 추천 섹션 — 검색창 스타일 */}
+      <section className="bg-white px-4 pt-16 pb-10">
+        <div className="mx-auto max-w-3xl text-center">
+          <h1 className="text-2xl font-semibold text-gray-800 sm:text-3xl">
+            {t("hero.ai_question")}
           </h1>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-3 text-sm text-gray-400">
             {t("hero.subtitle")}
           </p>
+          {/* AI 검색창 — 클릭 시 AI 추천 페이지로 이동 */}
+          <div
+            onClick={() => {}}
+            className="mt-8 mx-auto max-w-2xl flex items-center bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow px-5 py-3.5 cursor-pointer"
+          >
+            <span className="text-gray-300 text-lg">🔍</span>
+            <a href={`/${locale}/recommend`} className="flex-1 ml-3 text-sm text-gray-400 text-left">
+              {t("filter.ai_placeholder")}
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* 병원 필터 검색 + AI 추천 */}
-      <section className="px-4 py-14">
+      {/* 병원 조건 검색 — 필터 드롭다운 */}
+      <section className="bg-gray-50 px-4 py-10">
         <div className="mx-auto max-w-4xl">
           <ClinicFilter locale={locale} />
         </div>
