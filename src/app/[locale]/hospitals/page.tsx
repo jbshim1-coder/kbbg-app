@@ -82,13 +82,7 @@ export default function HospitalsPage() {
 
         {/* 검색 폼 */}
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "병원명" : "Clinic Name"}</label>
-              <input type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)}
-                placeholder={isKo ? "병원명 입력" : "Enter clinic name"}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "지역" : "Region"}</label>
               <select value={region} onChange={(e) => setRegion(e.target.value)}
