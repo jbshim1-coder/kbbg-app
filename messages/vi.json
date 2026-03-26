@@ -20,7 +20,8 @@
     "title_2": "thẩm mỹ Hàn Quốc hoàn hảo cho bạn",
     "cta_recommend": "Bắt đầu AI đề xuất",
     "cta_community": "Xem cộng đồng",
-    "social_proof": "{count} người đã nhận được đề xuất"
+    "social_proof": "{count} người đã nhận được đề xuất",
+    "ai_question": "Bạn đang tìm bệnh viện nào?"
   },
   "trust": {
     "clinics": "Dữ liệu phòng khám",
@@ -553,6 +554,8 @@
     "rating_2": "2+ sao",
     "all_specialist": "Chuyên gia",
     "has_specialist": "Có chuyên gia",
-    "search_btn": "Tìm kiếm"
+    "search_btn": "Tìm kiếm",
+    "ai_placeholder": "Tìm theo tên bệnh viện, thủ thuật hoặc khu vực...",
+    "detail_filter": "Bộ lọc chi tiết"
   }
 }

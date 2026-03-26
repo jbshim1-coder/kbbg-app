@@ -23,21 +23,21 @@ export default async function HomePage({
 
   return (
     <main className="min-h-screen">
-      {/* 히어로 섹션 */}
-      <section className="bg-gradient-to-br from-pink-50 to-blue-50 px-4 py-20 text-center">
-        <div className="mx-auto max-w-3xl">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl whitespace-nowrap">
-            {t("hero.title")}
+      {/* AI 검색 스타일 히어로 */}
+      <section className="bg-white px-4 pt-16 pb-10">
+        <div className="mx-auto max-w-3xl text-center">
+          <h1 className="text-2xl font-semibold text-gray-800 sm:text-3xl">
+            {t("hero.ai_question")}
           </h1>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-3 text-sm text-gray-400">
             {t("hero.subtitle")}
           </p>
         </div>
       </section>
 
-      {/* 병원 필터 검색 + AI 추천 */}
-      <section className="px-4 py-14">
-        <div className="mx-auto max-w-4xl">
+      {/* 병원 필터 검색 */}
+      <section className="px-4 pb-14">
+        <div className="mx-auto max-w-3xl">
           <ClinicFilter locale={locale} />
         </div>
       </section>
