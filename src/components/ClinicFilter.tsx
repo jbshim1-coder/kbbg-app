@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 
 // 진료과목 전체 (심평원 SUBJECT_CODES)
 const SPECIALTIES = [
-  { value: "", label: "전체 진료과" },
+  { value: "", label: "진료과 선택" },
   { value: "08", label: "성형외과" },
   { value: "14", label: "피부과" },
   { value: "49", label: "치과" },
@@ -26,7 +26,7 @@ const SPECIALTIES = [
 
 // 시도 전체 (심평원 SIDO_CODES)
 const REGIONS = [
-  { value: "", label: "전체 지역" },
+  { value: "", label: "지역 선택" },
   { value: "110000", label: "서울" },
   { value: "210000", label: "부산" },
   { value: "220000", label: "대구" },
@@ -48,18 +48,20 @@ const REGIONS = [
 
 // 종별코드 (기관 유형)
 const CLINIC_TYPES = [
-  { value: "", label: "전체 유형" },
+  { value: "", label: "병원 유형" },
   { value: "01", label: "상급종합병원" },
   { value: "11", label: "종합병원" },
   { value: "21", label: "병원" },
   { value: "28", label: "요양병원" },
   { value: "31", label: "의원" },
+  { value: "specialized", label: "전문병원" },
 ];
 
-// 전문의 여부
+// 전문의 / 일반의
 const SPECIALIST = [
-  { value: "", label: "전문의 여부" },
-  { value: "yes", label: "전문의 있음" },
+  { value: "", label: "전문의/일반의" },
+  { value: "specialist", label: "전문의" },
+  { value: "general", label: "일반의" },
 ];
 
 // 의사 수 (원장 수)
@@ -82,29 +84,6 @@ const RATINGS = [
   { value: "2", label: "2점 이상" },
 ];
 
-// 외국어 지원
-const LANGUAGES = [
-  { value: "", label: "외국어 지원" },
-  { value: "en", label: "English" },
-  { value: "zh", label: "中文" },
-  { value: "ja", label: "日本語" },
-  { value: "ru", label: "Русский" },
-  { value: "vi", label: "Tiếng Việt" },
-  { value: "th", label: "ภาษาไทย" },
-  { value: "mn", label: "Монгол" },
-];
-
-// 홈페이지 여부
-const WEBSITE = [
-  { value: "", label: "홈페이지" },
-  { value: "yes", label: "홈페이지 있음" },
-];
-
-// 전문병원 여부
-const SPECIALIZED = [
-  { value: "", label: "전문병원" },
-  { value: "yes", label: "전문병원 지정" },
-];
 
 export default function ClinicFilter({ locale }: { locale: string }) {
   const t = useTranslations();
@@ -117,9 +96,6 @@ export default function ClinicFilter({ locale }: { locale: string }) {
   const [specialist, setSpecialist] = useState("");
   const [doctorCount, setDoctorCount] = useState("");
   const [rating, setRating] = useState("");
-  const [language, setLanguage] = useState("");
-  const [website, setWebsite] = useState("");
-  const [specialized, setSpecialized] = useState("");
 
   // 병원 검색 실행
   const handleSearch = () => {
@@ -132,15 +108,13 @@ export default function ClinicFilter({ locale }: { locale: string }) {
     if (doctorCount) params.set("doctors", doctorCount);
     if (rating) params.set("rating", rating);
     if (language) params.set("lang", language);
-    if (website) params.set("website", website);
-    if (specialized) params.set("specialized", specialized);
     router.push(`/${locale}/hospitals?${params.toString()}`);
   };
 
   // 초기화
   const handleReset = () => {
     setKeyword(""); setSpecialty(""); setRegion(""); setClinicType("");
-    setSpecialist(""); setDoctorCount(""); setRating(""); setLanguage(""); setWebsite(""); setSpecialized("");
+    setSpecialist(""); setDoctorCount(""); setRating("");
   };
 
   const selectClass = "w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 appearance-none";
@@ -197,20 +171,6 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           {RATINGS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
 
-        {/* 외국어 지원 */}
-        <select value={language} onChange={(e) => setLanguage(e.target.value)} className={selectClass}>
-          {LANGUAGES.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
-
-        {/* 홈페이지 여부 */}
-        <select value={website} onChange={(e) => setWebsite(e.target.value)} className={selectClass}>
-          {WEBSITE.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
-
-        {/* 전문병원 여부 */}
-        <select value={specialized} onChange={(e) => setSpecialized(e.target.value)} className={selectClass}>
-          {SPECIALIZED.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
       </div>
 
       {/* 버튼 */}
