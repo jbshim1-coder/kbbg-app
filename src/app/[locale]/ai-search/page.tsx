@@ -68,8 +68,23 @@ export default function AiSearchPage() {
     timerRef.current = setTimeout(async () => {
       try {
         const params = new URLSearchParams();
-        params.set("keyword", rawQuery);
         params.set("page", "1");
+
+        // 자연어에서 지역/진료과 키워드 파싱
+        const q = rawQuery;
+        const regionMap: Record<string, string> = { "서울":"110000", "강남":"110000", "부산":"210000", "대구":"220000", "인천":"230000", "광주":"240000", "대전":"250000", "울산":"260000", "세종":"290000", "경기":"310000", "강원":"320000", "충북":"340000", "충남":"360000", "전북":"370000", "전남":"410000", "경북":"430000", "경남":"460000", "제주":"500000" };
+        const subjectMap: Record<string, string> = { "성형":"08", "피부":"14", "치과":"49", "안과":"12", "내과":"01", "외과":"04", "정형":"05", "신경":"06", "이비인후":"13", "비뇨":"15", "재활":"21" };
+
+        // 지역 추출
+        for (const [name, code] of Object.entries(regionMap)) {
+          if (q.includes(name)) { params.set("region", code); break; }
+        }
+        // 진료과 추출
+        for (const [name, code] of Object.entries(subjectMap)) {
+          if (q.includes(name)) { params.set("subject", code); break; }
+        }
+        // 종별: 기본 의원
+        params.set("type", "31");
 
         const res = await fetch(`/api/hira?${params.toString()}`);
         const data = await res.json();
