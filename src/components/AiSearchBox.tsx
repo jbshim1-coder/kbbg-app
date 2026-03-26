@@ -44,13 +44,6 @@ export default function AiSearchBox({ locale }: { locale: string }) {
           </span>
         </div>
 
-        {/* AI 추천 시작 버튼 */}
-        <button
-          onClick={handleSubmit}
-          className="mt-4 px-10 py-2.5 bg-pink-500 text-white text-sm font-semibold rounded-full hover:bg-pink-600 transition"
-        >
-          {t("hero.cta_recommend" as Parameters<typeof t>[0])}
-        </button>
       </div>
     </div>
   );
