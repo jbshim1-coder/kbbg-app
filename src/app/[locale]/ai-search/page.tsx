@@ -85,6 +85,8 @@ export default function AiSearchPage() {
         }
         // 종별: 기본 의원
         params.set("type", "31");
+        // 별점 조회 스킵 (속도 우선)
+        params.set("rating", "skip");
 
         const res = await fetch(`/api/hira?${params.toString()}`);
         const data = await res.json();
