@@ -31,13 +31,13 @@
 | 20 | Google Places API 클라이언트 코드 준비 | ✅ |
 | 21 | 심평원 병원정보서비스 API 실데이터 연동 (79,569개 병원) | ✅ |
 | 22 | 메인 조건 검색 → 심평원 실데이터 즉시 표시 (페이지 이동 없음) | ✅ |
-| 23 | AI 검색 기능 (자연어 입력 → 서술형 결과) | ✅ |
+| 23 | AI 검색 기능 (자연어 → 심평원 실데이터 서술형 결과) | ✅ |
 | 24 | 관리자 모드 (admin@2bstory.com / kbbg2026!admin) | ✅ |
 | 25 | 회원관리 대시보드 | ✅ |
 | 26 | 광고관리 대시보드 | ✅ |
 | 27 | 검색 결과 최상단 광고 노출 (광고 표시) | ✅ |
-| 28 | Google Places 별점 연동 | ⏳ API 키 설정 필요 |
-| 29 | Vercel 환경변수 등록 | ❌ |
+| 28 | Google Places 별점 연동 (검색 결과에 표시) | ✅ |
+| 29 | Vercel 환경변수 등록 (HIRA_API_KEY, GOOGLE_PLACES_API_KEY) | ✅ |
 | 30 | Vercel Cron (매일 자동 동기화) | ❌ |
 | 31 | AI 추천 실제 엔진 고도화 (Claude API) | ❌ |
 | 32 | 도메인 연결 (kbeautybuyersguide.com) | ❌ |
