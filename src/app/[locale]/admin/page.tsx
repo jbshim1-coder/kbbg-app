@@ -111,7 +111,12 @@ const statusLabels: Record<RecentInquiry["status"], string> = {
 };
 
 // AdminDashboard: 관리자 대시보드 메인 페이지 컴포넌트
-export default function AdminDashboard() {
+export default async function AdminDashboard({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   return (
     <div className="space-y-8">
       <h2 className="text-2xl font-bold text-gray-900">대시보드</h2>
@@ -144,7 +149,7 @@ export default function AdminDashboard() {
         {/* 섹션 헤더 — 제목 + 전체 보기 링크 */}
         <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
           <h3 className="font-semibold text-gray-800">최근 게시글</h3>
-          <a href="/admin/posts" className="text-sm text-blue-600 hover:underline">
+          <a href={`/${locale}/admin/posts`} className="text-sm text-blue-600 hover:underline">
             전체 보기
           </a>
         </div>
@@ -191,7 +196,7 @@ export default function AdminDashboard() {
         <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
           <h3 className="font-semibold text-gray-800">최근 추천 문의</h3>
           <a
-            href="/admin/inquiries"
+            href={`/${locale}/admin/inquiries`}
             className="text-sm text-blue-600 hover:underline"
           >
             전체 보기

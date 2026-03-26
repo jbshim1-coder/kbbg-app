@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 // 선택 가능한 카테고리 키 목록
@@ -11,6 +11,8 @@ const CATEGORY_KEYS = ["community.plastic_surgery", "community.dermatology", "co
 export default function NewPostPage() {
   const router = useRouter();
   const t = useTranslations();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "en";
 
   // 폼 필드 상태
   const [categoryKey, setCategoryKey] = useState("");
@@ -30,7 +32,7 @@ export default function NewPostPage() {
     setSubmitting(true);
     // TODO: Supabase insert API 호출 후 리다이렉트
     setTimeout(() => {
-      router.push("/community");
+      router.push(`/${locale}/community`);
     }, 800);
   }
 

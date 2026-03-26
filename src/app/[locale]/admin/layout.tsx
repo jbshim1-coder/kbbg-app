@@ -1,23 +1,27 @@
 // 관리자 전용 레이아웃 — 모든 /admin/* 페이지에 공통 적용되는 사이드바 + 헤더 구조
 import Link from "next/link";
 
-// 사이드바에 표시할 네비게이션 항목 목록 — href, 레이블, 아이콘
-const navItems = [
-  { href: "/admin", label: "대시보드", icon: "📊" },
-  { href: "/admin/posts", label: "게시글 관리", icon: "📝" },
-  { href: "/admin/users", label: "사용자 관리", icon: "👥" },
-  { href: "/admin/clinics", label: "병원 데이터", icon: "🏥" },
-  { href: "/admin/ads", label: "광고 관리", icon: "📢" },
-  { href: "/admin/inquiries", label: "추천 문의", icon: "💬" },
+// 사이드바 네비게이션 항목 — locale prefix는 렌더링 시 동적으로 추가
+const NAV_ITEMS = [
+  { path: "/admin", label: "대시보드", icon: "📊" },
+  { path: "/admin/posts", label: "게시글 관리", icon: "📝" },
+  { path: "/admin/users", label: "사용자 관리", icon: "👥" },
+  { path: "/admin/clinics", label: "병원 데이터", icon: "🏥" },
+  { path: "/admin/ads", label: "광고 관리", icon: "📢" },
+  { path: "/admin/inquiries", label: "추천 문의", icon: "💬" },
 ];
 
 // AdminLayout: /admin 하위 모든 페이지를 감싸는 루트 레이아웃 컴포넌트
 // children에 각 페이지 콘텐츠가 주입됨
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+
   return (
     // 전체 화면을 좌우로 분할 — 왼쪽 사이드바 / 오른쪽 메인
     <div className="flex min-h-screen bg-gray-100">
@@ -33,10 +37,10 @@ export default function AdminLayout({
 
         {/* 네비게이션 링크 목록 — navItems 배열을 순회하여 렌더링 */}
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {navItems.map((item) => (
+          {NAV_ITEMS.map((item) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={item.path}
+              href={`/${locale}${item.path}`}
               // hover 시 배경색 변경으로 현재 위치 피드백 제공
               className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
             >

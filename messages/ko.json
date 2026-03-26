@@ -243,7 +243,9 @@
     "agree_terms": "가입 시 다음에 동의합니다:",
     "terms": "이용약관",
     "and": "및",
-    "privacy": "개인정보보호정책"
+    "privacy": "개인정보보호정책",
+    "social_login": "{provider}(으)로 계속하기",
+    "logout": "로그아웃"
   },
   "footer": {
     "disclaimer": "면책조항",
