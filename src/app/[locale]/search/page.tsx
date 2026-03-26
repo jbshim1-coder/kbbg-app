@@ -87,7 +87,7 @@ export default function SearchPage() {
                   <p className="text-xs text-gray-400">
                     {locale === "ko" ? clinic.nameEn : clinic.name}
                   </p>
-                  <p className="text-sm text-gray-500 mt-1">{clinic.region} · {clinic.specialty} · ⭐ {clinic.rating}</p>
+                  <p className="text-sm text-gray-500 mt-1">{clinic.region} · {clinic.specialty}</p>
                   {clinic.foreignLanguages.length > 0 && (
                     <p className="text-xs text-green-600 mt-1">🌐 {clinic.foreignLanguages.join(", ")}</p>
                   )}
