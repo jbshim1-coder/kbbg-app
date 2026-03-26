@@ -100,6 +100,12 @@ const WEBSITE = [
   { value: "yes", label: "홈페이지 있음" },
 ];
 
+// 전문병원 여부
+const SPECIALIZED = [
+  { value: "", label: "전문병원" },
+  { value: "yes", label: "전문병원 지정" },
+];
+
 export default function ClinicFilter({ locale }: { locale: string }) {
   const t = useTranslations();
   const router = useRouter();
@@ -113,6 +119,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
   const [rating, setRating] = useState("");
   const [language, setLanguage] = useState("");
   const [website, setWebsite] = useState("");
+  const [specialized, setSpecialized] = useState("");
 
   // 병원 검색 실행
   const handleSearch = () => {
@@ -126,13 +133,14 @@ export default function ClinicFilter({ locale }: { locale: string }) {
     if (rating) params.set("rating", rating);
     if (language) params.set("lang", language);
     if (website) params.set("website", website);
+    if (specialized) params.set("specialized", specialized);
     router.push(`/${locale}/hospitals?${params.toString()}`);
   };
 
   // 초기화
   const handleReset = () => {
     setKeyword(""); setSpecialty(""); setRegion(""); setClinicType("");
-    setSpecialist(""); setDoctorCount(""); setRating(""); setLanguage(""); setWebsite("");
+    setSpecialist(""); setDoctorCount(""); setRating(""); setLanguage(""); setWebsite(""); setSpecialized("");
   };
 
   const selectClass = "w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 appearance-none";
@@ -197,6 +205,11 @@ export default function ClinicFilter({ locale }: { locale: string }) {
         {/* 홈페이지 여부 */}
         <select value={website} onChange={(e) => setWebsite(e.target.value)} className={selectClass}>
           {WEBSITE.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
+
+        {/* 전문병원 여부 */}
+        <select value={specialized} onChange={(e) => setSpecialized(e.target.value)} className={selectClass}>
+          {SPECIALIZED.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
       </div>
 
