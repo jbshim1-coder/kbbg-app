@@ -575,5 +575,35 @@
       "a": "대부분의 병원에서 초진 상담은 무료로 제공합니다. 온라인 사전 상담도 가능한 병원이 많습니다.",
       "category": "procedure"
     }
-  ]
+  ],
+  "filter": {
+    "title": "병원 찾기",
+    "all_specialty": "전체 진료과",
+    "plastic": "성형외과",
+    "derma": "피부과",
+    "dental": "치과",
+    "eye": "안과",
+    "surgery": "외과",
+    "all_region": "전체 지역",
+    "seoul": "서울",
+    "gangnam": "서울 강남",
+    "busan": "부산",
+    "daegu": "대구",
+    "incheon": "인천",
+    "jeju": "제주",
+    "all_doctors": "원장 수",
+    "doctor_1": "1인",
+    "doctor_2": "2인",
+    "doctor_3plus": "3인 이상",
+    "all_type": "기관 유형",
+    "hospital": "병원",
+    "clinic_type": "의원",
+    "all_rating": "구글 평점",
+    "rating_4": "4점 이상",
+    "rating_3": "3점 이상",
+    "rating_2": "2점 이상",
+    "all_specialist": "전문의 여부",
+    "has_specialist": "전문의 있음",
+    "search_btn": "병원 검색"
+  }
 }

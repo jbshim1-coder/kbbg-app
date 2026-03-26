@@ -1,15 +1,7 @@
 // locale별 홈페이지 - 서버 컴포넌트에서 getTranslations 사용
 import Link from "next/link";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-
-// 인기 시술 더미 데이터 — 번역 키 사용
-const TOP_PROCEDURES = [
-  { id: 1, nameKey: "procedures.p1_name", categoryKey: "procedures.p1_category", priceKey: "procedures.p1_price", clinics: 120 },
-  { id: 2, nameKey: "procedures.p2_name", categoryKey: "procedures.p2_category", priceKey: "procedures.p2_price", clinics: 280 },
-  { id: 3, nameKey: "procedures.p3_name", categoryKey: "procedures.p3_category", priceKey: "procedures.p3_price", clinics: 85 },
-  { id: 4, nameKey: "procedures.p4_name", categoryKey: "procedures.p4_category", priceKey: "procedures.p4_price", clinics: 150 },
-  { id: 5, nameKey: "procedures.p5_name", categoryKey: "procedures.p5_category", priceKey: "procedures.p5_price", clinics: 210 },
-];
+import ClinicFilter from "@/components/ClinicFilter";
 
 // 최신 커뮤니티 글 더미 데이터 — 번역 키 사용
 const RECENT_POSTS = [
@@ -57,28 +49,10 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* 인기 시술 TOP 5 */}
+      {/* 병원 필터 검색 + AI 추천 */}
       <section className="px-4 py-14">
         <div className="mx-auto max-w-4xl">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900">{t("procedures.title")}</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {TOP_PROCEDURES.map((proc, idx) => (
-              <div
-                key={proc.id}
-                className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition hover:shadow-md"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="text-3xl font-black text-pink-100">0{idx + 1}</span>
-                  <span className="rounded-full bg-pink-50 px-2 py-0.5 text-xs font-medium text-pink-600">
-                    {t(proc.categoryKey as Parameters<typeof t>[0])}
-                  </span>
-                </div>
-                <h3 className="mt-2 text-lg font-semibold text-gray-900">{t(proc.nameKey as Parameters<typeof t>[0])}</h3>
-                <p className="mt-1 text-sm text-gray-500">{t(proc.priceKey as Parameters<typeof t>[0])}</p>
-                <p className="mt-1 text-xs text-gray-400">{t("procedures.related_clinics", { count: proc.clinics })}</p>
-              </div>
-            ))}
-          </div>
+          <ClinicFilter locale={locale} />
         </div>
       </section>
 
