@@ -26,7 +26,7 @@ export default async function HomePage({
       {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-pink-50 to-blue-50 px-4 py-20 text-center">
         <div className="mx-auto max-w-3xl">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl whitespace-nowrap">
             {t("hero.title")}
           </h1>
           <p className="mt-4 text-lg text-gray-600">

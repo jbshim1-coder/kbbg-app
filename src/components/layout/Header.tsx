@@ -140,14 +140,6 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* ── PC 검색바 ── */}
-          <div className="hidden md:flex flex-1 max-w-xs">
-            <SearchBar
-              placeholder={t("nav.search_placeholder")}
-              onSearch={handleSearch}
-              size="sm"
-            />
-          </div>
 
           {/* ── 우측 액션 영역 ── */}
           <div className="flex items-center gap-2">
@@ -260,15 +252,6 @@ export default function Header() {
       {/* ── 모바일 메뉴 패널 ── */}
       {mobileOpen && (
         <div className="lg:hidden border-t border-gray-100 bg-white">
-          {/* 모바일 검색바 */}
-          <div className="px-4 pt-4 pb-2">
-            <SearchBar
-              placeholder={t("nav.search_placeholder")}
-              onSearch={(q) => { handleSearch(q); setMobileOpen(false); }}
-              size="md"
-            />
-          </div>
-
           {/* 모바일 네비 링크 */}
           <nav aria-label={t("nav.home")} className="px-4 py-2 flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
