@@ -88,15 +88,19 @@ export default function AiSearchPage() {
         // 별점 조회 스킵 (속도 우선)
         params.set("rating", "skip");
 
-        const res = await fetch(`/api/hira?${params.toString()}`);
+        const url = `/api/hira?${params.toString()}`;
+        console.log("AI Search API URL:", url);
+        const res = await fetch(url);
         const data = await res.json();
+        console.log("AI Search API response:", { totalCount: data.totalCount, clinics: data.clinics?.length });
 
         const top3: HiraClinic[] = (data.clinics || []).slice(0, 3);
         const count: number = data.totalCount || 0;
         setResults(top3);
         setTotalCount(count);
         setNarrative(buildNarrativeIntro(rawQuery, top3, count));
-      } catch {
+      } catch (err) {
+        console.error("AI Search error:", err);
         setResults([]);
         setTotalCount(0);
         setNarrative(`"${rawQuery}" 검색 중 오류가 발생했습니다.`);
