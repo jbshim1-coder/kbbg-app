@@ -7,22 +7,14 @@ import { useParams } from "next/navigation";
 
 // 한국 거리 라이브캠 12개 — 검증된 24시간 유튜브 라이브
 // 영상이 종료되면 videoId만 교체하면 됨
+// 검증된 24시간 라이브캠만 유지 — 안 되는 채널은 제거
+// 새 라이브캠을 찾으면 여기에 추가하면 됨
 const LIVE_CHANNELS = [
-  // 서울
   { id: "hangang", nameKey: "live.ch_hangang", location: "Seoul", videoId: "zpCZ9OFjb3U", emoji: "🌉" },
   { id: "banpo", nameKey: "live.ch_banpo", location: "Seoul", videoId: "-JhoMGoAfFc", emoji: "🌈" },
   { id: "lotte", nameKey: "live.ch_lotte", location: "Seoul", videoId: "vZtdRVDlPQA", emoji: "🏢" },
   { id: "gangnam", nameKey: "live.ch_gangnam", location: "Seoul", videoId: "gCNeDWCI0vo", emoji: "🏙️" },
-  { id: "myeongdong", nameKey: "live.ch_myeongdong", location: "Seoul", videoId: "F-gFsCZJEMw", emoji: "🛍️" },
-  { id: "hongdae", nameKey: "live.ch_hongdae", location: "Seoul", videoId: "JnoOvYFoaYA", emoji: "🎨" },
-  { id: "namsan", nameKey: "live.ch_namsan", location: "Seoul", videoId: "gY09Dde0jhs", emoji: "🗼" },
-  { id: "ddp", nameKey: "live.ch_ddp", location: "Seoul", videoId: "8Rf0pVCijBo", emoji: "🏛️" },
-  // 부산
   { id: "busan", nameKey: "live.ch_busan", location: "Busan", videoId: "G40EYtfNCTg", emoji: "🌇" },
-  { id: "haeundae", nameKey: "live.ch_haeundae", location: "Busan", videoId: "xmpF4N_5Bxo", emoji: "🏖️" },
-  // 속초 & 제주
-  { id: "sokcho", nameKey: "live.ch_sokcho", location: "Sokcho", videoId: "xF-_ZbS4iF4", emoji: "🏔️" },
-  { id: "jeju", nameKey: "live.ch_jeju", location: "Jeju", videoId: "T6JMb4kB-2o", emoji: "🌴" },
 ];
 
 export default function LivePage() {

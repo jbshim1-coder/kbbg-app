@@ -130,20 +130,13 @@ export default async function HomePage({
               {t("live.view_more")}
             </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
             {[
               { id:"hangang", videoId:"zpCZ9OFjb3U", emoji:"🌉" },
               { id:"banpo", videoId:"-JhoMGoAfFc", emoji:"🌈" },
               { id:"lotte", videoId:"vZtdRVDlPQA", emoji:"🏢" },
               { id:"gangnam", videoId:"gCNeDWCI0vo", emoji:"🏙️" },
-              { id:"myeongdong", videoId:"F-gFsCZJEMw", emoji:"🛍️" },
-              { id:"hongdae", videoId:"JnoOvYFoaYA", emoji:"🎨" },
-              { id:"namsan", videoId:"gY09Dde0jhs", emoji:"🗼" },
-              { id:"ddp", videoId:"8Rf0pVCijBo", emoji:"🏛️" },
               { id:"busan", videoId:"G40EYtfNCTg", emoji:"🌇" },
-              { id:"haeundae", videoId:"xmpF4N_5Bxo", emoji:"🏖️" },
-              { id:"sokcho", videoId:"xF-_ZbS4iF4", emoji:"🏔️" },
-              { id:"jeju", videoId:"T6JMb4kB-2o", emoji:"🌴" },
             ].map((ch) => (
               <Link
                 key={ch.id}
