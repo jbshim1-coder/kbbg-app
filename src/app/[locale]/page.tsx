@@ -32,20 +32,6 @@ export default async function HomePage({
           <p className="mt-4 text-lg text-gray-600">
             {t("hero.subtitle")}
           </p>
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link
-              href={`/${locale}/recommend`}
-              className="rounded-xl bg-pink-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-pink-600 active:bg-pink-700"
-            >
-              {t("hero.cta_recommend")}
-            </Link>
-            <Link
-              href={`/${locale}/community`}
-              className="rounded-xl border border-gray-300 px-8 py-3 text-lg font-semibold text-gray-700 transition hover:bg-gray-50"
-            >
-              {t("hero.cta_community")}
-            </Link>
-          </div>
         </div>
       </section>
 
