@@ -39,12 +39,13 @@ function AiSearchContent() {
   const router = useRouter();
   const locale = useLocale();
 
-  // URL에서 q 파라미터 직접 추출 (useSearchParams 대신 — Suspense 호환)
-  const [rawQuery, setRawQuery] = useState("");
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setRawQuery(params.get("q") || "");
-  }, []);
+  // URL에서 q 파라미터 직접 추출
+  const [rawQuery] = useState(() => {
+    if (typeof window !== "undefined") {
+      return new URLSearchParams(window.location.search).get("q") || "";
+    }
+    return "";
+  });
   const [inputValue, setInputValue] = useState(rawQuery);
   const [isThinking, setIsThinking] = useState(true);
   const [results, setResults] = useState<HiraClinic[]>([]);
