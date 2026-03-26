@@ -1,0 +1,57 @@
+"use client";
+
+// AI 검색 박스 — 자연어 입력으로 AI 추천 시작
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+
+export default function AiSearchBox({ locale }: { locale: string }) {
+  const t = useTranslations();
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+
+  const handleSubmit = () => {
+    // AI 추천 페이지로 이동 (검색어 전달)
+    const params = query ? `?q=${encodeURIComponent(query)}` : "";
+    router.push(`/${locale}/recommend${params}`);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleSubmit();
+  };
+
+  return (
+    <div className="text-center">
+      {/* 타이틀 */}
+      <h1 className="text-2xl font-semibold text-gray-800 sm:text-3xl">
+        {t("hero.ai_question" as Parameters<typeof t>[0])}
+      </h1>
+
+      {/* AI 검색창 */}
+      <div className="mt-6 mx-auto max-w-2xl">
+        <div className="flex items-center bg-white border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-shadow px-5 py-3">
+          <span className="text-gray-300 mr-3">+</span>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={t("filter.ai_placeholder" as Parameters<typeof t>[0])}
+            className="flex-1 text-sm text-gray-800 placeholder-gray-400 outline-none bg-transparent"
+          />
+          <span className="ml-3 text-gray-400 text-xs font-medium flex items-center gap-1">
+            ✦ AI
+          </span>
+        </div>
+
+        {/* AI 추천 시작 버튼 */}
+        <button
+          onClick={handleSubmit}
+          className="mt-4 px-10 py-2.5 bg-pink-500 text-white text-sm font-semibold rounded-full hover:bg-pink-600 transition"
+        >
+          {t("hero.cta_recommend" as Parameters<typeof t>[0])}
+        </button>
+      </div>
+    </div>
+  );
+}

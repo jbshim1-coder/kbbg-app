@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ClinicFilter from "@/components/ClinicFilter";
+import AiSearchBox from "@/components/AiSearchBox";
 
 // 최신 커뮤니티 글 더미 데이터 — 번역 키 사용
 const RECENT_POSTS = [
@@ -23,15 +24,10 @@ export default async function HomePage({
 
   return (
     <main className="min-h-screen">
-      {/* 히어로 섹션 */}
-      <section className="bg-gradient-to-br from-pink-50 to-blue-50 px-4 py-20 text-center">
+      {/* AI 검색 섹션 */}
+      <section className="bg-white px-4 pt-16 pb-8">
         <div className="mx-auto max-w-3xl">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl whitespace-nowrap">
-            {t("hero.title")}
-          </h1>
-          <p className="mt-4 text-lg text-gray-600">
-            {t("hero.subtitle")}
-          </p>
+          <AiSearchBox locale={locale} />
         </div>
       </section>
 
