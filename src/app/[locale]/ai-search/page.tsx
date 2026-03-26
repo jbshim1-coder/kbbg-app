@@ -4,12 +4,11 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { seedClinics, Clinic } from "@/data/seed-clinics";
+import type { HiraClinic } from "@/lib/hira-api";
+import type { Ad } from "@/app/api/admin/ads/route";
 
 // locale을 URL 경로에서 추출하기 위한 훅
 function useLocale() {
-  const router = useRouter();
-  // pathname에서 locale 추출 — next-intl의 useLocale 대신 pathname 파싱
   if (typeof window !== "undefined") {
     const parts = window.location.pathname.split("/");
     return parts[1] || "ko";
@@ -17,150 +16,14 @@ function useLocale() {
   return "ko";
 }
 
-// 지역 키워드 → region 매핑
-const REGION_MAP: Record<string, Clinic["region"]> = {
-  강남: "서울강남",
-  gangnam: "서울강남",
-  서울: "서울기타",
-  seoul: "서울기타",
-  부산: "부산",
-  busan: "부산",
-  대구: "대구",
-  daegu: "대구",
-  인천: "인천",
-  incheon: "인천",
-  제주: "제주",
-  jeju: "제주",
-};
-
-// 진료과 키워드 → specialty 매핑
-const SPECIALTY_MAP: Record<string, Clinic["specialty"]> = {
-  성형: "성형",
-  plastic: "성형",
-  피부: "피부",
-  derma: "피부",
-  dermatology: "피부",
-  치과: "치과",
-  dental: "치과",
-  안과: "안과",
-  eye: "안과",
-  ophthalmology: "안과",
-};
-
-// 언어 코드 → 표시명
-const LANG_NAMES: Record<string, string> = {
-  en: "영어",
-  zh: "중국어",
-  ja: "일본어",
-  th: "태국어",
-  vi: "베트남어",
-  ru: "러시아어",
-  mn: "몽골어",
-};
-
-function parseQuery(query: string): {
-  regions: Clinic["region"][];
-  specialties: Clinic["specialty"][];
-  keywords: string[];
-} {
-  const lower = query.toLowerCase();
-  const words = lower.split(/\s+/);
-
-  const regions: Clinic["region"][] = [];
-  const specialties: Clinic["specialty"][] = [];
-
-  for (const word of words) {
-    if (REGION_MAP[word]) {
-      const r = REGION_MAP[word];
-      if (!regions.includes(r)) regions.push(r);
-    }
-    if (SPECIALTY_MAP[word]) {
-      const s = SPECIALTY_MAP[word];
-      if (!specialties.includes(s)) specialties.push(s);
-    }
-  }
-
-  // 원본 쿼리에서도 한국어 키워드 매칭
-  for (const [key, val] of Object.entries(REGION_MAP)) {
-    if (query.includes(key) && !regions.includes(val)) regions.push(val);
-  }
-  for (const [key, val] of Object.entries(SPECIALTY_MAP)) {
-    if (query.includes(key) && !specialties.includes(val)) specialties.push(val);
-  }
-
-  return { regions, specialties, keywords: words };
-}
-
-function searchClinics(query: string): Clinic[] {
-  const { regions, specialties, keywords } = parseQuery(query);
-  const lower = query.toLowerCase();
-
-  return seedClinics.filter((clinic) => {
-    // 지역 필터
-    if (regions.length > 0 && !regions.includes(clinic.region)) return false;
-    // 진료과 필터
-    if (specialties.length > 0 && !specialties.includes(clinic.specialty)) return false;
-
-    // 지역/진료과 둘 다 없으면 텍스트 검색
-    if (regions.length === 0 && specialties.length === 0) {
-      return (
-        clinic.name.toLowerCase().includes(lower) ||
-        clinic.nameEn.toLowerCase().includes(lower) ||
-        clinic.description.toLowerCase().includes(lower) ||
-        keywords.some(
-          (k) =>
-            clinic.name.includes(k) ||
-            clinic.nameEn.toLowerCase().includes(k) ||
-            clinic.description.toLowerCase().includes(k)
-        )
-      );
-    }
-
-    return true;
-  });
-}
-
-function regionLabel(region: Clinic["region"]): string {
-  const map: Record<Clinic["region"], string> = {
-    서울강남: "서울 강남구",
-    서울기타: "서울",
-    부산: "부산",
-    대구: "대구",
-    인천: "인천",
-    제주: "제주",
-  };
-  return map[region];
-}
-
-function specialtyLabel(specialty: Clinic["specialty"]): string {
-  const map: Record<Clinic["specialty"], string> = {
-    성형: "성형외과",
-    피부: "피부과",
-    치과: "치과",
-    안과: "안과",
-  };
-  return map[specialty];
-}
-
 // 서술형 인트로 텍스트 생성
-function buildNarrativeIntro(query: string, results: Clinic[]): string {
-  const { regions, specialties } = parseQuery(query);
-
-  const regionText = regions.length > 0 ? `${regionLabel(regions[0])} 지역에서 ` : "";
-  const specialtyText = specialties.length > 0 ? `${specialtyLabel(specialties[0])}을(를) ` : `"${query}"을(를) `;
-
+function buildNarrativeIntro(query: string, results: HiraClinic[], totalCount: number): string {
   if (results.length === 0) {
-    return `${regionText}${specialtyText}검색하셨군요.\n\n조건에 맞는 병원을 찾지 못했습니다. 아래 조건 검색을 이용해 보세요.`;
+    return `"${query}"에 대한 병원을 찾지 못했습니다.\n\n아래 조건 검색을 이용해 보세요.`;
   }
-
-  const total = seedClinics.filter((c) => {
-    if (regions.length > 0 && !regions.includes(c.region)) return false;
-    if (specialties.length > 0 && !specialties.includes(c.specialty)) return false;
-    return true;
-  }).length;
 
   const topCount = Math.min(results.length, 3);
-  return `${regionText}${specialtyText}찾으시는군요!\n\n현재 ${total}개의 병원이 등록되어 있습니다.\n그 중 추천드리는 병원 ${topCount}곳입니다:`;
+  return `"${query}"(으)로 검색한 결과입니다.\n\n총 ${totalCount.toLocaleString()}개의 병원이 있으며, 상위 ${topCount}곳을 보여드립니다:`;
 }
 
 export default function AiSearchPage() {
@@ -172,9 +35,23 @@ export default function AiSearchPage() {
   const rawQuery = searchParams.get("q") || "";
   const [inputValue, setInputValue] = useState(rawQuery);
   const [isThinking, setIsThinking] = useState(true);
-  const [results, setResults] = useState<Clinic[]>([]);
+  const [results, setResults] = useState<HiraClinic[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [narrative, setNarrative] = useState("");
+  // 검색 결과 상단에 노출할 광고 1개
+  const [topAd, setTopAd] = useState<Ad | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // 활성 광고 1개 로드 — 페이지 마운트 시 1회
+  useEffect(() => {
+    fetch("/api/admin/ads")
+      .then((r) => r.json())
+      .then((d) => {
+        const activeAds: Ad[] = d.ads || [];
+        setTopAd(activeAds[0] ?? null);
+      })
+      .catch(() => setTopAd(null));
+  }, []);
 
   useEffect(() => {
     setIsThinking(true);
@@ -182,13 +59,33 @@ export default function AiSearchPage() {
     setNarrative("");
     setInputValue(rawQuery);
 
-    // AI "분석 중" 시뮬레이션
-    timerRef.current = setTimeout(() => {
-      const found = searchClinics(rawQuery);
-      const top3 = found.slice(0, 3);
-      setResults(top3);
-      setNarrative(buildNarrativeIntro(rawQuery, top3));
+    if (!rawQuery) {
       setIsThinking(false);
+      return;
+    }
+
+    // AI "분석 중" 시뮬레이션 후 실제 API 호출
+    timerRef.current = setTimeout(async () => {
+      try {
+        const params = new URLSearchParams();
+        params.set("keyword", rawQuery);
+        params.set("page", "1");
+
+        const res = await fetch(`/api/hira?${params.toString()}`);
+        const data = await res.json();
+
+        const top3: HiraClinic[] = (data.clinics || []).slice(0, 3);
+        const count: number = data.totalCount || 0;
+        setResults(top3);
+        setTotalCount(count);
+        setNarrative(buildNarrativeIntro(rawQuery, top3, count));
+      } catch {
+        setResults([]);
+        setTotalCount(0);
+        setNarrative(`"${rawQuery}" 검색 중 오류가 발생했습니다.`);
+      } finally {
+        setIsThinking(false);
+      }
     }, 800);
 
     return () => {
@@ -204,13 +101,6 @@ export default function AiSearchPage() {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") handleSearch();
-  };
-
-  const EMOJI_MAP: Record<Clinic["specialty"], string> = {
-    성형: "🏥",
-    피부: "✨",
-    치과: "🦷",
-    안과: "👁️",
   };
 
   return (
@@ -253,6 +143,33 @@ export default function AiSearchPage() {
         {/* 결과 */}
         {!isThinking && (
           <div className="space-y-4">
+            {/* 광고 카드 — 활성 광고가 있을 때만 검색 결과 최상단에 표시 */}
+            {topAd && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  {/* "광고" 라벨 — 명시적으로 광고임을 표시 */}
+                  <span className="text-xs font-semibold text-yellow-700 bg-yellow-200 px-2 py-0.5 rounded-full">
+                    광고
+                  </span>
+                  <span className="text-xs text-yellow-600">{topAd.hospitalName}</span>
+                </div>
+                <p className="text-sm font-semibold text-gray-800">{topAd.title}</p>
+                {topAd.description && (
+                  <p className="text-xs text-gray-600 mt-1">{topAd.description}</p>
+                )}
+                {topAd.linkUrl && (
+                  <a
+                    href={topAd.linkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="inline-block mt-2 text-xs text-blue-500 hover:underline"
+                  >
+                    자세히 보기 →
+                  </a>
+                )}
+              </div>
+            )}
+
             {/* 서술형 답변 */}
             <div className="bg-white rounded-2xl p-6 shadow-sm">
               <div className="flex items-start gap-3 mb-4">
@@ -274,44 +191,42 @@ export default function AiSearchPage() {
             {/* 병원 카드 목록 */}
             {results.map((clinic, idx) => (
               <div
-                key={clinic.id}
+                key={clinic.ykiho || idx}
                 className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100"
               >
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">{EMOJI_MAP[clinic.specialty]}</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs text-gray-400 font-medium">
-                        {idx + 1}.
-                      </span>
-                      <h2 className="text-sm font-semibold text-gray-900">
-                        {clinic.name}
-                      </h2>
-                      <span className="text-xs text-gray-400">
-                        {clinic.nameEn}
-                      </span>
+                      <span className="text-xs text-gray-400 font-medium">{idx + 1}.</span>
+                      <h2 className="text-sm font-semibold text-gray-900">{clinic.yadmNm}</h2>
+                      {clinic.clCdNm && (
+                        <span className="text-xs text-gray-400">{clinic.clCdNm}</span>
+                      )}
                     </div>
                     <p className="text-xs text-gray-500 mt-1">
-                      {regionLabel(clinic.region)} · {specialtyLabel(clinic.specialty)} ·{" "}
-                      {t("ai_search.specialist_count" as Parameters<typeof t>[0], {
-                        count: clinic.specialistCount,
-                      })}
+                      {[clinic.sidoCdNm, clinic.sgguCdNm].filter(Boolean).join(" ")}
+                      {clinic.dgsbjtCdNm ? ` · ${clinic.dgsbjtCdNm}` : ""}
                     </p>
-                    {clinic.foreignLanguages.length > 0 && (
-                      <p className="text-xs text-gray-400 mt-1">
-                        {t("ai_search.languages" as Parameters<typeof t>[0])}:{" "}
-                        {clinic.foreignLanguages
-                          .map((l) => LANG_NAMES[l] || l)
-                          .join(", ")}
-                      </p>
+                    {clinic.addr && (
+                      <p className="text-xs text-gray-400 mt-1">{clinic.addr}</p>
                     )}
-                    <div className="flex items-center gap-1 mt-2">
-                      <span className="text-yellow-400 text-xs">★</span>
-                      <span className="text-xs text-gray-600">{clinic.rating}</span>
-                      <span className="text-xs text-gray-400">
-                        ({clinic.reviewCount.toLocaleString()} 리뷰)
-                      </span>
+                    <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-500">
+                      {clinic.telno && <span>📞 {clinic.telno}</span>}
+                      {clinic.drTotCnt > 0 && <span>👨‍⚕️ 의사 {clinic.drTotCnt}명</span>}
+                      {(clinic.mdeptSdrCnt || clinic.sdrCnt) > 0 && (
+                        <span>🏅 전문의 {clinic.mdeptSdrCnt || clinic.sdrCnt}명</span>
+                      )}
                     </div>
+                    {clinic.hospUrl && (
+                      <a
+                        href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block mt-2 text-xs text-blue-500 hover:underline"
+                      >
+                        홈페이지 →
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

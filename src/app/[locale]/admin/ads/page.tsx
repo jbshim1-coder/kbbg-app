@@ -1,209 +1,284 @@
-// 광고 관리 페이지 — 캠페인 목록, 노출수/클릭수/CTR 통계, 수정/삭제 액션 제공
+"use client";
 
-// 광고 캠페인의 진행 상태 유형
-type AdStatus = "active" | "paused" | "ended";
+// 광고관리 페이지 — 광고 등록/수정/삭제 및 활성 여부 관리
+// 광고 데이터는 /api/admin/ads (파일 기반 저장)에서 관리
+import { useEffect, useState } from "react";
+import type { Ad } from "@/app/api/admin/ads/route";
 
-// 광고 캠페인 데이터 구조
-interface AdCampaign {
-  id: number;
-  name: string;         // 캠페인 이름
-  advertiser: string;   // 광고주 병원명
-  status: AdStatus;     // 캠페인 현재 상태
-  impressions: number;  // 누적 광고 노출수
-  clicks: number;       // 누적 광고 클릭수
-  budget: number;       // 캠페인 예산 (원화)
-  startDate: string;    // 캠페인 시작일
-  endDate: string;      // 캠페인 종료일
-}
-
-// 더미 캠페인 목록 — 실제 구현 시 광고 집계 API에서 fetch
-const campaigns: AdCampaign[] = [
-  {
-    id: 1,
-    name: "강남뷰티 봄 프로모션",
-    advertiser: "강남뷰티성형외과",
-    status: "active",
-    impressions: 48320,
-    clicks: 1204,
-    budget: 500000,
-    startDate: "2026-03-01",
-    endDate: "2026-03-31",
-  },
-  {
-    id: 2,
-    name: "압구정 라인 신규 시술",
-    advertiser: "압구정 라인클리닉",
-    status: "active",
-    impressions: 31500,
-    clicks: 892,
-    budget: 300000,
-    startDate: "2026-03-10",
-    endDate: "2026-04-10",
-  },
-  {
-    id: 3,
-    name: "치아교정 할인 이벤트",
-    advertiser: "신촌 아이디어치과",
-    status: "paused", // 광고주 요청으로 일시 중단
-    impressions: 12400,
-    clicks: 310,
-    budget: 150000,
-    startDate: "2026-02-15",
-    endDate: "2026-04-15",
-  },
-  {
-    id: 4,
-    name: "피부관리 겨울 캠페인",
-    advertiser: "홍대 스킨케어의원",
-    status: "ended", // 계약 기간 만료로 종료된 캠페인
-    impressions: 89200,
-    clicks: 2130,
-    budget: 800000,
-    startDate: "2025-12-01",
-    endDate: "2026-02-28",
-  },
-];
-
-// 캠페인 상태별 배지 색상 매핑
-const statusStyles: Record<AdStatus, string> = {
-  active: "bg-green-100 text-green-700",
-  paused: "bg-yellow-100 text-yellow-700",
-  ended: "bg-gray-100 text-gray-500",
+// 빈 광고 폼 초기값
+const EMPTY_FORM: Omit<Ad, "id" | "createdAt"> = {
+  title: "",
+  hospitalName: "",
+  description: "",
+  linkUrl: "",
+  imageUrl: "",
+  active: true,
 };
 
-// 캠페인 상태 코드를 한국어 레이블로 변환
-const statusLabels: Record<AdStatus, string> = {
-  active: "진행중",
-  paused: "일시정지",
-  ended: "종료",
-};
-
-// CTR(클릭률) 계산 함수 — clicks / impressions * 100, 소수점 2자리 반환
-// 노출수가 0이면 나눗셈 오류 방지를 위해 "0.00%" 반환
-function calcCtr(impressions: number, clicks: number): string {
-  if (impressions === 0) return "0.00%";
-  return ((clicks / impressions) * 100).toFixed(2) + "%";
-}
-
-// 숫자를 한국어 천 단위 쉼표 포맷으로 변환 (예: 48320 → "48,320")
-function formatNumber(n: number): string {
-  return n.toLocaleString("ko-KR");
-}
-
-// AdminAdsPage: 전체 광고 캠페인 현황과 통계를 보여주는 페이지 컴포넌트
 export default function AdminAdsPage() {
-  // 전체 통계 집계 — campaigns 배열에서 reduce로 합산
-  const totalImpressions = campaigns.reduce((s, c) => s + c.impressions, 0);
-  const totalClicks = campaigns.reduce((s, c) => s + c.clicks, 0);
-  // 현재 진행 중인 캠페인 수만 별도 카운트
-  const activeCampaigns = campaigns.filter((c) => c.status === "active").length;
+  const [ads, setAds] = useState<Ad[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState({ ...EMPTY_FORM });
+  const [submitting, setSubmitting] = useState(false);
+
+  // 전체 광고 목록 로드 (비활성 포함)
+  const loadAds = () => {
+    setLoading(true);
+    fetch("/api/admin/ads?all=true")
+      .then((r) => r.json())
+      .then((d) => setAds(d.ads || []))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadAds();
+  }, []);
+
+  // 폼 필드 변경 핸들러
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+    }));
+  };
+
+  // 등록 폼 열기
+  const openCreate = () => {
+    setEditingId(null);
+    setForm({ ...EMPTY_FORM });
+    setShowForm(true);
+  };
+
+  // 수정 폼 열기 — 기존 광고 데이터로 폼 채움
+  const openEdit = (ad: Ad) => {
+    setEditingId(ad.id);
+    setForm({
+      title: ad.title,
+      hospitalName: ad.hospitalName,
+      description: ad.description,
+      linkUrl: ad.linkUrl,
+      imageUrl: ad.imageUrl,
+      active: ad.active,
+    });
+    setShowForm(true);
+  };
+
+  // 폼 제출 — 등록(POST) 또는 수정(PUT)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      if (editingId) {
+        // 수정 요청
+        await fetch("/api/admin/ads", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: editingId, ...form }),
+        });
+      } else {
+        // 등록 요청
+        await fetch("/api/admin/ads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+      }
+      setShowForm(false);
+      loadAds();
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // 광고 삭제
+  const handleDelete = async (id: string) => {
+    if (!confirm("이 광고를 삭제하시겠습니까?")) return;
+    await fetch(`/api/admin/ads?id=${id}`, { method: "DELETE" });
+    loadAds();
+  };
 
   return (
     <div className="space-y-6">
-      {/* 페이지 헤더 — 제목 + 캠페인 추가 버튼 */}
+      {/* 페이지 헤더 */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">광고 관리</h2>
-        {/* 새 캠페인 등록 버튼 — 클릭 시 등록 폼으로 이동 (미구현) */}
-        <button className="text-sm px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-          + 캠페인 추가
+        <h2 className="text-2xl font-bold text-gray-900">광고관리</h2>
+        <button
+          onClick={openCreate}
+          className="text-sm px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          + 광고 등록
         </button>
       </div>
 
-      {/* 전체 광고 통계 요약 카드 3개 */}
-      <div className="grid grid-cols-3 gap-5">
-        {/* 진행중 캠페인 수 */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-sm text-gray-500">진행중 캠페인</p>
-          <p className="text-3xl font-bold text-gray-900 mt-1">
-            {activeCampaigns}
-          </p>
-        </div>
-        {/* 전체 누적 노출수 */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-sm text-gray-500">총 노출수</p>
-          <p className="text-3xl font-bold text-gray-900 mt-1">
-            {formatNumber(totalImpressions)}
-          </p>
-        </div>
-        {/* 전체 누적 클릭수 */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-sm text-gray-500">총 클릭수</p>
-          <p className="text-3xl font-bold text-gray-900 mt-1">
-            {formatNumber(totalClicks)}
-          </p>
-        </div>
-      </div>
+      {/* 광고 등록/수정 폼 — showForm이 true일 때만 표시 */}
+      {showForm && (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h3 className="font-semibold text-gray-800 mb-4">
+            {editingId ? "광고 수정" : "광고 등록"}
+          </h3>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  광고 제목 *
+                </label>
+                <input
+                  name="title"
+                  value={form.title}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  병원명 *
+                </label>
+                <input
+                  name="hospitalName"
+                  value={form.hospitalName}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  광고 설명
+                </label>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  링크 URL
+                </label>
+                <input
+                  name="linkUrl"
+                  value={form.linkUrl}
+                  onChange={handleChange}
+                  type="url"
+                  placeholder="https://..."
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  이미지 URL
+                </label>
+                <input
+                  name="imageUrl"
+                  value={form.imageUrl}
+                  onChange={handleChange}
+                  type="url"
+                  placeholder="https://..."
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
 
-      {/* 캠페인 목록 테이블 */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="text-left text-gray-500 bg-gray-50 border-b border-gray-100">
-              <th className="px-6 py-3 font-medium">캠페인명</th>
-              <th className="px-6 py-3 font-medium">광고주</th>
-              <th className="px-6 py-3 font-medium">상태</th>
-              <th className="px-6 py-3 font-medium">노출수</th>
-              <th className="px-6 py-3 font-medium">클릭수</th>
-              <th className="px-6 py-3 font-medium">CTR</th>
-              <th className="px-6 py-3 font-medium">예산</th>
-              <th className="px-6 py-3 font-medium">기간</th>
-              <th className="px-6 py-3 font-medium">액션</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* campaigns 배열을 순회하여 각 캠페인을 행으로 렌더링 */}
-            {campaigns.map((campaign) => (
-              <tr
-                key={campaign.id}
-                className="border-b border-gray-50 hover:bg-gray-50"
+            {/* 활성 여부 토글 */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                name="active"
+                checked={form.active}
+                onChange={handleChange}
+                className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <span className="text-sm text-gray-700">활성화 (검색 결과에 노출)</span>
+            </label>
+
+            <div className="flex gap-3">
+              <button
+                type="submit"
+                disabled={submitting}
+                className="px-5 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 disabled:bg-blue-300 transition-colors"
               >
-                <td className="px-6 py-3 font-medium text-gray-800">
-                  {campaign.name}
-                </td>
-                <td className="px-6 py-3 text-gray-600">
-                  {campaign.advertiser}
-                </td>
-                <td className="px-6 py-3">
-                  {/* statusStyles 맵으로 상태에 맞는 색상 배지 렌더링 */}
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded-full ${statusStyles[campaign.status]}`}
-                  >
-                    {statusLabels[campaign.status]}
-                  </span>
-                </td>
-                {/* 노출수/클릭수는 천 단위 쉼표 포맷으로 표시 */}
-                <td className="px-6 py-3 text-gray-700">
-                  {formatNumber(campaign.impressions)}
-                </td>
-                <td className="px-6 py-3 text-gray-700">
-                  {formatNumber(campaign.clicks)}
-                </td>
-                {/* CTR은 파란색으로 강조 표시 */}
-                <td className="px-6 py-3 text-blue-600 font-medium">
-                  {calcCtr(campaign.impressions, campaign.clicks)}
-                </td>
-                {/* 예산은 원화 기호와 함께 천 단위 쉼표 포맷으로 표시 */}
-                <td className="px-6 py-3 text-gray-700">
-                  ₩{formatNumber(campaign.budget)}
-                </td>
-                <td className="px-6 py-3 text-gray-500 text-xs">
-                  {campaign.startDate} ~ {campaign.endDate}
-                </td>
-                <td className="px-6 py-3">
-                  {/* 캠페인 관리 액션 버튼 — 수정/삭제 */}
-                  <div className="flex gap-2">
-                    <button className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors">
-                      수정
-                    </button>
-                    <button className="text-xs px-2 py-1 bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors">
-                      삭제
-                    </button>
-                  </div>
-                </td>
+                {submitting ? "저장 중..." : editingId ? "수정 완료" : "등록"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowForm(false)}
+                className="px-5 py-2 bg-gray-100 text-gray-700 text-sm rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                취소
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* 광고 목록 테이블 */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        {loading ? (
+          <div className="p-10 text-center text-sm text-gray-400">로딩 중...</div>
+        ) : ads.length === 0 ? (
+          <div className="p-10 text-center text-sm text-gray-400">
+            등록된 광고가 없습니다.
+          </div>
+        ) : (
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-gray-500 bg-gray-50 border-b border-gray-100">
+                <th className="px-5 py-3 font-medium">제목</th>
+                <th className="px-5 py-3 font-medium">병원명</th>
+                <th className="px-5 py-3 font-medium">설명</th>
+                <th className="px-5 py-3 font-medium">상태</th>
+                <th className="px-5 py-3 font-medium">등록일</th>
+                <th className="px-5 py-3 font-medium">액션</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {ads.map((ad) => (
+                <tr key={ad.id} className="border-b border-gray-50 hover:bg-gray-50">
+                  <td className="px-5 py-3 font-medium text-gray-800">{ad.title}</td>
+                  <td className="px-5 py-3 text-gray-600">{ad.hospitalName}</td>
+                  <td className="px-5 py-3 text-gray-500 max-w-xs truncate">
+                    {ad.description}
+                  </td>
+                  <td className="px-5 py-3">
+                    {/* 활성 여부 배지 */}
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      ad.active
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-500"
+                    }`}>
+                      {ad.active ? "활성" : "비활성"}
+                    </span>
+                  </td>
+                  <td className="px-5 py-3 text-gray-500">{ad.createdAt}</td>
+                  <td className="px-5 py-3">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => openEdit(ad)}
+                        className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
+                      >
+                        수정
+                      </button>
+                      <button
+                        onClick={() => handleDelete(ad.id)}
+                        className="text-xs px-2 py-1 bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors"
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

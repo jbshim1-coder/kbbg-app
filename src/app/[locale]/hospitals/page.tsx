@@ -1,10 +1,11 @@
 "use client";
 
-// 병원 검색 페이지 — 심평원 API 연동
-import { useState } from "react";
+// 병원 검색 페이지 — 심평원 API 연동 + 검색 결과 상단 광고 노출
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import type { HiraClinic } from "@/lib/hira-api";
 import { SIDO_CODES, SUBJECT_CODES } from "@/lib/hira-api";
+import type { Ad } from "@/app/api/admin/ads/route";
 
 export default function HospitalsPage() {
   const pathname = usePathname();
@@ -21,6 +22,20 @@ export default function HospitalsPage() {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+
+  // 검색 결과 상단에 노출할 광고 1개
+  const [topAd, setTopAd] = useState<Ad | null>(null);
+
+  // 활성 광고 1개 로드 — 페이지 마운트 시 1회
+  useEffect(() => {
+    fetch("/api/admin/ads")
+      .then((r) => r.json())
+      .then((d) => {
+        const activeAds: Ad[] = d.ads || [];
+        setTopAd(activeAds[0] ?? null);
+      })
+      .catch(() => setTopAd(null));
+  }, []);
 
   // 검색 실행
   const handleSearch = async (newPage = 1) => {
@@ -107,6 +122,34 @@ export default function HospitalsPage() {
             <p className="text-sm text-gray-500 mb-4">
               {isKo ? `총 ${totalCount.toLocaleString()}개 병원` : `${totalCount.toLocaleString()} clinics found`}
             </p>
+
+            {/* 광고 카드 — 검색 결과 최상단에 "광고" 라벨과 함께 표시 */}
+            {topAd && (
+              <div className="mb-4 bg-yellow-50 border border-yellow-200 rounded-xl p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-1">
+                  {/* 광고임을 명시하는 라벨 */}
+                  <span className="text-xs font-semibold text-yellow-700 bg-yellow-200 px-2 py-0.5 rounded-full">
+                    광고
+                  </span>
+                  <span className="text-xs text-yellow-600">{topAd.hospitalName}</span>
+                </div>
+                <p className="font-semibold text-gray-800">{topAd.title}</p>
+                {topAd.description && (
+                  <p className="text-sm text-gray-600 mt-1">{topAd.description}</p>
+                )}
+                {topAd.linkUrl && (
+                  <a
+                    href={topAd.linkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="inline-block mt-2 text-xs text-blue-500 hover:underline"
+                  >
+                    {isKo ? "자세히 보기 →" : "Learn more →"}
+                  </a>
+                )}
+              </div>
+            )}
+
             {clinics.length === 0 ? (
               <div className="text-center py-20 text-gray-400">
                 {isKo ? "검색 결과가 없습니다" : "No results found"}

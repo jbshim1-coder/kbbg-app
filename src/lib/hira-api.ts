@@ -1,7 +1,7 @@
-// 심평원 의료기관별 상세정보 API 클라이언트
-// https://apis.data.go.kr/B551182/MadmDtlInfoService2.7
+// 심평원 병원정보서비스 API 클라이언트
+// https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList
 
-const HIRA_BASE_URL = "https://apis.data.go.kr/B551182/MadmDtlInfoService2.7";
+const HIRA_BASE_URL = "https://apis.data.go.kr/B551182/hospInfoServicev2";
 
 // 심평원 API 응답 타입
 export interface HiraClinic {
@@ -13,7 +13,8 @@ export interface HiraClinic {
   telno: string;        // 전화번호
   hospUrl: string;      // 홈페이지 URL
   drTotCnt: number;     // 의사 총수
-  sdrCnt: number;       // 전문의 수
+  sdrCnt: number;       // 전문의 수 (구 필드, 호환용)
+  mdeptSdrCnt: number;  // 전문의 수 (getHospBasisList 응답 필드)
   dgsbjtCdNm: string;   // 진료과목
   XPos: string;         // 경도
   YPos: string;         // 위도
@@ -97,7 +98,7 @@ export async function fetchHiraClinics(params: HiraSearchParams): Promise<{
     serviceKey: apiKey,
     numOfRows: String(params.numOfRows || 10),
     pageNo: String(params.pageNo || 1),
-    type: "json",
+    _type: "json",
   });
 
   if (params.yadmNm) queryParams.set("yadmNm", params.yadmNm);
@@ -106,7 +107,7 @@ export async function fetchHiraClinics(params: HiraSearchParams): Promise<{
   if (params.sgguCd) queryParams.set("sgguCd", params.sgguCd);
   if (params.dgsbjtCd) queryParams.set("dgsbjtCd", params.dgsbjtCd);
 
-  const url = `${HIRA_BASE_URL}/getDtlInfo2.7?${queryParams.toString()}`;
+  const url = `${HIRA_BASE_URL}/getHospBasisList?${queryParams.toString()}`;
 
   const res = await fetch(url, { next: { revalidate: 86400 } }); // 24시간 캐시
 
