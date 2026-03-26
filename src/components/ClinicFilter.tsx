@@ -78,6 +78,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
   const [doctorCount, setDoctorCount] = useState("");
   const [rating, setRating] = useState("");
   const [website, setWebsite] = useState("");
+  const [sortBy, setSortBy] = useState(""); // "" = 기본, "rating" = 구글별점순
 
   // 검색 결과 상태
   const [clinics, setClinics] = useState<HiraClinic[]>([]);
@@ -98,6 +99,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       const typeValue = clinicType && clinicType !== "specialized" ? clinicType : "31";
       params.set("type", typeValue);
       params.set("page", String(newPage));
+      if (sortBy) params.set("sort", sortBy);
 
       const res = await fetch(`/api/hira?${params.toString()}`);
       const data = await res.json();
@@ -115,7 +117,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
 
   const handleReset = () => {
     setSpecialty(""); setRegion(""); setClinicType("");
-    setSpecialist(""); setDoctorCount(""); setRating(""); setWebsite("");
+    setSpecialist(""); setDoctorCount(""); setRating(""); setWebsite(""); setSortBy("");
     setClinics([]); setTotalCount(0); setSearched(false);
   };
 
@@ -173,9 +175,17 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       {/* 검색 결과 — 메인에서 바로 표시 */}
       {searched && (
         <div className="mt-6">
-          <p className="text-sm text-gray-500 mb-4">
-            {isKo ? `총 ${totalCount.toLocaleString()}개 병원` : `${totalCount.toLocaleString()} clinics found`}
-          </p>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm text-gray-500">
+              {isKo ? `총 ${totalCount.toLocaleString()}개 병원` : `${totalCount.toLocaleString()} clinics found`}
+            </p>
+            <button
+              onClick={() => { const next = sortBy === "rating" ? "" : "rating"; setSortBy(next); handleSearch(1); }}
+              className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "rating" ? "bg-yellow-50 border-yellow-300 text-yellow-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
+            >
+              ⭐ {isKo ? "구글별점순" : "Sort by Rating"}
+            </button>
+          </div>
 
           {clinics.length === 0 ? (
             <div className="text-center py-12 text-gray-400">

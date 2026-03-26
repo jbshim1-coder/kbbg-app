@@ -33,6 +33,12 @@ export async function GET(request: NextRequest) {
       })
     );
 
+    // 구글 별점순 정렬 (별점 높은 순, 없으면 맨 뒤)
+    const sort = searchParams.get("sort");
+    if (sort === "rating") {
+      clinicsWithRating.sort((a, b) => (b.googleRating ?? 0) - (a.googleRating ?? 0));
+    }
+
     return NextResponse.json({ ...result, clinics: clinicsWithRating });
   } catch (error) {
     console.error("HIRA API error:", error);
