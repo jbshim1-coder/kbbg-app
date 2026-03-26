@@ -515,7 +515,14 @@
     "ch_myeongdong": "Мёндон",
     "ch_gangnam": "Каннам",
     "ch_hongdae": "Хондэ",
-    "ch_haeundae": "Хэүндэ далайн эрэг",
-    "ch_hangang": "Хан гол · Банпо гүүр"
+    "ch_haeundae": "Хэүндэ",
+    "ch_hangang": "Хан гол",
+    "ch_banpo": "Банпо гүүр",
+    "ch_lotte": "Лотте цамхаг",
+    "ch_namsan": "Намсан цамхаг",
+    "ch_ddp": "DDP Дондэмун",
+    "ch_busan": "Пусан",
+    "ch_sokcho": "Сокчхо",
+    "ch_jeju": "Жэжү арал"
   }
 }

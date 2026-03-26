@@ -515,7 +515,14 @@
     "ch_myeongdong": "Мёндон",
     "ch_gangnam": "Каннам",
     "ch_hongdae": "Хондэ",
-    "ch_haeundae": "пляж Хэундэ",
-    "ch_hangang": "Хан · мост Банпо"
+    "ch_haeundae": "Хэундэ",
+    "ch_hangang": "Река Хан",
+    "ch_banpo": "Мост Банпо",
+    "ch_lotte": "Лотте Тауэр",
+    "ch_namsan": "Намсан",
+    "ch_ddp": "DDP Тондэмун",
+    "ch_busan": "Пусан",
+    "ch_sokcho": "Сокчхо",
+    "ch_jeju": "Чеджу"
   }
 }

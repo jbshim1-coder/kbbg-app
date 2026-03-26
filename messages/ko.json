@@ -515,7 +515,14 @@
     "ch_gangnam": "강남",
     "ch_hongdae": "홍대",
     "ch_haeundae": "해운대 해변",
-    "ch_hangang": "한강 · 반포대교"
+    "ch_hangang": "한강 전경",
+    "ch_banpo": "반포대교 무지개",
+    "ch_lotte": "롯데월드타워",
+    "ch_namsan": "남산타워",
+    "ch_ddp": "DDP 동대문",
+    "ch_busan": "부산 스카이라인",
+    "ch_sokcho": "속초 해변",
+    "ch_jeju": "제주도"
   },
   "faq_items": [
     {

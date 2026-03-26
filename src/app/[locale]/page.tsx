@@ -115,33 +115,63 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* 한국의 거리 라이브 섹션 */}
-      <section className="px-4 py-14">
-        <div className="mx-auto max-w-4xl">
+      {/* 한국의 거리 라이브 — 12개 바둑판 그리드 */}
+      <section className="bg-gray-950 px-4 py-14">
+        <div className="mx-auto max-w-5xl">
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-0.5 text-xs font-semibold text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                 LIVE
               </span>
-              <h2 className="text-2xl font-bold text-gray-900">{t("live.title")}</h2>
+              <h2 className="text-2xl font-bold text-white">{t("live.title")}</h2>
             </div>
-            <Link href={`/${locale}/live`} className="text-sm text-pink-500 hover:underline">
+            <Link href={`/${locale}/live`} className="text-sm text-pink-400 hover:underline">
               {t("live.view_more")}
             </Link>
           </div>
-          <div className="overflow-hidden rounded-2xl bg-black shadow-lg">
-            <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-              <iframe
-                className="absolute inset-0 h-full w-full"
-                src="https://www.youtube.com/embed/Nu9MT2tFAOc?autoplay=0&mute=1&rel=0&modestbranding=1"
-                title="Myeongdong Live"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {[
+              { id:"hangang", videoId:"zpCZ9OFjb3U", emoji:"🌉" },
+              { id:"banpo", videoId:"-JhoMGoAfFc", emoji:"🌈" },
+              { id:"lotte", videoId:"vZtdRVDlPQA", emoji:"🏢" },
+              { id:"gangnam", videoId:"gCNeDWCI0vo", emoji:"🏙️" },
+              { id:"myeongdong", videoId:"F-gFsCZJEMw", emoji:"🛍️" },
+              { id:"hongdae", videoId:"JnoOvYFoaYA", emoji:"🎨" },
+              { id:"namsan", videoId:"gY09Dde0jhs", emoji:"🗼" },
+              { id:"ddp", videoId:"8Rf0pVCijBo", emoji:"🏛️" },
+              { id:"busan", videoId:"G40EYtfNCTg", emoji:"🌇" },
+              { id:"haeundae", videoId:"xmpF4N_5Bxo", emoji:"🏖️" },
+              { id:"sokcho", videoId:"xF-_ZbS4iF4", emoji:"🏔️" },
+              { id:"jeju", videoId:"T6JMb4kB-2o", emoji:"🌴" },
+            ].map((ch) => (
+              <Link
+                key={ch.id}
+                href={`/${locale}/live`}
+                className="group relative overflow-hidden rounded-xl border-2 border-gray-700 hover:border-gray-500 transition-all"
+              >
+                <div className="relative aspect-video bg-gray-800">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`https://img.youtube.com/vi/${ch.videoId}/mqdefault.jpg`}
+                    alt={ch.id}
+                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                  <span className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded bg-red-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                    <span className="h-1 w-1 rounded-full bg-white animate-pulse" />
+                    LIVE
+                  </span>
+                </div>
+                <div className="bg-gray-900 px-2 py-1.5 text-center">
+                  <span className="mr-1">{ch.emoji}</span>
+                  <span className="text-xs font-medium text-gray-200">
+                    {t(`live.ch_${ch.id}` as Parameters<typeof t>[0])}
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
-          <p className="mt-3 text-center text-xs text-gray-400">{t("live.home_caption")}</p>
         </div>
       </section>
 

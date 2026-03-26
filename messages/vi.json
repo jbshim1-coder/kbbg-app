@@ -516,6 +516,13 @@
     "ch_gangnam": "Gangnam",
     "ch_hongdae": "Hongdae",
     "ch_haeundae": "Bãi biển Haeundae",
-    "ch_hangang": "Sông Hàn · Cầu Banpo"
+    "ch_hangang": "Sông Hàn",
+    "ch_banpo": "Cầu Banpo",
+    "ch_lotte": "Lotte World Tower",
+    "ch_namsan": "Tháp Namsan",
+    "ch_ddp": "DDP Dongdaemun",
+    "ch_busan": "Busan",
+    "ch_sokcho": "Bãi biển Sokcho",
+    "ch_jeju": "Đảo Jeju"
   }
 }
