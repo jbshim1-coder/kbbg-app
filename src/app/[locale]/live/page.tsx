@@ -9,30 +9,39 @@ import { useParams } from "next/navigation";
 // 실제 유튜브 라이브 영상 ID 또는 채널 ID를 사용
 const LIVE_CHANNELS = [
   {
-    id: "myeongdong",
-    nameKey: "live.ch_myeongdong",
-    location: "서울 명동",
-    // 명동 거리 라이브캠 (Korea Travel / 한국관광공사 계열 라이브)
-    videoId: "Nu9MT2tFAOc",
-    thumbnail: "https://img.youtube.com/vi/Nu9MT2tFAOc/mqdefault.jpg",
-    emoji: "🛍️",
+    id: "hangang",
+    nameKey: "live.ch_hangang",
+    location: "서울 반포대교 · 한강",
+    // Daily Seoul 한강 라이브캠 (24시간 4K) — SkylineWebcams 확인
+    videoId: "-JhoMGoAfFc",
+    thumbnail: "https://img.youtube.com/vi/-JhoMGoAfFc/mqdefault.jpg",
+    emoji: "🌉",
   },
   {
     id: "gangnam",
     nameKey: "live.ch_gangnam",
-    location: "서울 강남역",
-    // 강남 거리 라이브캠
-    videoId: "86YLFOog4GM",
-    thumbnail: "https://img.youtube.com/vi/86YLFOog4GM/mqdefault.jpg",
+    location: "서울 강남",
+    // Yangjaecheon 강남 라이브캠 — 24시간 4K
+    videoId: "gCNeDWCI0vo",
+    thumbnail: "https://img.youtube.com/vi/gCNeDWCI0vo/mqdefault.jpg",
     emoji: "🏙️",
+  },
+  {
+    id: "myeongdong",
+    nameKey: "live.ch_myeongdong",
+    location: "서울 명동",
+    // 명동 거리 라이브
+    videoId: "F-gFsCZJEMw",
+    thumbnail: "https://img.youtube.com/vi/F-gFsCZJEMw/mqdefault.jpg",
+    emoji: "🛍️",
   },
   {
     id: "hongdae",
     nameKey: "live.ch_hongdae",
     location: "서울 홍대",
-    // 홍대 거리 라이브캠
-    videoId: "8kXFSaXQGVU",
-    thumbnail: "https://img.youtube.com/vi/8kXFSaXQGVU/mqdefault.jpg",
+    // 홍대 거리 라이브
+    videoId: "JnoOvYFoaYA",
+    thumbnail: "https://img.youtube.com/vi/JnoOvYFoaYA/mqdefault.jpg",
     emoji: "🎨",
   },
   {
@@ -40,18 +49,9 @@ const LIVE_CHANNELS = [
     nameKey: "live.ch_haeundae",
     location: "부산 해운대",
     // 해운대 해변 라이브캠
-    videoId: "fCpgowFzBsA",
-    thumbnail: "https://img.youtube.com/vi/fCpgowFzBsA/mqdefault.jpg",
+    videoId: "xmpF4N_5Bxo",
+    thumbnail: "https://img.youtube.com/vi/xmpF4N_5Bxo/mqdefault.jpg",
     emoji: "🏖️",
-  },
-  {
-    id: "gyeongbokgung",
-    nameKey: "live.ch_gyeongbokgung",
-    location: "서울 경복궁",
-    // 경복궁 라이브캠
-    videoId: "FNjCBBNFpCQ",
-    thumbnail: "https://img.youtube.com/vi/FNjCBBNFpCQ/mqdefault.jpg",
-    emoji: "🏯",
   },
 ];
 
