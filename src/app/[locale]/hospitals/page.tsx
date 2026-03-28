@@ -5,6 +5,10 @@ import { useState, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { HiraClinic } from "@/lib/hira-api";
 import { SIDO_CODES, SUBJECT_CODES } from "@/lib/hira-api";
+
+// 코드→이름 역매핑
+const SIDO_NAMES = Object.fromEntries(Object.entries(SIDO_CODES).map(([k, v]) => [k, v]));
+const SUBJECT_NAMES = Object.fromEntries(Object.entries(SUBJECT_CODES).map(([k, v]) => [k, v]));
 import type { Ad } from "@/app/api/admin/ads/route";
 
 export default function HospitalsPage() {
@@ -29,6 +33,10 @@ export default function HospitalsPage() {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+
+  // AI 분석 상태
+  const [aiAnalysis, setAiAnalysis] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
 
   // 검색 결과 상단에 노출할 광고 1개
   const [topAd, setTopAd] = useState<Ad | null>(null);
@@ -64,6 +72,13 @@ export default function HospitalsPage() {
         setClinics(dbData.clinics);
         setTotalCount(dbData.totalCount || 0);
         setSearched(true);
+        // AI 분석 자동 요청 (첫 페이지만)
+        if (newPage === 1) {
+          const regionName = region ? SIDO_NAMES[region] || "" : "";
+          const subjectName = subject ? SUBJECT_NAMES[subject] || "" : "";
+          const aiQuery = [regionName, subjectName, keyword].filter(Boolean).join(" ") || "병원 추천";
+          fetchAiAnalysis(aiQuery);
+        }
         return;
       }
 
@@ -75,12 +90,35 @@ export default function HospitalsPage() {
       setClinics(data.clinics || []);
       setTotalCount(data.totalCount || 0);
       setSearched(true);
+      // AI 분석 자동 요청 (첫 페이지만)
+      if (newPage === 1 && (data.clinics || []).length > 0) {
+        const regionName = region ? SIDO_NAMES[region] || "" : "";
+        const subjectName = subject ? SUBJECT_NAMES[subject] || "" : "";
+        const aiQuery = [regionName, subjectName, keyword].filter(Boolean).join(" ") || "병원 추천";
+        fetchAiAnalysis(aiQuery);
+      }
     } catch {
       setClinics([]);
       setTotalCount(0);
     } finally {
       setLoading(false);
     }
+  };
+
+  // AI 분석 요청 — 검색 결과 상위 병원을 Claude가 분석
+  const fetchAiAnalysis = async (query: string) => {
+    setAiLoading(true);
+    setAiAnalysis("");
+    try {
+      const res = await fetch("/api/ai-search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, locale }),
+      });
+      const data = await res.json();
+      if (data.narrative) setAiAnalysis(data.narrative);
+    } catch { /* AI 분석 실패해도 검색 결과는 유지 */ }
+    finally { setAiLoading(false); }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -169,6 +207,25 @@ export default function HospitalsPage() {
                   >
                     {isKo ? "자세히 보기 →" : "Learn more →"}
                   </a>
+                )}
+              </div>
+            )}
+
+            {/* AI 분석 카드 */}
+            {(aiLoading || aiAnalysis) && (
+              <div className="mb-6 bg-blue-50 border-2 border-blue-200 rounded-xl p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">🤖</span>
+                  <span className="text-sm font-bold text-blue-700">
+                    {isKo ? "AI 추천 분석" : "AI Recommendation"}
+                  </span>
+                </div>
+                {aiLoading ? (
+                  <p className="text-sm text-blue-500 animate-pulse">
+                    {isKo ? "AI가 병원을 분석하고 있습니다..." : "AI is analyzing hospitals..."}
+                  </p>
+                ) : (
+                  <p className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{aiAnalysis}</p>
                 )}
               </div>
             )}
