@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
 import { fetchGoogleRating } from "@/lib/google-places";
+import { SUBJECT_CODES } from "@/lib/hira-api";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -44,16 +45,42 @@ export async function GET(request: NextRequest) {
       query = query.in("cl_cd", ["91", "92"]);
     }
 
-    // 정렬: 구글별점 > 전문의수 > 의사수
+    // 넉넉히 가져온 후 관련성 재정렬 (진료과 키워드 매칭)
+    const fetchLimit = subject ? 50 : limit;
     query = query
       .order("google_rating", { ascending: false, nullsFirst: false })
       .order("sdr_cnt", { ascending: false })
       .order("dr_tot_cnt", { ascending: false })
-      .range(offset, offset + limit - 1);
+      .range(0, fetchLimit - 1);
 
     const { data, count, error } = await query;
 
     if (error) throw error;
+
+    // 진료과 관련성 재정렬 — 병원명에 진료과 키워드 포함 시 우선
+    if (data && subject && SUBJECT_CODES[subject]) {
+      const subjectName = SUBJECT_CODES[subject]; // 예: "피부과", "성형외과"
+      const shortName = subjectName.replace("과", "").replace("의학", ""); // "피부", "성형외"
+      data.sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
+        const aName = (a.name as string) || "";
+        const bName = (b.name as string) || "";
+        const aMatch = aName.includes(shortName) || aName.includes(subjectName) ? 1 : 0;
+        const bMatch = bName.includes(shortName) || bName.includes(subjectName) ? 1 : 0;
+        if (aMatch !== bMatch) return bMatch - aMatch;
+        // 동일 관련성이면 별점 > 전문의수 순
+        const aRating = (a.google_rating as number) || 0;
+        const bRating = (b.google_rating as number) || 0;
+        if (aRating !== bRating) return bRating - aRating;
+        return ((b.sdr_cnt as number) || 0) - ((a.sdr_cnt as number) || 0);
+      });
+    }
+
+    // 관련성 정렬 후 페이지 슬라이스
+    if (data && subject) {
+      const sliced = data.slice(offset, offset + limit);
+      data.length = 0;
+      sliced.forEach((item: Record<string, unknown>) => data.push(item));
+    }
 
     // 별점 없는 상위 5개 병원 구글 별점 조회+캐싱
     if (process.env.GOOGLE_PLACES_API_KEY && data) {
