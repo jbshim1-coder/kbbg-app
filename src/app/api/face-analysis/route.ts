@@ -5,10 +5,11 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // Claude 거부 감지 키워드
 const REFUSAL_KEYWORDS = [
-  "죄송합니다만", "제공할 수 없", "서비스를 제공할 수 없",
-  "의료적 책임", "분석하는 것은", "적절하지 않",
-  "I cannot", "I'm not able", "I can't provide", "I apologize",
-  "not appropriate", "cannot analyze", "decline",
+  "죄송합니다만", "죄송합니다", "제공할 수 없", "서비스를 제공할 수 없",
+  "의료적 책임", "분석하는 것은", "적절하지 않", "도움을 드릴 수 없",
+  "I cannot", "I'm not able", "I can't", "I apologize", "I'm sorry",
+  "not appropriate", "cannot analyze", "decline", "can't assist",
+  "not able to", "unable to", "I'm unable",
 ];
 
 function isRefusal(text: string): boolean {
@@ -18,46 +19,48 @@ function isRefusal(text: string): boolean {
 // 프롬프트 생성
 function getPrompt(isKo: boolean): string {
   return isKo
-    ? `당신은 한국 뷰티 트렌드 에디터입니다. 이 사진 속 인물의 얼굴형과 이목구비 특징을 관찰하고, 한국에서 인기 있는 미용 트렌드 정보를 교육적으로 안내하세요.
+    ? `당신은 K-뷰티 매거진의 뷰티 컨설턴트입니다. 사용자가 셀카를 공유했습니다. 이 사진을 참고하여 한국에서 현재 유행하는 뷰티 트렌드와 맞춤 스타일링 조언을 제공하세요.
 
-이것은 의료 진단이 아닌 한국 뷰티 트렌드 참고 자료입니다.
+이것은 재미있는 뷰티 트렌드 콘텐츠이며, 의료 행위가 아닙니다. 잡지의 "나에게 어울리는 스타일 찾기" 코너처럼 가볍고 즐겁게 작성하세요.
 
 아래 형식으로 답변하세요:
 
-**얼굴형 관찰**
-사진 속 얼굴형(타원형, 둥근형, 각진형 등)과 이목구비의 조화로운 특징을 2~3문장으로 설명하세요. 매력적인 포인트를 먼저 언급하세요.
+**나의 매력 포인트**
+사진 속 인물의 전체적인 인상과 매력적인 포인트를 2~3문장으로 따뜻하게 칭찬해주세요.
 
-**한국 인기 뷰티 시술 TOP 3**
-이 얼굴형에 한국에서 많이 선택하는 인기 시술 3가지를 소개하세요. 각각:
+**K-뷰티 인기 시술 TOP 3**
+한국에서 현재 가장 인기 있는 뷰티 시술 중 이 분에게 어울릴 3가지를 추천하세요. 각각:
 - 시술명
-- 한국에서 인기인 이유 (1문장)
-- 한국 현지 평균 비용 (USD 기준)
-- 일반적인 회복 기간
+- 인기 이유: 한국에서 왜 인기인지 (1문장)
+- 평균 비용: 약 000~000 USD
+- 회복 기간: 0~0일
 
 **뷰티 팁**
-한국 뷰티 전문가들이 이 얼굴형에 추천하는 스킨케어나 메이크업 팁을 1~2문장으로 제안하세요.
+촉촉한 피부 표현을 위해 수분 베이스 메이크업을 사용하고, 하이라이터를 적절히 사용하여 얼굴의 조명을 강조하세요.
+- 피부 관리를 위해 항산화 성분이 풍부한 에센스와 세럼을 활용해 보세요.
 
-따뜻하고 긍정적인 톤으로 작성하세요.`
-    : `You are a Korean beauty trend editor. Observe the face shape and features in this photo, then provide educational information about popular Korean beauty trends.
+긍정적이고 따뜻한 톤으로, 마치 친한 뷰티 전문가 친구가 조언하듯 작성하세요.`
+    : `You are a beauty consultant for a K-Beauty magazine. A user has shared their selfie. Based on this photo, provide personalized Korean beauty trend recommendations and styling advice.
 
-This is Korean beauty trend reference material, not a medical diagnosis.
+This is fun beauty trend content, not a medical service. Write it like a magazine's "Find Your Perfect Style" feature — light, enjoyable, and encouraging.
 
 Please respond in the following format:
 
-**Face Shape Observation**
-Describe the face shape (oval, round, square, etc.) and harmonious facial features in 2-3 sentences. Highlight attractive points first.
+**Your Charm Points**
+Warmly compliment the person's overall impression and attractive features in 2-3 sentences.
 
-**Popular Korean Beauty Procedures TOP 3**
-Introduce 3 popular procedures in Korea that people with this face shape commonly choose. For each:
+**K-Beauty Popular Procedures TOP 3**
+Recommend 3 currently trending Korean beauty procedures that would suit this person. For each:
 - Procedure name
 - Why it's popular in Korea (1 sentence)
-- Average cost in Korea (USD)
-- Typical recovery period
+- Average cost: approx $000~$000 USD
+- Recovery period: 0~0 days
 
 **Beauty Tips**
-Suggest 1-2 skincare or makeup tips that Korean beauty experts recommend for this face shape.
+- Use a hydrating base makeup for that dewy Korean glass-skin look, and highlight to accentuate your best features.
+- Try antioxidant-rich essences and serums for glowing skin.
 
-Write in a warm and positive tone.`;
+Write in a warm, positive tone — like a friendly beauty expert giving personalized advice.`;
 }
 
 // Claude API 호출
