@@ -56,6 +56,14 @@ export default function ReportPage() {
       });
 
       if (dbError) throw dbError;
+
+      // 운영자에게 이메일 알림
+      fetch("/api/report-notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name || "Anonymous", email, type, clinicName, description }),
+      }).catch(() => {});
+
       setSubmitted(true);
     } catch {
       setError(t("report.error"));
