@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 // 문의 유형 키 목록
 const INQUIRY_TYPE_KEYS = [
@@ -16,12 +18,23 @@ const INQUIRY_TYPE_KEYS = [
 // 문의 폼 페이지 — 클라이언트 컴포넌트 (폼 상태 관리 필요)
 export default function ContactPage() {
   const t = useTranslations();
+  const locale = useLocale();
+  const isKo = locale === "ko";
+  const searchParams = useSearchParams();
 
   // 폼 필드 상태
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [type, setType] = useState("");
   const [message, setMessage] = useState("");
+
+  // URL ?hospital= 파라미터가 있으면 문의 내용 자동 채우기
+  useEffect(() => {
+    const hospital = searchParams.get("hospital");
+    if (hospital) {
+      setMessage(isKo ? `[${hospital}] 상담 문의` : `[${hospital}] Inquiry`);
+    }
+  }, [searchParams, isKo]);
   // 제출 완료 여부 — true 시 감사 메시지 표시
   const [submitted, setSubmitted] = useState(false);
 
@@ -86,6 +99,13 @@ export default function ContactPage() {
           <a href="mailto:help@2bstory.com" className="text-pink-500 hover:underline">
             help@2bstory.com
           </a>
+        </p>
+
+        {/* 안내 문구 — 문의 내용 전달 경로 안내 */}
+        <p className="mt-4 text-xs text-gray-400 bg-gray-50 rounded-lg px-4 py-2.5 border border-gray-100">
+          {isKo
+            ? "문의 내용은 help@2bstory.com 으로도 전달됩니다"
+            : "Your inquiry will also be forwarded to help@2bstory.com"}
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">

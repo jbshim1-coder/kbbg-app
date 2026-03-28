@@ -214,15 +214,23 @@ export default function ClinicFilter({ locale }: { locale: string }) {
                       <h3 className="font-semibold text-gray-800">{clinic.yadmNm}</h3>
                       <p className="text-xs text-gray-400 mt-0.5">{clinic.clCdNm} · {clinic.dgsbjtCdNm}</p>
                     </div>
-                    {clinic.hospUrl && (
+                    <div className="flex items-center gap-2 shrink-0 ml-3">
+                      {clinic.hospUrl && (
+                        <a
+                          href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
+                          target="_blank" rel="noopener noreferrer"
+                          className="text-xs text-blue-500 hover:underline"
+                        >
+                          {isKo ? "홈페이지" : "Website"}
+                        </a>
+                      )}
                       <a
-                        href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
-                        target="_blank" rel="noopener noreferrer"
-                        className="text-xs text-blue-500 hover:underline shrink-0 ml-3"
+                        href={`/${locale}/contact?hospital=${encodeURIComponent(clinic.yadmNm)}`}
+                        className="text-xs px-2.5 py-1 border border-pink-400 text-pink-500 rounded-lg hover:bg-pink-50 transition"
                       >
-                        {isKo ? "홈페이지" : "Website"}
+                        {isKo ? "상담 문의" : "Inquiry"}
                       </a>
-                    )}
+                    </div>
                   </div>
                   <p className="text-sm text-gray-600 mt-2">{clinic.addr}</p>
                   <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-500">

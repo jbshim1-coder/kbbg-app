@@ -6,18 +6,48 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase";
 
+// 랜덤 캡차 숫자 생성 (1~9)
+function generateCaptcha() {
+  const a = Math.floor(Math.random() * 9) + 1;
+  const b = Math.floor(Math.random() * 9) + 1;
+  return { a, b };
+}
+
 // 회원가입 페이지 — 이메일 + Google 소셜 가입
 export default function SignupPage() {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "en";
+  const isKo = locale === "ko";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
+  const [captcha] = useState(generateCaptcha);
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [errors, setErrors] = useState<{ confirmPassword?: string; captcha?: string }>({});
 
-  // 회원가입 핸들러 (TODO: Supabase Auth 연동)
+  // 유효성 검사 후 가입 처리
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const newErrors: typeof errors = {};
+
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = t("auth.password_mismatch");
+    }
+
+    if (parseInt(captchaAnswer, 10) !== captcha.a + captcha.b) {
+      newErrors.captcha = t("auth.captcha_error");
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
     console.log("signup:", email, name);
   };
 
@@ -91,6 +121,50 @@ export default function SignupPage() {
               required
               minLength={8}
             />
+          </div>
+
+          {/* 비밀번호 확인 필드 */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("auth.confirm_password")}</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+              }}
+              placeholder={t("auth.confirm_password_placeholder")}
+              className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.confirmPassword ? "border-red-400" : "border-gray-200"
+              }`}
+              required
+            />
+            {errors.confirmPassword && (
+              <p className="mt-1 text-xs text-red-500">{errors.confirmPassword}</p>
+            )}
+          </div>
+
+          {/* 수학 캡차 — 봇 방지 */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {t("auth.captcha_label")}: {captcha.a} + {captcha.b} = ?
+            </label>
+            <input
+              type="number"
+              value={captchaAnswer}
+              onChange={(e) => {
+                setCaptchaAnswer(e.target.value);
+                if (errors.captcha) setErrors((prev) => ({ ...prev, captcha: undefined }));
+              }}
+              placeholder={t("auth.captcha_placeholder")}
+              className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.captcha ? "border-red-400" : "border-gray-200"
+              }`}
+              required
+            />
+            {errors.captcha && (
+              <p className="mt-1 text-xs text-red-500">{errors.captcha}</p>
+            )}
           </div>
 
           {/* 약관 동의 */}
