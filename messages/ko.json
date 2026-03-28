@@ -14,8 +14,12 @@
     "cosmetics": "화장품",
     "influencer": "인플루언서",
     "find_clinic": "병원찾기",
+    "ai_search": "AI검색",
+    "ai_face": "AI얼굴분석",
+    "hospital_search": "조건별 병원검색",
     "kbeauty": "화장품순위",
     "guides": "시술가이드",
+    "events": "이벤트",
     "live_short": "LIVE"
   },
   "hero": {

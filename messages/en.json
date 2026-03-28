@@ -14,8 +14,12 @@
     "cosmetics": "Cosmetics",
     "influencer": "Influencer",
     "find_clinic": "Find Clinic",
+    "ai_search": "AI Search",
+    "ai_face": "AI Face Analysis",
+    "hospital_search": "Hospital Search",
     "kbeauty": "K-Beauty",
     "guides": "Guides",
+    "events": "Events",
     "live_short": "LIVE"
   },
   "hero": {

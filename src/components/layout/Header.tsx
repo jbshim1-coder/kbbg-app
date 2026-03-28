@@ -66,10 +66,13 @@ export default function Header() {
   // 네비게이션 링크 목록 — 번역 키 사용
   // 메뉴 순서: 사용자 유입 + 체류시간 극대화 구조
   const NAV_LINKS = [
-    { href: "/hospitals", labelKey: "nav.find_clinic" },
+    { href: "/ai-search", labelKey: "nav.ai_search" },
+    { href: "/#face-analysis", labelKey: "nav.ai_face" },
+    { href: "/hospitals", labelKey: "nav.hospital_search" },
     { href: "/community", labelKey: "nav.community" },
     { href: "/cosmetics", labelKey: "nav.kbeauty" },
     { href: "/guides", labelKey: "nav.guides" },
+    { href: "/events", labelKey: "nav.events" },
     { href: "/live", labelKey: "nav.live_short" },
   ];
 
