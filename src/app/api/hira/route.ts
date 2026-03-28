@@ -48,9 +48,16 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // 정렬
+    // 정렬 — rating: 구글별점 우선, 별점 없으면 전문의수 순
     if (sort === "rating") {
-      clinicsWithRating.sort((a, b) => (b.googleRating ?? 0) - (a.googleRating ?? 0));
+      clinicsWithRating.sort((a, b) => {
+        const aRating = a.googleRating ?? 0;
+        const bRating = b.googleRating ?? 0;
+        if (aRating !== bRating) return bRating - aRating;
+        const aSpec = (a.mdeptSdrCnt ?? a.sdrCnt ?? 0) as number;
+        const bSpec = (b.mdeptSdrCnt ?? b.sdrCnt ?? 0) as number;
+        return bSpec - aSpec;
+      });
     } else if (sort === "doctors") {
       clinicsWithRating.sort((a, b) => (b.drTotCnt ?? 0) - (a.drTotCnt ?? 0));
     } else if (sort === "specialist") {
