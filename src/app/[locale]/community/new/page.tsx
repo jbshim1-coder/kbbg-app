@@ -1,13 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import ImageUpload from "@/components/ImageUpload";
 import { useRecaptcha } from "@/lib/useRecaptcha";
+import { createClient } from "@/lib/supabase";
 
-// 선택 가능한 카테고리 키 목록
-const CATEGORY_KEYS = ["community.plastic_surgery", "community.dermatology", "community.dental", "community.general"];
+// 선택 가능한 카테고리 키 목록 — 커뮤니티 전체 카테고리와 동일
+const CATEGORY_KEYS = [
+  "community.plastic_surgery",
+  "community.dermatology",
+  "community.dental",
+  "community.general",
+  "community.kpop",
+  "community.kfood",
+  "community.kdrama",
+  "community.kfashion",
+  "community.travel",
+  "community.korean_learn",
+];
 
 // 새 게시글 작성 페이지 — 카테고리·제목·본문·이미지 첨부
 export default function NewPostPage() {
@@ -15,6 +27,20 @@ export default function NewPostPage() {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "en";
+
+  // 비회원 접근 차단 — 로그인 확인 중 로딩 표시
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) {
+        router.push(`/${locale}/signup`);
+      } else {
+        setChecking(false);
+      }
+    });
+  }, [locale, router]);
 
   // 폼 필드 상태
   const [categoryKey, setCategoryKey] = useState("");
@@ -25,6 +51,15 @@ export default function NewPostPage() {
   const [submitting, setSubmitting] = useState(false);
   const [recaptchaError, setRecaptchaError] = useState("");
   const { verifyRecaptcha } = useRecaptcha();
+
+  // 로그인 확인 중 로딩 스피너
+  if (checking) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-pink-500 border-t-transparent" />
+      </main>
+    );
+  }
 
   // 필수 필드 모두 채워진 경우에만 제출 버튼 활성화
   const isValid = categoryKey && title.trim() && body.trim();
@@ -56,27 +91,23 @@ export default function NewPostPage() {
         <h1 className="text-2xl font-bold text-gray-900">{t("community.write_title")}</h1>
 
         <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-5">
-          {/* 카테고리 선택 — 토글 버튼 방식 */}
+          {/* 카테고리 선택 — 드롭다운 */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
               {t("community.category_label")} <span className="text-pink-500">{t("community.required_marker")}</span>
             </label>
-            <div className="flex flex-wrap gap-2">
+            <select
+              value={categoryKey}
+              onChange={(e) => setCategoryKey(e.target.value)}
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400 bg-white"
+            >
+              <option value="">{locale === "ko" ? "카테고리를 선택하세요" : "Select a category"}</option>
               {CATEGORY_KEYS.map((catKey) => (
-                <button
-                  key={catKey}
-                  type="button"
-                  onClick={() => setCategoryKey(catKey)}
-                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                    categoryKey === catKey
-                      ? "bg-pink-500 text-white"
-                      : "bg-white border border-gray-200 text-gray-600 hover:border-pink-300"
-                  }`}
-                >
+                <option key={catKey} value={catKey}>
                   {t(catKey as Parameters<typeof t>[0])}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
           </div>
 
           {/* 제목 입력 — 최대 100자 제한 */}

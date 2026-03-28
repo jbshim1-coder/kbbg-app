@@ -69,16 +69,20 @@ export default function PostDetailPage({
   const [postDeleted, setPostDeleted] = useState(false);
   // 현재 로그인 사용자가 마스터인지 여부
   const [master, setMaster] = useState(false);
+  // 로그인 여부 — null: 확인 전, false: 비로그인, true: 로그인
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
 
-  // 로그인 사용자 확인 — 마스터 여부 감지
+  // 로그인 사용자 확인 — 마스터 여부 및 로그인 상태 감지
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }) => {
+      setLoggedIn(!!data.user);
       if (data.user?.email && isMaster(data.user.email)) {
         setMaster(true);
       }
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setLoggedIn(!!session?.user);
       setMaster(!!(session?.user?.email && isMaster(session.user.email)));
     });
     return () => subscription.unsubscribe();
@@ -220,22 +224,36 @@ export default function PostDetailPage({
             ))}
           </div>
 
-          {/* 댓글 작성 폼 */}
-          <form onSubmit={handleCommentSubmit} className="mt-4">
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder={t("community.comment_placeholder")}
-              rows={3}
-              className="w-full rounded-xl border border-gray-200 p-3 text-sm outline-none focus:border-pink-400"
-            />
-            <button
-              type="submit"
-              className="mt-2 rounded-xl bg-pink-500 px-6 py-2 text-sm font-semibold text-white hover:bg-pink-600"
-            >
-              {t("community.comment_submit")}
-            </button>
-          </form>
+          {/* 댓글 작성 폼 — 비회원은 회원가입 유도 메시지 표시 */}
+          {loggedIn === false ? (
+            <div className="text-center py-4 bg-gray-50 rounded-xl mt-4">
+              <p className="text-sm text-gray-500 mb-2">
+                {locale === "ko" ? "댓글을 작성하려면 로그인이 필요합니다" : "Login required to write comments"}
+              </p>
+              <Link
+                href={`/${locale}/signup`}
+                className="inline-block px-4 py-2 bg-pink-500 text-white text-sm rounded-lg hover:bg-pink-600 transition"
+              >
+                {locale === "ko" ? "회원가입" : "Sign Up"}
+              </Link>
+            </div>
+          ) : (
+            <form onSubmit={handleCommentSubmit} className="mt-4">
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder={t("community.comment_placeholder")}
+                rows={3}
+                className="w-full rounded-xl border border-gray-200 p-3 text-sm outline-none focus:border-pink-400"
+              />
+              <button
+                type="submit"
+                className="mt-2 rounded-xl bg-pink-500 px-6 py-2 text-sm font-semibold text-white hover:bg-pink-600"
+              >
+                {t("community.comment_submit")}
+              </button>
+            </form>
+          )}
         </section>
       </div>
     </main>

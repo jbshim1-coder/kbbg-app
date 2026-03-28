@@ -41,16 +41,20 @@ export default function CommunityPage() {
   const [posts, setPosts] = useState(INITIAL_POSTS);
   // 현재 로그인 사용자가 마스터인지 여부
   const [master, setMaster] = useState(false);
+  // 로그인 여부 — null: 확인 전, false: 비로그인, true: 로그인
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
 
-  // 로그인 사용자 확인 — 마스터 여부 감지
+  // 로그인 사용자 확인 — 마스터 여부 및 로그인 상태 감지
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }) => {
+      setLoggedIn(!!data.user);
       if (data.user?.email && isMaster(data.user.email)) {
         setMaster(true);
       }
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setLoggedIn(!!session?.user);
       setMaster(!!(session?.user?.email && isMaster(session.user.email)));
     });
     return () => subscription.unsubscribe();
@@ -78,7 +82,7 @@ export default function CommunityPage() {
         <div className="mx-auto max-w-6xl flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-900">{t("community.title")}</h1>
           <Link
-            href={`/${locale}/community/new`}
+            href={loggedIn ? `/${locale}/community/new` : `/${locale}/signup`}
             className="rounded-xl bg-pink-500 px-4 py-2 text-sm font-semibold text-white hover:bg-pink-600"
           >
             {t("community.new_post")}
