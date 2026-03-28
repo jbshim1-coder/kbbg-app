@@ -31,14 +31,18 @@ function AiSearchContent() {
   const locale = useLocale();
 
   // URL에서 q 파라미터 직접 추출
-  const [rawQuery] = useState(() => {
-    if (typeof window !== "undefined") {
-      return new URLSearchParams(window.location.search).get("q") || "";
-    }
-    return "";
-  });
-  const [inputValue, setInputValue] = useState(rawQuery);
+  const [rawQuery, setRawQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [isThinking, setIsThinking] = useState(true);
+  const [initialized, setInitialized] = useState(false);
+
+  // 마운트 시 URL에서 query 추출
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("q") || "";
+    setRawQuery(q);
+    setInputValue(q);
+    setInitialized(true);
+  }, []);
   const [results, setResults] = useState<HiraClinic[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [narrative, setNarrative] = useState("");
@@ -58,10 +62,10 @@ function AiSearchContent() {
   }, []);
 
   useEffect(() => {
+    if (!initialized) return;
     setIsThinking(true);
     setResults([]);
     setNarrative("");
-    setInputValue(rawQuery);
 
     if (!rawQuery) {
       setIsThinking(false);
@@ -95,7 +99,7 @@ function AiSearchContent() {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [rawQuery]);
+  }, [rawQuery, initialized]);
 
   const handleSearch = () => {
     const q = inputValue.trim();
