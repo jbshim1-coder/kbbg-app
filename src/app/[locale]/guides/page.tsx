@@ -248,27 +248,6 @@ export default async function GuidesPage({
         })}
       </div>
 
-      {/* 하단 CTA */}
-      <section className="bg-gradient-to-br from-pink-50 to-blue-50 px-4 py-14 text-center">
-        <div className="mx-auto max-w-xl">
-          <h2 className="text-2xl font-bold text-gray-900">{t("cta_title")}</h2>
-          <p className="mt-3 text-gray-600">{t("cta_description")}</p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href={`/${locale}/hospitals`}
-              className="rounded-xl bg-pink-500 px-6 py-3 font-semibold text-white hover:bg-pink-600 transition-colors"
-            >
-              {t("cta_browse")}
-            </Link>
-            <Link
-              href={`/${locale}/recommend`}
-              className="rounded-xl border border-gray-200 bg-white px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              {t("cta_ai")}
-            </Link>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }
