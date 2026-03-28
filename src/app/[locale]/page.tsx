@@ -34,15 +34,9 @@ export default async function HomePage({
       <SlideBanner locale={locale} />
 
       {/* ━━━ AI 맞춤 추천 — 전체 너비 ━━━ */}
-      <section className="bg-gray-900 px-4 py-12 border-b border-gray-800">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs font-semibold text-gray-400 tracking-widest uppercase mb-2">AI Recommendation</p>
-          <h2 className="text-2xl font-bold text-white mb-3">AI 맞춤 추천</h2>
-          <p className="text-sm text-gray-400 leading-relaxed mb-8">
-            증상이나 원하는 시술을 자연어로 입력하면
-            AI가 최적의 병원을 즉시 추천해드립니다.
-          </p>
-          <div className="bg-white rounded-lg p-4 max-w-2xl mx-auto">
+      <section className="bg-gray-900 px-4 py-10 border-b border-gray-800">
+        <div className="mx-auto max-w-6xl">
+          <div className="bg-white rounded-lg p-4">
             <AiSearchBox locale={locale} />
           </div>
         </div>
