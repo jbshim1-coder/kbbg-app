@@ -14,11 +14,14 @@ export default function HospitalsPage() {
 
   // URL의 dept 또는 subject 파라미터로 초기 진료과 세팅
   const initialSubject = searchParams.get("dept") || searchParams.get("subject") || "";
+  // 한의원/한방병원은 type 파라미터로 처리
+  const initialType = searchParams.get("type") || "";
 
   // 검색 상태
   const [keyword, setKeyword] = useState("");
   const [region, setRegion] = useState("");
   const [subject, setSubject] = useState(initialSubject);
+  const [clinicType, setClinicType] = useState(initialType);
   const [page, setPage] = useState(1);
 
   // 결과 상태
@@ -41,7 +44,7 @@ export default function HospitalsPage() {
       .catch(() => setTopAd(null));
   }, []);
 
-  // 검색 실행
+  // 검색 실행 — DB 우선, 없으면 HIRA API 폴백
   const handleSearch = async (newPage = 1) => {
     setLoading(true);
     setPage(newPage);
@@ -50,9 +53,22 @@ export default function HospitalsPage() {
       if (keyword) params.set("keyword", keyword);
       if (region) params.set("region", region);
       if (subject) params.set("subject", subject);
+      if (clinicType) params.set("type", clinicType);
       params.set("page", String(newPage));
-      params.set("sort", "rating");
 
+      // 1) DB 기반 검색 시도 (구글별점순 + 전문의수순)
+      const dbRes = await fetch(`/api/clinics/search?${params.toString()}`);
+      const dbData = await dbRes.json();
+
+      if (dbData.clinics && dbData.clinics.length > 0) {
+        setClinics(dbData.clinics);
+        setTotalCount(dbData.totalCount || 0);
+        setSearched(true);
+        return;
+      }
+
+      // 2) DB에 데이터 없으면 HIRA API 직접 호출
+      params.set("sort", "rating");
       const res = await fetch(`/api/hira?${params.toString()}`);
       const data = await res.json();
 
@@ -72,12 +88,11 @@ export default function HospitalsPage() {
     handleSearch(1);
   };
 
-  // URL에 dept 파라미터가 있으면 마운트 시 자동 검색
+  // URL에 dept 또는 type 파라미터가 있으면 마운트 시 자동 검색
   useEffect(() => {
-    if (initialSubject) {
+    if (initialSubject || initialType) {
       handleSearch(1);
     }
-    // initialSubject는 URL에서 파생된 고정값 — 마운트 시 1회만 실행
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

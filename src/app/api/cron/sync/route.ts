@@ -3,17 +3,20 @@
 // CRON_SECRET 환경변수로 무단 호출 차단
 
 import { NextRequest, NextResponse } from "next/server";
-import { fetchHiraClinics } from "@/lib/hira-api";
+import { fetchHiraClinics, SUBJECT_CODES, SIDO_CODES } from "@/lib/hira-api";
 import { createServiceRoleClient } from "@/lib/supabase";
 
-// 수집 대상 진료과 코드 (성형, 피부, 치과, 안과)
-const TARGET_SUBJECTS = ["08", "14", "49", "12"];
+// 전체 진료과목 코드 (SUBJECT_CODES에 등록된 모든 코드)
+const TARGET_SUBJECTS = Object.keys(SUBJECT_CODES);
 
-// 수집 대상 지역 코드 (서울, 부산, 대구, 인천, 제주)
-const TARGET_REGIONS = ["110000", "210000", "220000", "230000", "500000"];
+// 전체 지역 코드
+const TARGET_REGIONS = Object.keys(SIDO_CODES);
+
+// 한의원/한방병원 종별코드 — dgsbjtCd 없이 clCd로 수집
+const KOREAN_MEDICINE_CL_CDS = ["91", "92"]; // 91: 한방병원, 92: 한의원
 
 export async function GET(request: NextRequest) {
-  // CRON_SECRET 검증 — Authorization: Bearer <secret>
+  // CRON_SECRET 검증
   const authHeader = request.headers.get("authorization");
   const expectedSecret = process.env.CRON_SECRET;
 
@@ -21,74 +24,120 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // region 파라미터 — 특정 지역만 동기화 가능 (Vercel 타임아웃 대응)
+  const { searchParams } = new URL(request.url);
+  const regionParam = searchParams.get("region");
+  const regions = regionParam ? [regionParam] : TARGET_REGIONS;
+
   try {
     const supabase = createServiceRoleClient();
     let totalSynced = 0;
+    const syncedAt = new Date().toISOString();
 
-    // 진료과 × 지역 조합으로 수집
+    // 1) 진료과목별 수집
     for (const subjectCd of TARGET_SUBJECTS) {
-      for (const sidoCd of TARGET_REGIONS) {
-        let pageNo = 1;
-        let hasMore = true;
-
-        while (hasMore) {
+      for (const sidoCd of regions) {
+        try {
           const result = await fetchHiraClinics({
             dgsbjtCd: subjectCd,
             sidoCd: sidoCd,
             numOfRows: 100,
-            pageNo: pageNo,
+            pageNo: 1,
           });
 
-          if (result.clinics.length === 0) {
-            hasMore = false;
-            break;
-          }
+          if (result.clinics.length === 0) continue;
 
-          for (const clinic of result.clinics) {
-            const clinicData = {
-              name: clinic.yadmNm,
-              name_en: clinic.yadmNm,
-              description: `${clinic.clCdNm} · ${clinic.dgsbjtCdNm}`,
-              address: clinic.addr,
-              city: clinic.sidoCdNm,
-              phone: clinic.telno || null,
-              website: clinic.hospUrl || null,
-              latitude: clinic.YPos ? parseFloat(clinic.YPos) : null,
-              longitude: clinic.XPos ? parseFloat(clinic.XPos) : null,
-              is_verified: true,
-              is_active: true,
-              supports_english: false,
-              supports_chinese: false,
-              supports_japanese: false,
-            };
+          const rows = result.clinics.map((c) => ({
+            ykiho: c.ykiho,
+            name: c.yadmNm,
+            name_en: c.yadmNm,
+            description: `${c.clCdNm} · ${c.dgsbjtCdNm}`,
+            address: c.addr,
+            city: c.sidoCdNm,
+            phone: c.telno || null,
+            website: c.hospUrl || null,
+            cl_cd: null as string | null,
+            cl_cd_nm: c.clCdNm,
+            dgsbjt_cd: subjectCd,
+            dgsbjt_cd_nm: c.dgsbjtCdNm,
+            dr_tot_cnt: c.drTotCnt || 0,
+            sdr_cnt: (c.mdeptSdrCnt || c.sdrCnt || 0) as number,
+            sido_cd: sidoCd,
+            sido_cd_nm: c.sidoCdNm,
+            sggu_cd_nm: c.sgguCdNm,
+            latitude: c.YPos ? parseFloat(c.YPos) : null,
+            longitude: c.XPos ? parseFloat(c.XPos) : null,
+            is_verified: true,
+            is_active: true,
+            synced_at: syncedAt,
+          }));
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            await (supabase as any).from("clinics").upsert(
-              { ...clinicData, id: clinic.ykiho },
-              { onConflict: "id" }
-            );
-
-            totalSynced++;
-          }
-
-          if (pageNo * 100 >= result.totalCount) {
-            hasMore = false;
-          } else {
-            pageNo++;
-          }
-
-          // API rate limit 방지
-          await new Promise((r) => setTimeout(r, 200));
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (supabase as any).from("clinics").upsert(rows, { onConflict: "ykiho" });
+          totalSynced += rows.length;
+        } catch (err) {
+          console.error(`[sync] subject=${subjectCd} region=${sidoCd} failed:`, err);
         }
+
+        await new Promise((r) => setTimeout(r, 300));
       }
     }
 
-    console.log(`[cron/sync] ${totalSynced} clinics synced at ${new Date().toISOString()}`);
+    // 2) 한의원/한방병원 — 종별코드(clCd)로 수집
+    for (const clCd of KOREAN_MEDICINE_CL_CDS) {
+      for (const sidoCd of regions) {
+        try {
+          const result = await fetchHiraClinics({
+            clCd: clCd,
+            sidoCd: sidoCd,
+            numOfRows: 100,
+            pageNo: 1,
+          });
+
+          if (result.clinics.length === 0) continue;
+
+          const rows = result.clinics.map((c) => ({
+            ykiho: c.ykiho,
+            name: c.yadmNm,
+            name_en: c.yadmNm,
+            description: `${c.clCdNm} · ${c.dgsbjtCdNm || "한방"}`,
+            address: c.addr,
+            city: c.sidoCdNm,
+            phone: c.telno || null,
+            website: c.hospUrl || null,
+            cl_cd: clCd,
+            cl_cd_nm: c.clCdNm,
+            dgsbjt_cd: null as string | null,
+            dgsbjt_cd_nm: c.dgsbjtCdNm || null,
+            dr_tot_cnt: c.drTotCnt || 0,
+            sdr_cnt: (c.mdeptSdrCnt || c.sdrCnt || 0) as number,
+            sido_cd: sidoCd,
+            sido_cd_nm: c.sidoCdNm,
+            sggu_cd_nm: c.sgguCdNm,
+            latitude: c.YPos ? parseFloat(c.YPos) : null,
+            longitude: c.XPos ? parseFloat(c.XPos) : null,
+            is_verified: true,
+            is_active: true,
+            synced_at: syncedAt,
+          }));
+
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (supabase as any).from("clinics").upsert(rows, { onConflict: "ykiho" });
+          totalSynced += rows.length;
+        } catch (err) {
+          console.error(`[sync] clCd=${clCd} region=${sidoCd} failed:`, err);
+        }
+
+        await new Promise((r) => setTimeout(r, 300));
+      }
+    }
+
+    console.log(`[cron/sync] ${totalSynced} clinics synced at ${syncedAt}`);
 
     return NextResponse.json({
       success: true,
       message: `${totalSynced} clinics synced`,
-      syncedAt: new Date().toISOString(),
+      syncedAt,
     });
   } catch (error) {
     console.error("[cron/sync] Sync failed:", error);
