@@ -3,16 +3,16 @@
 import Link from "next/link";
 
 const DEPARTMENTS = [
-  { id: 1, icon: "✨", nameKo: "성형외과", nameEn: "Plastic Surgery", descKo: "쌍꺼풀·코성형·안면윤곽", descEn: "Eyelid · Nose · Face Contouring", color: "from-pink-400 to-rose-400" },
-  { id: 2, icon: "💎", nameKo: "피부과", nameEn: "Dermatology", descKo: "레이저·보톡스·필러", descEn: "Laser · Botox · Filler", color: "from-purple-400 to-violet-400" },
-  { id: 3, icon: "🩺", nameKo: "내과", nameEn: "Internal Medicine", descKo: "건강검진", descEn: "Health Checkup", color: "from-blue-400 to-cyan-400" },
-  { id: 4, icon: "🦷", nameKo: "치과", nameEn: "Dental", descKo: "임플란트·라미네이트", descEn: "Implant · Laminate", color: "from-sky-400 to-blue-400" },
-  { id: 5, icon: "👁️", nameKo: "안과", nameEn: "Ophthalmology", descKo: "라식·라섹", descEn: "LASIK · LASEK", color: "from-teal-400 to-emerald-400" },
-  { id: 6, icon: "👶", nameKo: "산부인과", nameEn: "OB/GYN", descKo: "산전검사·난임치료", descEn: "Prenatal · Fertility", color: "from-rose-400 to-pink-400" },
-  { id: 7, icon: "🦴", nameKo: "정형외과", nameEn: "Orthopedics", descKo: "관절·척추", descEn: "Joint · Spine", color: "from-amber-400 to-orange-400" },
-  { id: 8, icon: "🌿", nameKo: "한의원", nameEn: "Korean Medicine", descKo: "한방치료", descEn: "Traditional Treatment", color: "from-green-400 to-emerald-400" },
-  { id: 9, icon: "🔬", nameKo: "비뇨기과", nameEn: "Urology", descKo: "비뇨기 질환", descEn: "Urological Care", color: "from-indigo-400 to-blue-400" },
-  { id: 10, icon: "👃", nameKo: "이비인후과", nameEn: "ENT", descKo: "코골이·축농증", descEn: "Snoring · Sinusitis", color: "from-orange-400 to-amber-400" },
+  { id: 1, code: "08", icon: "✨", nameKo: "성형외과", nameEn: "Plastic Surgery", descKo: "쌍꺼풀·코성형·안면윤곽", descEn: "Eyelid · Nose · Face Contouring", color: "from-pink-400 to-rose-400" },
+  { id: 2, code: "14", icon: "💎", nameKo: "피부과", nameEn: "Dermatology", descKo: "레이저·보톡스·필러", descEn: "Laser · Botox · Filler", color: "from-purple-400 to-violet-400" },
+  { id: 3, code: "01", icon: "🩺", nameKo: "내과", nameEn: "Internal Medicine", descKo: "건강검진", descEn: "Health Checkup", color: "from-blue-400 to-cyan-400" },
+  { id: 4, code: "49", icon: "🦷", nameKo: "치과", nameEn: "Dental", descKo: "임플란트·라미네이트", descEn: "Implant · Laminate", color: "from-sky-400 to-blue-400" },
+  { id: 5, code: "12", icon: "👁️", nameKo: "안과", nameEn: "Ophthalmology", descKo: "라식·라섹", descEn: "LASIK · LASEK", color: "from-teal-400 to-emerald-400" },
+  { id: 6, code: "10", icon: "👶", nameKo: "산부인과", nameEn: "OB/GYN", descKo: "산전검사·난임치료", descEn: "Prenatal · Fertility", color: "from-rose-400 to-pink-400" },
+  { id: 7, code: "05", icon: "🦴", nameKo: "정형외과", nameEn: "Orthopedics", descKo: "관절·척추", descEn: "Joint · Spine", color: "from-amber-400 to-orange-400" },
+  { id: 8, code: "80", icon: "🌿", nameKo: "한의원", nameEn: "Korean Medicine", descKo: "한방치료", descEn: "Traditional Treatment", color: "from-green-400 to-emerald-400" },
+  { id: 9, code: "04", icon: "🔬", nameKo: "비뇨기과", nameEn: "Urology", descKo: "비뇨기 질환", descEn: "Urological Care", color: "from-indigo-400 to-blue-400" },
+  { id: 10, code: "13", icon: "👃", nameKo: "이비인후과", nameEn: "ENT", descKo: "코골이·축농증", descEn: "Snoring · Sinusitis", color: "from-orange-400 to-amber-400" },
 ];
 
 export default function TopDepartments({ locale }: { locale: string }) {
@@ -30,7 +30,7 @@ export default function TopDepartments({ locale }: { locale: string }) {
         {DEPARTMENTS.map((dept) => (
           <Link
             key={dept.id}
-            href={`/${locale}/hospitals?dept=${encodeURIComponent(isKo ? dept.nameKo : dept.nameEn)}`}
+            href={`/${locale}/hospitals?dept=${dept.code}`}
             className="group relative bg-white rounded-xl border border-gray-100 p-4 text-center transition-all hover:shadow-md hover:-translate-y-1"
           >
             <span className="absolute top-1.5 left-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-gray-100 text-[10px] font-bold text-gray-500">

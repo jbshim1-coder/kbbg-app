@@ -8,8 +8,25 @@ import LevelBadge from "@/components/LevelBadge";
 import { createClient } from "@/lib/supabase";
 import { isMaster } from "@/lib/level-system";
 
-// 카테고리 탭 — 번역 키 기반으로 변경
-const CATEGORY_KEYS = ["community.all", "community.plastic_surgery", "community.dermatology", "community.dental", "community.general", "community.kpop", "community.kfood", "community.kdrama", "community.kfashion", "community.travel", "community.korean_learn"];
+// 카테고리 탭 — 10개 진료과 + 비진료과 카테고리 ("전체" 버튼 제거)
+const CATEGORY_KEYS = [
+  "community.plastic_surgery",
+  "community.dermatology",
+  "community.internal_medicine",
+  "community.dental",
+  "community.ophthalmology",
+  "community.gynecology",
+  "community.orthopedics",
+  "community.oriental",
+  "community.urology",
+  "community.ent",
+  "community.kpop",
+  "community.kfood",
+  "community.kdrama",
+  "community.kfashion",
+  "community.travel",
+  "community.korean_learn",
+];
 
 // 게시글 더미 데이터 — 실제 DB 연동 전 UI 확인용
 const INITIAL_POSTS = [
@@ -32,8 +49,8 @@ export default function CommunityPage() {
   // pathname: /ko/community → locale = "ko"
   const locale = pathname.split("/")[1] || "en";
 
-  // 선택된 카테고리 키 상태 (기본값: community.all)
-  const [activeCategoryKey, setActiveCategoryKey] = useState("community.all");
+  // 선택된 카테고리 키 상태 (기본값: 성형외과)
+  const [activeCategoryKey, setActiveCategoryKey] = useState("community.plastic_surgery");
   // 정렬 방식 상태
   const [sort, setSort] = useState<SortType>("popular");
   // 게시글 목록 상태 — 삭제 시 로컬 제거
@@ -64,10 +81,8 @@ export default function CommunityPage() {
     setPosts((prev) => prev.filter((p) => p.id !== postId));
   };
 
-  // 카테고리 필터링 — "all" 선택 시 모든 글 표시
-  const filtered = posts.filter(
-    (p) => activeCategoryKey === "community.all" || p.categoryKey === activeCategoryKey
-  );
+  // 카테고리 필터링 — 선택된 카테고리 글만 표시
+  const filtered = posts.filter((p) => p.categoryKey === activeCategoryKey);
 
   // 정렬 적용 — 인기순: upvotes 내림차순, 최신순: 배열 순서 유지 (실제 연동 시 createdAt 기준)
   const sorted = [...filtered].sort((a, b) =>

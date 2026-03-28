@@ -15,6 +15,13 @@ const RECENT_POSTS = [
   { id: 1, titleKey: "community_preview.post1_title", categoryKey: "community_preview.post1_category", author: "user_kr", comments: 24, upvotes: 87 },
   { id: 2, titleKey: "community_preview.post2_title", categoryKey: "community_preview.post2_category", author: "sarah_jp", comments: 15, upvotes: 42 },
   { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community_preview.post3_category", author: "mike_us", comments: 31, upvotes: 63 },
+  { id: 4, titleKey: "community_preview.post4_title", categoryKey: "community_preview.post4_category", author: "tom_vn", comments: 27, upvotes: 54 },
+  { id: 5, titleKey: "community_preview.post5_title", categoryKey: "community_preview.post5_category", author: "lisa_th", comments: 19, upvotes: 48 },
+  { id: 6, titleKey: "community_preview.post6_title", categoryKey: "community_preview.post6_category", author: "chen_cn", comments: 12, upvotes: 35 },
+  { id: 7, titleKey: "community_preview.post7_title", categoryKey: "community_preview.post7_category", author: "kim_kr", comments: 22, upvotes: 61 },
+  { id: 8, titleKey: "community_preview.post8_title", categoryKey: "community_preview.post8_category", author: "yuki_jp", comments: 8, upvotes: 29 },
+  { id: 9, titleKey: "community_preview.post9_title", categoryKey: "community_preview.post9_category", author: "david_uk", comments: 33, upvotes: 72 },
+  { id: 10, titleKey: "community_preview.post10_title", categoryKey: "community_preview.post10_category", author: "mai_vn", comments: 11, upvotes: 38 },
 ];
 
 
@@ -55,7 +62,7 @@ export default async function HomePage({
           <div className="rounded-xl bg-white border border-gray-200 overflow-hidden">
             <div className="px-5 pt-5 pb-1 flex items-center gap-3 border-b border-gray-100">
               <div>
-                <h2 className="text-base font-bold text-gray-900">병원 찾기</h2>
+                <h2 className="text-base font-bold text-gray-900">조건별 병원검색</h2>
                 <p className="text-xs text-gray-400">진료과·지역·유형으로 실시간 검색</p>
               </div>
             </div>

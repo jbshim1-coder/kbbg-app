@@ -2,19 +2,23 @@
 
 // 병원 검색 페이지 — 심평원 API 연동 + 검색 결과 상단 광고 노출
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import type { HiraClinic } from "@/lib/hira-api";
 import { SIDO_CODES, SUBJECT_CODES } from "@/lib/hira-api";
 import type { Ad } from "@/app/api/admin/ads/route";
 
 export default function HospitalsPage() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const locale = pathname.split("/")[1] || "en";
+
+  // URL의 dept 또는 subject 파라미터로 초기 진료과 세팅
+  const initialSubject = searchParams.get("dept") || searchParams.get("subject") || "";
 
   // 검색 상태
   const [keyword, setKeyword] = useState("");
   const [region, setRegion] = useState("");
-  const [subject, setSubject] = useState("");
+  const [subject, setSubject] = useState(initialSubject);
   const [page, setPage] = useState(1);
 
   // 결과 상태
@@ -66,6 +70,15 @@ export default function HospitalsPage() {
     e.preventDefault();
     handleSearch(1);
   };
+
+  // URL에 dept 파라미터가 있으면 마운트 시 자동 검색
+  useEffect(() => {
+    if (initialSubject) {
+      handleSearch(1);
+    }
+    // initialSubject는 URL에서 파생된 고정값 — 마운트 시 1회만 실행
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const totalPages = Math.ceil(totalCount / 10);
   const isKo = locale === "ko";

@@ -53,11 +53,16 @@ export default function DailyCheckIn({ locale }: { locale: string }) {
         }`}
       >
         {checked
-          ? `✅ ${isKo ? "오늘 출석 완료!" : "Checked in today!"}`
+          ? `✅ ${isKo ? "오늘 출석 완료! +1P" : "Checked in today! +1P"}`
           : `🎯 ${isKo ? "출석 체크 (+1P)" : "Check in (+1P)"}`}
       </button>
       {showAnim && (
-        <p className="mt-2 text-center text-pink-500 text-sm font-bold animate-bounce">+1P!</p>
+        <div className="mt-2 text-center animate-bounce">
+          <p className="text-pink-500 text-sm font-bold">
+            🎉 {isKo ? "축하합니다! 출석 체크 완료!" : "Congratulations! Checked in!"}
+          </p>
+          <p className="text-pink-400 text-xs font-semibold mt-0.5">+1P 획득!</p>
+        </div>
       )}
       <p className="mt-2 text-center text-xs text-gray-400">
         🔥 {isKo ? `연속 ${streak}일째` : `${streak} day streak`}
