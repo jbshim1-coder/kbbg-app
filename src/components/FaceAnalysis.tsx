@@ -192,6 +192,16 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                 : (isKo ? "AI 분석 시작" : "Start Analysis")}
             </button>
           </div>
+          {loading && (
+            <div className="mt-6 flex flex-col items-center gap-3">
+              <div className="relative w-16 h-16">
+                <span className="absolute inset-0 flex items-center justify-center text-3xl animate-spin" style={{ animationDuration: "2s" }}>⏳</span>
+              </div>
+              <p className="text-sm text-violet-600 font-medium animate-pulse">
+                {isKo ? "AI가 분석하고 있습니다. 잠시만 기다려주세요..." : "AI is analyzing your photo. Please wait..."}
+              </p>
+            </div>
+          )}
         </div>
       ) : (
         /* 분석 완료 → 결과 보기 유도 */

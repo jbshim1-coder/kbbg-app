@@ -32,7 +32,7 @@ function getPrompt(isKo: boolean): string {
 한국에서 현재 가장 인기 있는 뷰티 시술 중 이 분에게 어울릴 3가지를 추천하세요. 각각:
 - 시술명
 - 인기 이유: 한국에서 왜 인기인지 (1문장)
-- 평균 비용: 약 000~000 USD
+- 평균 비용: 약 000~000 USD (비용은 유동적)
 - 회복 기간: 0~0일
 
 **뷰티 팁**
@@ -53,7 +53,7 @@ Warmly compliment the person's overall impression and attractive features in 2-3
 Recommend 3 currently trending Korean beauty procedures that would suit this person. For each:
 - Procedure name
 - Why it's popular in Korea (1 sentence)
-- Average cost: approx $000~$000 USD
+- Average cost: approx $000~$000 USD (prices may vary)
 - Recovery period: 0~0 days
 
 **Beauty Tips**
