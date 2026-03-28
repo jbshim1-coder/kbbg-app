@@ -9,8 +9,14 @@ export default function DailyCheckIn({ locale }: { locale: string }) {
   const [streak, setStreak] = useState(0);
   const [showAnim, setShowAnim] = useState(false);
 
+  // 한국시간(KST, UTC+9) 기준 날짜 반환
+  const getKSTDate = (date: Date) => {
+    const kst = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+    return kst.toISOString().slice(0, 10);
+  };
+
   useEffect(() => {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = getKSTDate(new Date());
     const lastCheck = localStorage.getItem("kbbg_checkin_date");
     const savedStreak = parseInt(localStorage.getItem("kbbg_checkin_streak") || "0");
 
@@ -18,17 +24,17 @@ export default function DailyCheckIn({ locale }: { locale: string }) {
       setChecked(true);
       setStreak(savedStreak);
     } else {
-      // 어제 체크했으면 연속, 아니면 리셋
+      // 어제(KST) 체크했으면 연속, 아니면 리셋
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = yesterday.toISOString().slice(0, 10);
+      const yesterdayStr = getKSTDate(yesterday);
       setStreak(lastCheck === yesterdayStr ? savedStreak : 0);
     }
   }, []);
 
   const handleCheckIn = () => {
     if (checked) return;
-    const today = new Date().toISOString().slice(0, 10);
+    const today = getKSTDate(new Date());
     const newStreak = streak + 1;
     localStorage.setItem("kbbg_checkin_date", today);
     localStorage.setItem("kbbg_checkin_streak", String(newStreak));
@@ -48,7 +54,7 @@ export default function DailyCheckIn({ locale }: { locale: string }) {
         disabled={checked}
         className={`w-full py-2.5 rounded-xl text-sm font-semibold transition ${
           checked
-            ? "bg-green-50 text-green-600 border border-green-200"
+            ? "bg-green-50 text-green-600 border-2 border-green-400"
             : "bg-pink-500 text-white hover:bg-pink-600"
         }`}
       >
