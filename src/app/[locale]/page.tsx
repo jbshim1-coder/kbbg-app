@@ -190,17 +190,6 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* 푸터 */}
-      <footer className="border-t border-gray-100 px-4 py-8 text-center text-xs text-gray-400">
-        <div className="flex justify-center gap-4">
-          <Link href={`/${locale}/about`} className="hover:text-gray-600">{t("nav.about")}</Link>
-          <Link href={`/${locale}/contact`} className="hover:text-gray-600">{t("nav.contact")}</Link>
-          <Link href={`/${locale}/terms`} className="hover:text-gray-600">{t("footer.terms")}</Link>
-          <Link href={`/${locale}/privacy`} className="hover:text-gray-600">{t("footer.privacy")}</Link>
-          <Link href={`/${locale}/disclaimer`} className="hover:text-gray-600">{t("footer.disclaimer")}</Link>
-        </div>
-        <p className="mt-4">{t("footer.copyright", { year: new Date().getFullYear() })}</p>
-      </footer>
     </main>
   );
 }
