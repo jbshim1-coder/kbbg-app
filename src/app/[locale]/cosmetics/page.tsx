@@ -40,20 +40,20 @@ const SOURCE_META: Record<
   oliveyoung: {
     sourceKo: "출처: 올리브영",
     sourceEn: "Source: Olive Young",
-    updateKo: "매주 업데이트",
-    updateEn: "Updated weekly",
+    updateKo: "매주 월요일 기준 1주일 데이터",
+    updateEn: "Weekly data based on Monday",
   },
   glowpick: {
     sourceKo: "출처: 글로우픽",
     sourceEn: "Source: Glowpick",
-    updateKo: "매주 업데이트",
-    updateEn: "Updated weekly",
+    updateKo: "매주 월요일 기준 1주일 데이터",
+    updateEn: "Weekly data based on Monday",
   },
   hwahae: {
     sourceKo: "출처: 화해",
     sourceEn: "Source: Hwahae",
-    updateKo: "매주 업데이트",
-    updateEn: "Updated weekly",
+    updateKo: "매주 월요일 기준 1주일 데이터",
+    updateEn: "Weekly data based on Monday",
   },
 };
 
