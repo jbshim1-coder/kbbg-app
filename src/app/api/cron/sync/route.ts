@@ -4,6 +4,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { fetchHiraClinics, SUBJECT_CODES, SIDO_CODES } from "@/lib/hira-api";
+import { fetchGoogleRating } from "@/lib/google-places";
 import { createServiceRoleClient } from "@/lib/supabase";
 
 // 전체 진료과목 코드 (SUBJECT_CODES에 등록된 모든 코드)
@@ -132,11 +133,47 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    console.log(`[cron/sync] ${totalSynced} clinics synced at ${syncedAt}`);
+    // 3) 구글 별점 조회 — 별점 없는 전문의 많은 병원 상위 50개
+    let ratingsSynced = 0;
+    if (process.env.GOOGLE_PLACES_API_KEY) {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: noRating } = await (supabase as any)
+          .from("clinics")
+          .select("ykiho, name, address")
+          .is("google_rating", null)
+          .order("sdr_cnt", { ascending: false })
+          .limit(50);
+
+        if (noRating && noRating.length > 0) {
+          for (const clinic of noRating) {
+            try {
+              const rating = await fetchGoogleRating(clinic.name, clinic.address);
+              if (rating) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                await (supabase as any)
+                  .from("clinics")
+                  .update({
+                    google_rating: rating.rating,
+                    google_review_count: rating.reviewCount,
+                  })
+                  .eq("ykiho", clinic.ykiho);
+                ratingsSynced++;
+              }
+            } catch { /* 개별 실패 무시 */ }
+            await new Promise((r) => setTimeout(r, 100));
+          }
+        }
+      } catch (err) {
+        console.error("[sync] Google rating sync failed:", err);
+      }
+    }
+
+    console.log(`[cron/sync] ${totalSynced} clinics + ${ratingsSynced} ratings synced at ${syncedAt}`);
 
     return NextResponse.json({
       success: true,
-      message: `${totalSynced} clinics synced`,
+      message: `${totalSynced} clinics + ${ratingsSynced} ratings synced`,
       syncedAt,
     });
   } catch (error) {
