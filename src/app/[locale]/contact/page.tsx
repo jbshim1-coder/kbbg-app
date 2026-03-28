@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
+import { useRecaptcha } from "@/lib/useRecaptcha";
 
 // 문의 유형 키 목록
 const INQUIRY_TYPE_KEYS = [
@@ -44,6 +45,7 @@ export default function ContactPage() {
   // 제출 중 상태
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { verifyRecaptcha } = useRecaptcha();
 
   // 폼 제출 처리 — Supabase contact_inquiries 테이블에 저장
   async function handleSubmit(e: React.FormEvent) {
@@ -51,6 +53,13 @@ export default function ContactPage() {
     if (!isValid) return;
     setLoading(true);
     setError("");
+
+    const isHuman = await verifyRecaptcha("contact");
+    if (!isHuman) {
+      setError(isKo ? "보안 검증에 실패했습니다. 다시 시도해주세요." : "Security verification failed. Please try again.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const supabase = createClient();

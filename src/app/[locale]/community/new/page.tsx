@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import ImageUpload from "@/components/ImageUpload";
+import { useRecaptcha } from "@/lib/useRecaptcha";
 
 // 선택 가능한 카테고리 키 목록
 const CATEGORY_KEYS = ["community.plastic_surgery", "community.dermatology", "community.dental", "community.general"];
@@ -22,16 +23,26 @@ export default function NewPostPage() {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   // 제출 중 상태 — 중복 제출 방지
   const [submitting, setSubmitting] = useState(false);
+  const [recaptchaError, setRecaptchaError] = useState("");
+  const { verifyRecaptcha } = useRecaptcha();
 
   // 필수 필드 모두 채워진 경우에만 제출 버튼 활성화
   const isValid = categoryKey && title.trim() && body.trim();
 
   // 폼 제출 처리 — 실제 API 연동 전 더미 딜레이 후 커뮤니티로 이동
   // imageUrls는 Supabase insert 시 함께 전달 예정
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isValid) return;
+
+    const isHuman = await verifyRecaptcha("community_post");
+    if (!isHuman) {
+      setRecaptchaError(locale === "ko" ? "보안 검증에 실패했습니다. 다시 시도해주세요." : "Security verification failed. Please try again.");
+      return;
+    }
+
     setSubmitting(true);
+    setRecaptchaError("");
     // TODO: Supabase insert 시 { categoryKey, title, body, images: imageUrls } 전달
     void imageUrls;
     setTimeout(() => {
@@ -106,6 +117,9 @@ export default function NewPostPage() {
             </label>
             <ImageUpload onUploadComplete={(urls) => setImageUrls(urls)} />
           </div>
+
+          {/* reCAPTCHA 에러 메시지 */}
+          {recaptchaError && <p className="text-sm text-red-500 text-center">{recaptchaError}</p>}
 
           {/* 취소 / 게시 버튼 */}
           <div className="flex gap-3">
