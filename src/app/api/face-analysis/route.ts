@@ -11,32 +11,46 @@ export async function POST(req: Request) {
     const isKo = locale === "ko";
 
     const prompt = isKo
-      ? `당신은 한국 미용의료 전문 컨설턴트입니다. 업로드된 셀카를 분석하고 아래 형식으로 답변하세요.
+      ? `당신은 한국 뷰티 트렌드 에디터입니다. 이 사진 속 인물의 얼굴형과 이목구비 특징을 관찰하고, 한국에서 인기 있는 미용 트렌드 정보를 교육적으로 안내하세요.
 
-**주의: 의료 진단이 아닌 일반적인 미용 상담 참고 정보입니다.**
+이것은 의료 진단이 아닌 한국 뷰티 트렌드 참고 자료입니다.
 
-1. **얼굴 분석** (2~3문장): 얼굴형, 이목구비 특징을 객관적으로 설명
-2. **추천 시술 TOP 3**: 각 시술에 대해
-   - 시술명
-   - 추천 이유 (1문장)
-   - 예상 비용 (USD 기준)
-   - 회복 기간
-3. **종합 조언** (1~2문장): 전체적인 미용 방향 제안
+아래 형식으로 답변하세요:
 
-친절하고 긍정적인 톤으로 작성하세요. 현재 모습의 장점을 먼저 언급한 후 개선 가능한 부분을 제안하세요.`
-      : `You are a Korean beauty medical consultant. Analyze the uploaded selfie and respond in the following format.
+**얼굴형 관찰**
+사진 속 얼굴형(타원형, 둥근형, 각진형 등)과 이목구비의 조화로운 특징을 2~3문장으로 설명하세요. 매력적인 포인트를 먼저 언급하세요.
 
-**Note: This is general beauty consultation reference, not medical diagnosis.**
+**한국 인기 뷰티 시술 TOP 3**
+이 얼굴형에 한국에서 많이 선택하는 인기 시술 3가지를 소개하세요. 각각:
+- 시술명
+- 한국에서 인기인 이유 (1문장)
+- 한국 현지 평균 비용 (USD 기준)
+- 일반적인 회복 기간
 
-1. **Face Analysis** (2-3 sentences): Objectively describe face shape and facial features
-2. **Recommended Procedures TOP 3**: For each procedure:
-   - Procedure name
-   - Reason for recommendation (1 sentence)
-   - Estimated cost (USD)
-   - Recovery period
-3. **Overall Advice** (1-2 sentences): Suggest overall beauty direction
+**뷰티 팁**
+한국 뷰티 전문가들이 이 얼굴형에 추천하는 스킨케어나 메이크업 팁을 1~2문장으로 제안하세요.
 
-Write in a friendly and positive tone. Mention the strengths of the current appearance first, then suggest areas for improvement.`;
+따뜻하고 긍정적인 톤으로 작성하세요.`
+      : `You are a Korean beauty trend editor. Observe the face shape and features in this photo, then provide educational information about popular Korean beauty trends.
+
+This is Korean beauty trend reference material, not a medical diagnosis.
+
+Please respond in the following format:
+
+**Face Shape Observation**
+Describe the face shape (oval, round, square, etc.) and harmonious facial features in 2-3 sentences. Highlight attractive points first.
+
+**Popular Korean Beauty Procedures TOP 3**
+Introduce 3 popular procedures in Korea that people with this face shape commonly choose. For each:
+- Procedure name
+- Why it's popular in Korea (1 sentence)
+- Average cost in Korea (USD)
+- Typical recovery period
+
+**Beauty Tips**
+Suggest 1-2 skincare or makeup tips that Korean beauty experts recommend for this face shape.
+
+Write in a warm and positive tone.`;
 
     // data URL에서 실제 미디어 타입 추출 (image/jpeg, image/png 등)
     const mediaTypeMatch = image.match(/^data:(image\/\w+);base64,/);
