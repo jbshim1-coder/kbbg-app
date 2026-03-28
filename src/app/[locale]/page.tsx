@@ -6,6 +6,7 @@ import AiSearchBox from "@/components/AiSearchBox";
 import TrendingSidebar from "@/components/TrendingSidebar";
 import SlideBanner from "@/components/SlideBanner";
 import DailyCheckIn from "@/components/DailyCheckIn";
+import FaceAnalysis from "@/components/FaceAnalysis";
 
 // 최신 커뮤니티 글 더미 데이터 — 번역 키 사용
 const RECENT_POSTS = [
@@ -83,6 +84,7 @@ export default async function HomePage({
           {/* 오른쪽 사이드바 (lg에서 1/3 차지, 모바일에서는 아래로) */}
           <div className="lg:col-span-1 space-y-4">
             <DailyCheckIn locale={locale} />
+            <FaceAnalysis locale={locale} />
             <TrendingSidebar />
           </div>
         </div>
