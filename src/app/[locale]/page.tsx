@@ -37,18 +37,18 @@ export default async function HomePage({
       <section className="bg-[#fafafa] px-4 py-10 border-b border-gray-100">
         <div className="mx-auto max-w-6xl">
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
 
             {/* ── 서비스 1: AI 맞춤 추천 (데스크탑 2/5) ── */}
             <div className="lg:col-span-2 flex flex-col">
-              <div className="flex-1 relative rounded-2xl overflow-hidden shadow-sm">
+              <div className="relative rounded-2xl overflow-hidden shadow-sm">
                 {/* 배경: 진한 로즈 그라디언트 + 패턴 */}
                 <div className="absolute inset-0 bg-gradient-to-br from-rose-600 via-pink-600 to-rose-500" />
                 {/* 장식용 원형 빛 번짐 */}
                 <div className="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-white/10 blur-2xl pointer-events-none" />
                 <div className="absolute -bottom-16 -left-8 w-64 h-64 rounded-full bg-pink-400/20 blur-3xl pointer-events-none" />
 
-                <div className="relative z-10 h-full flex flex-col p-6 sm:p-8">
+                <div className="relative z-10 flex flex-col p-6 sm:p-8">
                   {/* 서비스 아이콘 */}
                   <div className="flex items-center gap-3 mb-5">
                     <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xl shrink-0">
@@ -67,7 +67,7 @@ export default async function HomePage({
                   </p>
 
                   {/* 검색 위젯 — 흰 배경 카드로 강조 */}
-                  <div className="mt-auto bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg ring-1 ring-white/20">
+                  <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg ring-1 ring-white/20">
                     <AiSearchBox locale={locale} />
                   </div>
                 </div>
