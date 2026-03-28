@@ -51,6 +51,7 @@ export default function HospitalsPage() {
       if (region) params.set("region", region);
       if (subject) params.set("subject", subject);
       params.set("page", String(newPage));
+      params.set("sort", "rating");
 
       const res = await fetch(`/api/hira?${params.toString()}`);
       const data = await res.json();
