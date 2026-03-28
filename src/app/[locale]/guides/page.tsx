@@ -17,6 +17,12 @@ const CATEGORY_ORDER: ProcedureGuideCategory[] = [
   "dermatology",
   "dental",
   "ophthalmology",
+  "internal-medicine",
+  "obgyn",
+  "orthopedics",
+  "korean-medicine",
+  "urology",
+  "ent",
 ];
 
 function buildFaqJsonLd(guides: ProcedureGuide[]) {
@@ -92,6 +98,42 @@ export default async function GuidesPage({
       bgColor: "bg-teal-50",
       borderColor: "border-teal-200",
     },
+    "internal-medicine": {
+      labelKey: "cat_internal_medicine",
+      color: "text-green-700",
+      bgColor: "bg-green-50",
+      borderColor: "border-green-200",
+    },
+    obgyn: {
+      labelKey: "cat_obgyn",
+      color: "text-rose-700",
+      bgColor: "bg-rose-50",
+      borderColor: "border-rose-200",
+    },
+    orthopedics: {
+      labelKey: "cat_orthopedics",
+      color: "text-amber-700",
+      bgColor: "bg-amber-50",
+      borderColor: "border-amber-200",
+    },
+    "korean-medicine": {
+      labelKey: "cat_korean_medicine",
+      color: "text-emerald-700",
+      bgColor: "bg-emerald-50",
+      borderColor: "border-emerald-200",
+    },
+    urology: {
+      labelKey: "cat_urology",
+      color: "text-indigo-700",
+      bgColor: "bg-indigo-50",
+      borderColor: "border-indigo-200",
+    },
+    ent: {
+      labelKey: "cat_ent",
+      color: "text-orange-700",
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-200",
+    },
   };
 
   const faqJsonLd = buildFaqJsonLd(procedureGuides);
@@ -116,9 +158,9 @@ export default async function GuidesPage({
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
             {[
-              { value: "20", label: t("stat_procedures") },
-              { value: "40+", label: t("stat_faqs") },
-              { value: "4", label: t("stat_categories") },
+              { value: "38", label: t("stat_procedures") },
+              { value: "76+", label: t("stat_faqs") },
+              { value: "10", label: t("stat_categories") },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <p className="text-2xl font-black text-pink-500">{stat.value}</p>
