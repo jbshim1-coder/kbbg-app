@@ -92,23 +92,25 @@ export default function CommunityPage() {
       {/* 전체 너비 레이아웃 */}
       <div className="mx-auto max-w-4xl px-4 py-6">
 
-        {/* 카테고리 + 정렬 상단 바 */}
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* 카테고리 드롭다운 */}
-          <select
-            value={activeCategoryKey}
-            onChange={(e) => setActiveCategoryKey(e.target.value)}
-            className="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium bg-white focus:outline-none focus:border-pink-400"
-          >
-            {CATEGORY_KEYS.map((catKey) => (
-              <option key={catKey} value={catKey}>
-                {t(catKey as Parameters<typeof t>[0])}
-              </option>
-            ))}
-          </select>
+        {/* 카테고리 버튼 — 2줄 wrap */}
+        <div className="flex flex-wrap gap-2">
+          {CATEGORY_KEYS.map((catKey) => (
+            <button
+              key={catKey}
+              onClick={() => setActiveCategoryKey(catKey)}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                activeCategoryKey === catKey
+                  ? "bg-pink-500 text-white"
+                  : "bg-white border border-gray-200 text-gray-600 hover:border-pink-300"
+              }`}
+            >
+              {t(catKey as Parameters<typeof t>[0])}
+            </button>
+          ))}
+        </div>
 
-          {/* 정렬 옵션 토글 */}
-          <div className="flex gap-3 text-sm">
+        {/* 정렬 옵션 토글 */}
+        <div className="mt-3 flex gap-3 text-sm">
             <button
               onClick={() => setSort("popular")}
               className={`font-medium ${sort === "popular" ? "text-pink-500" : "text-gray-400 hover:text-gray-600"}`}
@@ -172,7 +174,6 @@ export default function CommunityPage() {
             )}
           </div>
         </div>
-      </div>
     </main>
   );
 }

@@ -1,4 +1,5 @@
-// locale별 홈페이지 - 서버 컴포넌트에서 getTranslations 사용
+// locale별 홈페이지 — 3대 서비스 중심 레이아웃
+// 1. AI 추천  2. AI 얼굴 분석  3. 병원 찾기
 import Link from "next/link";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ClinicFilter from "@/components/ClinicFilter";
@@ -23,7 +24,6 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  // 정적 렌더링 활성화
   setRequestLocale(locale);
   const t = await getTranslations();
 
@@ -32,27 +32,34 @@ export default async function HomePage({
       {/* 자동 슬라이드 배너 */}
       <SlideBanner locale={locale} />
 
-      {/* AI 검색 섹션 */}
+      {/* ━━━ 서비스 1: AI 추천 ━━━ */}
       <section className="bg-white px-4 pt-10 pb-8">
         <div className="mx-auto max-w-6xl">
           <AiSearchBox locale={locale} />
         </div>
       </section>
 
-      {/* 메인 콘텐츠 — 2컬럼 레이아웃 (lg 이상에서 사이드바 표시) */}
-      <section className="px-4 py-10 bg-gray-50">
+      {/* ━━━ 서비스 2: AI 얼굴 분석 ━━━ */}
+      <section className="bg-gradient-to-b from-violet-50/60 to-white px-4 py-12">
+        <div className="mx-auto max-w-3xl">
+          <FaceAnalysis locale={locale} />
+        </div>
+      </section>
+
+      {/* ━━━ 서비스 3: 병원 찾기 (조건 검색) ━━━ */}
+      <section className="bg-gray-50 px-4 py-12">
+        <div className="mx-auto max-w-6xl">
+          <ClinicFilter locale={locale} />
+        </div>
+      </section>
+
+      {/* ━━━ 인기 진료과 + 사이드바 ━━━ */}
+      <section className="px-4 py-10 bg-white">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-          {/* 왼쪽 넓은 영역 (lg에서 2/3 차지) */}
+          {/* 왼쪽: 인기 진료과 + 커뮤니티 */}
           <div className="lg:col-span-2 space-y-10">
-            {/* 인기 진료과 TOP 10 */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <TopDepartments locale={locale} />
-            </div>
-
-            {/* 병원 필터 검색 + AI 추천 */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <ClinicFilter locale={locale} />
             </div>
 
             {/* 최신 커뮤니티 글 */}
@@ -68,7 +75,7 @@ export default async function HomePage({
                   <Link
                     key={post.id}
                     href={`/${locale}/community/${post.id}`}
-                    className="flex items-center justify-between rounded-xl bg-white px-5 py-4 shadow-sm transition hover:shadow-md"
+                    className="flex items-center justify-between rounded-xl bg-white px-5 py-4 shadow-sm border border-gray-100 transition hover:shadow-md"
                   >
                     <div>
                       <span className="mr-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
@@ -87,10 +94,9 @@ export default async function HomePage({
             </div>
           </div>
 
-          {/* 오른쪽 사이드바 (lg에서 1/3 차지, 모바일에서는 아래로) */}
+          {/* 오른쪽 사이드바 */}
           <div className="lg:col-span-1 space-y-4">
             <DailyCheckIn locale={locale} />
-            <FaceAnalysis locale={locale} />
             <TrendingSidebar />
           </div>
         </div>

@@ -65,7 +65,18 @@ Write in a friendly and positive tone. Mention the strengths of the current appe
     });
 
     const text = response.content[0].type === "text" ? response.content[0].text : "";
-    return NextResponse.json({ success: true, analysis: text });
+
+    // 분석 결과에서 추천 진료과 코드 추출 (병원 추천 연동용)
+    const subjectCodes: string[] = [];
+    const lower = text.toLowerCase();
+    if (/성형|rhinoplast|blepharop|facelift|jaw|chin|nose|eyelid|plastic/i.test(lower)) subjectCodes.push("08");
+    if (/피부|skin|derma|laser|botox|filler|peel|whitening|acne|wrinkle/i.test(lower)) subjectCodes.push("14");
+    if (/치과|dental|teeth|veneers|orthodont/i.test(lower)) subjectCodes.push("49");
+    if (/안과|eye surgery|lasik|lasek|ophthalm/i.test(lower)) subjectCodes.push("12");
+    // 기본 성형외과 fallback
+    if (subjectCodes.length === 0) subjectCodes.push("08");
+
+    return NextResponse.json({ success: true, analysis: text, subjectCodes });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json({ success: false, error: message }, { status: 500 });
