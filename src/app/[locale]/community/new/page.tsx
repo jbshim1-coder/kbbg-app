@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import ImageUpload from "@/components/ImageUpload";
 
 // 선택 가능한 카테고리 키 목록
 const CATEGORY_KEYS = ["community.plastic_surgery", "community.dermatology", "community.dental", "community.general"];
@@ -18,7 +19,7 @@ export default function NewPostPage() {
   const [categoryKey, setCategoryKey] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   // 제출 중 상태 — 중복 제출 방지
   const [submitting, setSubmitting] = useState(false);
 
@@ -26,11 +27,13 @@ export default function NewPostPage() {
   const isValid = categoryKey && title.trim() && body.trim();
 
   // 폼 제출 처리 — 실제 API 연동 전 더미 딜레이 후 커뮤니티로 이동
+  // imageUrls는 Supabase insert 시 함께 전달 예정
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isValid) return;
     setSubmitting(true);
-    // TODO: Supabase insert API 호출 후 리다이렉트
+    // TODO: Supabase insert 시 { categoryKey, title, body, images: imageUrls } 전달
+    void imageUrls;
     setTimeout(() => {
       router.push(`/${locale}/community`);
     }, 800);
@@ -96,21 +99,12 @@ export default function NewPostPage() {
             />
           </div>
 
-          {/* 이미지 업로드 — 숨겨진 input을 레이블로 트리거 */}
+          {/* 이미지 업로드 — Cloudinary 연동 (최대 3장, 각 5MB 이하) */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
               {t("community.image_optional")}
             </label>
-            <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 px-4 py-4 text-sm text-gray-500 hover:border-pink-300 hover:bg-pink-50">
-              <span>📎</span>
-              <span>{imageFile ? imageFile.name : t("community.image_placeholder")}</span>
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
-              />
-            </label>
+            <ImageUpload onUploadComplete={(urls) => setImageUrls(urls)} />
           </div>
 
           {/* 취소 / 게시 버튼 */}
