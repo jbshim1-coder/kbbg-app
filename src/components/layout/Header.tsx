@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 import { Globe, Menu, X, ChevronDown, LogOut } from "lucide-react";
-import SearchBar from "@/components/ui/SearchBar";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
@@ -120,10 +120,17 @@ export default function Header() {
           {/* ── 로고 ── */}
           <Link
             href={localePath("/")}
-            className="flex-shrink-0 text-xl font-bold text-blue-600 tracking-tight"
+            className="flex-shrink-0"
             aria-label="K-Beauty Buyers Guide"
           >
-            K-Beauty<span className="text-pink-400">BG</span>
+            <Image
+              src="/logo.png"
+              alt="K-Beauty Buyers Guide"
+              width={140}
+              height={48}
+              className="h-10 w-auto"
+              priority
+            />
           </Link>
 
           {/* ── PC 네비게이션 ── */}
