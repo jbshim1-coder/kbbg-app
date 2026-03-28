@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
+import { fetchGoogleRating } from "@/lib/google-places";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -53,6 +54,26 @@ export async function GET(request: NextRequest) {
     const { data, count, error } = await query;
 
     if (error) throw error;
+
+    // 별점 없는 상위 5개 병원 구글 별점 조회+캐싱
+    if (process.env.GOOGLE_PLACES_API_KEY && data) {
+      const noRating = data.filter((c: Record<string, unknown>) => !c.google_rating).slice(0, 5);
+      for (const c of noRating) {
+        try {
+          const rating = await fetchGoogleRating(c.name as string, c.address as string);
+          if (rating) {
+            c.google_rating = rating.rating;
+            c.google_review_count = rating.reviewCount;
+            // DB에 캐싱 (비동기, 응답 안 기다림)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (supabase as any).from("clinics").update({
+              google_rating: rating.rating,
+              google_review_count: rating.reviewCount,
+            }).eq("ykiho", c.ykiho).then(() => {});
+          }
+        } catch { /* 개별 실패 무시 */ }
+      }
+    }
 
     // HIRA API 응답 형식과 호환되도록 매핑
     const clinics = (data || []).map((c: Record<string, unknown>) => ({
