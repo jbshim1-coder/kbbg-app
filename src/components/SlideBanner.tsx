@@ -24,12 +24,12 @@ export default function SlideBanner({ locale }: { locale: string }) {
 
   return (
     <div className="relative w-full overflow-hidden">
-      <div className={`bg-gradient-to-r ${banner.bg} px-4 py-10 sm:py-14 text-center text-white transition-all duration-500`}>
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-2xl sm:text-3xl font-bold">{isKo ? banner.titleKo : banner.titleEn}</h2>
-          <p className="mt-2 text-sm opacity-90">{isKo ? banner.subKo : banner.subEn}</p>
+      <div className={`bg-gradient-to-r ${banner.bg} px-6 py-16 sm:py-24 text-center text-white transition-all duration-500`}>
+        <div className="mx-auto max-w-4xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">{isKo ? banner.titleKo : banner.titleEn}</h2>
+          <p className="mt-4 text-base sm:text-lg opacity-90">{isKo ? banner.subKo : banner.subEn}</p>
           <Link href={`/${locale}${banner.href}`}
-            className="mt-5 inline-block rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-gray-800 hover:bg-gray-100 transition">
+            className="mt-8 inline-block rounded-full bg-white px-8 py-3.5 text-base font-bold text-gray-800 hover:bg-gray-100 transition shadow-lg">
             {isKo ? banner.cta.ko : banner.cta.en}
           </Link>
         </div>
