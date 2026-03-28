@@ -71,6 +71,36 @@ export default async function HomePage({
         </div>
       </section>
 
+      {/* ━━━ 운영자에게 추천받기 ━━━ */}
+      <section className="px-4 py-8 bg-gradient-to-r from-pink-50 to-purple-50 border-b border-gray-100">
+        <div className="mx-auto max-w-6xl">
+          <div className="bg-white rounded-2xl border-2 border-pink-200 shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <span className="text-3xl">💬</span>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">
+                  {locale === "ko" ? "운영자에게 추천받기" : "Get Expert Recommendation"}
+                </h2>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  {locale === "ko"
+                    ? "500여개 병원 마케팅 경험의 전문가가 직접 상담해드립니다"
+                    : "Get personalized advice from our expert with 500+ hospital marketing experience"}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-500">010-8718-5000</span>
+              <a
+                href="mailto:help@2bstory.com"
+                className="px-6 py-2.5 bg-pink-500 text-white text-sm font-bold rounded-xl hover:bg-pink-600 transition"
+              >
+                {locale === "ko" ? "무료 상담 신청" : "Free Consultation"}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ━━━ 인기 진료과 + 사이드바 ━━━ */}
       <section className="px-4 py-10 bg-gray-50">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
