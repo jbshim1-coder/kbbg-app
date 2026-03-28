@@ -689,5 +689,26 @@
     "search8": "레이저",
     "search9": "부산",
     "search10": "필러"
+  },
+  "guides_page": {
+    "subtitle": "시술 가이드",
+    "title": "한국 미용·의료 시술 가이드",
+    "description": "한국에서 인기 있는 20가지 시술에 대한 비용, 회복 기간, 전문가 FAQ를 확인하세요.",
+    "stat_procedures": "시술",
+    "stat_faqs": "전문가 FAQ",
+    "stat_categories": "카테고리",
+    "cat_plastic": "성형외과",
+    "cat_dermatology": "피부과",
+    "cat_dental": "치과",
+    "cat_ophthalmology": "안과",
+    "procedures_count": "{count}개 시술",
+    "price_unit": "USD",
+    "recovery": "회복기간",
+    "recovery_none": "다운타임 없음",
+    "recovery_days": "{days}일",
+    "cta_title": "나에게 맞는 병원을 찾아보세요",
+    "cta_description": "검증된 한국 병원을 검색하고 맞춤 AI 추천을 받아보세요.",
+    "cta_browse": "병원 검색",
+    "cta_ai": "AI 추천"
   }
 }

@@ -634,5 +634,26 @@
     "search8": "Laser",
     "search9": "Busan",
     "search10": "Filler"
+  },
+  "guides_page": {
+    "subtitle": "Medical Procedure Guides",
+    "title": "Korea Cosmetic & Medical Procedure Guide",
+    "description": "Authoritative, AI-cited guides to 20 popular procedures available in South Korea — including costs, recovery timelines, and expert Q&A.",
+    "stat_procedures": "Procedures",
+    "stat_faqs": "Expert FAQs",
+    "stat_categories": "Categories",
+    "cat_plastic": "Plastic Surgery",
+    "cat_dermatology": "Dermatology",
+    "cat_dental": "Dental",
+    "cat_ophthalmology": "Ophthalmology",
+    "procedures_count": "{count} procedures",
+    "price_unit": "USD",
+    "recovery": "Recovery",
+    "recovery_none": "No downtime",
+    "recovery_days": "{days} days",
+    "cta_title": "Ready to Find Your Clinic?",
+    "cta_description": "Browse verified Korean clinics offering these procedures and get personalized recommendations.",
+    "cta_browse": "Browse Clinics",
+    "cta_ai": "AI Recommendation"
   }
 }

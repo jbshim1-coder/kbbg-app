@@ -635,5 +635,26 @@
     "search8": "Laser",
     "search9": "Busan",
     "search10": "Filler"
+  },
+  "guides_page": {
+    "subtitle": "Hướng dẫn thủ thuật",
+    "title": "Hướng dẫn thủ thuật thẩm mỹ & y tế Hàn Quốc",
+    "description": "Tìm hiểu chi phí, thời gian phục hồi và FAQ chuyên gia cho 20 thủ thuật phổ biến tại Hàn Quốc.",
+    "stat_procedures": "Thủ thuật",
+    "stat_faqs": "FAQ chuyên gia",
+    "stat_categories": "Danh mục",
+    "cat_plastic": "Phẫu thuật thẩm mỹ",
+    "cat_dermatology": "Da liễu",
+    "cat_dental": "Nha khoa",
+    "cat_ophthalmology": "Nhãn khoa",
+    "procedures_count": "{count} thủ thuật",
+    "price_unit": "USD",
+    "recovery": "Phục hồi",
+    "recovery_none": "Không cần nghỉ",
+    "recovery_days": "{days} ngày",
+    "cta_title": "Sẵn sàng tìm phòng khám?",
+    "cta_description": "Tìm kiếm phòng khám Hàn Quốc đã được xác minh và nhận đề xuất AI cá nhân hóa.",
+    "cta_browse": "Tìm phòng khám",
+    "cta_ai": "Đề xuất AI"
   }
 }

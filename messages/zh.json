@@ -635,5 +635,26 @@
     "search8": "激光",
     "search9": "釜山",
     "search10": "填充剂"
+  },
+  "guides_page": {
+    "subtitle": "手术指南",
+    "title": "韩国美容·医疗手术指南",
+    "description": "查看韩国20种热门手术的费用、恢复期和专家FAQ。",
+    "stat_procedures": "手术项目",
+    "stat_faqs": "专家FAQ",
+    "stat_categories": "分类",
+    "cat_plastic": "整形外科",
+    "cat_dermatology": "皮肤科",
+    "cat_dental": "牙科",
+    "cat_ophthalmology": "眼科",
+    "procedures_count": "{count}个手术",
+    "price_unit": "USD",
+    "recovery": "恢复期",
+    "recovery_none": "无恢复期",
+    "recovery_days": "{days}天",
+    "cta_title": "找到适合您的医院",
+    "cta_description": "搜索经过验证的韩国医院，获取个性化AI推荐。",
+    "cta_browse": "搜索医院",
+    "cta_ai": "AI推荐"
   }
 }

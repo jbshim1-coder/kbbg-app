@@ -635,5 +635,26 @@
     "search8": "เลเซอร์",
     "search9": "ปูซาน",
     "search10": "ฟิลเลอร์"
+  },
+  "guides_page": {
+    "subtitle": "คู่มือหัตถการ",
+    "title": "คู่มือหัตถการเสริมความงามและการแพทย์เกาหลี",
+    "description": "ดูค่าใช้จ่าย ระยะเวลาฟื้นตัว และ FAQ ผู้เชี่ยวชาญสำหรับ 20 หัตถการยอดนิยมในเกาหลีใต้",
+    "stat_procedures": "หัตถการ",
+    "stat_faqs": "FAQ ผู้เชี่ยวชาญ",
+    "stat_categories": "หมวดหมู่",
+    "cat_plastic": "ศัลยกรรมตกแต่ง",
+    "cat_dermatology": "ผิวหนัง",
+    "cat_dental": "ทันตกรรม",
+    "cat_ophthalmology": "จักษุ",
+    "procedures_count": "{count} หัตถการ",
+    "price_unit": "USD",
+    "recovery": "ฟื้นตัว",
+    "recovery_none": "ไม่ต้องพักฟื้น",
+    "recovery_days": "{days} วัน",
+    "cta_title": "พร้อมที่จะหาคลินิกของคุณหรือยัง?",
+    "cta_description": "ค้นหาคลินิกเกาหลีที่ได้รับการยืนยันและรับคำแนะนำ AI ส่วนบุคคล",
+    "cta_browse": "ค้นหาคลินิก",
+    "cta_ai": "แนะนำ AI"
   }
 }

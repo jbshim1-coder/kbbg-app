@@ -635,5 +635,26 @@
     "search8": "レーザー",
     "search9": "釜山",
     "search10": "フィラー"
+  },
+  "guides_page": {
+    "subtitle": "施術ガイド",
+    "title": "韓国美容・医療施術ガイド",
+    "description": "韓国で人気の20の施術の費用、回復期間、専門家FAQをご確認ください。",
+    "stat_procedures": "施術",
+    "stat_faqs": "専門家FAQ",
+    "stat_categories": "カテゴリー",
+    "cat_plastic": "整形外科",
+    "cat_dermatology": "皮膚科",
+    "cat_dental": "歯科",
+    "cat_ophthalmology": "眼科",
+    "procedures_count": "{count}件の施術",
+    "price_unit": "USD",
+    "recovery": "回復期間",
+    "recovery_none": "ダウンタイムなし",
+    "recovery_days": "{days}日",
+    "cta_title": "あなたに合ったクリニックを見つけましょう",
+    "cta_description": "認証済みの韓国クリニックを検索し、パーソナライズされたAI推薦を受けましょう。",
+    "cta_browse": "クリニック検索",
+    "cta_ai": "AI推薦"
   }
 }
