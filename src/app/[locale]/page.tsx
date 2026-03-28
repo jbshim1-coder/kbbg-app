@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ClinicFilter from "@/components/ClinicFilter";
 import AiSearchBox from "@/components/AiSearchBox";
+import TrendingSidebar from "@/components/TrendingSidebar";
 
 // 최신 커뮤니티 글 더미 데이터 — 번역 키 사용
 const RECENT_POSTS = [
@@ -26,54 +27,64 @@ export default async function HomePage({
     <main className="min-h-screen">
       {/* AI 검색 섹션 */}
       <section className="bg-white px-4 pt-16 pb-8">
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-6xl">
           <AiSearchBox locale={locale} />
         </div>
       </section>
 
-      {/* 병원 필터 검색 + AI 추천 */}
-      <section className="px-4 py-14">
-        <div className="mx-auto max-w-4xl">
-          <ClinicFilter locale={locale} />
-        </div>
-      </section>
+      {/* 메인 콘텐츠 — 2컬럼 레이아웃 (lg 이상에서 사이드바 표시) */}
+      <section className="px-4 py-10 bg-gray-50">
+        <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-      {/* 최신 커뮤니티 글 */}
-      <section className="bg-gray-50 px-4 py-14">
-        <div className="mx-auto max-w-4xl">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">{t("community_preview.title")}</h2>
-            <Link href={`/${locale}/community`} className="text-sm text-pink-500 hover:underline">
-              {t("community_preview.view_all")}
-            </Link>
+          {/* 왼쪽 넓은 영역 (lg에서 2/3 차지) */}
+          <div className="lg:col-span-2 space-y-10">
+            {/* 병원 필터 검색 + AI 추천 */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm">
+              <ClinicFilter locale={locale} />
+            </div>
+
+            {/* 최신 커뮤니티 글 */}
+            <div>
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-bold text-gray-900">{t("community_preview.title")}</h2>
+                <Link href={`/${locale}/community`} className="text-sm text-pink-500 hover:underline">
+                  {t("community_preview.view_all")}
+                </Link>
+              </div>
+              <div className="flex flex-col gap-3">
+                {RECENT_POSTS.map((post) => (
+                  <Link
+                    key={post.id}
+                    href={`/${locale}/community/${post.id}`}
+                    className="flex items-center justify-between rounded-xl bg-white px-5 py-4 shadow-sm transition hover:shadow-md"
+                  >
+                    <div>
+                      <span className="mr-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+                        {t(post.categoryKey as Parameters<typeof t>[0])}
+                      </span>
+                      <span className="text-sm font-medium text-gray-900">{t(post.titleKey as Parameters<typeof t>[0])}</span>
+                      <p className="mt-0.5 text-xs text-gray-400">by {post.author}</p>
+                    </div>
+                    <div className="ml-4 flex shrink-0 gap-3 text-xs text-gray-400">
+                      <span>↑ {post.upvotes}</span>
+                      <span>💬 {post.comments}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col gap-3">
-            {RECENT_POSTS.map((post) => (
-              <Link
-                key={post.id}
-                href={`/${locale}/community/${post.id}`}
-                className="flex items-center justify-between rounded-xl bg-white px-5 py-4 shadow-sm transition hover:shadow-md"
-              >
-                <div>
-                  <span className="mr-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
-                    {t(post.categoryKey as Parameters<typeof t>[0])}
-                  </span>
-                  <span className="text-sm font-medium text-gray-900">{t(post.titleKey as Parameters<typeof t>[0])}</span>
-                  <p className="mt-0.5 text-xs text-gray-400">by {post.author}</p>
-                </div>
-                <div className="ml-4 flex shrink-0 gap-3 text-xs text-gray-400">
-                  <span>↑ {post.upvotes}</span>
-                  <span>💬 {post.comments}</span>
-                </div>
-              </Link>
-            ))}
+
+          {/* 오른쪽 사이드바 (lg에서 1/3 차지, 모바일에서는 아래로) */}
+          <div className="lg:col-span-1">
+            <TrendingSidebar />
           </div>
         </div>
       </section>
 
       {/* 한국의 거리 라이브 — 12개 바둑판 그리드 */}
       <section className="bg-gray-950 px-4 py-14">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-0.5 text-xs font-semibold text-white">

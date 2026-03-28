@@ -604,5 +604,29 @@
     "benefit3_desc": "Track your performance with real-time analytics",
     "benefit4_title": "Global Exposure",
     "benefit4_desc": "Reach audiences in 8 countries through our platform"
+  },
+  "trending": {
+    "popular_posts": "Trending Posts",
+    "popular_searches": "Trending Searches",
+    "post1": "Gangnam Double Eyelid Surgery — 3 Month Review",
+    "post2": "Busan Dermatology Laser Toning Recommendation",
+    "post3": "Dental Treatment Cost Comparison for Foreigners",
+    "post4": "Best Rhinoplasty Clinics in Seoul",
+    "post5": "First-Time Botox — What to Know?",
+    "post6": "Daegu Plastic Surgery Consultation Review",
+    "post7": "How to Get a Medical Tourism Visa in Korea",
+    "post8": "Dermatology Clinics in Jeju — Any Recommendations?",
+    "post9": "Sharing My Before & After Photos",
+    "post10": "Gangnam Station Dermatology Price Guide",
+    "search1": "Plastic Surgery",
+    "search2": "Double Eyelid",
+    "search3": "Dermatology",
+    "search4": "Rhinoplasty",
+    "search5": "Gangnam",
+    "search6": "Botox",
+    "search7": "Dental",
+    "search8": "Laser",
+    "search9": "Busan",
+    "search10": "Filler"
   }
 }

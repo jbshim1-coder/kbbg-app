@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import TrendingSidebar from "@/components/TrendingSidebar";
 
 // 카테고리 탭 — 번역 키 기반으로 변경
 const CATEGORY_KEYS = ["community.all", "community.plastic_surgery", "community.dermatology", "community.dental", "community.general", "community.kpop", "community.kfood", "community.kdrama", "community.kfashion", "community.travel", "community.korean_learn"];
@@ -48,7 +49,7 @@ export default function CommunityPage() {
     <main className="min-h-screen bg-gray-50">
       {/* 페이지 헤더 — 제목 + 글쓰기 버튼 */}
       <div className="bg-white border-b border-gray-100 px-4 py-6">
-        <div className="mx-auto max-w-3xl flex items-center justify-between">
+        <div className="mx-auto max-w-6xl flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-900">{t("community.title")}</h1>
           <Link
             href={`/${locale}/community/new`}
@@ -59,78 +60,88 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-3xl px-4 py-6">
-        {/* 카테고리 탭 — 가로 스크롤 지원 (모바일 대응) */}
-        <div className="flex gap-2 overflow-x-auto pb-2">
-          {CATEGORY_KEYS.map((catKey) => (
+      {/* 2컬럼 레이아웃 — 왼쪽: 게시글 목록, 오른쪽: 트렌딩 사이드바 */}
+      <div className="mx-auto max-w-6xl px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        {/* 왼쪽: 카테고리 + 게시글 목록 */}
+        <div className="lg:col-span-2">
+          {/* 카테고리 탭 — 가로 스크롤 지원 (모바일 대응) */}
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {CATEGORY_KEYS.map((catKey) => (
+              <button
+                key={catKey}
+                onClick={() => setActiveCategoryKey(catKey)}
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                  activeCategoryKey === catKey
+                    ? "bg-pink-500 text-white"
+                    : "bg-white text-gray-600 hover:bg-pink-50"
+                }`}
+              >
+                {t(catKey as Parameters<typeof t>[0])}
+              </button>
+            ))}
+          </div>
+
+          {/* 정렬 옵션 토글 */}
+          <div className="mt-4 flex gap-3 text-sm">
             <button
-              key={catKey}
-              onClick={() => setActiveCategoryKey(catKey)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                activeCategoryKey === catKey
-                  ? "bg-pink-500 text-white"
-                  : "bg-white text-gray-600 hover:bg-pink-50"
-              }`}
+              onClick={() => setSort("popular")}
+              className={`font-medium ${sort === "popular" ? "text-pink-500" : "text-gray-400 hover:text-gray-600"}`}
             >
-              {t(catKey as Parameters<typeof t>[0])}
+              {t("community.trending")}
             </button>
-          ))}
-        </div>
-
-        {/* 정렬 옵션 토글 */}
-        <div className="mt-4 flex gap-3 text-sm">
-          <button
-            onClick={() => setSort("popular")}
-            className={`font-medium ${sort === "popular" ? "text-pink-500" : "text-gray-400 hover:text-gray-600"}`}
-          >
-            {t("community.trending")}
-          </button>
-          <button
-            onClick={() => setSort("latest")}
-            className={`font-medium ${sort === "latest" ? "text-pink-500" : "text-gray-400 hover:text-gray-600"}`}
-          >
-            {t("community.latest")}
-          </button>
-        </div>
-
-        {/* 게시글 카드 목록 */}
-        <div className="mt-4 flex flex-col gap-3">
-          {sorted.map((post) => (
-            // 각 게시글 카드 — 클릭 시 상세 페이지로 이동
-            <Link
-              key={post.id}
-              href={`/${locale}/community/${post.id}`}
-              className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
+            <button
+              onClick={() => setSort("latest")}
+              className={`font-medium ${sort === "latest" ? "text-pink-500" : "text-gray-400 hover:text-gray-600"}`}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  {/* 카테고리 배지 */}
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
-                      {t(post.categoryKey as Parameters<typeof t>[0])}
-                    </span>
-                  </div>
-                  {/* 제목 — 긴 제목은 말줄임표 처리 */}
-                  <h2 className="mt-1 truncate text-base font-semibold text-gray-900">
-                    {t(post.titleKey as Parameters<typeof t>[0])}
-                  </h2>
-                  <p className="mt-1 text-xs text-gray-400">
-                    {post.author} · {t(post.createdAtKey as Parameters<typeof t>[0])}
-                  </p>
-                </div>
-                {/* 추천 수 및 댓글 수 */}
-                <div className="flex shrink-0 flex-col items-end gap-1 text-xs text-gray-400">
-                  <span>↑ {post.upvotes}</span>
-                  <span>💬 {post.comments}</span>
-                </div>
-              </div>
-            </Link>
-          ))}
+              {t("community.latest")}
+            </button>
+          </div>
 
-          {/* 필터 결과가 없을 때 빈 상태 메시지 */}
-          {sorted.length === 0 && (
-            <p className="py-16 text-center text-gray-400">{t("community.no_posts")}</p>
-          )}
+          {/* 게시글 카드 목록 */}
+          <div className="mt-4 flex flex-col gap-3">
+            {sorted.map((post) => (
+              // 각 게시글 카드 — 클릭 시 상세 페이지로 이동
+              <Link
+                key={post.id}
+                href={`/${locale}/community/${post.id}`}
+                className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    {/* 카테고리 배지 */}
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+                        {t(post.categoryKey as Parameters<typeof t>[0])}
+                      </span>
+                    </div>
+                    {/* 제목 — 긴 제목은 말줄임표 처리 */}
+                    <h2 className="mt-1 truncate text-base font-semibold text-gray-900">
+                      {t(post.titleKey as Parameters<typeof t>[0])}
+                    </h2>
+                    <p className="mt-1 text-xs text-gray-400">
+                      {post.author} · {t(post.createdAtKey as Parameters<typeof t>[0])}
+                    </p>
+                  </div>
+                  {/* 추천 수 및 댓글 수 */}
+                  <div className="flex shrink-0 flex-col items-end gap-1 text-xs text-gray-400">
+                    <span>↑ {post.upvotes}</span>
+                    <span>💬 {post.comments}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+
+            {/* 필터 결과가 없을 때 빈 상태 메시지 */}
+            {sorted.length === 0 && (
+              <p className="py-16 text-center text-gray-400">{t("community.no_posts")}</p>
+            )}
+          </div>
+        </div>
+
+        {/* 오른쪽: 트렌딩 사이드바 (모바일에서는 아래로) */}
+        <div className="lg:col-span-1">
+          <TrendingSidebar />
         </div>
       </div>
     </main>
