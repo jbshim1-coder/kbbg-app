@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import ImageUpload from "@/components/ImageUpload";
 import { useRecaptcha } from "@/lib/useRecaptcha";
 import { createClient } from "@/lib/supabase";
+import { checkSpam, markPosted } from "@/lib/spam-guard";
 
 // 선택 가능한 카테고리 키 목록 — 커뮤니티 전체 카테고리와 동일
 const CATEGORY_KEYS = [
@@ -70,6 +71,13 @@ export default function NewPostPage() {
     e.preventDefault();
     if (!isValid) return;
 
+    // 스팸 체크
+    const spamResult = checkSpam(title, body, locale);
+    if (spamResult.isSpam) {
+      setRecaptchaError(spamResult.reason);
+      return;
+    }
+
     const isHuman = await verifyRecaptcha("community_post");
     if (!isHuman) {
       setRecaptchaError(locale === "ko" ? "보안 검증에 실패했습니다. 다시 시도해주세요." : "Security verification failed. Please try again.");
@@ -80,6 +88,7 @@ export default function NewPostPage() {
     setRecaptchaError("");
     // TODO: Supabase insert 시 { categoryKey, title, body, images: imageUrls } 전달
     void imageUrls;
+    markPosted("post");
     setTimeout(() => {
       router.push(`/${locale}/community`);
     }, 800);

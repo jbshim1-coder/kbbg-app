@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import LevelBadge from "@/components/LevelBadge";
 import { createClient } from "@/lib/supabase";
 import { isMaster } from "@/lib/level-system";
+import { checkCommentSpam, markPosted } from "@/lib/spam-guard";
 
 // 게시글 타입 정의 — body/createdAt은 직접 표시 텍스트 (번역 키 또는 실제 텍스트)
 type Comment = { id: number; author: string; level: number; body: string; createdAt: string };
@@ -117,10 +118,18 @@ export default function PostDetailPage({
   function handleCommentSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!newComment.trim()) return;
+
+    const spamResult = checkCommentSpam(newComment, locale);
+    if (spamResult.isSpam) {
+      alert(spamResult.reason);
+      return;
+    }
+
     setComments((prev) => [
       ...prev,
       { id: Date.now(), author: "me", level: 0, body: newComment, createdAt: t("community.just_now") },
     ]);
+    markPosted("comment");
     setNewComment("");
   }
 
