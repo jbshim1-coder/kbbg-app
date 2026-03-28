@@ -28,36 +28,92 @@ export default async function HomePage({
   const t = await getTranslations();
 
   return (
-    <main className="min-h-screen">
-      {/* 자동 슬라이드 배너 */}
+    <main className="min-h-screen bg-gray-50">
+
+      {/* ━━━ 히어로: 슬라이드 배너 ━━━ */}
       <SlideBanner locale={locale} />
 
-      {/* ━━━ 서비스 1: AI 추천 ━━━ */}
-      <section className="bg-white px-4 pt-10 pb-8">
+      {/* ━━━ 3대 서비스 허브 ━━━
+          배너 바로 아래, 흰 배경 위에 카드 트리오.
+          데스크탑: 좌(AI추천, 세로 1/3) + 우(얼굴분석·병원찾기 스택, 2/3)
+          태블릿 이하: 단일 컬럼 스택                                   */}
+      <section className="bg-white px-4 py-10 border-b border-gray-100">
         <div className="mx-auto max-w-6xl">
-          <AiSearchBox locale={locale} />
-        </div>
-      </section>
 
-      {/* ━━━ 서비스 2: AI 얼굴 분석 ━━━ */}
-      <section className="bg-gradient-to-b from-violet-50/60 to-white px-4 py-12">
-        <div className="mx-auto max-w-3xl">
-          <FaceAnalysis locale={locale} />
-        </div>
-      </section>
+          {/* 섹션 레이블 */}
+          <div className="flex items-center gap-2 mb-6">
+            <span className="block h-0.5 w-6 bg-pink-400 rounded-full" />
+            <span className="text-xs font-semibold tracking-widest text-pink-500 uppercase">
+              Core Services
+            </span>
+          </div>
 
-      {/* ━━━ 서비스 3: 병원 찾기 (조건 검색) ━━━ */}
-      <section className="bg-gray-50 px-4 py-12">
-        <div className="mx-auto max-w-6xl">
-          <ClinicFilter locale={locale} />
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+
+            {/* ── 서비스 1: AI 추천 (데스크탑 2/5) ── */}
+            <div className="lg:col-span-2 flex flex-col">
+              <div className="flex-1 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 p-6 sm:p-8 flex flex-col justify-between shadow-sm">
+                {/* 상단: 라벨 + 설명 */}
+                <div>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white mb-4">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                    SERVICE 01
+                  </span>
+                  <h2 className="text-2xl font-bold text-white leading-snug mb-2">
+                    AI 맞춤 추천
+                  </h2>
+                  <p className="text-sm text-white/80 leading-relaxed">
+                    자연어로 증상·시술을 입력하면
+                    <br />AI가 최적 병원을 즉시 추천합니다
+                  </p>
+                </div>
+                {/* 하단: 검색 위젯 */}
+                <div className="mt-6 bg-white rounded-xl p-4 shadow-inner">
+                  <AiSearchBox locale={locale} />
+                </div>
+              </div>
+            </div>
+
+            {/* ── 서비스 2 + 3 세로 스택 (데스크탑 3/5) ── */}
+            <div className="lg:col-span-3 flex flex-col gap-5">
+
+              {/* 서비스 2: AI 얼굴 분석 */}
+              <div className="relative rounded-2xl overflow-hidden shadow-sm">
+                {/* 서비스 번호 배지 */}
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-violet-500/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                    SERVICE 02
+                  </span>
+                </div>
+                <FaceAnalysis locale={locale} />
+              </div>
+
+              {/* 서비스 3: 병원 찾기 */}
+              <div className="relative rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                    SERVICE 03
+                  </span>
+                </div>
+                <div className="pt-12 p-5">
+                  <ClinicFilter locale={locale} />
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ━━━ 인기 진료과 + 사이드바 ━━━ */}
-      <section className="px-4 py-10 bg-white">
+      <section className="px-4 py-10 bg-gray-50">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
+
           {/* 왼쪽: 인기 진료과 + 커뮤니티 */}
-          <div className="lg:col-span-2 space-y-10">
+          <div className="lg:col-span-2 space-y-8">
+
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <TopDepartments locale={locale} />
             </div>
@@ -102,7 +158,7 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* 한국의 거리 라이브 — 12개 바둑판 그리드 */}
+      {/* 한국의 거리 라이브 — 5개 그리드 */}
       <section className="bg-gray-950 px-4 py-14">
         <div className="mx-auto max-w-6xl">
           <div className="mb-6 flex items-center justify-between">
