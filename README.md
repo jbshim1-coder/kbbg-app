@@ -71,24 +71,35 @@ npm run lint
 
 ```
 kbbg-app/
-├── messages/          # i18n 번역 파일 (en.json, ko.json 등)
+├── messages/              # 8개국 번역 JSON (en, ko, zh, ja, ru, vi, th, mn)
 ├── src/
 │   ├── app/
-│   │   ├── [locale]/  # locale별 페이지 (next-intl)
-│   │   └── admin/     # 관리자 페이지
-│   ├── components/    # 재사용 컴포넌트
-│   ├── i18n/          # next-intl 설정 (routing, request)
-│   ├── lib/           # 유틸리티 및 Supabase 클라이언트
-│   └── types/         # TypeScript 타입 정의
-├── supabase/          # Supabase 마이그레이션 및 설정
-├── .env.example       # 환경 변수 템플릿
-└── next.config.ts     # Next.js 설정
+│   │   ├── [locale]/      # 8개국 언어별 페이지 (34개 페이지)
+│   │   ├── api/           # API Routes (14개)
+│   │   └── auth/callback/ # Google OAuth 콜백
+│   ├── components/        # 공통 컴포넌트 (19개)
+│   ├── data/              # 시드/정적 데이터
+│   ├── i18n/              # next-intl 설정 (routing, request)
+│   ├── lib/               # 유틸리티 (Supabase, HIRA, Google Places)
+│   └── types/             # TypeScript 타입 정의
+├── supabase/              # DB 스키마 (18개 테이블)
+├── docs/                  # 기획/개발 문서
+├── .env.example           # 환경 변수 템플릿
+└── next.config.ts         # Next.js 설정
 ```
 
-## 지원 언어
+## 지원 언어 (8개국)
 
-- 영어 (`en`) — 기본값
-- 한국어 (`ko`)
+| locale | 언어 |
+|--------|------|
+| en (기본) | English |
+| ko | 한국어 |
+| zh | 中文 |
+| ja | 日本語 |
+| ru | Русский |
+| vi | Tiếng Việt |
+| th | ภาษาไทย |
+| mn | Монгол |
 
 ## 배포
 
