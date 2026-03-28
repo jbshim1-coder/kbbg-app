@@ -18,6 +18,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
   const [showHospitals, setShowHospitals] = useState(false);
   const [region, setRegion] = useState("110000"); // 서울 기본
   const [selectedSubject, setSelectedSubject] = useState("");
+  const [hospType, setHospType] = useState("31"); // 의원 기본 (AI 추천 맥락)
   const [clinics, setClinics] = useState<HiraClinic[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [hospLoading, setHospLoading] = useState(false);
@@ -99,6 +100,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
       const params = new URLSearchParams();
       if (region) params.set("region", region);
       if (selectedSubject) params.set("subject", selectedSubject);
+      if (hospType) params.set("type", hospType);
       params.set("page", String(pageNo));
       const res = await fetch(`/api/hira?${params.toString()}`);
       const data = await res.json();
@@ -110,7 +112,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
     } finally {
       setHospLoading(false);
     }
-  }, [region, selectedSubject]);
+  }, [region, selectedSubject, hospType]);
 
   // 맞춤 병원 추천 클릭
   const handleRecommendClick = () => {
@@ -346,6 +348,22 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                       .map(([code, name]) => (
                         <option key={code} value={code}>{name}</option>
                       ))}
+                  </select>
+                </div>
+                <div className="flex-1 min-w-[140px]">
+                  <label className="block text-xs font-medium text-gray-500 mb-1">
+                    {isKo ? "병원 유형" : "Type"}
+                  </label>
+                  <select
+                    value={hospType}
+                    onChange={(e) => setHospType(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-violet-400"
+                  >
+                    <option value="">{isKo ? "전체" : "All"}</option>
+                    <option value="31">{isKo ? "의원 (전문클리닉)" : "Clinic"}</option>
+                    <option value="21">{isKo ? "병원" : "Hospital"}</option>
+                    <option value="11">{isKo ? "종합병원" : "General Hospital"}</option>
+                    <option value="01">{isKo ? "상급종합" : "Tertiary Hospital"}</option>
                   </select>
                 </div>
                 <div className="flex items-end">
