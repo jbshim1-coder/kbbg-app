@@ -4,14 +4,16 @@ import { use, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
+import LevelBadge from "@/components/LevelBadge";
 
 // 게시글 타입 정의 — body/createdAt은 직접 표시 텍스트 (번역 키 또는 실제 텍스트)
-type Comment = { id: number; author: string; body: string; createdAt: string };
+type Comment = { id: number; author: string; level: number; body: string; createdAt: string };
 type Post = {
   id: number;
   titleKey: string;
   categoryKey: string;
   author: string;
+  level: number;
   contentKey: string;
   upvotes: number;
   downvotes: number;
@@ -39,13 +41,14 @@ export default function PostDetailPage({
       titleKey: "community_preview.post1_title",
       categoryKey: "community.plastic_surgery",
       author: "user_kr",
+      level: 12,
       contentKey: "community.dummy_post1_content",
       upvotes: 87,
       downvotes: 3,
       createdAt: "2025-03-22",
       comments: [
-        { id: 1, author: "sarah_jp", body: t("community.comment1_body" as Parameters<typeof t>[0]), createdAt: t("community.comment1_time" as Parameters<typeof t>[0]) },
-        { id: 2, author: "mike_us", body: t("community.comment2_body" as Parameters<typeof t>[0]), createdAt: t("community.comment2_time" as Parameters<typeof t>[0]) },
+        { id: 1, author: "sarah_jp", level: 7, body: t("community.comment1_body" as Parameters<typeof t>[0]), createdAt: t("community.comment1_time" as Parameters<typeof t>[0]) },
+        { id: 2, author: "mike_us", level: 3, body: t("community.comment2_body" as Parameters<typeof t>[0]), createdAt: t("community.comment2_time" as Parameters<typeof t>[0]) },
       ],
     },
   };
@@ -94,7 +97,7 @@ export default function PostDetailPage({
     if (!newComment.trim()) return;
     setComments((prev) => [
       ...prev,
-      { id: Date.now(), author: "me", body: newComment, createdAt: t("community.just_now") },
+      { id: Date.now(), author: "me", level: 0, body: newComment, createdAt: t("community.just_now") },
     ]);
     setNewComment("");
   }
@@ -115,7 +118,8 @@ export default function PostDetailPage({
           <h1 className="mt-3 text-2xl font-bold text-gray-900">
             {t(post.titleKey as Parameters<typeof t>[0])}
           </h1>
-          <p className="mt-1 text-xs text-gray-400">
+          <p className="mt-1 flex items-center gap-1 text-xs text-gray-400">
+            <LevelBadge level={post.level} size="sm" />
             {post.author} · {post.createdAt}
           </p>
 
@@ -160,7 +164,10 @@ export default function PostDetailPage({
             {comments.map((c) => (
               <div key={c.id} className="rounded-xl bg-white p-4 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-gray-800">{c.author}</span>
+                  <span className="flex items-center gap-1 text-sm font-semibold text-gray-800">
+                    <LevelBadge level={c.level} size="sm" />
+                    {c.author}
+                  </span>
                   <span className="text-xs text-gray-400">{c.createdAt}</span>
                 </div>
                 <p className="mt-1 text-sm text-gray-600">{c.body}</p>

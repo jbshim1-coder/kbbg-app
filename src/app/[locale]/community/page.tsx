@@ -5,19 +5,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import TrendingSidebar from "@/components/TrendingSidebar";
+import LevelBadge from "@/components/LevelBadge";
 
 // 카테고리 탭 — 번역 키 기반으로 변경
 const CATEGORY_KEYS = ["community.all", "community.plastic_surgery", "community.dermatology", "community.dental", "community.general", "community.kpop", "community.kfood", "community.kdrama", "community.kfashion", "community.travel", "community.korean_learn"];
 
 // 게시글 더미 데이터 — 실제 DB 연동 전 UI 확인용
 const POSTS = [
-  { id: 1, titleKey: "community_preview.post1_title", categoryKey: "community.plastic_surgery", author: "user_kr", upvotes: 87, downvotes: 3, comments: 24, createdAtKey: "community.time_2h" },
-  { id: 2, titleKey: "community_preview.post2_title", categoryKey: "community.dermatology", author: "sarah_jp", upvotes: 42, downvotes: 1, comments: 15, createdAtKey: "community.time_4h" },
-  { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community.dental", author: "mike_us", upvotes: 63, downvotes: 5, comments: 31, createdAtKey: "community.time_6h" },
-  { id: 4, titleKey: "community.dummy_post4_title", categoryKey: "community.dermatology", author: "lisa_cn", upvotes: 29, downvotes: 0, comments: 18, createdAtKey: "community.time_8h" },
-  { id: 5, titleKey: "community.dummy_post5_title", categoryKey: "community.plastic_surgery", author: "tom_vn", upvotes: 54, downvotes: 2, comments: 27, createdAtKey: "community.time_1d" },
-  { id: 6, titleKey: "community.dummy_post6_title", categoryKey: "community.dental", author: "anna_ru", upvotes: 71, downvotes: 4, comments: 12, createdAtKey: "community.time_2d" },
-  { id: 7, titleKey: "community.dummy_post7_title", categoryKey: "community.general", author: "yuki_jp", upvotes: 38, downvotes: 1, comments: 9, createdAtKey: "community.time_3d" },
+  { id: 1, titleKey: "community_preview.post1_title", categoryKey: "community.plastic_surgery", author: "user_kr", level: 12, upvotes: 87, downvotes: 3, comments: 24, createdAtKey: "community.time_2h" },
+  { id: 2, titleKey: "community_preview.post2_title", categoryKey: "community.dermatology", author: "sarah_jp", level: 7, upvotes: 42, downvotes: 1, comments: 15, createdAtKey: "community.time_4h" },
+  { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community.dental", author: "mike_us", level: 20, upvotes: 63, downvotes: 5, comments: 31, createdAtKey: "community.time_6h" },
+  { id: 4, titleKey: "community.dummy_post4_title", categoryKey: "community.dermatology", author: "lisa_cn", level: 3, upvotes: 29, downvotes: 0, comments: 18, createdAtKey: "community.time_8h" },
+  { id: 5, titleKey: "community.dummy_post5_title", categoryKey: "community.plastic_surgery", author: "tom_vn", level: 15, upvotes: 54, downvotes: 2, comments: 27, createdAtKey: "community.time_1d" },
+  { id: 6, titleKey: "community.dummy_post6_title", categoryKey: "community.dental", author: "anna_ru", level: 28, upvotes: 71, downvotes: 4, comments: 12, createdAtKey: "community.time_2d" },
+  { id: 7, titleKey: "community.dummy_post7_title", categoryKey: "community.general", author: "yuki_jp", level: 5, upvotes: 38, downvotes: 1, comments: 9, createdAtKey: "community.time_3d" },
 ];
 
 // 정렬 타입 — "popular": 추천순, "latest": 최신순
@@ -119,7 +120,8 @@ export default function CommunityPage() {
                     <h2 className="mt-1 truncate text-base font-semibold text-gray-900">
                       {t(post.titleKey as Parameters<typeof t>[0])}
                     </h2>
-                    <p className="mt-1 text-xs text-gray-400">
+                    <p className="mt-1 flex items-center gap-1 text-xs text-gray-400">
+                      <LevelBadge level={post.level} size="sm" />
                       {post.author} · {t(post.createdAtKey as Parameters<typeof t>[0])}
                     </p>
                   </div>

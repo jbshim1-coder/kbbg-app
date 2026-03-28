@@ -8,6 +8,8 @@ import SearchBar from "@/components/ui/SearchBar";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
+import LevelBadge from "@/components/LevelBadge";
+import { isMaster, getLevel } from "@/lib/level-system";
 
 // 지원 언어 목록 — 국기 순서는 기획 기준 고정
 const LOCALES = [
@@ -204,9 +206,13 @@ export default function Header() {
                 <>
                   <Link
                     href={localePath("/mypage")}
-                    className="text-sm text-gray-600 truncate max-w-[120px] hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-1.5 text-sm text-gray-600 truncate max-w-[120px] hover:text-blue-600 transition-colors"
                   >
                     {user.user_metadata?.full_name || user.email?.split("@")[0]}
+                    <LevelBadge
+                      level={user.email && isMaster(user.email) ? "M" : getLevel(0)}
+                      size="sm"
+                    />
                   </Link>
                   <button
                     onClick={handleLogout}

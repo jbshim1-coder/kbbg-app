@@ -5,6 +5,8 @@ import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
+import LevelBadge from "@/components/LevelBadge";
+import { getLevel, getLevelColor, getPointsToNextLevel, isMaster, LEVEL_THRESHOLDS } from "@/lib/level-system";
 
 // 마이페이지 — 로그인 사용자 프로필 및 활동 이력
 export default function MyPage() {
@@ -61,6 +63,15 @@ export default function MyPage() {
   const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "";
   const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
 
+  // 더미 포인트 — 실제 연동 시 Supabase에서 조회
+  const DUMMY_POINTS = 3500;
+  const userEmail = user?.email ?? "";
+  const userLevel = isMaster(userEmail) ? "M" : getLevel(DUMMY_POINTS);
+  const progressInfo = userLevel !== "M" ? getPointsToNextLevel(DUMMY_POINTS) : null;
+  const progressPercent = progressInfo
+    ? Math.round(((DUMMY_POINTS - progressInfo.current) / (progressInfo.next - progressInfo.current)) * 100)
+    : 100;
+
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 py-10 space-y-6">
@@ -81,10 +92,41 @@ export default function MyPage() {
                 {displayName.charAt(0).toUpperCase()}
               </div>
             )}
-            <div>
-              <p className="font-semibold text-gray-800">{displayName}</p>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-gray-800">{displayName}</p>
+                <LevelBadge level={userLevel} size="md" />
+              </div>
               <p className="text-sm text-gray-500">{user?.email}</p>
             </div>
+          </div>
+
+          {/* 레벨 및 포인트 정보 */}
+          <div className="mt-5 rounded-xl bg-gray-50 p-4 space-y-3">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-gray-600 font-medium">
+                {userLevel === "M" ? "마스터" : `Lv. ${userLevel}`}
+              </span>
+              <span className="text-gray-500">{DUMMY_POINTS.toLocaleString()} P</span>
+            </div>
+
+            {progressInfo ? (
+              <>
+                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                  <div
+                    className={["h-2 rounded-full transition-all", getLevelColor(userLevel as number).replace("text-white", "").trim()].join(" ")}
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+                <p className="text-xs text-gray-400">
+                  다음 레벨까지{" "}
+                  <span className="font-semibold text-gray-600">{progressInfo.remaining.toLocaleString()} P</span>{" "}
+                  남음 (Lv. {(userLevel as number) + 1} · {progressInfo.next.toLocaleString()} P)
+                </p>
+              </>
+            ) : (
+              <p className="text-xs text-gray-500">최고 레벨에 도달했습니다.</p>
+            )}
           </div>
         </section>
 
