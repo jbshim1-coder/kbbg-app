@@ -179,12 +179,26 @@ export default function ClinicFilter({ locale }: { locale: string }) {
             <p className="text-sm text-gray-500">
               {isKo ? `총 ${totalCount.toLocaleString()}개 병원` : `${totalCount.toLocaleString()} clinics found`}
             </p>
-            <button
-              onClick={() => { const next = sortBy === "rating" ? "" : "rating"; setSortBy(next); handleSearch(1); }}
-              className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "rating" ? "bg-yellow-50 border-yellow-300 text-yellow-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
-            >
-              ⭐ {isKo ? "구글별점순" : "Sort by Rating"}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => { const next = sortBy === "rating" ? "" : "rating"; setSortBy(next); handleSearch(1); }}
+                className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "rating" ? "bg-yellow-50 border-yellow-300 text-yellow-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
+              >
+                ⭐ {isKo ? "구글별점순" : "Rating"}
+              </button>
+              <button
+                onClick={() => { const next = sortBy === "doctors" ? "" : "doctors"; setSortBy(next); handleSearch(1); }}
+                className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "doctors" ? "bg-blue-50 border-blue-300 text-blue-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
+              >
+                👨‍⚕️ {isKo ? "의사수순" : "Doctors"}
+              </button>
+              <button
+                onClick={() => { const next = sortBy === "specialist" ? "" : "specialist"; setSortBy(next); handleSearch(1); }}
+                className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "specialist" ? "bg-green-50 border-green-300 text-green-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
+              >
+                🏅 {isKo ? "전문의순" : "Specialists"}
+              </button>
+            </div>
           </div>
 
           {clinics.length === 0 ? (

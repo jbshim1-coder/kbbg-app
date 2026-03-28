@@ -48,9 +48,13 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // 구글 별점순 정렬
+    // 정렬
     if (sort === "rating") {
       clinicsWithRating.sort((a, b) => (b.googleRating ?? 0) - (a.googleRating ?? 0));
+    } else if (sort === "doctors") {
+      clinicsWithRating.sort((a, b) => (b.drTotCnt ?? 0) - (a.drTotCnt ?? 0));
+    } else if (sort === "specialist") {
+      clinicsWithRating.sort((a, b) => ((b.mdeptSdrCnt ?? b.sdrCnt ?? 0) as number) - ((a.mdeptSdrCnt ?? a.sdrCnt ?? 0) as number));
     }
 
     return NextResponse.json({ ...result, clinics: clinicsWithRating });

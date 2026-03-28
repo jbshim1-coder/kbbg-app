@@ -1,6 +1,6 @@
 "use client";
 
-// 회원관리 페이지 — Supabase auth.users 목록 조회 및 차단/정지 처리
+// 회원관리 페이지 — Supabase auth.users 목록 조회 및 차단/정지/삭제 처리
 import { useEffect, useState } from "react";
 
 // 관리자 화면에서 사용하는 회원 데이터 구조
@@ -11,13 +11,6 @@ interface AdminUser {
   provider: string;    // 로그인 방식 (google, email 등)
   createdAt: string;   // 가입일
 }
-
-// 회원 상태 배지 색상
-const STATUS_STYLES = {
-  active: "bg-green-100 text-green-700",
-  suspended: "bg-yellow-100 text-yellow-700",
-  banned: "bg-red-100 text-red-600",
-} as const;
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<AdminUser[]>([]);
@@ -43,6 +36,11 @@ export default function AdminUsersPage() {
   const handleAction = (userId: string, action: "suspend" | "ban") => {
     const label = action === "suspend" ? "정지" : "차단";
     alert(`사용자 ${userId}를 ${label} 처리합니다. (Supabase 연동 후 실제 적용)`);
+  };
+
+  // 회원 삭제 핸들러 — 목록에서 즉시 제거 (더미, 실제 연동 시 API 호출)
+  const handleDelete = (userId: string) => {
+    setUsers((prev) => prev.filter((u) => u.id !== userId));
   };
 
   return (
@@ -109,7 +107,7 @@ export default function AdminUsersPage() {
                       </span>
                     </td>
                     <td className="px-6 py-3">
-                      {/* 회원 제재 액션 버튼 */}
+                      {/* 회원 제재 및 삭제 액션 버튼 */}
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleAction(user.id, "suspend")}
@@ -122,6 +120,13 @@ export default function AdminUsersPage() {
                           className="text-xs px-2 py-1 bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors"
                         >
                           차단
+                        </button>
+                        {/* 마스터 전용 회원 삭제 버튼 — 목록에서 즉시 제거 */}
+                        <button
+                          onClick={() => handleDelete(user.id)}
+                          className="text-xs px-2 py-1 bg-gray-800 text-white rounded hover:bg-gray-900 transition-colors"
+                        >
+                          삭제
                         </button>
                       </div>
                     </td>

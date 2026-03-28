@@ -1,10 +1,12 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import LevelBadge from "@/components/LevelBadge";
+import { createClient } from "@/lib/supabase";
+import { isMaster } from "@/lib/level-system";
 
 // 게시글 타입 정의 — body/createdAt은 직접 표시 텍스트 (번역 키 또는 실제 텍스트)
 type Comment = { id: number; author: string; level: number; body: string; createdAt: string };
@@ -20,8 +22,6 @@ type Post = {
   createdAt: string;
   comments: Comment[];
 };
-
-// 더미 데이터는 컴포넌트 내부에서 t()로 번역하여 생성 (getPosts 함수)
 
 // 게시글 상세 페이지 — 클라이언트 컴포넌트 (투표·댓글 상태 필요)
 // Next.js 16: params는 Promise이므로 use() 훅으로 언래핑
@@ -62,12 +62,30 @@ export default function PostDetailPage({
   const [downvotes, setDownvotes] = useState(post?.downvotes ?? 0);
   // voted: null=미투표, "up"=추천, "down"=비추천
   const [voted, setVoted] = useState<"up" | "down" | null>(null);
-  // 댓글 목록 상태 — 새 댓글 추가 시 로컬 업데이트
+  // 댓글 목록 상태 — 새 댓글 추가 및 삭제 시 로컬 업데이트
   const [comments, setComments] = useState<Comment[]>(post?.comments ?? []);
   const [newComment, setNewComment] = useState("");
+  // 게시글 삭제 상태 — 마스터가 삭제 시 리다이렉트 처리
+  const [postDeleted, setPostDeleted] = useState(false);
+  // 현재 로그인 사용자가 마스터인지 여부
+  const [master, setMaster] = useState(false);
+
+  // 로그인 사용자 확인 — 마스터 여부 감지
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email && isMaster(data.user.email)) {
+        setMaster(true);
+      }
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setMaster(!!(session?.user?.email && isMaster(session.user.email)));
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   // 존재하지 않는 게시글 처리
-  if (!post) {
+  if (!post || postDeleted) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-4">
         <p className="text-gray-500">{t("community.post_not_found")}</p>
@@ -100,6 +118,11 @@ export default function PostDetailPage({
       { id: Date.now(), author: "me", level: 0, body: newComment, createdAt: t("community.just_now") },
     ]);
     setNewComment("");
+  }
+
+  // 댓글 삭제 핸들러 — 마스터 전용, 목록에서 즉시 제거
+  function handleDeleteComment(commentId: number) {
+    setComments((prev) => prev.filter((c) => c.id !== commentId));
   }
 
   return (
@@ -151,6 +174,18 @@ export default function PostDetailPage({
               ↓ {t("community.downvote")} {downvotes}
             </button>
           </div>
+
+          {/* 마스터 전용 게시글 삭제 버튼 */}
+          {master && (
+            <div className="mt-4 border-t border-gray-100 pt-4">
+              <button
+                onClick={() => setPostDeleted(true)}
+                className="text-xs px-3 py-1 bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition-colors"
+              >
+                {t("community.delete")}
+              </button>
+            </div>
+          )}
         </article>
 
         {/* 댓글 섹션 */}
@@ -171,6 +206,16 @@ export default function PostDetailPage({
                   <span className="text-xs text-gray-400">{c.createdAt}</span>
                 </div>
                 <p className="mt-1 text-sm text-gray-600">{c.body}</p>
+
+                {/* 마스터 전용 댓글 삭제 버튼 */}
+                {master && (
+                  <button
+                    onClick={() => handleDeleteComment(c.id)}
+                    className="mt-2 text-xs px-3 py-1 bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition-colors"
+                  >
+                    {t("community.delete")}
+                  </button>
+                )}
               </div>
             ))}
           </div>

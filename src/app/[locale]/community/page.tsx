@@ -1,17 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import TrendingSidebar from "@/components/TrendingSidebar";
 import LevelBadge from "@/components/LevelBadge";
+import { createClient } from "@/lib/supabase";
+import { isMaster } from "@/lib/level-system";
 
 // 카테고리 탭 — 번역 키 기반으로 변경
 const CATEGORY_KEYS = ["community.all", "community.plastic_surgery", "community.dermatology", "community.dental", "community.general", "community.kpop", "community.kfood", "community.kdrama", "community.kfashion", "community.travel", "community.korean_learn"];
 
 // 게시글 더미 데이터 — 실제 DB 연동 전 UI 확인용
-const POSTS = [
+const INITIAL_POSTS = [
   { id: 1, titleKey: "community_preview.post1_title", categoryKey: "community.plastic_surgery", author: "user_kr", level: 12, upvotes: 87, downvotes: 3, comments: 24, createdAtKey: "community.time_2h" },
   { id: 2, titleKey: "community_preview.post2_title", categoryKey: "community.dermatology", author: "sarah_jp", level: 7, upvotes: 42, downvotes: 1, comments: 15, createdAtKey: "community.time_4h" },
   { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community.dental", author: "mike_us", level: 20, upvotes: 63, downvotes: 5, comments: 31, createdAtKey: "community.time_6h" },
@@ -35,9 +37,32 @@ export default function CommunityPage() {
   const [activeCategoryKey, setActiveCategoryKey] = useState("community.all");
   // 정렬 방식 상태
   const [sort, setSort] = useState<SortType>("popular");
+  // 게시글 목록 상태 — 삭제 시 로컬 제거
+  const [posts, setPosts] = useState(INITIAL_POSTS);
+  // 현재 로그인 사용자가 마스터인지 여부
+  const [master, setMaster] = useState(false);
+
+  // 로그인 사용자 확인 — 마스터 여부 감지
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email && isMaster(data.user.email)) {
+        setMaster(true);
+      }
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setMaster(!!(session?.user?.email && isMaster(session.user.email)));
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // 게시글 삭제 핸들러 — 마스터 전용, 목록에서 즉시 제거
+  const handleDeletePost = (postId: number) => {
+    setPosts((prev) => prev.filter((p) => p.id !== postId));
+  };
 
   // 카테고리 필터링 — "all" 선택 시 모든 글 표시
-  const filtered = POSTS.filter(
+  const filtered = posts.filter(
     (p) => activeCategoryKey === "community.all" || p.categoryKey === activeCategoryKey
   );
 
@@ -102,36 +127,44 @@ export default function CommunityPage() {
           {/* 게시글 카드 목록 */}
           <div className="mt-4 flex flex-col gap-3">
             {sorted.map((post) => (
-              // 각 게시글 카드 — 클릭 시 상세 페이지로 이동
-              <Link
-                key={post.id}
-                href={`/${locale}/community/${post.id}`}
-                className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    {/* 카테고리 배지 */}
-                    <div className="flex items-center gap-2">
-                      <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
-                        {t(post.categoryKey as Parameters<typeof t>[0])}
-                      </span>
+              // 각 게시글 카드 — 마스터는 삭제 버튼 포함
+              <div key={post.id} className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md relative">
+                <Link href={`/${locale}/community/${post.id}`} className="block">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      {/* 카테고리 배지 */}
+                      <div className="flex items-center gap-2">
+                        <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+                          {t(post.categoryKey as Parameters<typeof t>[0])}
+                        </span>
+                      </div>
+                      {/* 제목 — 긴 제목은 말줄임표 처리 */}
+                      <h2 className="mt-1 truncate text-base font-semibold text-gray-900">
+                        {t(post.titleKey as Parameters<typeof t>[0])}
+                      </h2>
+                      <p className="mt-1 flex items-center gap-1 text-xs text-gray-400">
+                        <LevelBadge level={post.level} size="sm" />
+                        {post.author} · {t(post.createdAtKey as Parameters<typeof t>[0])}
+                      </p>
                     </div>
-                    {/* 제목 — 긴 제목은 말줄임표 처리 */}
-                    <h2 className="mt-1 truncate text-base font-semibold text-gray-900">
-                      {t(post.titleKey as Parameters<typeof t>[0])}
-                    </h2>
-                    <p className="mt-1 flex items-center gap-1 text-xs text-gray-400">
-                      <LevelBadge level={post.level} size="sm" />
-                      {post.author} · {t(post.createdAtKey as Parameters<typeof t>[0])}
-                    </p>
+                    {/* 추천 수 및 댓글 수 */}
+                    <div className="flex shrink-0 flex-col items-end gap-1 text-xs text-gray-400">
+                      <span>↑ {post.upvotes}</span>
+                      <span>💬 {post.comments}</span>
+                    </div>
                   </div>
-                  {/* 추천 수 및 댓글 수 */}
-                  <div className="flex shrink-0 flex-col items-end gap-1 text-xs text-gray-400">
-                    <span>↑ {post.upvotes}</span>
-                    <span>💬 {post.comments}</span>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+
+                {/* 마스터 전용 삭제 버튼 */}
+                {master && (
+                  <button
+                    onClick={() => handleDeletePost(post.id)}
+                    className="mt-2 text-xs px-3 py-1 bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition-colors"
+                  >
+                    {t("community.delete")}
+                  </button>
+                )}
+              </div>
             ))}
 
             {/* 필터 결과가 없을 때 빈 상태 메시지 */}
