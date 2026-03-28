@@ -11,7 +11,7 @@ const DEPARTMENTS = [
   { id: 6, code: "10", icon: "👶", nameKo: "산부인과", nameEn: "OB/GYN", descKo: "산전검사·난임치료", descEn: "Prenatal · Fertility", color: "from-rose-400 to-pink-400" },
   { id: 7, code: "05", icon: "🦴", nameKo: "정형외과", nameEn: "Orthopedics", descKo: "관절·척추", descEn: "Joint · Spine", color: "from-amber-400 to-orange-400" },
   { id: 8, code: "80", icon: "🌿", nameKo: "한의원", nameEn: "Korean Medicine", descKo: "한방치료", descEn: "Traditional Treatment", color: "from-green-400 to-emerald-400" },
-  { id: 9, code: "04", icon: "🔬", nameKo: "비뇨기과", nameEn: "Urology", descKo: "비뇨기 질환", descEn: "Urological Care", color: "from-indigo-400 to-blue-400" },
+  { id: 9, code: "15", icon: "🔬", nameKo: "비뇨기과", nameEn: "Urology", descKo: "비뇨기 질환", descEn: "Urological Care", color: "from-indigo-400 to-blue-400" },
   { id: 10, code: "13", icon: "👃", nameKo: "이비인후과", nameEn: "ENT", descKo: "코골이·축농증", descEn: "Snoring · Sinusitis", color: "from-orange-400 to-amber-400" },
 ];
 
