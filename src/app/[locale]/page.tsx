@@ -33,64 +33,43 @@ export default async function HomePage({
       {/* ━━━ 히어로: 슬라이드 배너 ━━━ */}
       <SlideBanner locale={locale} />
 
-      {/* ━━━ 3대 서비스 허브 ━━━ */}
+      {/* ━━━ AI 맞춤 추천 — 전체 너비 ━━━ */}
+      <section className="bg-gray-900 px-4 py-12 border-b border-gray-800">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-xs font-semibold text-gray-400 tracking-widest uppercase mb-2">AI Recommendation</p>
+          <h2 className="text-2xl font-bold text-white mb-3">AI 맞춤 추천</h2>
+          <p className="text-sm text-gray-400 leading-relaxed mb-8">
+            증상이나 원하는 시술을 자연어로 입력하면
+            AI가 최적의 병원을 즉시 추천해드립니다.
+          </p>
+          <div className="bg-white rounded-lg p-4 max-w-2xl mx-auto">
+            <AiSearchBox locale={locale} />
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━ AI 얼굴 분석 + 병원 찾기 — 2분할 ━━━ */}
       <section className="bg-white px-4 py-10 border-b border-gray-100">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
+          {/* 서비스 2: AI 얼굴 분석 */}
+          <div className="rounded-xl overflow-hidden border border-gray-200">
+            <FaceAnalysis locale={locale} />
+          </div>
 
-            {/* ── 서비스 1: AI 맞춤 추천 (데스크탑 2/5) ── */}
-            <div className="lg:col-span-2 flex flex-col">
-              <div className="relative rounded-xl overflow-hidden">
-                {/* 배경: 단색 */}
-                <div className="absolute inset-0 bg-gray-900" />
-
-                <div className="relative z-10 flex flex-col p-6 sm:p-8">
-                  {/* 서비스 헤더 */}
-                  <div className="flex items-center gap-3 mb-5">
-                    <div>
-                      <p className="text-xs font-semibold text-gray-400 tracking-widest uppercase">AI Recommendation</p>
-                      <h2 className="text-lg font-bold text-white leading-tight">AI 맞춤 추천</h2>
-                    </div>
-                  </div>
-
-                  {/* 설명 */}
-                  <p className="text-sm text-gray-400 leading-relaxed mb-6">
-                    증상이나 원하는 시술을 자연어로 입력하면
-                    AI가 최적의 병원을 즉시 추천해드립니다.
-                  </p>
-
-                  {/* 검색 위젯 */}
-                  <div className="bg-white rounded-lg p-4">
-                    <AiSearchBox locale={locale} />
-                  </div>
-                </div>
+          {/* 서비스 3: 병원 찾기 */}
+          <div className="rounded-xl bg-white border border-gray-200 overflow-hidden">
+            <div className="px-5 pt-5 pb-1 flex items-center gap-3 border-b border-gray-100">
+              <div>
+                <h2 className="text-base font-bold text-gray-900">병원 찾기</h2>
+                <p className="text-xs text-gray-400">진료과·지역·유형으로 실시간 검색</p>
               </div>
             </div>
-
-            {/* ── 서비스 2 + 3 세로 스택 (데스크탑 3/5) ── */}
-            <div className="lg:col-span-3 flex flex-col gap-5">
-
-              {/* 서비스 2: AI 얼굴 분석 — 컴포넌트 자체가 완결적 카드 */}
-              <div className="rounded-xl overflow-hidden border border-gray-200">
-                <FaceAnalysis locale={locale} />
-              </div>
-
-              {/* 서비스 3: 병원 찾기 — 헤더 영역 추가 후 컴포넌트 연결 */}
-              <div className="rounded-xl bg-white border border-gray-200 overflow-hidden">
-                <div className="px-5 pt-5 pb-1 flex items-center gap-3 border-b border-gray-100">
-                  <div>
-                    <h2 className="text-base font-bold text-gray-900">병원 찾기</h2>
-                    <p className="text-xs text-gray-400">진료과·지역·유형으로 실시간 검색</p>
-                  </div>
-                </div>
-                <div className="p-5 pt-4">
-                  <ClinicFilter locale={locale} />
-                </div>
-              </div>
-
+            <div className="p-5 pt-4">
+              <ClinicFilter locale={locale} />
             </div>
           </div>
+
         </div>
       </section>
 
