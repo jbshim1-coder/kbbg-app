@@ -38,6 +38,11 @@ export async function POST(req: Request) {
 
 Write in a friendly and positive tone. Mention the strengths of the current appearance first, then suggest areas for improvement.`;
 
+    // data URL에서 실제 미디어 타입 추출 (image/jpeg, image/png 등)
+    const mediaTypeMatch = image.match(/^data:(image\/\w+);base64,/);
+    const mediaType = (mediaTypeMatch?.[1] || "image/jpeg") as "image/jpeg" | "image/png" | "image/gif" | "image/webp";
+    const base64Data = image.split(",")[1] || image;
+
     const response = await client.messages.create({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1024,
@@ -49,8 +54,8 @@ Write in a friendly and positive tone. Mention the strengths of the current appe
               type: "image",
               source: {
                 type: "base64",
-                media_type: "image/jpeg",
-                data: image.split(",")[1] || image,
+                media_type: mediaType,
+                data: base64Data,
               },
             },
             { type: "text", text: prompt },
