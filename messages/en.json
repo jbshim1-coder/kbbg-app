@@ -179,7 +179,13 @@
     "comment1_body": "Which clinic specifically?",
     "comment1_time": "1h ago",
     "comment2_body": "Could you share swelling photos too!",
-    "comment2_time": "30m ago"
+    "comment2_time": "30m ago",
+    "kpop": "K-Pop",
+    "kfood": "K-Food",
+    "kdrama": "K-Drama",
+    "kfashion": "K-Fashion",
+    "travel": "Korea Travel",
+    "korean_learn": "Learn Korean"
   },
   "about": {
     "title": "About Us",

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 // 카테고리 탭 — 번역 키 기반으로 변경
-const CATEGORY_KEYS = ["community.all", "community.plastic_surgery", "community.dermatology", "community.dental", "community.general"];
+const CATEGORY_KEYS = ["community.all", "community.plastic_surgery", "community.dermatology", "community.dental", "community.general", "community.kpop", "community.kfood", "community.kdrama", "community.kfashion", "community.travel", "community.korean_learn"];
 
 // 게시글 더미 데이터 — 실제 DB 연동 전 UI 확인용
 const POSTS = [

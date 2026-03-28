@@ -180,7 +180,13 @@
     "comment1_body": "Cụ thể là phòng khám nào?",
     "comment1_time": "1 giờ trước",
     "comment2_body": "Bạn có thể chia sẻ ảnh sưng không!",
-    "comment2_time": "30 phút trước"
+    "comment2_time": "30 phút trước",
+    "kpop": "K-Pop",
+    "kfood": "Ẩm thực Hàn",
+    "kdrama": "Phim Hàn",
+    "kfashion": "Thời trang Hàn",
+    "travel": "Du lịch Hàn Quốc",
+    "korean_learn": "Học tiếng Hàn"
   },
   "about": {
     "title": "Giới thiệu về chúng tôi",

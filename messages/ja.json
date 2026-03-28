@@ -180,7 +180,13 @@
     "comment1_body": "具体的にどのクリニックですか？",
     "comment1_time": "1時間前",
     "comment2_body": "腫れの写真も共有してもらえますか！",
-    "comment2_time": "30分前"
+    "comment2_time": "30分前",
+    "kpop": "K-Pop",
+    "kfood": "韓国グルメ",
+    "kdrama": "韓国ドラマ",
+    "kfashion": "韓国ファッション",
+    "travel": "韓国旅行",
+    "korean_learn": "韓国語学習"
   },
   "about": {
     "title": "私たちについて",
