@@ -33,31 +33,43 @@ export default async function HomePage({
       {/* ━━━ 히어로: 슬라이드 배너 ━━━ */}
       <SlideBanner locale={locale} />
 
-      {/* ━━━ 3대 서비스 허브 ━━━
-          배너 바로 아래, 흰 배경 위에 카드 트리오.
-          데스크탑: 좌(AI추천, 세로 1/3) + 우(얼굴분석·병원찾기 스택, 2/3)
-          태블릿 이하: 단일 컬럼 스택                                   */}
-      <section className="bg-white px-4 py-10 border-b border-gray-100">
+      {/* ━━━ 3대 서비스 허브 ━━━ */}
+      <section className="bg-[#fafafa] px-4 py-10 border-b border-gray-100">
         <div className="mx-auto max-w-6xl">
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-stretch">
 
-            {/* ── 서비스 1: AI 추천 (데스크탑 2/5) ── */}
+            {/* ── 서비스 1: AI 맞춤 추천 (데스크탑 2/5) ── */}
             <div className="lg:col-span-2 flex flex-col">
-              <div className="flex-1 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 p-6 sm:p-8 flex flex-col justify-between shadow-sm">
-                {/* 상단: 라벨 + 설명 */}
-                <div>
-                  <h2 className="text-2xl font-bold text-white leading-snug mb-2">
-                    AI 맞춤 추천
-                  </h2>
-                  <p className="text-sm text-white/80 leading-relaxed">
-                    자연어로 증상·시술을 입력하면
-                    <br />AI가 최적 병원을 즉시 추천합니다
+              <div className="flex-1 relative rounded-2xl overflow-hidden shadow-sm">
+                {/* 배경: 진한 로즈 그라디언트 + 패턴 */}
+                <div className="absolute inset-0 bg-gradient-to-br from-rose-600 via-pink-600 to-rose-500" />
+                {/* 장식용 원형 빛 번짐 */}
+                <div className="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+                <div className="absolute -bottom-16 -left-8 w-64 h-64 rounded-full bg-pink-400/20 blur-3xl pointer-events-none" />
+
+                <div className="relative z-10 h-full flex flex-col p-6 sm:p-8">
+                  {/* 서비스 아이콘 */}
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xl shrink-0">
+                      ✦
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-white/60 tracking-widest uppercase">AI Recommendation</p>
+                      <h2 className="text-lg font-bold text-white leading-tight">AI 맞춤 추천</h2>
+                    </div>
+                  </div>
+
+                  {/* 설명 */}
+                  <p className="text-sm text-white/75 leading-relaxed mb-6">
+                    증상이나 원하는 시술을 자연어로 입력하면
+                    AI가 최적의 병원을 즉시 추천해드립니다.
                   </p>
-                </div>
-                {/* 하단: 검색 위젯 */}
-                <div className="mt-6 bg-white rounded-xl p-4 shadow-inner">
-                  <AiSearchBox locale={locale} />
+
+                  {/* 검색 위젯 — 흰 배경 카드로 강조 */}
+                  <div className="mt-auto bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg ring-1 ring-white/20">
+                    <AiSearchBox locale={locale} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -65,14 +77,25 @@ export default async function HomePage({
             {/* ── 서비스 2 + 3 세로 스택 (데스크탑 3/5) ── */}
             <div className="lg:col-span-3 flex flex-col gap-5">
 
-              {/* 서비스 2: AI 얼굴 분석 */}
-              <div className="relative rounded-2xl overflow-hidden shadow-sm">
+              {/* 서비스 2: AI 얼굴 분석 — 컴포넌트 자체가 완결적 카드 */}
+              <div className="rounded-2xl overflow-hidden shadow-sm ring-1 ring-gray-100">
                 <FaceAnalysis locale={locale} />
               </div>
 
-              {/* 서비스 3: 병원 찾기 */}
-              <div className="relative rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
-                <div className="p-5">
+              {/* 서비스 3: 병원 찾기 — 헤더 영역 추가 후 컴포넌트 연결 */}
+              <div className="rounded-2xl bg-white ring-1 ring-gray-100 shadow-sm overflow-hidden">
+                {/* 카드 상단 액센트 바 */}
+                <div className="h-1 bg-gradient-to-r from-blue-500 to-indigo-500" />
+                <div className="px-5 pt-5 pb-1 flex items-center gap-3 border-b border-gray-50">
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-base shrink-0">
+                    🏥
+                  </div>
+                  <div>
+                    <h2 className="text-base font-bold text-gray-900">병원 찾기</h2>
+                    <p className="text-xs text-gray-400">진료과·지역·유형으로 실시간 검색</p>
+                  </div>
+                </div>
+                <div className="p-5 pt-4">
                   <ClinicFilter locale={locale} />
                 </div>
               </div>
