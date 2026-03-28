@@ -138,12 +138,15 @@ function AiSearchContent() {
           </div>
         </div>
 
-        {/* AI 분석 중 */}
-        {isThinking && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-3">
-            <span className="animate-pulse text-pink-400 text-lg">✦</span>
-            <p className="text-sm text-gray-500">
+        {/* AI 분석 중 — 스피너 + 메시지 */}
+        {isThinking && rawQuery && (
+          <div className="bg-white rounded-2xl p-8 shadow-sm flex flex-col items-center gap-4">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-pink-500 border-t-transparent" />
+            <p className="text-sm text-gray-500 animate-pulse">
               {t("ai_search.thinking" as Parameters<typeof t>[0])}
+            </p>
+            <p className="text-xs text-gray-400">
+              {locale === "ko" ? "심평원 데이터를 분석하고 있습니다..." : "Analyzing HIRA data..."}
             </p>
           </div>
         )}

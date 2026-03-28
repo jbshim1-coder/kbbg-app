@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchHiraClinics } from "@/lib/hira-api";
 import { generateAiRecommendation } from "@/lib/claude-api";
+import { fetchGoogleRating } from "@/lib/google-places";
 
 // 자연어에서 지역/진료과 코드 파싱
 function parseQuery(q: string): { sidoCd?: string; dgsbjtCd?: string } {
@@ -53,6 +54,20 @@ export async function POST(request: NextRequest) {
       numOfRows: 5,
       pageNo: 1,
     });
+
+    // 2.5단계: 상위 3개 병원 구글 별점 조회
+    const clinicsWithRating = await Promise.all(
+      hiraResult.clinics.map(async (c, i) => {
+        if (i < 3) {
+          try {
+            const r = await fetchGoogleRating(c.yadmNm, c.addr);
+            return { ...c, googleRating: r?.rating ?? null, googleReviewCount: r?.reviewCount ?? null };
+          } catch { return { ...c, googleRating: null, googleReviewCount: null }; }
+        }
+        return { ...c, googleRating: null, googleReviewCount: null };
+      })
+    );
+    hiraResult.clinics = clinicsWithRating as typeof hiraResult.clinics;
 
     // 3단계: Claude API로 서술형 답변 생성, 실패 시 템플릿 폴백
     let narrative: string;
