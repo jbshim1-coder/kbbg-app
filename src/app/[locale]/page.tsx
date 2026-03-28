@@ -7,6 +7,7 @@ import TrendingSidebar from "@/components/TrendingSidebar";
 import SlideBanner from "@/components/SlideBanner";
 import DailyCheckIn from "@/components/DailyCheckIn";
 import FaceAnalysis from "@/components/FaceAnalysis";
+import TopDepartments from "@/components/TopDepartments";
 
 // 최신 커뮤니티 글 더미 데이터 — 번역 키 사용
 const RECENT_POSTS = [
@@ -44,6 +45,11 @@ export default async function HomePage({
 
           {/* 왼쪽 넓은 영역 (lg에서 2/3 차지) */}
           <div className="lg:col-span-2 space-y-10">
+            {/* 인기 진료과 TOP 10 */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm">
+              <TopDepartments locale={locale} />
+            </div>
+
             {/* 병원 필터 검색 + AI 추천 */}
             <div className="bg-white rounded-2xl p-6 shadow-sm">
               <ClinicFilter locale={locale} />
