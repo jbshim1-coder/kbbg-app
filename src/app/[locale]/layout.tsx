@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -122,6 +123,7 @@ export default async function LocaleLayout({
           <main className="flex-1">{children}</main>
           <Footer locale={locale} />
         </NextIntlClientProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   );

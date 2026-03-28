@@ -16,15 +16,6 @@ function useLocale() {
   return "ko";
 }
 
-// 서술형 인트로 텍스트 생성
-function buildNarrativeIntro(query: string, results: HiraClinic[], totalCount: number): string {
-  if (results.length === 0) {
-    return `"${query}"에 대한 병원을 찾지 못했습니다.\n\n아래 조건 검색을 이용해 보세요.`;
-  }
-
-  const topCount = Math.min(results.length, 3);
-  return `"${query}"(으)로 검색한 결과입니다.\n\n총 ${totalCount.toLocaleString()}개의 병원이 있으며, 상위 ${topCount}곳을 보여드립니다:`;
-}
 
 export default function AiSearchPageWrapper() {
   return (
@@ -77,41 +68,20 @@ function AiSearchContent() {
       return;
     }
 
-    // AI "분석 중" 시뮬레이션 후 실제 API 호출
+    // AI "분석 중" 시뮬레이션 후 /api/ai-search 호출
     timerRef.current = setTimeout(async () => {
       try {
-        const params = new URLSearchParams();
-        params.set("page", "1");
-
-        // 자연어에서 지역/진료과 키워드 파싱
-        const q = rawQuery;
-        const regionMap: Record<string, string> = { "서울":"110000", "강남":"110000", "부산":"210000", "대구":"220000", "인천":"230000", "광주":"240000", "대전":"250000", "울산":"260000", "세종":"290000", "경기":"310000", "강원":"320000", "충북":"340000", "충남":"360000", "전북":"370000", "전남":"410000", "경북":"430000", "경남":"460000", "제주":"500000" };
-        const subjectMap: Record<string, string> = { "성형":"08", "피부":"14", "치과":"49", "안과":"12", "내과":"01", "외과":"04", "정형":"05", "신경":"06", "이비인후":"13", "비뇨":"15", "재활":"21" };
-
-        // 지역 추출
-        for (const [name, code] of Object.entries(regionMap)) {
-          if (q.includes(name)) { params.set("region", code); break; }
-        }
-        // 진료과 추출
-        for (const [name, code] of Object.entries(subjectMap)) {
-          if (q.includes(name)) { params.set("subject", code); break; }
-        }
-        // 종별: 기본 의원
-        params.set("type", "31");
-        // 별점 조회 스킵 (속도 우선)
-        params.set("rating", "skip");
-
-        const url = `/api/hira?${params.toString()}`;
-        console.log("AI Search API URL:", url);
-        const res = await fetch(url);
+        const res = await fetch("/api/ai-search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: rawQuery, locale }),
+        });
         const data = await res.json();
-        console.log("AI Search API response:", { totalCount: data.totalCount, clinics: data.clinics?.length });
 
-        const top3: HiraClinic[] = (data.clinics || []).slice(0, 3);
-        const count: number = data.totalCount || 0;
-        setResults(top3);
-        setTotalCount(count);
-        setNarrative(buildNarrativeIntro(rawQuery, top3, count));
+        const clinics: HiraClinic[] = data.clinics || [];
+        setResults(clinics);
+        setTotalCount(data.totalCount || 0);
+        setNarrative(data.narrative || `"${rawQuery}" 검색 결과입니다.`);
       } catch (err) {
         console.error("AI Search error:", err);
         setResults([]);
