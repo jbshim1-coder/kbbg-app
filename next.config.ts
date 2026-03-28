@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
         hostname: "*.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        // 네이버 쇼핑 제품 이미지 허용
+        protocol: "https",
+        hostname: "shopping-phinf.pstatic.net",
+      },
     ],
   },
 };
