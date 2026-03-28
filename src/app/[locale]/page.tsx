@@ -5,7 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import ClinicFilter from "@/components/ClinicFilter";
 import AiSearchBox from "@/components/AiSearchBox";
 import TrendingSidebar from "@/components/TrendingSidebar";
-import SlideBanner from "@/components/SlideBanner";
+
 import DailyCheckIn from "@/components/DailyCheckIn";
 import FaceAnalysis from "@/components/FaceAnalysis";
 import TopDepartments from "@/components/TopDepartments";
@@ -36,9 +36,6 @@ export default async function HomePage({
 
   return (
     <main className="min-h-screen bg-gray-50">
-
-      {/* ━━━ 히어로: 슬라이드 배너 ━━━ */}
-      <SlideBanner locale={locale} />
 
       {/* ━━━ AI 맞춤 추천 — 전체 너비 ━━━ */}
       <section className="bg-gray-900 px-4 py-10 border-b border-gray-800">
