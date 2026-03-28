@@ -12,7 +12,11 @@
     "search_placeholder": "クリニック、施術、地域を検索...",
     "live": "韓国ライブ",
     "cosmetics": "コスメ",
-    "influencer": "インフルエンサー"
+    "influencer": "インフルエンサー",
+    "find_clinic": "病院検索",
+    "kbeauty": "K-Beauty",
+    "guides": "施術ガイド",
+    "live_short": "LIVE"
   },
   "hero": {
     "title": "あなたにぴったりの韓国の病院を見つけましょう",

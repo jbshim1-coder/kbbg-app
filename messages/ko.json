@@ -12,7 +12,11 @@
     "language": "언어",
     "live": "한국의 거리",
     "cosmetics": "화장품",
-    "influencer": "인플루언서"
+    "influencer": "인플루언서",
+    "find_clinic": "병원찾기",
+    "kbeauty": "K-Beauty",
+    "guides": "시술가이드",
+    "live_short": "LIVE"
   },
   "hero": {
     "title": "당신에게 딱 맞는 한국의 병원을 찾아보세요",

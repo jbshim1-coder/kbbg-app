@@ -64,15 +64,14 @@ export default function Header() {
   );
 
   // 네비게이션 링크 목록 — 번역 키 사용
+  // 메뉴 순서: 사용자 유입 + 체류시간 극대화 구조
   const NAV_LINKS = [
     { href: "/", labelKey: "nav.home" },
-    { href: "/recommend", labelKey: "nav.recommend" },
+    { href: "/hospitals", labelKey: "nav.find_clinic" },
     { href: "/community", labelKey: "nav.community" },
-    { href: "/about", labelKey: "nav.about" },
-    { href: "/contact", labelKey: "nav.contact" },
-    { href: "/live", labelKey: "nav.live" },
-    { href: "/cosmetics", labelKey: "nav.cosmetics" },
-    { href: "/influencer", labelKey: "nav.influencer" },
+    { href: "/cosmetics", labelKey: "nav.kbeauty" },
+    { href: "/guides", labelKey: "nav.guides" },
+    { href: "/live", labelKey: "nav.live_short" },
   ];
 
   // locale 포함된 링크 생성 헬퍼
