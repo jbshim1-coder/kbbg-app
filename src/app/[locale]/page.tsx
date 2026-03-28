@@ -40,14 +40,6 @@ export default async function HomePage({
       <section className="bg-white px-4 py-10 border-b border-gray-100">
         <div className="mx-auto max-w-6xl">
 
-          {/* 섹션 레이블 */}
-          <div className="flex items-center gap-2 mb-6">
-            <span className="block h-0.5 w-6 bg-pink-400 rounded-full" />
-            <span className="text-xs font-semibold tracking-widest text-pink-500 uppercase">
-              Core Services
-            </span>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
 
             {/* ── 서비스 1: AI 추천 (데스크탑 2/5) ── */}
@@ -55,10 +47,6 @@ export default async function HomePage({
               <div className="flex-1 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 p-6 sm:p-8 flex flex-col justify-between shadow-sm">
                 {/* 상단: 라벨 + 설명 */}
                 <div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white mb-4">
-                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
-                    SERVICE 01
-                  </span>
                   <h2 className="text-2xl font-bold text-white leading-snug mb-2">
                     AI 맞춤 추천
                   </h2>
@@ -79,25 +67,12 @@ export default async function HomePage({
 
               {/* 서비스 2: AI 얼굴 분석 */}
               <div className="relative rounded-2xl overflow-hidden shadow-sm">
-                {/* 서비스 번호 배지 */}
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-violet-500/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white">
-                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
-                    SERVICE 02
-                  </span>
-                </div>
                 <FaceAnalysis locale={locale} />
               </div>
 
               {/* 서비스 3: 병원 찾기 */}
               <div className="relative rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white">
-                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
-                    SERVICE 03
-                  </span>
-                </div>
-                <div className="pt-12 p-5">
+                <div className="p-5">
                   <ClinicFilter locale={locale} />
                 </div>
               </div>
