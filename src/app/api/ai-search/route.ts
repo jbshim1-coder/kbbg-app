@@ -1,8 +1,10 @@
 // AI 검색 API — 자연어 질문을 심평원 데이터 + Claude AI 서술형 답변으로 처리
 import { NextRequest, NextResponse } from "next/server";
 import { fetchHiraClinics } from "@/lib/hira-api";
+import type { HiraClinic } from "@/lib/hira-api";
 import { generateAiRecommendation } from "@/lib/claude-api";
 import { fetchGoogleRating } from "@/lib/google-places";
+import { createServiceRoleClient } from "@/lib/supabase";
 
 // 자연어에서 지역/진료과 코드 파싱
 function parseQuery(q: string): { sidoCd?: string; dgsbjtCd?: string; keyword?: string } {
@@ -64,29 +66,39 @@ export async function POST(request: NextRequest) {
     // 1단계: 자연어에서 파라미터 파싱
     const { sidoCd, dgsbjtCd, keyword } = parseQuery(query);
 
-    // 2단계: DB 기반 검색 시도 (구글별점순 + 전문의수순)
+    // 2단계: DB 직접 조회 (구글별점순 + 전문의수순)
     let hiraResult: { clinics: HiraClinic[]; totalCount: number } = { clinics: [], totalCount: 0 };
 
     try {
-      const dbParams = new URLSearchParams();
-      if (sidoCd) dbParams.set("region", sidoCd);
-      if (dgsbjtCd) dbParams.set("subject", dgsbjtCd);
-      if (keyword) dbParams.set("keyword", keyword);
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-      const dbRes = await fetch(`${baseUrl}/api/clinics/search?${dbParams.toString()}`);
-      const dbData = await dbRes.json();
-      if (dbData.clinics && dbData.clinics.length > 0) {
-        // DB 결과를 HiraClinic 형식으로 변환
+      const supabase = createServiceRoleClient();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let dbQuery = (supabase as any)
+        .from("clinics")
+        .select("*", { count: "exact" })
+        .eq("is_active", true);
+
+      if (sidoCd) dbQuery = dbQuery.eq("sido_cd", sidoCd);
+      if (dgsbjtCd) dbQuery = dbQuery.eq("dgsbjt_cd", dgsbjtCd);
+      if (keyword) dbQuery = dbQuery.or(`name.ilike.%${keyword}%,address.ilike.%${keyword}%`);
+
+      dbQuery = dbQuery
+        .order("google_rating", { ascending: false, nullsFirst: false })
+        .order("sdr_cnt", { ascending: false })
+        .limit(5);
+
+      const { data, count } = await dbQuery;
+
+      if (data && data.length > 0) {
         hiraResult = {
-          clinics: dbData.clinics.map((c: Record<string, unknown>) => ({
-            yadmNm: c.yadmNm, clCdNm: c.clCdNm, dgsbjtCdNm: c.dgsbjtCdNm,
-            addr: c.addr, telno: c.telno, hospUrl: c.hospUrl,
-            drTotCnt: c.drTotCnt, sdrCnt: c.sdrCnt, mdeptSdrCnt: c.sdrCnt,
-            sidoCdNm: c.sidoCdNm, sgguCdNm: c.sgguCdNm, ykiho: c.ykiho,
-            googleRating: c.googleRating, googleReviewCount: c.googleReviewCount,
+          clinics: data.map((c: Record<string, unknown>) => ({
+            yadmNm: c.name, clCdNm: c.cl_cd_nm || "", dgsbjtCdNm: c.dgsbjt_cd_nm || "",
+            addr: c.address || "", telno: c.phone || "", hospUrl: c.website || "",
+            drTotCnt: c.dr_tot_cnt || 0, sdrCnt: c.sdr_cnt || 0, mdeptSdrCnt: c.sdr_cnt || 0,
+            sidoCdNm: c.sido_cd_nm || "", sgguCdNm: c.sggu_cd_nm || "", ykiho: c.ykiho || "",
+            googleRating: c.google_rating || null, googleReviewCount: c.google_review_count || null,
             XPos: "", YPos: "",
           })) as HiraClinic[],
-          totalCount: dbData.totalCount || 0,
+          totalCount: count || 0,
         };
       }
     } catch { /* DB 실패 시 HIRA API 폴백 */ }
