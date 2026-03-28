@@ -1,6 +1,7 @@
 // 운영자 추천 상담 API — Supabase 저장 + 운영자 이메일 알림
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
+import { sendNotificationEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -40,20 +41,12 @@ export async function POST(request: NextRequest) {
       console.error("[consultation] DB save failed:", dbError);
     }
 
-    // 2) 운영자에게 이메일 알림 (Supabase Edge Function 또는 외부 이메일 서비스)
-    // 현재는 Supabase DB 트리거 또는 관리자 대시보드에서 확인
-    // 향후 SendGrid/Resend 등 연동 시 여기에 추가
-    try {
-      // 간단한 알림: Supabase의 Database Webhook 또는 직접 이메일 API 호출
-      const adminEmail = "help@2bstory.com";
-      const notifyBody = `새 상담 신청\n\n성명: ${name}\n이메일: ${email}\n나이: ${age || "-"}\n지역: ${region || "-"}\n국적: ${nationality || "-"}\n성별: ${gender || "-"}\n원하는 진료: ${procedure || "-"}\n문의사항: ${message || "-"}`;
-
-      // mailto 방식 대신 콘솔 로그 (이메일 서비스 연동 전까지)
-      console.log(`[consultation] New inquiry from ${name} (${email}) → notify ${adminEmail}`);
-      console.log(notifyBody);
-    } catch {
-      // 이메일 실패해도 DB 저장은 완료
-    }
+    // 2) 운영자에게 이메일 알림
+    const genderText = gender === "male" ? "남성" : gender === "female" ? "여성" : gender === "other" ? "기타" : "-";
+    await sendNotificationEmail({
+      subject: `[KBBG] 새 상담 신청 — ${name}`,
+      content: `새 상담 신청이 접수되었습니다.\n\n성명: ${name}\n이메일: ${email}\n나이: ${age || "-"}\n지역: ${region || "-"}\n국적: ${nationality || "-"}\n성별: ${genderText}\n원하는 진료: ${procedure || "-"}\n문의사항: ${message || "-"}\n\n접수 시각: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}`,
+    });
 
     return NextResponse.json({
       success: true,

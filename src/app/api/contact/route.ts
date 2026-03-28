@@ -1,6 +1,7 @@
 // 문의 API — 추천 문의 접수(POST), 문의 상태 조회(GET)
 
 import { NextRequest } from "next/server";
+import { sendNotificationEmail } from "@/lib/email";
 
 // 문의 접수 요청 바디 타입
 interface ContactRequest {
@@ -55,7 +56,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 더미 접수 처리 — 실제 구현 시 DB 저장 후 관리자 알림 이메일/슬랙 발송
+    // 운영자에게 이메일 알림
+    await sendNotificationEmail({
+      subject: `[KBBG] 새 문의 — ${body.user}`,
+      content: `새 문의가 접수되었습니다.\n\n성명: ${body.user}\n이메일: ${body.email}\n국적: ${body.country || "-"}\n원하는 시술: ${body.procedure}\n예산: ${body.budget}\n방문예정일: ${body.visitDate || "-"}\n문의내용: ${body.message}\n\n접수 시각: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}`,
+    });
+
     const response: ContactResponse = {
       id: Math.floor(Math.random() * 10000) + 1000, // 더미: 랜덤 4자리 접수 번호
       status: "pending",
