@@ -4,6 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import ClinicFilter from "@/components/ClinicFilter";
 import AiSearchBox from "@/components/AiSearchBox";
 import TrendingSidebar from "@/components/TrendingSidebar";
+import SlideBanner from "@/components/SlideBanner";
+import DailyCheckIn from "@/components/DailyCheckIn";
 
 // 최신 커뮤니티 글 더미 데이터 — 번역 키 사용
 const RECENT_POSTS = [
@@ -25,8 +27,11 @@ export default async function HomePage({
 
   return (
     <main className="min-h-screen">
+      {/* 자동 슬라이드 배너 */}
+      <SlideBanner locale={locale} />
+
       {/* AI 검색 섹션 */}
-      <section className="bg-white px-4 pt-16 pb-8">
+      <section className="bg-white px-4 pt-10 pb-8">
         <div className="mx-auto max-w-6xl">
           <AiSearchBox locale={locale} />
         </div>
@@ -76,7 +81,8 @@ export default async function HomePage({
           </div>
 
           {/* 오른쪽 사이드바 (lg에서 1/3 차지, 모바일에서는 아래로) */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-4">
+            <DailyCheckIn locale={locale} />
             <TrendingSidebar />
           </div>
         </div>
