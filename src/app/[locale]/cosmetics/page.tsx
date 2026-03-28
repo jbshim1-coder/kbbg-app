@@ -105,10 +105,30 @@ export default function CosmeticsPage() {
           <h1 className="mt-2 text-3xl font-bold text-gray-900">
             {isKo ? "인기 화장품 TOP 20" : "Popular Cosmetics TOP 20"}
           </h1>
-          <p className="mt-3 text-sm text-gray-500">
+          {/* 기준일 표시 — 매주 월요일 기준 1주일 */}
+          {(() => {
+            const now = new Date();
+            const day = now.getDay();
+            const monday = new Date(now);
+            monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            const year = monday.getFullYear();
+            const month = monday.getMonth() + 1;
+            const week = Math.ceil(monday.getDate() / 7);
+            const fmt = (d: Date) => `${d.getMonth()+1}.${d.getDate()}`;
+            return (
+              <p className="mt-2 text-xs text-pink-500 font-medium">
+                {isKo
+                  ? `📅 ${year}년 ${month}월 ${week}주차 기준 (${fmt(monday)} ~ ${fmt(sunday)})`
+                  : `📅 ${year} Week ${week} of ${month} (${fmt(monday)} ~ ${fmt(sunday)})`}
+              </p>
+            );
+          })()}
+          <p className="mt-1 text-sm text-gray-500">
             {isKo
-              ? "다양한 쇼핑 플랫폼의 화장품 인기 랭킹"
-              : "Popular cosmetics ranking from multiple shopping platforms"}
+              ? "매주 월요일 기준 1주일 데이터 집계"
+              : "Weekly data aggregated every Monday"}
           </p>
         </div>
       </section>
