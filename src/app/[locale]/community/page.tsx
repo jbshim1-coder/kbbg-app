@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import TrendingSidebar from "@/components/TrendingSidebar";
 import LevelBadge from "@/components/LevelBadge";
 import { createClient } from "@/lib/supabase";
 import { isMaster } from "@/lib/level-system";
@@ -90,30 +89,26 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      {/* 2컬럼 레이아웃 — 왼쪽: 게시글 목록, 오른쪽: 트렌딩 사이드바 */}
-      <div className="mx-auto max-w-6xl px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* 전체 너비 레이아웃 */}
+      <div className="mx-auto max-w-4xl px-4 py-6">
 
-        {/* 왼쪽: 카테고리 + 게시글 목록 */}
-        <div className="lg:col-span-2">
-          {/* 카테고리 탭 — 가로 스크롤 지원 (모바일 대응) */}
-          <div className="flex gap-2 overflow-x-auto pb-2">
+        {/* 카테고리 + 정렬 상단 바 */}
+        <div className="flex items-center gap-3 flex-wrap">
+          {/* 카테고리 드롭다운 */}
+          <select
+            value={activeCategoryKey}
+            onChange={(e) => setActiveCategoryKey(e.target.value)}
+            className="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium bg-white focus:outline-none focus:border-pink-400"
+          >
             {CATEGORY_KEYS.map((catKey) => (
-              <button
-                key={catKey}
-                onClick={() => setActiveCategoryKey(catKey)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                  activeCategoryKey === catKey
-                    ? "bg-pink-500 text-white"
-                    : "bg-white text-gray-600 hover:bg-pink-50"
-                }`}
-              >
+              <option key={catKey} value={catKey}>
                 {t(catKey as Parameters<typeof t>[0])}
-              </button>
+              </option>
             ))}
-          </div>
+          </select>
 
           {/* 정렬 옵션 토글 */}
-          <div className="mt-4 flex gap-3 text-sm">
+          <div className="flex gap-3 text-sm">
             <button
               onClick={() => setSort("popular")}
               className={`font-medium ${sort === "popular" ? "text-pink-500" : "text-gray-400 hover:text-gray-600"}`}
@@ -126,7 +121,7 @@ export default function CommunityPage() {
             >
               {t("community.latest")}
             </button>
-          </div>
+        </div>
 
           {/* 게시글 카드 목록 */}
           <div className="mt-4 flex flex-col gap-3">
@@ -176,11 +171,6 @@ export default function CommunityPage() {
               <p className="py-16 text-center text-gray-400">{t("community.no_posts")}</p>
             )}
           </div>
-        </div>
-
-        {/* 오른쪽: 트렌딩 사이드바 (모바일에서는 아래로) */}
-        <div className="lg:col-span-1">
-          <TrendingSidebar />
         </div>
       </div>
     </main>
