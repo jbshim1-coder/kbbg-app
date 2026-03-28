@@ -126,7 +126,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
         className="w-full py-3 bg-pink-500 text-white text-sm font-bold rounded-xl hover:bg-pink-600 disabled:bg-pink-300 transition">
         {loading
           ? (isKo ? "접수 중..." : "Submitting...")
-          : (isKo ? "무료 상담 신청" : "Request Free Consultation")}
+          : (isKo ? "무료 상담 신청 (24시간 이내 답변)" : "Request Free Consultation (Reply within 24h)")}
       </button>
     </form>
   );
