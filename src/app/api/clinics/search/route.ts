@@ -24,9 +24,9 @@ export async function GET(request: NextRequest) {
       .select("*", { count: "exact" })
       .eq("is_active", true);
 
-    // 키워드 검색 (병원명)
+    // 키워드 검색 (병원명 또는 주소)
     if (keyword) {
-      query = query.ilike("name", `%${keyword}%`);
+      query = query.or(`name.ilike.%${keyword}%,address.ilike.%${keyword}%`);
     }
 
     // 지역 필터
