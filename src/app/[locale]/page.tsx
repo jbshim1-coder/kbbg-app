@@ -72,14 +72,14 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ━━━ 운영자에게 추천받기 ━━━ */}
+      {/* ━━━ 운영자에게 병원 추천 받기 ━━━ */}
       <section className="px-4 py-10 bg-gray-50 border-b border-gray-100">
         <div className="mx-auto max-w-6xl">
           <div className="bg-white rounded-2xl shadow-sm p-8">
             <div className="flex items-center gap-3 mb-5">
               <span className="text-3xl">💬</span>
               <h2 className="text-lg font-bold text-gray-900">
-                {locale === "ko" ? "운영자에게 추천받기" : "Get Expert Recommendation"}
+                {locale === "ko" ? "운영자에게 병원 추천 받기" : "Get Expert Recommendation"}
               </h2>
             </div>
             <ConsultationForm locale={locale} />
