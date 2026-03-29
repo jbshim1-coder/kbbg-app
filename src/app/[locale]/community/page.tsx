@@ -105,6 +105,8 @@ export default function CommunityPage() {
   const [master, setMaster] = useState(false);
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
 
+  void CATEGORY_KEYS; void setActiveCategoryKey;
+
   // URL cat 변경 시 카테고리 업데이트
   useEffect(() => {
     if (catParam && CAT_TO_KEY[catParam]) {
@@ -136,31 +138,31 @@ export default function CommunityPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-100 px-4 py-6">
+      <div className="bg-white border-b border-gray-100 px-4 py-8">
         <div className="mx-auto max-w-6xl flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-900">{t("community.title")}</h1>
           <Link
             href={loggedIn ? `/${locale}/community/new` : `/${locale}/signup`}
-            className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+            className="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 transition-colors"
           >
             {t("community.new_post")}
           </Link>
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-4 py-6">
+      <div className="mx-auto max-w-4xl px-4 py-8">
 
         {/* 정렬 옵션 */}
         <div className="flex gap-3 text-sm mb-4">
           <button
             onClick={() => setSort("popular")}
-            className={`font-medium ${sort === "popular" ? "text-teal-600" : "text-gray-400 hover:text-gray-600"}`}
+            className={`font-medium transition-colors ${sort === "popular" ? "text-emerald-600" : "text-gray-400 hover:text-gray-600"}`}
           >
             {t("community.trending")}
           </button>
           <button
             onClick={() => setSort("latest")}
-            className={`font-medium ${sort === "latest" ? "text-teal-600" : "text-gray-400 hover:text-gray-600"}`}
+            className={`font-medium transition-colors ${sort === "latest" ? "text-emerald-600" : "text-gray-400 hover:text-gray-600"}`}
           >
             {t("community.latest")}
           </button>
@@ -174,9 +176,9 @@ export default function CommunityPage() {
         ) : (
           <div className="space-y-3">
             {sorted.map((post) => (
-              <div key={post.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-start justify-between hover:shadow-md transition-shadow">
+              <div key={post.id} className="bg-white rounded-2xl shadow-md p-5 flex items-start justify-between hover:shadow-lg transition-shadow">
                 <div className="flex-1">
-                  <span className="text-xs text-teal-600 font-medium">
+                  <span className="text-xs text-emerald-600 font-medium">
                     {t(post.categoryKey as Parameters<typeof t>[0])}
                   </span>
                   <h3 className="mt-1 font-semibold text-gray-800">{post.title}</h3>

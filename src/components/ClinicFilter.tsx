@@ -121,13 +121,15 @@ export default function ClinicFilter({ locale }: { locale: string }) {
     setClinics([]); setTotalCount(0); setSearched(false);
   };
 
+  void specialist; void doctorCount; void rating; void website;
+
   const totalPages = Math.ceil(totalCount / 10);
-  const selectClass = "w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 appearance-none";
+  const selectClass = "w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 appearance-none";
 
   return (
     <div>
       {/* 필터 카드 */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+      <div className="bg-white rounded-2xl shadow-md p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-900">
             {t("filter.title" as Parameters<typeof t>[0])}
@@ -165,7 +167,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           <button
             onClick={() => handleSearch(1)}
             disabled={loading}
-            className="w-full rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white hover:bg-teal-700 disabled:bg-blue-300 transition"
+            className="w-full rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-600 disabled:bg-emerald-300 transition"
           >
             {loading ? (isKo ? "검색 중..." : "Searching...") : t("filter.search_btn" as Parameters<typeof t>[0])}
           </button>
@@ -188,7 +190,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
               </button>
               <button
                 onClick={() => { const next = sortBy === "doctors" ? "" : "doctors"; setSortBy(next); handleSearch(1); }}
-                className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "doctors" ? "bg-teal-50 border-blue-300 text-teal-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
+                className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "doctors" ? "bg-emerald-50 border-emerald-300 text-emerald-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
               >
                 👨‍⚕️ {isKo ? "의사수순" : "Doctors"}
               </button>
@@ -208,7 +210,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           ) : (
             <div className="space-y-3">
               {clinics.map((clinic, idx) => (
-                <div key={clinic.ykiho || idx} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                <div key={clinic.ykiho || idx} className="bg-white rounded-2xl shadow-md p-5">
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="font-semibold text-gray-800">{clinic.yadmNm}</h3>
@@ -219,14 +221,14 @@ export default function ClinicFilter({ locale }: { locale: string }) {
                         <a
                           href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="text-xs text-teal-500 hover:underline"
+                          className="text-xs text-emerald-600 hover:underline"
                         >
                           {isKo ? "홈페이지" : "Website"}
                         </a>
                       )}
                       <a
                         href={`/${locale}/contact?hospital=${encodeURIComponent(clinic.yadmNm)}`}
-                        className="text-xs px-2.5 py-1 border border-teal-400 text-teal-600 rounded-lg hover:bg-teal-50 transition"
+                        className="text-xs px-2.5 py-1 border border-emerald-400 text-emerald-600 rounded-lg hover:bg-emerald-50 transition"
                       >
                         {isKo ? "상담 문의" : "Inquiry"}
                       </a>

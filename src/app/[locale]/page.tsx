@@ -39,32 +39,32 @@ export default async function HomePage({
     <main className="min-h-screen bg-gray-50">
 
       {/* ━━━ AI 맞춤 추천 — 전체 너비 ━━━ */}
-      <section className="bg-gray-900 px-4 py-10 border-b border-gray-800">
+      <section className="bg-slate-800 px-4 py-12 border-b border-slate-700">
         <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-lg p-4">
+          <div className="bg-white rounded-2xl shadow-md p-6">
             <AiSearchBox locale={locale} />
           </div>
         </div>
       </section>
 
       {/* ━━━ AI 얼굴 분석 + 병원 찾기 — 2분할 ━━━ */}
-      <section className="bg-white px-4 py-10 border-b border-gray-100">
+      <section className="bg-white px-4 py-12 border-b border-gray-100">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* 서비스 2: AI 얼굴 분석 */}
-          <div className="rounded-xl overflow-hidden border border-gray-200">
+          <div className="rounded-2xl overflow-hidden shadow-md">
             <FaceAnalysis locale={locale} />
           </div>
 
           {/* 서비스 3: 병원 찾기 */}
-          <div className="rounded-xl bg-white border border-gray-200 overflow-hidden">
-            <div className="px-5 pt-5 pb-1 flex items-center gap-3 border-b border-gray-100">
+          <div className="rounded-2xl bg-white shadow-md overflow-hidden">
+            <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-gray-100">
               <div>
                 <h2 className="text-base font-bold text-gray-900">조건별 병원검색</h2>
                 <p className="text-xs text-gray-400">진료과·지역·유형으로 실시간 검색</p>
               </div>
             </div>
-            <div className="p-5 pt-4">
+            <div className="p-6 pt-4">
               <ClinicFilter locale={locale} />
             </div>
           </div>
@@ -73,9 +73,9 @@ export default async function HomePage({
       </section>
 
       {/* ━━━ 운영자에게 추천받기 ━━━ */}
-      <section className="px-4 py-8 bg-gradient-to-r from-teal-50 to-cyan-50 border-b border-gray-100">
+      <section className="px-4 py-10 bg-gray-50 border-b border-gray-100">
         <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-2xl border-2 border-teal-300 shadow-sm p-6">
+          <div className="bg-white rounded-2xl shadow-md p-8">
             <div className="flex items-center gap-3 mb-5">
               <span className="text-3xl">💬</span>
               <h2 className="text-lg font-bold text-gray-900">
@@ -88,13 +88,13 @@ export default async function HomePage({
       </section>
 
       {/* ━━━ 인기 진료과 + 사이드바 ━━━ */}
-      <section className="px-4 py-10 bg-gray-50">
+      <section className="px-4 py-12 bg-gray-50">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           {/* 왼쪽: 인기 진료과 + 커뮤니티 */}
           <div className="lg:col-span-2 space-y-8">
 
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
+            <div className="bg-white rounded-2xl shadow-md p-6">
               <TopDepartments locale={locale} />
             </div>
 
@@ -102,7 +102,7 @@ export default async function HomePage({
             <div>
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-gray-900">{t("community_preview.title")}</h2>
-                <Link href={`/${locale}/community`} className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                <Link href={`/${locale}/community`} className="text-sm text-emerald-600 hover:text-emerald-700 transition-colors">
                   {t("community_preview.view_all")}
                 </Link>
               </div>
@@ -111,7 +111,7 @@ export default async function HomePage({
                   <Link
                     key={post.id}
                     href={`/${locale}/community/${post.id}`}
-                    className="flex items-center justify-between rounded-lg bg-white px-5 py-4 border border-gray-200 transition-colors hover:bg-gray-50"
+                    className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 shadow-md transition-shadow hover:shadow-lg"
                   >
                     <div>
                       <span className="mr-2 rounded bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
@@ -139,7 +139,7 @@ export default async function HomePage({
       </section>
 
       {/* 한국의 거리 라이브 — 5개 그리드 */}
-      <section className="bg-gray-900 px-4 py-14">
+      <section className="bg-slate-900 px-4 py-14">
         <div className="mx-auto max-w-6xl">
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -164,9 +164,9 @@ export default async function HomePage({
               <Link
                 key={ch.id}
                 href={`/${locale}/live`}
-                className="group relative overflow-hidden rounded-lg border border-gray-700 hover:border-gray-500 transition-colors"
+                className="group relative overflow-hidden rounded-xl border border-slate-700 hover:border-slate-500 transition-colors"
               >
-                <div className="relative aspect-video bg-gray-800">
+                <div className="relative aspect-video bg-slate-800">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`https://img.youtube.com/vi/${ch.videoId}/mqdefault.jpg`}
@@ -179,7 +179,7 @@ export default async function HomePage({
                     LIVE
                   </span>
                 </div>
-                <div className="bg-gray-800 px-2 py-1.5 text-center">
+                <div className="bg-slate-800 px-2 py-1.5 text-center">
                   <span className="text-xs font-medium text-gray-200">
                     {t(`live.ch_${ch.id}` as Parameters<typeof t>[0])}
                   </span>

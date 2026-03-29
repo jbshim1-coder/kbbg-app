@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 const DEPARTMENTS = [
-  { id: 1, code: "08", icon: "✨", nameKo: "성형외과", nameEn: "Plastic Surgery", descKo: "쌍꺼풀·코성형·안면윤곽", descEn: "Eyelid · Nose · Face Contouring", color: "from-teal-400 to-teal-500" },
+  { id: 1, code: "08", icon: "✨", nameKo: "성형외과", nameEn: "Plastic Surgery", descKo: "쌍꺼풀·코성형·안면윤곽", descEn: "Eyelid · Nose · Face Contouring", color: "from-emerald-400 to-emerald-500" },
   { id: 2, code: "14", icon: "💎", nameKo: "피부과", nameEn: "Dermatology", descKo: "레이저·보톡스·필러", descEn: "Laser · Botox · Filler", color: "from-purple-400 to-violet-400" },
   { id: 3, code: "01", icon: "🩺", nameKo: "내과", nameEn: "Internal Medicine", descKo: "건강검진", descEn: "Health Checkup", color: "from-blue-400 to-cyan-400" },
   { id: 4, code: "49", icon: "🦷", nameKo: "치과", nameEn: "Dental", descKo: "임플란트·라미네이트", descEn: "Implant · Laminate", color: "from-sky-400 to-blue-400" },
@@ -31,7 +31,7 @@ export default function TopDepartments({ locale }: { locale: string }) {
           <Link
             key={dept.id}
             href={`/${locale}/hospitals?${"isType" in dept && dept.isType ? `type=${dept.code}` : `dept=${dept.code}`}`}
-            className="group relative bg-white rounded-xl border border-gray-100 p-4 text-center transition-all hover:shadow-md hover:-translate-y-1"
+            className="group relative bg-white rounded-2xl shadow-md p-4 text-center transition-all hover:shadow-lg hover:-translate-y-1"
           >
             <span className="absolute top-1.5 left-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-gray-100 text-[10px] font-bold text-gray-500">
               {dept.id}
@@ -39,7 +39,7 @@ export default function TopDepartments({ locale }: { locale: string }) {
             <div className={`mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${dept.color} text-2xl`}>
               {dept.icon}
             </div>
-            <p className="text-sm font-semibold text-gray-800 group-hover:text-teal-600 transition-colors">
+            <p className="text-sm font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">
               {isKo ? dept.nameKo : dept.nameEn}
             </p>
             <p className="mt-0.5 text-[11px] text-gray-400 line-clamp-1">
