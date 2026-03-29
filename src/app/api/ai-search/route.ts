@@ -66,29 +66,22 @@ export async function POST(request: NextRequest) {
     // 1단계: 자연어에서 파라미터 파싱
     const { sidoCd, dgsbjtCd, keyword } = parseQuery(query);
 
-    // 2단계: DB 직접 조회 (구글별점순 + 전문의수순)
+    // 2단계: RPC 함수로 관련성 점수 기반 검색 (상호 불일치 제외 포함)
     let hiraResult: { clinics: HiraClinic[]; totalCount: number } = { clinics: [], totalCount: 0 };
 
     try {
       const supabase = createServiceRoleClient();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let dbQuery = (supabase as any)
-        .from("clinics")
-        .select("*", { count: "exact" })
-        .eq("is_active", true);
+      const { data, error } = await (supabase as any).rpc("search_clinics_ranked", {
+        p_subject: dgsbjtCd || "",
+        p_keyword: keyword || "",
+        p_region: sidoCd || "",
+        p_type: "",
+        p_page: 1,
+        p_limit: 5,
+      });
 
-      if (sidoCd) dbQuery = dbQuery.eq("sido_cd", sidoCd);
-      if (dgsbjtCd) dbQuery = dbQuery.eq("dgsbjt_cd", dgsbjtCd);
-      if (keyword) dbQuery = dbQuery.or(`name.ilike.%${keyword}%,address.ilike.%${keyword}%`);
-
-      dbQuery = dbQuery
-        .order("google_rating", { ascending: false, nullsFirst: false })
-        .order("sdr_cnt", { ascending: false })
-        .limit(5);
-
-      const { data, count } = await dbQuery;
-
-      if (data && data.length > 0) {
+      if (!error && data && data.length > 0) {
         hiraResult = {
           clinics: data.map((c: Record<string, unknown>) => ({
             yadmNm: c.name, clCdNm: c.cl_cd_nm || "", dgsbjtCdNm: c.dgsbjt_cd_nm || "",
@@ -98,7 +91,7 @@ export async function POST(request: NextRequest) {
             googleRating: c.google_rating || null, googleReviewCount: c.google_review_count || null,
             XPos: "", YPos: "",
           })) as HiraClinic[],
-          totalCount: count || 0,
+          totalCount: data[0]?.total_count || data.length,
         };
       }
     } catch { /* DB 실패 시 HIRA API 폴백 */ }
