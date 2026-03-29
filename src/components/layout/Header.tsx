@@ -63,6 +63,18 @@ export default function Header() {
     LOCALES.find((l) => l.code === currentLocaleCode) || LOCALES[0]
   );
 
+  // 어제 방문자 수
+  const [yesterdayVisitors, setYesterdayVisitors] = useState(0);
+  useEffect(() => {
+    // 방문자 수 조회
+    fetch("/api/visitors").then(r => r.json()).then(d => setYesterdayVisitors(d.count)).catch(() => {});
+    // 오늘 방문자 +1 (세션당 1회)
+    if (!sessionStorage.getItem("kbbg_visited")) {
+      fetch("/api/visitors", { method: "POST" }).catch(() => {});
+      sessionStorage.setItem("kbbg_visited", "1");
+    }
+  }, []);
+
   // 네비게이션 링크 목록 — 번역 키 사용
   // 메뉴 순서: 사용자 유입 + 체류시간 극대화 구조
   const NAV_LINKS = [
@@ -134,6 +146,13 @@ export default function Header() {
               priority
             />
           </Link>
+
+          {/* ── 어제 방문자 수 ── */}
+          {yesterdayVisitors > 0 && (
+            <span className="hidden lg:inline text-[11px] text-gray-400">
+              어제 방문자 : <span className="font-bold text-red-500">{yesterdayVisitors.toLocaleString()}</span>명
+            </span>
+          )}
 
           {/* ── PC 네비게이션 ── */}
           <nav
