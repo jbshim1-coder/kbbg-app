@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const keyword = searchParams.get("keyword") || "";
   const region = searchParams.get("region") || "";
+  const sggu = searchParams.get("sggu") || "";
   const subject = searchParams.get("subject") || "";
   const type = searchParams.get("type") || "";
   const page = parseInt(searchParams.get("page") || "1");
@@ -16,6 +17,7 @@ export async function GET(request: NextRequest) {
     const result = await fetchHiraClinics({
       yadmNm: keyword || undefined,
       sidoCd: region || undefined,
+      sgguCd: sggu || undefined,
       dgsbjtCd: subject || undefined,
       clCd: type || undefined,
       numOfRows: 10,

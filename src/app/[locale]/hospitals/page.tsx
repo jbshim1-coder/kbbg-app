@@ -17,7 +17,9 @@ export default function HospitalsPage() {
   // URL 파라미터에서 조건 읽기
   const subject = searchParams.get("dept") || searchParams.get("subject") || "";
   const region = searchParams.get("region") || "";
+  const sggu = searchParams.get("sggu") || "";
   const type = searchParams.get("type") || "";
+  const keyword = searchParams.get("keyword") || "";
 
   const subjectName = subject ? (SUBJECT_CODES[subject] || subject) : "";
   const regionName = region ? (SIDO_CODES[region] || region) : "";
@@ -42,8 +44,10 @@ export default function HospitalsPage() {
     try {
       const params = new URLSearchParams();
       if (region) params.set("region", region);
+      if (sggu) params.set("sggu", sggu);
       if (subject) params.set("subject", subject);
       if (type) params.set("type", type);
+      if (keyword) params.set("keyword", keyword);
       params.set("page", String(newPage));
 
       const res = await fetch(`/api/hira?${params.toString()}`);

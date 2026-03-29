@@ -43,6 +43,7 @@ export interface HiraSearchParams {
   sidoCd?: string;    // 시도코드
   sgguCd?: string;    // 시군구코드
   dgsbjtCd?: string;  // 진료과목코드
+  sgguCd?: string;    // 시군구코드
   numOfRows?: number; // 한 페이지 결과 수
   pageNo?: number;    // 페이지 번호
 }
@@ -117,6 +118,7 @@ export async function fetchHiraClinics(params: HiraSearchParams): Promise<{
   if (params.sidoCd) queryParams.set("sidoCd", params.sidoCd);
   if (params.sgguCd) queryParams.set("sgguCd", params.sgguCd);
   if (params.dgsbjtCd) queryParams.set("dgsbjtCd", params.dgsbjtCd);
+  // sgguCd already handled above
 
   const url = `${HIRA_BASE_URL}/getHospBasisList?${queryParams.toString()}`;
 
