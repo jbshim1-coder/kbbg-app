@@ -1,17 +1,30 @@
 "use client";
 
-// AI 검색 박스 — 자연어 입력으로 AI 추천 시작
-import { useState } from "react";
+// AI 검색 박스 — 비로그인 시 회원가입 유도
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { createClient } from "@/lib/supabase";
 
 export default function AiSearchBox({ locale }: { locale: string }) {
   const t = useTranslations();
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const isKo = locale === "ko";
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setLoggedIn(!!data.user));
+  }, []);
 
   const handleSubmit = () => {
     if (!query.trim()) return;
+    if (!loggedIn) {
+      setShowPopup(true);
+      return;
+    }
     router.push(`/${locale}/ai-search?q=${encodeURIComponent(query.trim())}`);
   };
 
@@ -21,12 +34,10 @@ export default function AiSearchBox({ locale }: { locale: string }) {
 
   return (
     <div className="text-center">
-      {/* 타이틀 */}
       <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
         {t("hero.ai_question" as Parameters<typeof t>[0])}
       </h1>
 
-      {/* AI 검색창 */}
       <div className="mt-6 mx-auto max-w-2xl">
         <div className="flex items-center bg-white border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-shadow px-5 py-3">
           <span className="text-gray-300 mr-3">+</span>
@@ -43,7 +54,6 @@ export default function AiSearchBox({ locale }: { locale: string }) {
           </span>
         </div>
 
-        {/* AI 추천 시작 버튼 */}
         <button
           onClick={handleSubmit}
           className="mt-4 px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-full transition-colors"
@@ -51,6 +61,43 @@ export default function AiSearchBox({ locale }: { locale: string }) {
           AI 추천 시작
         </button>
       </div>
+
+      {/* 비로그인 팝업 */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4">
+          <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl">
+            <p className="text-4xl mb-4">🔒</p>
+            <h3 className="text-lg font-bold text-gray-900">
+              {isKo ? "회원 전용 서비스" : "Members Only"}
+            </h3>
+            <p className="text-sm text-gray-500 mt-2">
+              {isKo
+                ? "AI 검색은 회원만 이용할 수 있습니다.\n무료로 가입하고 이용해보세요!"
+                : "AI search is available for members only.\nSign up for free!"}
+            </p>
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowPopup(false)}
+                className="flex-1 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50"
+              >
+                {isKo ? "닫기" : "Close"}
+              </button>
+              <button
+                onClick={() => router.push(`/${locale}/signup`)}
+                className="flex-1 py-2.5 bg-slate-800 text-white rounded-lg text-sm font-semibold hover:bg-slate-900"
+              >
+                {isKo ? "무료 회원가입" : "Sign Up Free"}
+              </button>
+            </div>
+            <button
+              onClick={() => router.push(`/${locale}/login`)}
+              className="mt-3 text-xs text-gray-400 hover:text-gray-600"
+            >
+              {isKo ? "이미 회원이신가요? 로그인" : "Already a member? Login"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,9 +1,10 @@
 "use client";
 
 // 메인 페이지 병원 조건 검색 — 심평원 전체 옵션 + /hospitals 이동
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { SGGU_CODES } from "@/data/sggu-codes";
+import { createClient } from "@/lib/supabase";
 
 // 진료과목
 const SPECIALTIES = [
@@ -88,6 +89,13 @@ export default function ClinicFilter({ locale }: { locale: string }) {
   const [rating, setRating] = useState("");
   const [website, setWebsite] = useState("");
   const [keyword, setKeyword] = useState("");
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setLoggedIn(!!data.user));
+  }, []);
 
   const handleRegionChange = (val: string) => {
     setRegion(val);
@@ -97,6 +105,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
   const sgguOptions = region && SGGU_CODES[region] ? SGGU_CODES[region] : [];
 
   const handleSearch = () => {
+    if (!loggedIn) { setShowPopup(true); return; }
     const params = new URLSearchParams();
     if (specialty && !specialty.startsWith("_")) params.set("dept", specialty);
     if (region) params.set("region", region);
@@ -177,6 +186,35 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       >
         {isKo ? "병원 검색" : "Search Clinics"}
       </button>
+
+      {/* 비로그인 팝업 */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4">
+          <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl">
+            <p className="text-4xl mb-4">🔒</p>
+            <h3 className="text-lg font-bold text-gray-900">
+              {isKo ? "회원 전용 서비스" : "Members Only"}
+            </h3>
+            <p className="text-sm text-gray-500 mt-2">
+              {isKo ? "병원 검색은 회원만 이용할 수 있습니다.\n무료로 가입하고 이용해보세요!" : "Search is available for members only.\nSign up for free!"}
+            </p>
+            <div className="flex gap-3 mt-6">
+              <button onClick={() => setShowPopup(false)}
+                className="flex-1 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
+                {isKo ? "닫기" : "Close"}
+              </button>
+              <button onClick={() => router.push(`/${currentLocale}/signup`)}
+                className="flex-1 py-2.5 bg-slate-800 text-white rounded-lg text-sm font-semibold hover:bg-slate-900">
+                {isKo ? "무료 회원가입" : "Sign Up Free"}
+              </button>
+            </div>
+            <button onClick={() => router.push(`/${currentLocale}/login`)}
+              className="mt-3 text-xs text-gray-400 hover:text-gray-600">
+              {isKo ? "이미 회원이신가요? 로그인" : "Already a member? Login"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
