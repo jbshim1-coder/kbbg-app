@@ -96,17 +96,45 @@ export async function POST(request: NextRequest) {
       }
     } catch { /* DB 실패 시 HIRA API 폴백 */ }
 
-    // DB에 없으면 HIRA API 직접 호출
+    // DB에 없으면 HIRA API 직접 호출 (의원만, 상호 필터 적용)
     if (hiraResult.clinics.length === 0) {
       const apiResult = await fetchHiraClinics({
         sidoCd,
         dgsbjtCd,
-        numOfRows: 5,
+        clCd: dgsbjtCd && dgsbjtCd !== "01" ? "31" : undefined, // 의원만 (내과 제외)
+        numOfRows: 20, // 필터링 후 5개 남도록 넉넉히
         pageNo: 1,
       });
+
+      // 진료과명으로 상호 불일치 필터링
+      const SUBJECT_NAMES: Record<string, string> = {
+        "01":"내과","02":"신경","03":"정신","04":"외과","05":"정형","06":"신경외","08":"성형",
+        "09":"마취","10":"산부","12":"안과","13":"이비인후","14":"피부","15":"비뇨","21":"재활","49":"치과","80":"한방"
+      };
+      const subjectShort = dgsbjtCd ? SUBJECT_NAMES[dgsbjtCd] || "" : "";
+      const EXCLUDE_KEYWORDS = ["소아","산부인과","정형외과","신경외과","가정의학","안과","치과","비뇨","이비인후"];
+
+      let filtered = apiResult.clinics;
+      if (subjectShort && dgsbjtCd !== "01") {
+        filtered = filtered.filter(c => {
+          // 상호에 다른 진료과명이 있으면 제외
+          for (const kw of EXCLUDE_KEYWORDS) {
+            if (!subjectShort.includes(kw.slice(0,2)) && c.yadmNm.includes(kw)) return false;
+          }
+          return true;
+        });
+        // 상호에 진료과명 포함된 병원 우선 정렬
+        filtered.sort((a, b) => {
+          const aMatch = a.yadmNm.includes(subjectShort) ? 1 : 0;
+          const bMatch = b.yadmNm.includes(subjectShort) ? 1 : 0;
+          return bMatch - aMatch;
+        });
+      }
+
       // 상위 3개 구글 별점 조회
+      const top5 = filtered.slice(0, 5);
       const clinicsWithRating = await Promise.all(
-        apiResult.clinics.map(async (c, i) => {
+        top5.map(async (c, i) => {
           if (i < 3) {
             try {
               const r = await fetchGoogleRating(c.yadmNm, c.addr);
@@ -116,7 +144,7 @@ export async function POST(request: NextRequest) {
           return { ...c, googleRating: null, googleReviewCount: null };
         })
       );
-      hiraResult = { clinics: clinicsWithRating as HiraClinic[], totalCount: apiResult.totalCount };
+      hiraResult = { clinics: clinicsWithRating as HiraClinic[], totalCount: filtered.length };
     }
 
     // 3단계: Claude API로 서술형 답변 생성, 실패 시 템플릿 폴백

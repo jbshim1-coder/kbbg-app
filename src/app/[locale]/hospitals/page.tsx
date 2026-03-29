@@ -82,8 +82,9 @@ export default function HospitalsPage() {
         return;
       }
 
-      // 2) DB에 데이터 없으면 HIRA API 직접 호출
+      // 2) DB에 데이터 없으면 HIRA API 직접 호출 (의원만)
       params.set("sort", "rating");
+      if (subject && subject !== "01") params.set("type", "31");
       const res = await fetch(`/api/hira?${params.toString()}`);
       const data = await res.json();
 
