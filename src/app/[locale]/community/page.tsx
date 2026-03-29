@@ -104,6 +104,8 @@ export default function CommunityPage() {
   const [posts, setPosts] = useState(INITIAL_POSTS);
   const [master, setMaster] = useState(false);
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchAll, setIsSearchAll] = useState(false); // true: 전체검색, false: 카테고리 내 검색
 
   void CATEGORY_KEYS; void setActiveCategoryKey;
 
@@ -131,7 +133,23 @@ export default function CommunityPage() {
     setPosts((prev) => prev.filter((p) => p.id !== postId));
   };
 
-  const filtered = posts.filter((p) => p.categoryKey === activeCategoryKey);
+  // 검색 + 카테고리 필터
+  const filtered = posts.filter((p) => {
+    // 카테고리 필터 (전체검색 모드가 아닐 때)
+    if (!isSearchAll && !searchQuery) {
+      if (p.categoryKey !== activeCategoryKey) return false;
+    }
+    // 검색어 필터
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const matchTitle = p.title.toLowerCase().includes(q);
+      const matchAuthor = p.author.toLowerCase().includes(q);
+      if (!matchTitle && !matchAuthor) return false;
+      // 카테고리 내 검색 (전체가 아닐 때)
+      if (!isSearchAll && p.categoryKey !== activeCategoryKey) return false;
+    }
+    return true;
+  });
   const sorted = [...filtered].sort((a, b) =>
     sort === "popular" ? b.upvotes - a.upvotes : 0
   );
@@ -151,6 +169,38 @@ export default function CommunityPage() {
       </div>
 
       <div className="mx-auto max-w-4xl px-4 py-8">
+
+        {/* 검색바 */}
+        <div className="mb-5">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={locale === "ko" ? "제목, 작성자 검색..." : "Search by title, author..."}
+              className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            />
+            <button
+              onClick={() => setIsSearchAll(!isSearchAll)}
+              className={`px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
+                isSearchAll
+                  ? "bg-emerald-500 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {locale === "ko"
+                ? (isSearchAll ? "전체 검색 중" : "카테고리 내 검색")
+                : (isSearchAll ? "Search All" : "In Category")}
+            </button>
+          </div>
+          {searchQuery && (
+            <p className="mt-2 text-xs text-gray-400">
+              {locale === "ko"
+                ? `"${searchQuery}" 검색 결과: ${sorted.length}건 ${isSearchAll ? "(전체)" : `(${t(activeCategoryKey as Parameters<typeof t>[0])})`}`
+                : `"${searchQuery}" results: ${sorted.length} ${isSearchAll ? "(all)" : "(current category)"}`}
+            </p>
+          )}
+        </div>
 
         {/* 정렬 옵션 */}
         <div className="flex gap-3 text-sm mb-4">
