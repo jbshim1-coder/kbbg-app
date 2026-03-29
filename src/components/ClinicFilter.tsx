@@ -169,6 +169,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
                     {c.telno && <span>📞 {c.telno}</span>}
                     {c.drTotCnt > 0 && <span>{isKo ? `의사 ${c.drTotCnt}명` : `${c.drTotCnt} doctors`}</span>}
                     {(c.sdrCnt > 0 || c.mdeptSdrCnt > 0) && <span>{isKo ? `전문의 ${c.sdrCnt || c.mdeptSdrCnt}명` : `${c.sdrCnt || c.mdeptSdrCnt} specialists`}</span>}
+                    {c.googleRating && <span>⭐ {c.googleRating} · {isKo ? "리뷰" : "Reviews"} {c.googleReviewCount || 0}{isKo ? "건" : ""}</span>}
                   </div>
                 </div>
               ))}
