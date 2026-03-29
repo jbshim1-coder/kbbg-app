@@ -77,17 +77,17 @@ export default function HospitalsPage() {
       {/* 선택 조건 표시 */}
       <div className="bg-white border-b border-gray-100 px-4 py-5">
         <div className="mx-auto max-w-4xl">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
               <h1 className="text-xl font-bold text-gray-900">
                 {t("hospitals.search_results")}
               </h1>
-              <div className="flex gap-2 mt-2">
+              <div className="flex flex-wrap gap-2 mt-2">
                 {regionName && (
-                  <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full">{regionName}</span>
+                  <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">{regionName}</span>
                 )}
                 {subjectName && (
-                  <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full">{subjectName}</span>
+                  <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">{subjectName}</span>
                 )}
                 {!regionName && !subjectName && (
                   <span className="text-xs text-gray-400">{t("hospitals.all_results")}</span>
@@ -96,7 +96,7 @@ export default function HospitalsPage() {
             </div>
             <Link
               href={`/${locale}`}
-              className="text-sm text-gray-500 hover:text-gray-700 border border-gray-200 px-4 py-2 rounded-lg"
+              className="text-sm text-gray-500 hover:text-gray-700 border border-gray-200 px-4 py-2 rounded-lg shrink-0 min-h-[44px] flex items-center"
             >
               {t("hospitals.change_filters")}
             </Link>
@@ -146,16 +146,16 @@ export default function HospitalsPage() {
             ) : (
               <div className="space-y-3">
                 {clinics.map((clinic, idx) => (
-                  <div key={clinic.ykiho || idx} className="bg-white rounded-lg border border-gray-100 p-5">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-semibold text-gray-800">{clinic.yadmNm}</h3>
+                  <div key={clinic.ykiho || idx} className="bg-white rounded-lg border border-gray-100 p-4 sm:p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-semibold text-gray-800 break-words">{clinic.yadmNm}</h3>
                         <p className="text-xs text-gray-400 mt-0.5">{clinic.clCdNm} · {clinic.dgsbjtCdNm}</p>
                       </div>
                       {clinic.hospUrl && (
                         <a href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="text-xs text-gray-500 hover:underline shrink-0 ml-3">
+                          className="text-xs text-gray-500 hover:underline shrink-0 min-h-[44px] flex items-start pt-1">
                           {t("hospitals.website")}
                         </a>
                       )}

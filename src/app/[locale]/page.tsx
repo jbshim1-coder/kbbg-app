@@ -79,7 +79,7 @@ export default async function HomePage({
       {/* ━━━ 운영자에게 병원 추천 받기 ━━━ */}
       <section className="px-4 py-10 bg-stone-50 border-b border-stone-100">
         <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-2xl shadow-sm p-8">
+          <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-8">
             <div className="flex items-center gap-3 mb-5">
               <span className="text-3xl">💬</span>
               <h2 className="text-lg font-bold text-gray-900">
@@ -115,16 +115,16 @@ export default async function HomePage({
                   <Link
                     key={post.id}
                     href={`/${locale}/community/${post.id}`}
-                    className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md"
+                    className="flex items-start justify-between rounded-2xl bg-white px-4 py-4 shadow-sm transition-shadow hover:shadow-md gap-3"
                   >
-                    <div>
-                      <span className="mr-2 rounded bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+                    <div className="min-w-0 flex-1">
+                      <span className="mr-2 rounded bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 whitespace-nowrap">
                         {t(post.categoryKey as Parameters<typeof t>[0])}
                       </span>
-                      <span className="text-sm font-medium text-gray-900">{t(post.titleKey as Parameters<typeof t>[0])}</span>
+                      <span className="text-sm font-medium text-gray-900 break-words">{t(post.titleKey as Parameters<typeof t>[0])}</span>
                       <p className="mt-0.5 text-xs text-gray-400">by {post.author}</p>
                     </div>
-                    <div className="ml-4 flex shrink-0 gap-3 text-xs text-gray-400">
+                    <div className="flex shrink-0 gap-3 text-xs text-gray-400 pt-0.5">
                       <span>{post.upvotes}</span>
                       <span>{post.comments}</span>
                     </div>

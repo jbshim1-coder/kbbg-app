@@ -63,7 +63,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
         </div>
 
         {/* 하단 지표 */}
-        <div className="mt-4 flex gap-6 text-sm text-white/70">
+        <div className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-white/70">
           <span>✓ {isKo ? "무료 AI 분석" : "Free AI Analysis"}</span>
           <span>✓ {isKo ? "36,000+ 병원" : "36,000+ Clinics"}</span>
           <span>✓ {isKo ? "8개국 언어" : "8 Languages"}</span>

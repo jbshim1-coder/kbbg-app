@@ -262,15 +262,15 @@ export default function EventsPage() {
         <div className="space-y-4">
           {filtered.map(event => (
             <div key={event.id} className="bg-white rounded-lg border border-stone-200 p-5">
-              <div className="flex items-start justify-between mb-3">
-                <div>
+              <div className="flex items-start justify-between mb-3 gap-3">
+                <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-medium text-white bg-rose-400 px-2 py-0.5 rounded">
+                    <span className="text-xs font-medium text-white bg-rose-400 px-2 py-0.5 rounded whitespace-nowrap">
                       {event.category}
                     </span>
                     <span className="text-xs text-gray-400">{event.area}</span>
                   </div>
-                  <h3 className="font-bold text-gray-900">{event.clinic}</h3>
+                  <h3 className="font-bold text-gray-900 break-words">{event.clinic}</h3>
                   <p className="text-sm text-gray-600 mt-0.5">{event.title}</p>
                 </div>
                 {event.url && (
@@ -278,7 +278,7 @@ export default function EventsPage() {
                     href={event.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-stone-600 hover:underline shrink-0 ml-3"
+                    className="text-xs text-stone-600 hover:underline shrink-0 min-h-[44px] flex items-start pt-1"
                   >
                     {isKo ? "홈페이지 →" : "Website →"}
                   </a>
@@ -288,11 +288,11 @@ export default function EventsPage() {
               {/* 시술 가격 */}
               <div className="space-y-2">
                 {event.items.map((item, idx) => (
-                  <div key={idx} className="flex items-center justify-between py-2 border-t border-gray-50">
-                    <span className="text-sm text-gray-700">{item.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-400 line-through">{item.original}원</span>
-                      <span className="text-sm font-bold text-red-600">{item.price}원</span>
+                  <div key={idx} className="flex items-start justify-between py-2 border-t border-gray-50 gap-3">
+                    <span className="text-sm text-gray-700 flex-1 min-w-0">{item.name}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-xs text-gray-400 line-through whitespace-nowrap">{item.original}원</span>
+                      <span className="text-sm font-bold text-red-600 whitespace-nowrap">{item.price}원</span>
                     </div>
                   </div>
                 ))}

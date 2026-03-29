@@ -168,7 +168,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           {DOCTOR_TYPE.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
         </select>
       </div>
-      <div className="grid grid-cols-3 gap-2 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
         <select value={doctorCount} onChange={(e) => setDoctorCount(e.target.value)} className={sc}>
           {DOCTOR_COUNT.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
         </select>

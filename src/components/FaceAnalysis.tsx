@@ -258,9 +258,9 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
   // 전체 화면 모달
   const fullscreenModal = fullscreen && analysis && (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start justify-center overflow-y-auto">
-      <div className="w-full max-w-4xl mx-4 my-8 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+      <div className="w-full max-w-4xl mx-2 sm:mx-4 my-4 sm:my-8 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-300">
         {/* 모달 헤더 */}
-        <div className="sticky top-0 z-10 bg-slate-800 px-6 py-4 flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-slate-800 px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-2xl">🪞</span>
             <h2 className="text-lg font-bold text-white">
@@ -399,11 +399,11 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                     <option value="01">{isKo ? "상급종합" : "Tertiary Hospital"}</option>
                   </select>
                 </div>
-                <div className="flex items-end">
+                <div className="flex items-end w-full sm:w-auto">
                   <button
                     onClick={handleFilterChange}
                     disabled={hospLoading}
-                    className="px-6 py-2 bg-slate-800 text-white text-sm font-semibold rounded-xl hover:bg-slate-900 disabled:opacity-50 transition"
+                    className="w-full sm:w-auto px-6 py-2.5 bg-slate-800 text-white text-sm font-semibold rounded-xl hover:bg-slate-900 disabled:opacity-50 transition min-h-[44px]"
                   >
                     {hospLoading
                       ? (isKo ? "검색 중..." : "Searching...")
@@ -438,11 +438,11 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                   {clinics.map((clinic, idx) => (
                     <div
                       key={clinic.ykiho || idx}
-                      className="bg-white rounded-2xl shadow-sm p-5 hover:shadow-md transition"
+                      className="bg-white rounded-2xl shadow-sm p-4 sm:p-5 hover:shadow-md transition"
                     >
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h4 className="font-semibold text-gray-800">{clinic.yadmNm}</h4>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-semibold text-gray-800 break-words">{clinic.yadmNm}</h4>
                           <p className="text-xs text-gray-400 mt-0.5">
                             {clinic.clCdNm} · {clinic.dgsbjtCdNm}
                           </p>
@@ -452,7 +452,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                             href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-slate-700 hover:underline shrink-0 ml-3"
+                            className="text-xs text-slate-700 hover:underline shrink-0 min-h-[44px] flex items-start pt-1"
                           >
                             {isKo ? "홈페이지" : "Website"}
                           </a>

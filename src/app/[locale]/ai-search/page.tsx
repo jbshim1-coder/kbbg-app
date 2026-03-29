@@ -119,19 +119,19 @@ function AiSearchContent() {
           <h1 className="text-xl font-semibold text-gray-800 mb-4">
             {t("ai_search.title" as Parameters<typeof t>[0])}
           </h1>
-          <div className="flex items-center bg-white border border-stone-200 rounded-full shadow-sm px-5 py-3 gap-3">
-            <span className="text-gray-300">+</span>
+          <div className="flex items-center bg-white border border-stone-200 rounded-full shadow-sm px-4 py-2 gap-2">
+            <span className="text-gray-300 shrink-0">+</span>
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="강남 성형외과, 피부과 등..."
-              className="flex-1 text-sm text-gray-800 placeholder-gray-400 outline-none bg-transparent"
+              className="flex-1 text-sm text-gray-800 placeholder-gray-400 outline-none bg-transparent min-w-0"
             />
             <button
               onClick={handleSearch}
-              className="px-4 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded-full transition-colors"
+              className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded-full transition-colors shrink-0 min-h-[44px] whitespace-nowrap"
             >
               AI 추천 시작
             </button>

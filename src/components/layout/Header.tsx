@@ -165,7 +165,7 @@ export default function Header() {
 
           {/* ── 어제 방문자 수 ── */}
           {yesterdayVisitors > 0 && (
-            <span className="hidden lg:inline text-[11px] text-gray-400">
+            <span className="hidden md:inline text-[11px] text-gray-400 whitespace-nowrap">
               어제 방문자 : <span className="font-bold text-red-500">{yesterdayVisitors.toLocaleString()}</span>명
             </span>
           )}
@@ -396,24 +396,50 @@ export default function Header() {
             </div>
           </div>
 
-          {/* 모바일 로그인/회원가입 */}
-          <div className="px-4 py-4 flex gap-3 border-t border-gray-100">
-            <Link
-              href={localePath("/login")}
-              onClick={() => setMobileOpen(false)}
-              className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
-                border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
-            >
-              {t("nav.login")}
-            </Link>
-            <Link
-              href={localePath("/signup")}
-              onClick={() => setMobileOpen(false)}
-              className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
-                bg-slate-800 text-white hover:bg-slate-900 transition-colors"
-            >
-              {t("nav.signup")}
-            </Link>
+          {/* 모바일 로그인/회원가입 또는 로그인 사용자 정보 */}
+          <div className="px-4 py-4 border-t border-gray-100">
+            {user ? (
+              <div className="flex items-center justify-between gap-3">
+                <Link
+                  href={localePath("/mypage")}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 text-sm text-gray-700 min-w-0"
+                >
+                  <span className="truncate max-w-[160px]">
+                    {user.user_metadata?.full_name || user.email?.split("@")[0]}
+                  </span>
+                  <LevelBadge
+                    level={user.email && isMaster(user.email) ? "M" : getLevel(0)}
+                    size="sm"
+                  />
+                </Link>
+                <button
+                  onClick={() => { handleLogout(); setMobileOpen(false); }}
+                  className="px-3 py-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors shrink-0"
+                >
+                  {t("nav.logout")}
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-3">
+                <Link
+                  href={localePath("/login")}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
+                    border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
+                >
+                  {t("nav.login")}
+                </Link>
+                <Link
+                  href={localePath("/signup")}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
+                    bg-slate-800 text-white hover:bg-slate-900 transition-colors"
+                >
+                  {t("nav.signup")}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

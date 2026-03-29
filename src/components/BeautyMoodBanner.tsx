@@ -26,9 +26,9 @@ export default function BeautyMoodBanner({
     <section className={`relative w-full ${height} overflow-hidden`}>
       <Image src={image} alt="K-Beauty" fill className="object-cover object-center" sizes="100vw" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-black/20" />
-      <div className="relative z-10 flex flex-col justify-center h-full px-8 sm:px-16">
-        <p className="text-xl sm:text-2xl font-bold text-white">{isKo ? titleKo : titleEn}</p>
-        <p className="mt-1 text-sm text-white/70">{isKo ? subKo : subEn}</p>
+      <div className="relative z-10 flex flex-col justify-center h-full px-5 sm:px-16">
+        <p className="text-lg sm:text-2xl font-bold text-white leading-snug">{isKo ? titleKo : titleEn}</p>
+        <p className="mt-1 text-xs sm:text-sm text-white/70 leading-relaxed">{isKo ? subKo : subEn}</p>
       </div>
     </section>
   );

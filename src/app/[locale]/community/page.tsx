@@ -357,10 +357,10 @@ export default function CommunityPage() {
                       <div className="text-right text-xs text-gray-400 shrink-0 ml-4 flex flex-col items-end gap-1">
                         <div>↑ {post.upvotes}</div>
                         <div>💬 {post.comments}</div>
-                        {/* 북마크 버튼 */}
+                        {/* 북마크 버튼 — 터치 영역 최소 44px */}
                         <button
                           onClick={() => handleBookmark(post.id)}
-                          className={`text-base transition-colors ${isBookmarked ? "text-rose-500" : "text-gray-300 hover:text-gray-400"}`}
+                          className={`text-base transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${isBookmarked ? "text-rose-500" : "text-gray-300 hover:text-gray-400"}`}
                           title={isKo ? (isBookmarked ? "저장 취소" : "저장") : (isBookmarked ? "Unsave" : "Save")}
                         >
                           {isBookmarked ? "🔖" : "📌"}
@@ -377,20 +377,20 @@ export default function CommunityPage() {
                       )}
                     </div>
 
-                    {/* 액션 버튼: 답글 + 번역 */}
-                    <div className="mt-3 flex items-center gap-2 border-t border-stone-50 pt-3">
+                    {/* 액션 버튼: 답글 + 번역 — 터치 영역 최소 44px */}
+                    <div className="mt-3 flex items-center gap-1 border-t border-stone-50 pt-3">
                       <button
                         onClick={() => {
                           setReplyOpenId(isReplyOpen ? null : post.id);
                           setReplyText("");
                         }}
-                        className="text-xs text-gray-400 hover:text-rose-500 transition-colors"
+                        className="text-xs text-gray-400 hover:text-rose-500 transition-colors min-h-[44px] px-3 flex items-center"
                       >
                         💬 {isKo ? "답글" : "Reply"}
                       </button>
                       <button
                         onClick={() => handleTranslate(post.id, post.title)}
-                        className="text-xs text-gray-400 hover:text-blue-500 transition-colors"
+                        className="text-xs text-gray-400 hover:text-blue-500 transition-colors min-h-[44px] px-3 flex items-center"
                       >
                         🌐 {translation?.text ? (isKo ? "번역 숨기기" : "Hide") : (isKo ? "번역" : "Translate")}
                       </button>
@@ -416,14 +416,14 @@ export default function CommunityPage() {
                       </div>
                     )}
 
-                    {/* 답글 목록 — 들여쓰기 */}
+                    {/* 답글 목록 — 들여쓰기 (모바일 ml-2, 데스크탑 ml-4) */}
                     {postReplies.length > 0 && (
-                      <div className="mt-2 ml-4 space-y-2">
+                      <div className="mt-2 ml-2 sm:ml-4 space-y-2">
                         {postReplies.map((reply, idx) => (
                           <div key={idx} className="flex items-start gap-2 text-xs text-gray-500 bg-stone-50 rounded-xl px-3 py-2">
-                            <span className="text-stone-300">↳</span>
-                            <span className="font-medium text-gray-700">{reply.author}</span>
-                            <span className="flex-1">{reply.text}</span>
+                            <span className="text-stone-300 shrink-0">↳</span>
+                            <span className="font-medium text-gray-700 shrink-0">{reply.author}</span>
+                            <span className="flex-1 min-w-0 break-words">{reply.text}</span>
                             <span className="text-gray-300 shrink-0">{reply.time}</span>
                           </div>
                         ))}
