@@ -146,7 +146,7 @@ function AiSearchContent() {
               {t("ai_search.thinking" as Parameters<typeof t>[0])}
             </p>
             <p className="text-xs text-gray-400">
-              {locale === "ko" ? "건강보험심사평가원과 구글의 정보를 취합하여 추천드립니다." : "Combining data from HIRA and Google to find the best recommendations for you."}
+              {locale === "ko" ? "심평원·구글·네이버 등 다양한 평판 데이터를 AI가 종합 분석하여 추천드립니다." : "AI analyzes HIRA, Google, Naver and other reputation data to recommend the best clinics."}
             </p>
           </div>
         )}
