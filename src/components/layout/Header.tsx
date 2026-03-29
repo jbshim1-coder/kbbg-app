@@ -268,7 +268,7 @@ export default function Header() {
       {/* ── 커뮤니티 카테고리 서브메뉴 ── */}
       <div className="hidden lg:block border-t border-gray-100 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-1 py-1.5 overflow-x-auto scrollbar-hide">
+          <div className="flex flex-wrap items-center gap-1 py-1.5">
             {[
               "plastic_surgery", "dermatology", "internal_medicine", "dental",
               "ophthalmology", "gynecology", "orthopedics", "oriental",
