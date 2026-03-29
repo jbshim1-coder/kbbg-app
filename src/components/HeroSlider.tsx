@@ -57,7 +57,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
 
         {/* AI 검색 바 */}
         <div className="mt-6 w-full max-w-2xl">
-          <div className="bg-white/60 backdrop-blur-md rounded-2xl p-3 shadow-lg">
+          <div className="bg-white/30 backdrop-blur-sm rounded-2xl p-3 shadow-lg">
             <AiSearchBox locale={locale} />
           </div>
         </div>
