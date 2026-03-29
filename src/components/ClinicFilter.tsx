@@ -1,8 +1,8 @@
 "use client";
 
-// 메인 페이지 병원 조건 검색 — 심평원 실데이터만 사용
+// 메인 페이지 병원 조건 검색 — 필터 선택 후 /hospitals 페이지로 이동
 import { useState } from "react";
-import type { HiraClinic } from "@/lib/hira-api";
+import { usePathname, useRouter } from "next/navigation";
 
 // 진료과목
 const SPECIALTIES = [
@@ -68,6 +68,9 @@ const WEBSITE = [
 
 export default function ClinicFilter({ locale }: { locale: string }) {
   const isKo = locale === "ko";
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentLocale = pathname.split("/")[1] || "en";
 
   const [specialty, setSpecialty] = useState("");
   const [region, setRegion] = useState("");
@@ -77,43 +80,18 @@ export default function ClinicFilter({ locale }: { locale: string }) {
   const [rating, setRating] = useState("");
   const [website, setWebsite] = useState("");
 
-  const [clinics, setClinics] = useState<HiraClinic[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [searched, setSearched] = useState(false);
-  const [page, setPage] = useState(1);
-
-  const handleSearch = async (newPage = 1) => {
-    setLoading(true);
-    setPage(newPage);
-    try {
-      const params = new URLSearchParams();
-      if (region) params.set("region", region);
-      if (specialty) params.set("subject", specialty);
-      if (clinicType) params.set("type", clinicType);
-      params.set("page", String(newPage));
-
-      const res = await fetch(`/api/hira?${params.toString()}`);
-      const data = await res.json();
-
-      setClinics(data.clinics || []);
-      setTotalCount(data.totalCount || 0);
-      setSearched(true);
-    } catch {
-      setClinics([]);
-      setTotalCount(0);
-    } finally {
-      setLoading(false);
-    }
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (specialty) params.set("dept", specialty);
+    if (region) params.set("region", region);
+    if (clinicType) params.set("type", clinicType);
+    router.push(`/${currentLocale}/hospitals?${params.toString()}`);
   };
 
   const handleReset = () => {
     setSpecialty(""); setRegion(""); setClinicType("");
     setSpecialist(""); setDoctorCount(""); setRating(""); setWebsite("");
-    setClinics([]); setTotalCount(0); setSearched(false); setPage(1);
   };
-
-  const totalPages = Math.ceil(totalCount / 10);
 
   const selectClass = "px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300";
 
@@ -123,11 +101,9 @@ export default function ClinicFilter({ locale }: { locale: string }) {
         <h3 className="text-base font-bold text-gray-900">
           {isKo ? "병원 찾기" : "Find Clinics"}
         </h3>
-        {searched && (
-          <button onClick={handleReset} className="text-xs text-gray-400 hover:text-gray-600">
-            {isKo ? "초기화" : "Reset"}
-          </button>
-        )}
+        <button onClick={handleReset} className="text-xs text-gray-400 hover:text-gray-600">
+          {isKo ? "초기화" : "Reset"}
+        </button>
       </div>
 
       {/* 필터 그리드 */}
@@ -158,63 +134,11 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       </div>
 
       <button
-        onClick={() => handleSearch(1)}
-        disabled={loading}
-        className="w-full py-2.5 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 disabled:bg-slate-400 transition"
+        onClick={handleSearch}
+        className="w-full py-2.5 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 transition"
       >
-        {loading ? (isKo ? "검색 중..." : "Searching...") : (isKo ? "병원 검색" : "Search")}
+        {isKo ? "병원 검색" : "Search Clinics"}
       </button>
-
-      {searched && (
-        <div className="mt-5">
-          <p className="text-xs text-gray-400 mb-3">
-            {isKo ? `총 ${totalCount.toLocaleString()}개 병원` : `${totalCount.toLocaleString()} clinics found`}
-          </p>
-
-          {clinics.length === 0 ? (
-            <p className="text-center text-sm text-gray-400 py-8">
-              {isKo ? "검색 결과가 없습니다" : "No results found"}
-            </p>
-          ) : (
-            <div className="space-y-3">
-              {clinics.map((c, idx) => (
-                <div key={c.ykiho || idx} className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h4 className="font-semibold text-gray-800 text-sm">{c.yadmNm}</h4>
-                      <p className="text-xs text-gray-400 mt-0.5">{c.clCdNm} · {c.dgsbjtCdNm}</p>
-                    </div>
-                    {c.hospUrl && (
-                      <a href={c.hospUrl.startsWith("http") ? c.hospUrl : `http://${c.hospUrl}`}
-                        target="_blank" rel="noopener noreferrer"
-                        className="text-xs text-gray-500 hover:underline shrink-0 ml-2">
-                        {isKo ? "홈페이지" : "Website"}
-                      </a>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1.5">{c.addr}</p>
-                  <div className="flex flex-wrap gap-3 mt-1.5 text-xs text-gray-400">
-                    {c.telno && <span>📞 {c.telno}</span>}
-                    {c.drTotCnt > 0 && <span>{isKo ? `의사 ${c.drTotCnt}명` : `${c.drTotCnt} doctors`}</span>}
-                    {(c.sdrCnt > 0 || c.mdeptSdrCnt > 0) && <span>{isKo ? `전문의 ${c.sdrCnt || c.mdeptSdrCnt}명` : `${c.sdrCnt || c.mdeptSdrCnt} specialists`}</span>}
-                    {c.googleRating && <span>⭐ {c.googleRating} · {isKo ? "리뷰" : "Reviews"} {c.googleReviewCount || 0}{isKo ? "건" : ""}</span>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-4">
-              <button onClick={() => handleSearch(page - 1)} disabled={page <= 1}
-                className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50">←</button>
-              <span className="px-3 py-1.5 text-xs text-gray-500">{page} / {totalPages}</span>
-              <button onClick={() => handleSearch(page + 1)} disabled={page >= totalPages}
-                className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50">→</button>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }
