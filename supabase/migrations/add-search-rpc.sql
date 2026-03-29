@@ -119,18 +119,23 @@ BEGIN
       AND (p_type = '' OR (p_type = 'korean_medicine' AND c.cl_cd IN ('91', '92')))
       -- 의원만 노출 (2차/종합/대학병원 제외, 내과/건강검진은 허용)
       AND (p_subject IN ('', '01') OR c.cl_cd IN ('31', '91', '92') OR c.cl_cd IS NULL)
-      -- 상호에 다른 진료과명이 있으면 완전 제외 (인간 상식 기반)
-      AND (v_subject_name = '' OR v_subject_name = '내과' OR NOT (
-        (v_subject_name NOT LIKE '%소아%' AND c.name ILIKE '%소아%') OR
-        (v_subject_name NOT LIKE '%산부%' AND c.name ILIKE '%산부인과%') OR
-        (v_subject_name NOT LIKE '%정형%' AND c.name ILIKE '%정형%과%') OR
-        (v_subject_name NOT LIKE '%신경%' AND c.name ILIKE '%신경%과%') OR
-        (v_subject_name NOT LIKE '%안%' AND v_subject_name != '내과' AND c.name ILIKE '%안과%') OR
-        (v_subject_name NOT LIKE '%치%' AND c.name ILIKE '%치과%') OR
-        (v_subject_name NOT LIKE '%비뇨%' AND c.name ILIKE '%비뇨%') OR
-        (v_subject_name NOT LIKE '%이비인후%' AND c.name ILIKE '%이비인후%') OR
-        (v_subject_name NOT LIKE '%가정%' AND c.name ILIKE '%가정의학%')
-      ))
+      -- 상호 화이트리스트: 해당 진료과명 포함 OR 다른 진료과명 없는 일반 의원만 허용
+      AND (v_subject_name = '' OR v_subject_name = '내과' OR
+        -- 상호에 검색 진료과 키워드 포함 (확실한 전문 병원)
+        c.name ILIKE '%' || v_subject_short || '%' OR
+        -- 상호에 아무 진료과명도 없는 일반 의원 (OO의원, OO클리닉)
+        (
+          c.name NOT ILIKE '%내과%' AND c.name NOT ILIKE '%외과%' AND
+          c.name NOT ILIKE '%소아%' AND c.name NOT ILIKE '%아동%' AND
+          c.name NOT ILIKE '%여성%' AND c.name NOT ILIKE '%산부%' AND
+          c.name NOT ILIKE '%정형%' AND c.name NOT ILIKE '%신경%' AND
+          c.name NOT ILIKE '%안과%' AND c.name NOT ILIKE '%치과%' AND
+          c.name NOT ILIKE '%비뇨%' AND c.name NOT ILIKE '%이비인후%' AND
+          c.name NOT ILIKE '%가정의학%' AND c.name NOT ILIKE '%재활%' AND
+          c.name NOT ILIKE '%한방%' AND c.name NOT ILIKE '%한의%' AND
+          c.name NOT ILIKE '%정신%' AND c.name NOT ILIKE '%마취%'
+        )
+      )
   )
   SELECT * FROM scored
   ORDER BY scored.relevance_score DESC, scored.google_rating DESC NULLS LAST, scored.sdr_cnt DESC

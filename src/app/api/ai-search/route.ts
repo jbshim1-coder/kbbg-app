@@ -112,13 +112,15 @@ export async function POST(request: NextRequest) {
         "09":"마취","10":"산부","12":"안과","13":"이비인후","14":"피부","15":"비뇨","21":"재활","49":"치과","80":"한방"
       };
       const subjectShort = dgsbjtCd ? SUBJECT_NAMES[dgsbjtCd] || "" : "";
-      const EXCLUDE_KEYWORDS = ["소아","산부인과","정형외과","신경외과","가정의학","안과","치과","비뇨","이비인후"];
+      const OTHER_SPECIALTY = ["내과","외과","소아","아동","여성","산부","정형","신경","안과","치과","비뇨","이비인후","가정의학","재활","한방","한의","정신","마취"];
 
       let filtered = apiResult.clinics;
       if (subjectShort && dgsbjtCd !== "01") {
         filtered = filtered.filter(c => {
+          // 상호에 검색 진료과 키워드 포함 → 무조건 포함
+          if (c.yadmNm.includes(subjectShort)) return true;
           // 상호에 다른 진료과명이 있으면 제외
-          for (const kw of EXCLUDE_KEYWORDS) {
+          for (const kw of OTHER_SPECIALTY) {
             if (!subjectShort.includes(kw.slice(0,2)) && c.yadmNm.includes(kw)) return false;
           }
           return true;
