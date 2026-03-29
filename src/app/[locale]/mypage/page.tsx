@@ -101,33 +101,34 @@ export default function MyPage() {
             </div>
           </div>
 
-          {/* 레벨 및 포인트 정보 */}
-          <div className="mt-5 rounded-xl bg-gray-50 p-4 space-y-3">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-600 font-medium">
-                {userLevel === "M" ? "마스터" : `Lv. ${userLevel}`}
-              </span>
-              <span className="text-gray-500">{DUMMY_POINTS.toLocaleString()} P</span>
+          {/* 레벨 및 포인트 정보 — 마스터는 숨김 */}
+          {userLevel !== "M" && (
+            <div className="mt-5 rounded-xl bg-gray-50 p-4 space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600 font-medium">
+                  Lv. {userLevel}
+                </span>
+                <span className="text-gray-500">{DUMMY_POINTS.toLocaleString()} P</span>
+              </div>
+              {progressInfo ? (
+                <>
+                  <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                    <div
+                      className={["h-2 rounded-full transition-all", getLevelColor(userLevel as number).replace("text-white", "").trim()].join(" ")}
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-gray-400">
+                    다음 레벨까지{" "}
+                    <span className="font-semibold text-gray-600">{progressInfo.remaining.toLocaleString()} P</span>{" "}
+                    남음 (Lv. {(userLevel as number) + 1} · {progressInfo.next.toLocaleString()} P)
+                  </p>
+                </>
+              ) : (
+                <p className="text-xs text-gray-500">최고 레벨에 도달했습니다.</p>
+              )}
             </div>
-
-            {progressInfo ? (
-              <>
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div
-                    className={["h-2 rounded-full transition-all", getLevelColor(userLevel as number).replace("text-white", "").trim()].join(" ")}
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-                <p className="text-xs text-gray-400">
-                  다음 레벨까지{" "}
-                  <span className="font-semibold text-gray-600">{progressInfo.remaining.toLocaleString()} P</span>{" "}
-                  남음 (Lv. {(userLevel as number) + 1} · {progressInfo.next.toLocaleString()} P)
-                </p>
-              </>
-            ) : (
-              <p className="text-xs text-gray-500">최고 레벨에 도달했습니다.</p>
-            )}
-          </div>
+          )}
         </section>
 
         {/* 내 글 목록 */}

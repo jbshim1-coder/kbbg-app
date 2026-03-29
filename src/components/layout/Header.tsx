@@ -208,7 +208,7 @@ export default function Header() {
                   className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg
                     border border-gray-100 py-1 z-40"
                 >
-                  {LOCALES.map((locale) => (
+                  {LOCALES.filter((l) => l.code !== "ko" || (user?.email && isMaster(user.email))).map((locale) => (
                     <button
                       key={locale.code}
                       role="option"
