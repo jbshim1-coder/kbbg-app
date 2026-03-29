@@ -16,7 +16,7 @@ export default function BeautyBanner() {
         src="/hero/model1.jpg"
         alt="K-Beauty"
         fill
-        className="object-cover object-top"
+        className="object-cover object-center"
         sizes="100vw"
       />
 
