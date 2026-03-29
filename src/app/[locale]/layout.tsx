@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 // 사이트 기본 URL - 환경 변수 없을 경우 프로덕션 URL 사용
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kbeautybuyersguide.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kbbg-app.vercel.app";
 
 export const metadata: Metadata = {
   // 기본 타이틀 및 템플릿 - 페이지별 타이틀 뒤에 사이트명 자동 추가
