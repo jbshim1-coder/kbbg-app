@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
         "09":"마취","10":"산부","12":"안과","13":"이비인후","14":"피부","15":"비뇨","21":"재활","49":"치과","80":"한방"
       };
       const subjectShort = dgsbjtCd ? SUBJECT_NAMES[dgsbjtCd] || "" : "";
-      const OTHER_SPECIALTY = ["내과","외과","소아","아동","여성","산부","정형","신경","안과","치과","비뇨","이비인후","가정의학","재활","한방","한의","정신","마취"];
+      const OTHER_SPECIALTY = ["내과","외과","소아","아동","어린이","여성","산부","정형","신경","안과","치과","비뇨","이비인후","가정의학","재활","한방","한의","정신","마취"];
 
       let filtered = apiResult.clinics;
       if (subjectShort && dgsbjtCd !== "01") {

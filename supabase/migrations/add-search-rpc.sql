@@ -126,7 +126,7 @@ BEGIN
         -- 상호에 아무 진료과명도 없는 일반 의원 (OO의원, OO클리닉)
         (
           c.name NOT ILIKE '%내과%' AND c.name NOT ILIKE '%외과%' AND
-          c.name NOT ILIKE '%소아%' AND c.name NOT ILIKE '%아동%' AND
+          c.name NOT ILIKE '%소아%' AND c.name NOT ILIKE '%아동%' AND c.name NOT ILIKE '%어린이%' AND
           c.name NOT ILIKE '%여성%' AND c.name NOT ILIKE '%산부%' AND
           c.name NOT ILIKE '%정형%' AND c.name NOT ILIKE '%신경%' AND
           c.name NOT ILIKE '%안과%' AND c.name NOT ILIKE '%치과%' AND
