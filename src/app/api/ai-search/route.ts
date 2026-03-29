@@ -1,35 +1,30 @@
-// AI 검색 API — Claude API 직접 검색
-// DB/RPC/HIRA 로직 없음. Claude가 직접 답변.
+// AI 검색 API — GPT-4o-mini (최저 비용, 한국어 최고 품질)
 import { NextRequest, NextResponse } from "next/server";
 
-const CLAUDE_API_URL = "https://api.anthropic.com/v1/messages";
-const MODEL = "claude-haiku-4-5-20251001";
+const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+const MODEL = "gpt-4o-mini";
 
 // IP별 요청 횟수 추적 (메모리 기반)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 5; // 1분당 5회
-const WINDOW_MS = 60 * 1000; // 1분
+const RATE_LIMIT = 5;
+const WINDOW_MS = 60 * 1000;
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const entry = rateLimitMap.get(ip);
-
   if (!entry || now > entry.resetAt) {
     rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
     return true;
   }
-
   if (entry.count >= RATE_LIMIT) return false;
-
   entry.count += 1;
   return true;
 }
 
 export async function POST(request: NextRequest) {
-  // locale을 catch에서도 참조할 수 있도록 스코프 상단에 선언
   let locale = "ko";
+
   try {
-    // IP 추출 및 rate limit 체크
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       request.headers.get("x-real-ip") ||
@@ -53,7 +48,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "query is required" }, { status: 400 });
     }
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({
         narrative: locale === "ko"
@@ -92,27 +87,28 @@ Rules:
 - Use markdown bold (**hospital name**).
 - Answer in English.`;
 
-    const response = await fetch(CLAUDE_API_URL, {
+    const response = await fetch(OPENAI_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 1000,
-        system: systemPrompt,
-        messages: [{ role: "user", content: query }],
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: query },
+        ],
       }),
     });
 
     if (!response.ok) {
-      throw new Error(`Claude API error: ${response.status}`);
+      throw new Error(`OpenAI API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const narrative = data.content?.[0]?.text || (isKorean ? "검색 결과를 불러오지 못했습니다." : "Failed to load results.");
+    const narrative = data.choices?.[0]?.message?.content || (isKorean ? "검색 결과를 불러오지 못했습니다." : "Failed to load results.");
 
     return NextResponse.json({
       narrative,
