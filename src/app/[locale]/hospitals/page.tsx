@@ -256,6 +256,12 @@ export default function HospitalsPage() {
                       {clinic.telno && <span>📞 {clinic.telno}</span>}
                       {clinic.drTotCnt > 0 && <span>👨‍⚕️ {isKo ? `의사 ${clinic.drTotCnt}명` : `${clinic.drTotCnt} doctors`}</span>}
                       {clinic.sdrCnt > 0 && <span>🏅 {isKo ? `전문의 ${clinic.sdrCnt}명` : `${clinic.sdrCnt} specialists`}</span>}
+                      {clinic.googleRating && (
+                        <span>⭐ {clinic.googleRating} {isKo ? "구글별점" : "Google"} · {isKo ? "리뷰" : "Reviews"} {clinic.googleReviewCount || 0}{isKo ? "건" : ""}</span>
+                      )}
+                      {clinic.blogReviewCount > 0 && (
+                        <span>📝 {isKo ? "블로그" : "Blog"} {clinic.blogReviewCount.toLocaleString()}{isKo ? "건" : ""}</span>
+                      )}
                     </div>
                   </div>
                 ))}
