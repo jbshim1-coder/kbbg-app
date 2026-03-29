@@ -75,7 +75,21 @@
     "post2_title": "Người nước ngoài có thể đi khám da liễu không có bảo hiểm?",
     "post2_category": "Da liễu",
     "post3_title": "So sánh giá niềng răng (Gangnam vs Hongdae)",
-    "post3_category": "Nha khoa"
+    "post3_category": "Nha khoa",
+    "post4_title": "Đánh giá nâng mũi từ Việt Nam",
+    "post4_category": "Phẫu thuật thẩm mỹ",
+    "post5_title": "Lần đầu tiêm Botox — có lời khuyên nào không?",
+    "post5_category": "Da liễu",
+    "post6_title": "Gợi ý gói khám sức khỏe tại Hàn Quốc",
+    "post6_category": "Nội khoa",
+    "post7_title": "LASIK vs LASEK — Cái nào tốt hơn?",
+    "post7_category": "Nhãn khoa",
+    "post8_title": "Châm cứu giảm cân y học cổ truyền Hàn Quốc có hiệu quả không?",
+    "post8_category": "Y học cổ truyền",
+    "post9_title": "Giá cấy ghép răng: Seoul vs Busan",
+    "post9_category": "Nha khoa",
+    "post10_title": "Có bệnh viện nào khám thai cho người nước ngoài không?",
+    "post10_category": "Sản phụ khoa"
   },
   "recommend": {
     "title": "AI đề xuất phòng khám",
@@ -431,7 +445,18 @@
     "feature_reviews_title": "Đánh giá thực tế",
     "feature_reviews_desc": "Đánh giá bệnh nhân xác thực từ khách quốc tế.",
     "feature_contact_title": "Liên hệ trực tiếp",
-    "feature_contact_desc": "Kết nối trực tiếp với điều phối viên phòng khám nói tiếng Anh."
+    "feature_contact_desc": "Kết nối trực tiếp với điều phối viên phòng khám nói tiếng Anh.",
+    "search_results": "Kết quả tìm kiếm bệnh viện",
+    "all_results": "Tất cả",
+    "change_filters": "Thay đổi điều kiện",
+    "searching": "Đang tìm kiếm...",
+    "total_count": "Tổng cộng {count} bệnh viện",
+    "learn_more": "Xem thêm →",
+    "no_results": "Không tìm thấy kết quả",
+    "website": "Trang web",
+    "doctors_count": "{count} bác sĩ",
+    "specialists_count": "{count} chuyên gia",
+    "reviews": "Đánh giá"
   },
   "faq": {
     "label": "FAQ",

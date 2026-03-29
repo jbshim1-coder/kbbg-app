@@ -444,7 +444,18 @@
     "feature_reviews_title": "Real Reviews",
     "feature_reviews_desc": "Authentic patient reviews from international visitors.",
     "feature_contact_title": "Direct Contact",
-    "feature_contact_desc": "Connect directly with English-speaking clinic coordinators."
+    "feature_contact_desc": "Connect directly with English-speaking clinic coordinators.",
+    "search_results": "Search Results",
+    "all_results": "All",
+    "change_filters": "Change Filters",
+    "searching": "Searching...",
+    "total_count": "{count} clinics found",
+    "learn_more": "Learn more →",
+    "no_results": "No results found",
+    "website": "Website",
+    "doctors_count": "{count} doctors",
+    "specialists_count": "{count} specialists",
+    "reviews": "Reviews"
   },
   "faq": {
     "label": "FAQ",

@@ -242,7 +242,7 @@ export default function EventsPage() {
 
       <div className="mx-auto max-w-4xl px-4 py-8">
         {/* 필터 */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-6">
           {(["all", "피부과", "성형외과", "안과"] as FilterType[]).map(f => (
             <button
               key={f}

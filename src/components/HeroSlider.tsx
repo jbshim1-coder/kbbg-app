@@ -21,7 +21,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
   }, []);
 
   return (
-    <section className="relative w-full h-[480px] sm:h-[520px] overflow-hidden">
+    <section className="relative w-full h-[520px] sm:h-[560px] overflow-hidden">
       {/* 배경 이미지 롤링 */}
       {SLIDES.map((slide, idx) => (
         <div

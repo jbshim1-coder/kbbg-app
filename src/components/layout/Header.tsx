@@ -326,6 +326,28 @@ export default function Header() {
             ))}
           </nav>
 
+          {/* 모바일 카테고리 서브메뉴 */}
+          <div className="px-4 py-2 border-t border-gray-100">
+            <p className="text-xs text-gray-400 mb-2">{t("community.categories")}</p>
+            <div className="flex flex-wrap gap-1">
+              {[
+                "plastic_surgery", "dermatology", "internal_medicine", "dental",
+                "ophthalmology", "gynecology", "orthopedics", "oriental",
+                "urology", "ent", "kpop", "kfood", "kdrama", "kfashion",
+                "travel", "korean_learn",
+              ].map((key) => (
+                <Link
+                  key={key}
+                  href={localePath(`/community?cat=${key}`)}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-2.5 py-1 rounded-full text-xs font-medium text-gray-500 bg-gray-50 hover:text-slate-800 hover:bg-slate-100 transition-colors whitespace-nowrap"
+                >
+                  {t(`community.${key}` as Parameters<typeof t>[0])}
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {/* 모바일 로그인/회원가입 */}
           <div className="px-4 py-4 flex gap-3 border-t border-gray-100">
             <Link

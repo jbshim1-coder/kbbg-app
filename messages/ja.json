@@ -75,7 +75,21 @@
     "post2_title": "外国人は保険なしで皮膚科に行けますか？",
     "post2_category": "皮膚科",
     "post3_title": "歯列矯正の価格比較（カンナム vs ホンデ）",
-    "post3_category": "歯科"
+    "post3_category": "歯科",
+    "post4_title": "ベトナムからの鼻整形レビュー",
+    "post4_category": "整形外科",
+    "post5_title": "初めてのボトックス——アドバイスはありますか？",
+    "post5_category": "皮膚科",
+    "post6_title": "韓国健康診断パッケージのおすすめ",
+    "post6_category": "内科",
+    "post7_title": "LASIK vs LASEK——どちらが良い？",
+    "post7_category": "眼科",
+    "post8_title": "韓方ダイエット鍼灸は効果がありますか？",
+    "post8_category": "韓方医院",
+    "post9_title": "インプラント価格：ソウル vs 釜山",
+    "post9_category": "歯科",
+    "post10_title": "外国人が出産前検査を受けられる病院は？",
+    "post10_category": "産婦人科"
   },
   "recommend": {
     "title": "AIクリニックおすすめ",
@@ -431,7 +445,18 @@
     "feature_reviews_title": "リアルな口コミ",
     "feature_reviews_desc": "海外からの訪問者による本物の患者口コミ。",
     "feature_contact_title": "直接連絡",
-    "feature_contact_desc": "英語対応のクリニックコーディネーターに直接連絡できます。"
+    "feature_contact_desc": "英語対応のクリニックコーディネーターに直接連絡できます。",
+    "search_results": "病院検索結果",
+    "all_results": "全体",
+    "change_filters": "条件変更",
+    "searching": "検索中...",
+    "total_count": "合計 {count} 件の病院",
+    "learn_more": "詳しく見る →",
+    "no_results": "検索結果がありません",
+    "website": "ホームページ",
+    "doctors_count": "医師 {count} 名",
+    "specialists_count": "専門医 {count} 名",
+    "reviews": "レビュー"
   },
   "faq": {
     "label": "よくある質問",

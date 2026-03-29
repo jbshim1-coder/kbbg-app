@@ -4,15 +4,16 @@
 import { useState, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { HiraClinic } from "@/lib/hira-api";
 import { SIDO_CODES, SUBJECT_CODES } from "@/lib/hira-api";
 import type { Ad } from "@/app/api/admin/ads/route";
 
 export default function HospitalsPage() {
+  const t = useTranslations();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const locale = pathname.split("/")[1] || "en";
-  const isKo = locale === "ko";
 
   // URL 파라미터에서 조건 읽기
   const subject = searchParams.get("dept") || searchParams.get("subject") || "";
@@ -79,7 +80,7 @@ export default function HospitalsPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-xl font-bold text-gray-900">
-                {isKo ? "병원 검색 결과" : "Search Results"}
+                {t("hospitals.search_results")}
               </h1>
               <div className="flex gap-2 mt-2">
                 {regionName && (
@@ -89,7 +90,7 @@ export default function HospitalsPage() {
                   <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full">{subjectName}</span>
                 )}
                 {!regionName && !subjectName && (
-                  <span className="text-xs text-gray-400">{isKo ? "전체 검색" : "All"}</span>
+                  <span className="text-xs text-gray-400">{t("hospitals.all_results")}</span>
                 )}
               </div>
             </div>
@@ -97,7 +98,7 @@ export default function HospitalsPage() {
               href={`/${locale}`}
               className="text-sm text-gray-500 hover:text-gray-700 border border-gray-200 px-4 py-2 rounded-lg"
             >
-              {isKo ? "조건 변경" : "Change Filters"}
+              {t("hospitals.change_filters")}
             </Link>
           </div>
         </div>
@@ -108,7 +109,7 @@ export default function HospitalsPage() {
         {loading && (
           <div className="text-center py-20">
             <p className="text-sm text-gray-400 animate-pulse">
-              {isKo ? "검색 중..." : "Searching..."}
+              {t("hospitals.searching")}
             </p>
           </div>
         )}
@@ -116,7 +117,7 @@ export default function HospitalsPage() {
         {!loading && (
           <>
             <p className="text-sm text-gray-500 mb-4">
-              {isKo ? `총 ${totalCount.toLocaleString()}개 병원` : `${totalCount.toLocaleString()} clinics found`}
+              {t("hospitals.total_count", { count: totalCount.toLocaleString() })}
             </p>
 
             {/* 광고 */}
@@ -131,7 +132,7 @@ export default function HospitalsPage() {
                 {topAd.linkUrl && (
                   <a href={topAd.linkUrl} target="_blank" rel="noopener noreferrer sponsored"
                     className="inline-block mt-2 text-xs text-gray-500 hover:underline">
-                    {isKo ? "자세히 보기 →" : "Learn more →"}
+                    {t("hospitals.learn_more")}
                   </a>
                 )}
               </div>
@@ -140,7 +141,7 @@ export default function HospitalsPage() {
             {/* 검색 결과 */}
             {clinics.length === 0 ? (
               <div className="text-center py-20 text-gray-400">
-                {isKo ? "검색 결과가 없습니다" : "No results found"}
+                {t("hospitals.no_results")}
               </div>
             ) : (
               <div className="space-y-3">
@@ -155,17 +156,17 @@ export default function HospitalsPage() {
                         <a href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                           target="_blank" rel="noopener noreferrer"
                           className="text-xs text-gray-500 hover:underline shrink-0 ml-3">
-                          {isKo ? "홈페이지" : "Website"}
+                          {t("hospitals.website")}
                         </a>
                       )}
                     </div>
                     <p className="text-sm text-gray-600 mt-2">{clinic.addr}</p>
                     <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-500">
                       {clinic.telno && <span>📞 {clinic.telno}</span>}
-                      {clinic.drTotCnt > 0 && <span>{isKo ? `의사 ${clinic.drTotCnt}명` : `${clinic.drTotCnt} doctors`}</span>}
-                      {clinic.sdrCnt > 0 && <span>{isKo ? `전문의 ${clinic.sdrCnt}명` : `${clinic.sdrCnt} specialists`}</span>}
+                      {clinic.drTotCnt > 0 && <span>{t("hospitals.doctors_count", { count: clinic.drTotCnt })}</span>}
+                      {clinic.sdrCnt > 0 && <span>{t("hospitals.specialists_count", { count: clinic.sdrCnt })}</span>}
                       {clinic.googleRating && (
-                        <span>⭐ {clinic.googleRating} · {isKo ? "리뷰" : "Reviews"} {clinic.googleReviewCount || 0}{isKo ? "건" : ""}</span>
+                        <span>⭐ {clinic.googleRating} · {t("hospitals.reviews")} {clinic.googleReviewCount || 0}</span>
                       )}
                     </div>
                   </div>

@@ -32,16 +32,21 @@ export const metadata: Metadata = {
     default: "K-Beauty Buyers Guide",
     template: "%s | K-Beauty Buyers Guide",
   },
-  description: "Find Your Perfect Korean Beauty Clinic — trusted reviews and recommendations for K-Beauty treatments.",
+  description: "Find your perfect Korean beauty clinic with AI-powered recommendations. Trusted reviews for plastic surgery, dermatology, dental, and LASIK in Seoul Gangnam — costs, recovery guides, and multilingual support.",
   // 메타 키워드
-  keywords: ["Korean beauty", "K-Beauty", "Korean clinic", "beauty guide", "피부과", "성형외과", "미용 클리닉"],
+  keywords: [
+    "Korean beauty clinic", "K-Beauty", "Korea plastic surgery", "Korea dermatology",
+    "Gangnam clinic", "medical tourism Korea", "Korean cosmetic surgery",
+    "Korea LASIK", "Korea dental", "beauty guide", "피부과", "성형외과", "미용 클리닉",
+    "한국 의료관광", "강남 병원", "AI 병원 추천",
+  ],
   // Open Graph 설정 - 소셜 미디어 공유 시 표시되는 정보
   openGraph: {
     type: "website",
     url: siteUrl,
     siteName: "K-Beauty Buyers Guide",
     title: "K-Beauty Buyers Guide",
-    description: "Find Your Perfect Korean Beauty Clinic — trusted reviews and recommendations for K-Beauty treatments.",
+    description: "Find your perfect Korean beauty clinic with AI-powered recommendations. Trusted reviews for plastic surgery, dermatology, dental, and LASIK in Seoul Gangnam.",
     images: [
       {
         url: `${siteUrl}/og-image.png`,
@@ -55,7 +60,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "K-Beauty Buyers Guide",
-    description: "Find Your Perfect Korean Beauty Clinic",
+    description: "Find your perfect Korean beauty clinic — AI recommendations for plastic surgery, dermatology, and more.",
     images: [`${siteUrl}/og-image.png`],
   },
   // 검색 엔진 크롤링 설정

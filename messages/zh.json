@@ -75,7 +75,21 @@
     "post2_title": "外国人可以不买保险就去皮肤科吗？",
     "post2_category": "皮肤科",
     "post3_title": "牙齿矫正价格对比（江南 vs 弘大）",
-    "post3_category": "牙科"
+    "post3_category": "牙科",
+    "post4_title": "来自越南的隆鼻手术后记",
+    "post4_category": "整形外科",
+    "post5_title": "第一次打肉毒素——有什么建议吗？",
+    "post5_category": "皮肤科",
+    "post6_title": "韩国健康体检套餐推荐",
+    "post6_category": "内科",
+    "post7_title": "LASIK vs LASEK——哪个更好？",
+    "post7_category": "眼科",
+    "post8_title": "韩方饮食针灸有效果吗？",
+    "post8_category": "韩医院",
+    "post9_title": "种植牙价格：首尔 vs 釜山",
+    "post9_category": "牙科",
+    "post10_title": "外国人可以做产前检查吗？",
+    "post10_category": "妇产科"
   },
   "recommend": {
     "title": "AI诊所推荐",
@@ -431,7 +445,18 @@
     "feature_reviews_title": "真实评价",
     "feature_reviews_desc": "来自国际访客的真实患者评价。",
     "feature_contact_title": "直接联系",
-    "feature_contact_desc": "直接与会英语的诊所协调员联系。"
+    "feature_contact_desc": "直接与会英语的诊所协调员联系。",
+    "search_results": "医院搜索结果",
+    "all_results": "全部",
+    "change_filters": "更改条件",
+    "searching": "搜索中...",
+    "total_count": "共 {count} 家医院",
+    "learn_more": "了解更多 →",
+    "no_results": "未找到搜索结果",
+    "website": "官网",
+    "doctors_count": "医生 {count} 名",
+    "specialists_count": "专科医生 {count} 名",
+    "reviews": "评价"
   },
   "faq": {
     "label": "常见问题",

@@ -75,7 +75,21 @@
     "post2_title": "ชาวต่างชาติไปพบแพทย์ผิวหนังโดยไม่มีประกันได้หรือไม่?",
     "post2_category": "ผิวหนัง",
     "post3_title": "เปรียบเทียบราคาจัดฟัน (คังนัม vs ฮงแด)",
-    "post3_category": "ทันตกรรม"
+    "post3_category": "ทันตกรรม",
+    "post4_title": "รีวิวเสริมจมูกจากเวียดนาม",
+    "post4_category": "ศัลยกรรมตกแต่ง",
+    "post5_title": "ฉีดโบท็อกซ์ครั้งแรก — มีคำแนะนำไหม?",
+    "post5_category": "ผิวหนัง",
+    "post6_title": "แนะนำแพ็กเกจตรวจสุขภาพในเกาหลี",
+    "post6_category": "อายุรกรรม",
+    "post7_title": "LASIK vs LASEK — อันไหนดีกว่า?",
+    "post7_category": "จักษุ",
+    "post8_title": "ฝังเข็มลดน้ำหนักแบบแพทย์แผนเกาหลีได้ผลไหม?",
+    "post8_category": "แพทย์แผนเกาหลี",
+    "post9_title": "ราคาฝังรากเทียม: โซล vs ปูซาน",
+    "post9_category": "ทันตกรรม",
+    "post10_title": "มีโรงพยาบาลที่ตรวจก่อนคลอดสำหรับชาวต่างชาติบ้างไหม?",
+    "post10_category": "สูตินรีเวช"
   },
   "recommend": {
     "title": "AI แนะนำคลินิก",
@@ -431,7 +445,18 @@
     "feature_reviews_title": "รีวิวจริง",
     "feature_reviews_desc": "รีวิวผู้ป่วยจากนักท่องเที่ยวต่างชาติ",
     "feature_contact_title": "ติดต่อโดยตรง",
-    "feature_contact_desc": "ติดต่อโดยตรงกับผู้ประสานงานคลินิกที่พูดภาษาอังกฤษ"
+    "feature_contact_desc": "ติดต่อโดยตรงกับผู้ประสานงานคลินิกที่พูดภาษาอังกฤษ",
+    "search_results": "ผลการค้นหาโรงพยาบาล",
+    "all_results": "ทั้งหมด",
+    "change_filters": "เปลี่ยนเงื่อนไข",
+    "searching": "กำลังค้นหา...",
+    "total_count": "รวม {count} โรงพยาบาล",
+    "learn_more": "ดูเพิ่มเติม →",
+    "no_results": "ไม่พบผลการค้นหา",
+    "website": "เว็บไซต์",
+    "doctors_count": "แพทย์ {count} คน",
+    "specialists_count": "แพทย์เฉพาะทาง {count} คน",
+    "reviews": "รีวิว"
   },
   "faq": {
     "label": "คำถามที่พบบ่อย",
