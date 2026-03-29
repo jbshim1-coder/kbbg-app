@@ -143,29 +143,33 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
   // 메인 섹션용 가로형 카드
   const mainCard = (
     <div className="bg-gradient-to-br from-slate-50 to-gray-100 rounded-2xl border border-gray-200 p-6 sm:p-8">
-      {/* 헤더 */}
+      {/* 헤더 — 시술 시뮬레이션 컨셉 */}
       <div className="text-center mb-6">
-        <span className="text-4xl">🪞</span>
-        <h2 className="text-2xl font-bold text-gray-900 mt-2">
-          {isKo ? "AI 얼굴 분석" : "AI Face Analysis"}
+        <h2 className="text-2xl font-bold text-gray-900">
+          {isKo ? "시술하면 어떻게 달라질까?" : "What Would You Look Like After?"}
         </h2>
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-base text-gray-600 mt-2">
           {isKo
-            ? "셀카를 업로드하면 AI가 맞춤 시술을 추천하고 병원까지 연결해드립니다"
-            : "Upload a selfie — AI recommends procedures and connects you to the right hospital"}
+            ? "셀카 한 장이면 AI가 맞춤 시술을 분석해드립니다"
+            : "One selfie — AI analyzes the best procedures for you"}
         </p>
+        <div className="flex justify-center gap-4 mt-3 text-xs text-gray-400">
+          <span>✓ {isKo ? "무료" : "Free"}</span>
+          <span>✓ {isKo ? "30초 분석" : "30 sec"}</span>
+          <span>✓ {isKo ? "맞춤 병원 연결" : "Hospital match"}</span>
+        </div>
       </div>
 
       {!image ? (
-        /* 업로드 영역 */
+        /* 업로드 영역 — 호기심 자극 */}
         <button
           onClick={() => fileRef.current?.click()}
-          className="mx-auto block w-full max-w-md py-12 border-2 border-dashed border-gray-300 rounded-2xl hover:border-slate-300 hover:bg-slate-50/30 transition"
+          className="mx-auto block w-full max-w-md py-10 border-2 border-dashed border-gray-300 rounded-2xl hover:border-slate-400 hover:bg-slate-50/30 transition group"
         >
           <div className="flex flex-col items-center gap-3">
-            <span className="text-5xl">📸</span>
-            <span className="text-base font-medium text-slate-700">
-              {isKo ? "셀카 업로드 (클릭)" : "Upload Selfie (Click)"}
+            <span className="text-5xl group-hover:scale-110 transition-transform">📸</span>
+            <span className="text-base font-bold text-gray-800">
+              {isKo ? "내 얼굴에 맞는 시술 확인하기" : "Find the Best Procedure for Your Face"}
             </span>
             <span className="text-xs text-gray-400">JPG, PNG · 5MB {isKo ? "이하" : "max"}</span>
           </div>
