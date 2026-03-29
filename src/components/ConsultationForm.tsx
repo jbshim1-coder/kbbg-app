@@ -13,6 +13,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
     gender: "",
     procedure: "",
     message: "",
+    website_url: "", // 허니팟 필드 — 봇이 채우면 서버에서 거부
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,6 +53,16 @@ export default function ConsultationForm({ locale }: { locale: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* 허니팟: 봇 방지용 숨김 필드. 사람은 이 필드를 보거나 채우지 않음 */}
+      <div style={{ display: "none" }} aria-hidden="true">
+        <input
+          name="website_url"
+          value={form.website_url}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">

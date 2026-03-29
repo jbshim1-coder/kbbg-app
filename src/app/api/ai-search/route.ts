@@ -5,8 +5,44 @@ import { NextRequest, NextResponse } from "next/server";
 const CLAUDE_API_URL = "https://api.anthropic.com/v1/messages";
 const MODEL = "claude-haiku-4-5-20251001";
 
+// IP별 요청 횟수 추적 (메모리 기반)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 5; // 1분당 5회
+const WINDOW_MS = 60 * 1000; // 1분
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return true;
+  }
+
+  if (entry.count >= RATE_LIMIT) return false;
+
+  entry.count += 1;
+  return true;
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // IP 추출 및 rate limit 체크
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        {
+          error: "Too many requests. Please try again in 1 minute.",
+          errorKo: "요청이 너무 많습니다. 1분 후 다시 시도해 주세요.",
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const query: string = body.query || "";
     const locale: string = body.locale || "ko";

@@ -6,7 +6,12 @@ import { sendNotificationEmail } from "@/lib/email";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, age, region, nationality, gender, procedure, message } = body;
+    const { name, email, age, region, nationality, gender, procedure, message, website_url } = body;
+
+    // 허니팟 필드가 채워지면 봇으로 판단 — 조용히 성공 응답 (봇에게 성공한 것처럼 보이게)
+    if (website_url) {
+      return NextResponse.json({ success: true, message: "Consultation request submitted" }, { status: 201 });
+    }
 
     if (!name || !email) {
       return NextResponse.json({ error: "name and email are required" }, { status: 400 });
