@@ -10,6 +10,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AdBanner from "@/components/AdBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import CookieConsent from "@/components/CookieConsent";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -73,6 +74,10 @@ export const metadata: Metadata = {
   },
   // 매니페스트
   manifest: "/manifest.json",
+  // Google Search Console 인증
+  verification: {
+    google: "VERIFICATION_CODE_HERE",
+  },
 };
 
 // 정적 생성 시 지원 locale 목록 제공
@@ -131,6 +136,7 @@ export default async function LocaleLayout({
             <Header />
             <AdBanner />
             <main className="flex-1">{children}</main>
+            <CookieConsent locale={locale} />
             <Footer locale={locale} />
           </div>
         </NextIntlClientProvider>
