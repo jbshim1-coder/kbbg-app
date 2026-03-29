@@ -154,7 +154,67 @@ const EVENTS = [
   },
 ];
 
-type FilterType = "all" | "피부과" | "성형외과";
+  // === 안과 ===
+  {
+    id: 11,
+    clinic: "밝은성모안과",
+    area: "강남",
+    category: "안과",
+    title: "스마일라식·실크스마일라식 이벤트",
+    items: [
+      { name: "스마일라식 양안", price: "1,800,000", original: "2,800,000" },
+      { name: "실크스마일라식 양안", price: "2,200,000", original: "3,200,000" },
+    ],
+    period: "상시 운영",
+    url: "https://oklasik.com/",
+    updatedAt: "2026-03-29",
+  },
+  {
+    id: 12,
+    clinic: "강남스마일안과의원",
+    area: "서초",
+    category: "안과",
+    title: "뉴스마일라식 특별가",
+    items: [
+      { name: "뉴스마일라식 양안", price: "1,900,000", original: "2,800,000" },
+      { name: "스마일프로 양안", price: "2,400,000", original: "3,500,000" },
+    ],
+    period: "상시 운영",
+    url: "https://www.smile-i.co.kr/",
+    updatedAt: "2026-03-29",
+  },
+  {
+    id: 13,
+    clinic: "GS안과의원",
+    area: "서초",
+    category: "안과",
+    title: "스마일프로·렌즈삽입술",
+    items: [
+      { name: "스마일프로 양안", price: "2,300,000", original: "3,200,000" },
+      { name: "ICL 렌즈삽입술 양안", price: "3,800,000", original: "5,000,000" },
+    ],
+    period: "상시 운영",
+    url: "https://www.gseyecenter.com/",
+    updatedAt: "2026-03-29",
+  },
+  {
+    id: 14,
+    clinic: "밝은눈안과 강남 교보타워",
+    area: "강남",
+    category: "안과",
+    title: "라식·라섹·렌즈삽입술",
+    items: [
+      { name: "라식 양안", price: "990,000", original: "1,500,000" },
+      { name: "라섹 양안", price: "890,000", original: "1,300,000" },
+      { name: "렌즈삽입술 양안", price: "3,500,000", original: "4,800,000" },
+    ],
+    period: "상시 운영",
+    url: "https://brighteyesclinic.com/",
+    updatedAt: "2026-03-29",
+  },
+];
+
+type FilterType = "all" | "피부과" | "성형외과" | "안과";
 
 export default function EventsPage() {
   const pathname = usePathname();
@@ -185,7 +245,7 @@ export default function EventsPage() {
       <div className="mx-auto max-w-4xl px-4 py-8">
         {/* 필터 */}
         <div className="flex gap-2 mb-6">
-          {(["all", "피부과", "성형외과"] as FilterType[]).map(f => (
+          {(["all", "피부과", "성형외과", "안과"] as FilterType[]).map(f => (
             <button
               key={f}
               onClick={() => setFilter(f)}

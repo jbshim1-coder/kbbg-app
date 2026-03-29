@@ -66,6 +66,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  // 파비콘/아이콘
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-touch-icon.png",
+  },
+  // 매니페스트
+  manifest: "/manifest.json",
 };
 
 // 정적 생성 시 지원 locale 목록 제공
