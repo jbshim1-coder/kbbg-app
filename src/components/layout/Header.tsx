@@ -265,6 +265,28 @@ export default function Header() {
         </div>
       </div>
 
+      {/* ── 커뮤니티 카테고리 서브메뉴 ── */}
+      <div className="hidden lg:block border-t border-gray-100 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-1 py-1.5 overflow-x-auto scrollbar-hide">
+            {[
+              "plastic_surgery", "dermatology", "internal_medicine", "dental",
+              "ophthalmology", "gynecology", "orthopedics", "oriental",
+              "urology", "ent", "kpop", "kfood", "kdrama", "kfashion",
+              "travel", "korean_learn",
+            ].map((key) => (
+              <Link
+                key={key}
+                href={localePath(`/community?cat=${key}`)}
+                className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-pink-600 hover:bg-pink-50 transition-colors whitespace-nowrap"
+              >
+                {t(`community.${key}` as Parameters<typeof t>[0])}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* ── 모바일 메뉴 패널 ── */}
       {mobileOpen && (
         <div className="lg:hidden border-t border-gray-100 bg-white">
