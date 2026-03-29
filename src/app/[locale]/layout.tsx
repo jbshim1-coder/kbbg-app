@@ -120,10 +120,12 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
         <NextIntlClientProvider messages={messages}>
-          <Header />
-          <AdBanner />
-          <main className="flex-1">{children}</main>
-          <Footer locale={locale} />
+          <div className="max-w-[1280px] mx-auto border-x border-gray-200 bg-white min-h-screen">
+            <Header />
+            <AdBanner />
+            <main className="flex-1">{children}</main>
+            <Footer locale={locale} />
+          </div>
         </NextIntlClientProvider>
         <GoogleAnalytics />
       </body>
