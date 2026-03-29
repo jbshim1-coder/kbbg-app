@@ -2,72 +2,121 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import LevelBadge from "@/components/LevelBadge";
 import { createClient } from "@/lib/supabase";
 import { isMaster } from "@/lib/level-system";
 
-// 카테고리 탭 — 10개 진료과 + 비진료과 카테고리 ("전체" 버튼 제거)
+// 카테고리 키 목록
 const CATEGORY_KEYS = [
-  "community.plastic_surgery",
-  "community.dermatology",
-  "community.internal_medicine",
-  "community.dental",
-  "community.ophthalmology",
-  "community.gynecology",
-  "community.orthopedics",
-  "community.oriental",
-  "community.urology",
-  "community.ent",
-  "community.kpop",
-  "community.kfood",
-  "community.kdrama",
-  "community.kfashion",
-  "community.travel",
-  "community.korean_learn",
+  "community.plastic_surgery", "community.dermatology", "community.internal_medicine",
+  "community.dental", "community.ophthalmology", "community.gynecology",
+  "community.orthopedics", "community.oriental", "community.urology", "community.ent",
+  "community.kpop", "community.kfood", "community.kdrama", "community.kfashion",
+  "community.travel", "community.korean_learn",
 ];
 
-// 게시글 더미 데이터 — 실제 DB 연동 전 UI 확인용
+// URL cat 파라미터 → 카테고리 키 매핑
+const CAT_TO_KEY: Record<string, string> = {
+  plastic_surgery: "community.plastic_surgery", dermatology: "community.dermatology",
+  internal_medicine: "community.internal_medicine", dental: "community.dental",
+  ophthalmology: "community.ophthalmology", gynecology: "community.gynecology",
+  orthopedics: "community.orthopedics", oriental: "community.oriental",
+  urology: "community.urology", ent: "community.ent",
+  kpop: "community.kpop", kfood: "community.kfood", kdrama: "community.kdrama",
+  kfashion: "community.kfashion", travel: "community.travel", korean_learn: "community.korean_learn",
+};
+
+// 16개 카테고리 전체 가상 게시글 — 다양한 국적의 가상 회원
 const INITIAL_POSTS = [
-  { id: 1, titleKey: "community_preview.post1_title", categoryKey: "community.plastic_surgery", author: "user_kr", level: 12, upvotes: 87, downvotes: 3, comments: 24, createdAtKey: "community.time_2h" },
-  { id: 2, titleKey: "community_preview.post2_title", categoryKey: "community.dermatology", author: "sarah_jp", level: 7, upvotes: 42, downvotes: 1, comments: 15, createdAtKey: "community.time_4h" },
-  { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community.dental", author: "mike_us", level: 20, upvotes: 63, downvotes: 5, comments: 31, createdAtKey: "community.time_6h" },
-  { id: 4, titleKey: "community.dummy_post4_title", categoryKey: "community.dermatology", author: "lisa_cn", level: 3, upvotes: 29, downvotes: 0, comments: 18, createdAtKey: "community.time_8h" },
-  { id: 5, titleKey: "community.dummy_post5_title", categoryKey: "community.plastic_surgery", author: "tom_vn", level: 15, upvotes: 54, downvotes: 2, comments: 27, createdAtKey: "community.time_1d" },
-  { id: 6, titleKey: "community.dummy_post6_title", categoryKey: "community.dental", author: "anna_ru", level: 28, upvotes: 71, downvotes: 4, comments: 12, createdAtKey: "community.time_2d" },
-  { id: 7, titleKey: "community.dummy_post7_title", categoryKey: "community.general", author: "yuki_jp", level: 5, upvotes: 38, downvotes: 1, comments: 9, createdAtKey: "community.time_3d" },
+  // 성형외과
+  { id: 1, title: "강남 쌍꺼풀 후기 — 3개월 경과", categoryKey: "community.plastic_surgery", author: "user_kr", level: 12, upvotes: 87, comments: 24, time: "2h ago" },
+  { id: 2, title: "베트남에서 온 코성형 후기", categoryKey: "community.plastic_surgery", author: "tom_vn", level: 15, upvotes: 54, comments: 27, time: "1d ago" },
+  { id: 3, title: "Jaw surgery in Gangnam — my experience", categoryKey: "community.plastic_surgery", author: "emma_us", level: 8, upvotes: 41, comments: 19, time: "3d ago" },
+  // 피부과
+  { id: 4, title: "레이저 토닝 5회차 경과 사진", categoryKey: "community.dermatology", author: "sarah_jp", level: 7, upvotes: 42, comments: 15, time: "4h ago" },
+  { id: 5, title: "보톡스 처음 맞았어요 후기", categoryKey: "community.dermatology", author: "lisa_cn", level: 3, upvotes: 29, comments: 18, time: "8h ago" },
+  { id: 6, title: "Acne scar treatment in Seoul — worth it!", categoryKey: "community.dermatology", author: "david_uk", level: 10, upvotes: 63, comments: 22, time: "2d ago" },
+  // 내과
+  { id: 7, title: "서울에서 건강검진 받은 후기", categoryKey: "community.internal_medicine", author: "chen_cn", level: 5, upvotes: 31, comments: 8, time: "6h ago" },
+  { id: 8, title: "Full body checkup at Samsung Hospital", categoryKey: "community.internal_medicine", author: "james_au", level: 9, upvotes: 25, comments: 11, time: "1d ago" },
+  // 치과
+  { id: 9, title: "임플란트 2개 시술 후기 — 비용 공유", categoryKey: "community.dental", author: "mike_us", level: 20, upvotes: 63, comments: 31, time: "6h ago" },
+  { id: 10, title: "치아교정 1년차 경과", categoryKey: "community.dental", author: "anna_ru", level: 28, upvotes: 71, comments: 12, time: "2d ago" },
+  { id: 11, title: "Teeth whitening in Gangnam — before/after", categoryKey: "community.dental", author: "sophie_fr", level: 6, upvotes: 38, comments: 14, time: "4d ago" },
+  // 안과
+  { id: 12, title: "라식 수술 3개월 후기 — 시력 1.5!", categoryKey: "community.ophthalmology", author: "park_kr", level: 11, upvotes: 55, comments: 20, time: "3h ago" },
+  { id: 13, title: "LASEK vs SMILE — which one to choose?", categoryKey: "community.ophthalmology", author: "kevin_sg", level: 7, upvotes: 44, comments: 16, time: "1d ago" },
+  // 산부인과
+  { id: 14, title: "서울에서 산전검사 받은 외국인 후기", categoryKey: "community.gynecology", author: "maria_ph", level: 4, upvotes: 22, comments: 9, time: "5h ago" },
+  { id: 15, title: "Fertility treatment in Korea — our journey", categoryKey: "community.gynecology", author: "nina_de", level: 13, upvotes: 48, comments: 25, time: "2d ago" },
+  // 정형외과
+  { id: 16, title: "무릎 관절경 수술 후기", categoryKey: "community.orthopedics", author: "kim_kr", level: 18, upvotes: 33, comments: 7, time: "7h ago" },
+  { id: 17, title: "Spine surgery in Korea — international patient", categoryKey: "community.orthopedics", author: "alex_ca", level: 9, upvotes: 29, comments: 13, time: "3d ago" },
+  // 한의원
+  { id: 18, title: "한방 다이어트 침 치료 2주 후기", categoryKey: "community.oriental", author: "yuki_jp", level: 5, upvotes: 38, comments: 9, time: "4h ago" },
+  { id: 19, title: "Acupuncture for back pain — amazing results", categoryKey: "community.oriental", author: "john_us", level: 14, upvotes: 42, comments: 11, time: "1d ago" },
+  // 비뇨기과
+  { id: 20, title: "비뇨기과 검진 후기 — 남성 건강검진", categoryKey: "community.urology", author: "lee_kr", level: 6, upvotes: 19, comments: 5, time: "12h ago" },
+  { id: 21, title: "Prostate checkup in Seoul — foreigner guide", categoryKey: "community.urology", author: "mark_nz", level: 8, upvotes: 27, comments: 8, time: "2d ago" },
+  // 이비인후과
+  { id: 22, title: "코골이 수술 후기 — 삶이 바뀌었어요", categoryKey: "community.ent", author: "choi_kr", level: 10, upvotes: 45, comments: 17, time: "5h ago" },
+  { id: 23, title: "Sinus surgery experience in Korea", categoryKey: "community.ent", author: "peter_nl", level: 7, upvotes: 31, comments: 10, time: "3d ago" },
+  // K-Pop
+  { id: 24, title: "BTS 콘서트 서울 후기! 🎤", categoryKey: "community.kpop", author: "mina_th", level: 16, upvotes: 92, comments: 41, time: "1h ago" },
+  { id: 25, title: "Best K-pop concert venues in Seoul", categoryKey: "community.kpop", author: "jessica_br", level: 11, upvotes: 67, comments: 28, time: "6h ago" },
+  { id: 26, title: "아이돌 팬미팅 가는 방법 총정리", categoryKey: "community.kpop", author: "hana_jp", level: 9, upvotes: 58, comments: 22, time: "1d ago" },
+  // K-Food
+  { id: 27, title: "을지로 맛집 투어 후기 🍜", categoryKey: "community.kfood", author: "wang_cn", level: 8, upvotes: 73, comments: 35, time: "2h ago" },
+  { id: 28, title: "Best Korean BBQ in Gangnam — top 5", categoryKey: "community.kfood", author: "rachel_us", level: 12, upvotes: 61, comments: 29, time: "8h ago" },
+  { id: 29, title: "한국 길거리 음식 베스트 10", categoryKey: "community.kfood", author: "mai_vn", level: 5, upvotes: 49, comments: 18, time: "2d ago" },
+  // K-드라마
+  { id: 30, title: "드라마 촬영지 투어 후기 — 이태원/한남동", categoryKey: "community.kdrama", author: "suki_jp", level: 7, upvotes: 56, comments: 21, time: "3h ago" },
+  { id: 31, title: "K-drama filming locations you must visit!", categoryKey: "community.kdrama", author: "clara_it", level: 10, upvotes: 48, comments: 15, time: "1d ago" },
+  // K-패션
+  { id: 32, title: "홍대 빈티지 쇼핑 가이드 👗", categoryKey: "community.kfashion", author: "nari_kr", level: 14, upvotes: 44, comments: 19, time: "4h ago" },
+  { id: 33, title: "Myeongdong vs Gangnam — where to shop?", categoryKey: "community.kfashion", author: "amy_sg", level: 6, upvotes: 37, comments: 12, time: "2d ago" },
+  // 한국 여행
+  { id: 34, title: "제주도 3박4일 여행 코스 추천", categoryKey: "community.travel", author: "jung_kr", level: 20, upvotes: 82, comments: 38, time: "1h ago" },
+  { id: 35, title: "Seoul travel guide for medical tourists", categoryKey: "community.travel", author: "oliver_uk", level: 15, upvotes: 65, comments: 24, time: "5h ago" },
+  { id: 36, title: "부산 해운대 여행 후기 🌊", categoryKey: "community.travel", author: "tanaka_jp", level: 8, upvotes: 51, comments: 16, time: "1d ago" },
+  // 한국어 배우기
+  { id: 37, title: "한국어 독학 6개월 후기 — 초보에서 중급까지", categoryKey: "community.korean_learn", author: "paul_de", level: 11, upvotes: 76, comments: 33, time: "2h ago" },
+  { id: 38, title: "Best apps to learn Korean in 2026", categoryKey: "community.korean_learn", author: "lucy_au", level: 9, upvotes: 58, comments: 21, time: "7h ago" },
+  { id: 39, title: "병원에서 쓸 수 있는 한국어 표현 모음", categoryKey: "community.korean_learn", author: "lin_tw", level: 13, upvotes: 69, comments: 27, time: "1d ago" },
 ];
 
-// 정렬 타입 — "popular": 추천순, "latest": 최신순
 type SortType = "popular" | "latest";
 
-// 커뮤니티 메인 페이지 — 카테고리 필터 + 정렬 + 게시글 목록
 export default function CommunityPage() {
   const t = useTranslations();
   const pathname = usePathname();
-  // pathname: /ko/community → locale = "ko"
+  const searchParams = useSearchParams();
   const locale = pathname.split("/")[1] || "en";
 
-  // 선택된 카테고리 키 상태 (기본값: 성형외과)
-  const [activeCategoryKey, setActiveCategoryKey] = useState("community.plastic_surgery");
-  // 정렬 방식 상태
+  // URL ?cat= 파라미터로 카테고리 초기화
+  const catParam = searchParams.get("cat") || "";
+  const initialCat = CAT_TO_KEY[catParam] || "community.plastic_surgery";
+
+  const [activeCategoryKey, setActiveCategoryKey] = useState(initialCat);
   const [sort, setSort] = useState<SortType>("popular");
-  // 게시글 목록 상태 — 삭제 시 로컬 제거
   const [posts, setPosts] = useState(INITIAL_POSTS);
-  // 현재 로그인 사용자가 마스터인지 여부
   const [master, setMaster] = useState(false);
-  // 로그인 여부 — null: 확인 전, false: 비로그인, true: 로그인
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
 
-  // 로그인 사용자 확인 — 마스터 여부 및 로그인 상태 감지
+  // URL cat 변경 시 카테고리 업데이트
+  useEffect(() => {
+    if (catParam && CAT_TO_KEY[catParam]) {
+      setActiveCategoryKey(CAT_TO_KEY[catParam]);
+    }
+  }, [catParam]);
+
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }) => {
       setLoggedIn(!!data.user);
-      if (data.user?.email && isMaster(data.user.email)) {
-        setMaster(true);
-      }
+      if (data.user?.email && isMaster(data.user.email)) setMaster(true);
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setLoggedIn(!!session?.user);
@@ -76,22 +125,17 @@ export default function CommunityPage() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // 게시글 삭제 핸들러 — 마스터 전용, 목록에서 즉시 제거
   const handleDeletePost = (postId: number) => {
     setPosts((prev) => prev.filter((p) => p.id !== postId));
   };
 
-  // 카테고리 필터링 — 선택된 카테고리 글만 표시
   const filtered = posts.filter((p) => p.categoryKey === activeCategoryKey);
-
-  // 정렬 적용 — 인기순: upvotes 내림차순, 최신순: 배열 순서 유지 (실제 연동 시 createdAt 기준)
   const sorted = [...filtered].sort((a, b) =>
     sort === "popular" ? b.upvotes - a.upvotes : 0
   );
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* 페이지 헤더 — 제목 + 글쓰기 버튼 */}
       <div className="bg-white border-b border-gray-100 px-4 py-6">
         <div className="mx-auto max-w-6xl flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-900">{t("community.title")}</h1>
@@ -104,91 +148,61 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      {/* 전체 너비 레이아웃 */}
       <div className="mx-auto max-w-4xl px-4 py-6">
 
-        {/* 카테고리 버튼 — 2줄 wrap */}
-        <div className="flex flex-wrap gap-2">
-          {CATEGORY_KEYS.map((catKey) => (
-            <button
-              key={catKey}
-              onClick={() => setActiveCategoryKey(catKey)}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                activeCategoryKey === catKey
-                  ? "bg-teal-600 text-white"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-pink-300"
-              }`}
-            >
-              {t(catKey as Parameters<typeof t>[0])}
-            </button>
-          ))}
+        {/* 정렬 옵션 */}
+        <div className="flex gap-3 text-sm mb-4">
+          <button
+            onClick={() => setSort("popular")}
+            className={`font-medium ${sort === "popular" ? "text-teal-600" : "text-gray-400 hover:text-gray-600"}`}
+          >
+            {t("community.trending")}
+          </button>
+          <button
+            onClick={() => setSort("latest")}
+            className={`font-medium ${sort === "latest" ? "text-teal-600" : "text-gray-400 hover:text-gray-600"}`}
+          >
+            {t("community.latest")}
+          </button>
         </div>
 
-        {/* 정렬 옵션 토글 */}
-        <div className="mt-3 flex gap-3 text-sm">
-            <button
-              onClick={() => setSort("popular")}
-              className={`font-medium ${sort === "popular" ? "text-teal-600" : "text-gray-400 hover:text-gray-600"}`}
-            >
-              {t("community.trending")}
-            </button>
-            <button
-              onClick={() => setSort("latest")}
-              className={`font-medium ${sort === "latest" ? "text-teal-600" : "text-gray-400 hover:text-gray-600"}`}
-            >
-              {t("community.latest")}
-            </button>
-        </div>
-
-          {/* 게시글 카드 목록 */}
-          <div className="mt-4 flex flex-col gap-3">
+        {/* 게시글 목록 */}
+        {sorted.length === 0 ? (
+          <div className="text-center py-20 text-gray-400">
+            {t("community.title")} — 아직 글이 없습니다
+          </div>
+        ) : (
+          <div className="space-y-3">
             {sorted.map((post) => (
-              // 각 게시글 카드 — 마스터는 삭제 버튼 포함
-              <div key={post.id} className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md relative">
-                <Link href={`/${locale}/community/${post.id}`} className="block">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                      {/* 카테고리 배지 */}
-                      <div className="flex items-center gap-2">
-                        <span className="rounded-full bg-teal-50 px-2 py-0.5 text-xs font-medium text-teal-600">
-                          {t(post.categoryKey as Parameters<typeof t>[0])}
-                        </span>
-                      </div>
-                      {/* 제목 — 긴 제목은 말줄임표 처리 */}
-                      <h2 className="mt-1 truncate text-base font-semibold text-gray-900">
-                        {t(post.titleKey as Parameters<typeof t>[0])}
-                      </h2>
-                      <p className="mt-1 flex items-center gap-1 text-xs text-gray-400">
-                        <LevelBadge level={post.level} size="sm" />
-                        {post.author} · {t(post.createdAtKey as Parameters<typeof t>[0])}
-                      </p>
-                    </div>
-                    {/* 추천 수 및 댓글 수 */}
-                    <div className="flex shrink-0 flex-col items-end gap-1 text-xs text-gray-400">
-                      <span>↑ {post.upvotes}</span>
-                      <span>💬 {post.comments}</span>
-                    </div>
+              <div key={post.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-start justify-between hover:shadow-md transition-shadow">
+                <div className="flex-1">
+                  <span className="text-xs text-teal-600 font-medium">
+                    {t(post.categoryKey as Parameters<typeof t>[0])}
+                  </span>
+                  <h3 className="mt-1 font-semibold text-gray-800">{post.title}</h3>
+                  <div className="mt-1.5 flex items-center gap-2 text-xs text-gray-400">
+                    <LevelBadge level={post.level} size="sm" />
+                    <span>{post.author}</span>
+                    <span>· {post.time}</span>
                   </div>
-                </Link>
-
-                {/* 마스터 전용 삭제 버튼 */}
+                </div>
+                <div className="text-right text-xs text-gray-400 shrink-0 ml-4">
+                  <div>↑ {post.upvotes}</div>
+                  <div>💬 {post.comments}</div>
+                </div>
                 {master && (
                   <button
                     onClick={() => handleDeletePost(post.id)}
-                    className="mt-2 text-xs px-3 py-1 bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition-colors"
+                    className="ml-2 text-xs text-red-400 hover:text-red-600"
                   >
-                    {t("community.delete")}
+                    삭제
                   </button>
                 )}
               </div>
             ))}
-
-            {/* 필터 결과가 없을 때 빈 상태 메시지 */}
-            {sorted.length === 0 && (
-              <p className="py-16 text-center text-gray-400">{t("community.no_posts")}</p>
-            )}
           </div>
-        </div>
+        )}
+      </div>
     </main>
   );
 }
