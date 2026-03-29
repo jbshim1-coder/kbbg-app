@@ -69,7 +69,7 @@ export default async function HomePage({
 
       {/* ━━━ 뷰티 무드 배너 1 ━━━ */}
       <BeautyMoodBanner
-        image="/hero/skincare.jpg"
+        image="/hero/model2.jpg"
         titleKo="피부가 달라지는 경험"
         titleEn="Experience the Difference"
         subKo="한국 피부과 전문의가 추천하는 맞춤 시술"
@@ -144,7 +144,7 @@ export default async function HomePage({
 
       {/* ━━━ 뷰티 무드 배너 2 ━━━ */}
       <BeautyMoodBanner
-        image="/hero/myeongdong.jpg"
+        image="/hero/model3.jpg"
         titleKo="강남·명동, 세계가 찾는 뷰티 성지"
         titleEn="Gangnam & Myeongdong — The World's Beauty Capital"
         subKo="성형·피부·치과·안과 최고의 전문의를 만나보세요"
@@ -205,6 +205,15 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* ━━━ 뷰티 무드 배너 3 ━━━ */}
+      <BeautyMoodBanner
+        image="/hero/model4.jpg"
+        titleKo="아름다움을 위한 첫걸음"
+        titleEn="Your First Step to Beauty"
+        subKo="AI가 분석하고 전문의가 상담하는 맞춤 의료관광"
+        subEn="AI analysis & specialist consultation for your medical tourism"
+      />
 
     </main>
   );

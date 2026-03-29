@@ -13,7 +13,7 @@ export default function BeautyBanner() {
     <section className="relative w-full h-[320px] sm:h-[360px] overflow-hidden">
       {/* 배경 이미지 */}
       <Image
-        src="/hero/beauty-model.jpg"
+        src="/hero/model1.jpg"
         alt="K-Beauty"
         fill
         className="object-cover"
