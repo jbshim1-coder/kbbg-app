@@ -1,14 +1,7 @@
 import Link from "next/link";
-import { Mail, Globe, Share2, MessageCircle, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import { Mail } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-
-// SNS 링크 목록 (lucide-react에서 지원하는 아이콘 사용)
-const SNS_LINKS = [
-  { label: "Instagram", href: "https://instagram.com", icon: Globe },
-  { label: "YouTube", href: "https://youtube.com", icon: Share2 },
-  { label: "Facebook", href: "https://facebook.com", icon: MessageCircle },
-  { label: "X (Twitter)", href: "https://twitter.com", icon: ExternalLink },
-];
 
 // 푸터 컴포넌트 — 브랜드 정보, 네비게이션, 저작권 및 법률 링크 포함
 // locale prop을 받아 모든 내부 링크에 locale prefix를 적용
@@ -65,19 +58,10 @@ export default async function Footer({ locale }: { locale: string }) {
 
           {/* 회사 정보 블록 */}
           <div className="lg:col-span-2">
-            <Link
-              href={lp("/")}
-              className="text-xl font-bold text-slate-800 tracking-tight"
-              aria-label="K-Beauty Buyers Guide"
-            >
-              K-Beauty<span className="text-emerald-500">BG</span>
+            <Link href={lp("/")} aria-label="K-Beauty Buyers Guide">
+              <Image src="/logo.png" alt="K-Beauty Buyers Guide" width={140} height={48} className="h-10 w-auto" />
             </Link>
 
-            <p className="mt-3 text-sm text-gray-500 leading-relaxed max-w-xs">
-              {t("footer.company_desc")}
-            </p>
-
-            {/* 투비스토리 회사 정보 */}
             <div className="mt-5 space-y-1 text-xs text-gray-400">
               <p className="font-medium text-gray-500">{t("footer.company_name")}</p>
               <p>{t("footer.company_info")}</p>
@@ -88,23 +72,6 @@ export default async function Footer({ locale }: { locale: string }) {
                 <Mail size={12} />
                 help@2bstory.com
               </a>
-            </div>
-
-            {/* SNS 아이콘 링크 */}
-            <div className="mt-5 flex items-center gap-3">
-              {SNS_LINKS.map(({ label, href, icon: Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="p-2 rounded-lg text-gray-400 hover:text-emerald-600
-                    hover:bg-emerald-50 transition-colors"
-                >
-                  <Icon size={16} />
-                </a>
-              ))}
             </div>
           </div>
 
