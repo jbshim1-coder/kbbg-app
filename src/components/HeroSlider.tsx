@@ -5,10 +5,10 @@ import Image from "next/image";
 import AiSearchBox from "@/components/AiSearchBox";
 
 const SLIDES = [
-  { src: "/hero/seoul-night.jpg", alt: "Seoul Night" },
-  { src: "/hero/myeongdong.jpg", alt: "Myeongdong" },
+  { src: "/hero/gwanghwamun.jpg", alt: "Gwanghwamun" },
+  { src: "/hero/namsan-tower.jpg", alt: "Namsan Tower" },
+  { src: "/hero/lotte-tower2.jpg", alt: "Lotte Tower" },
   { src: "/hero/hangang.jpg", alt: "Han River" },
-  { src: "/hero/lotte-tower.jpg", alt: "Lotte Tower" },
 ];
 
 export default function HeroSlider({ locale }: { locale: string }) {

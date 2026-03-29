@@ -6,6 +6,7 @@ import ClinicFilter from "@/components/ClinicFilter";
 import TrendingSidebar from "@/components/TrendingSidebar";
 import HeroSlider from "@/components/HeroSlider";
 import BeautyBanner from "@/components/BeautyBanner";
+import BeautyMoodBanner from "@/components/BeautyMoodBanner";
 import DailyCheckIn from "@/components/DailyCheckIn";
 import FaceAnalysis from "@/components/FaceAnalysis";
 import TopDepartments from "@/components/TopDepartments";
@@ -65,6 +66,15 @@ export default async function HomePage({
 
         </div>
       </section>
+
+      {/* ━━━ 뷰티 무드 배너 1 ━━━ */}
+      <BeautyMoodBanner
+        image="/hero/skincare.jpg"
+        titleKo="피부가 달라지는 경험"
+        titleEn="Experience the Difference"
+        subKo="한국 피부과 전문의가 추천하는 맞춤 시술"
+        subEn="Personalized treatments by Korean dermatologists"
+      />
 
       {/* ━━━ 운영자에게 병원 추천 받기 ━━━ */}
       <section className="px-4 py-10 bg-gray-50 border-b border-gray-100">
@@ -131,6 +141,15 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* ━━━ 뷰티 무드 배너 2 ━━━ */}
+      <BeautyMoodBanner
+        image="/hero/myeongdong.jpg"
+        titleKo="강남·명동, 세계가 찾는 뷰티 성지"
+        titleEn="Gangnam & Myeongdong — The World's Beauty Capital"
+        subKo="성형·피부·치과·안과 최고의 전문의를 만나보세요"
+        subEn="Meet the best specialists in plastic surgery, dermatology, dental & ophthalmology"
+      />
 
       {/* ━━━ 뷰티 배너 — 여성 모델 + CTA ━━━ */}
       <BeautyBanner />
