@@ -152,8 +152,6 @@ const EVENTS = [
     url: "https://www.alllitingps.co.kr/",
     updatedAt: "2026-03-29",
   },
-];
-
   // === 안과 ===
   {
     id: 11,

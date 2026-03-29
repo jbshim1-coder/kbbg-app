@@ -161,7 +161,8 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
       </div>
 
       {!image ? (
-        /* 업로드 영역 — 호기심 자극 */}
+        /* 업로드 영역 — 호기심 자극 */
+
         <button
           onClick={() => fileRef.current?.click()}
           className="mx-auto block w-full max-w-md py-10 border-2 border-dashed border-gray-300 rounded-2xl hover:border-slate-400 hover:bg-slate-50/30 transition group"
