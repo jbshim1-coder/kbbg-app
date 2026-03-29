@@ -82,8 +82,42 @@ const doc = new Document({
       normal("개발방식: Claude Code (AI) — 비개발자(마케터) 운영"),
       spacer(),
 
-      // ═══ 2. 기술 스택 ═══
-      heading("2. 기술 스택"),
+      // ═══ 2. 개발 사상 및 설계 원칙 ═══
+      heading("2. 개발 사상 및 설계 원칙"),
+      spacer(),
+      bold("개발 방식"),
+      normal("• AI 주도 개발: Claude Code(Anthropic)가 코드 작성, 비개발자(마케터)가 기획/운영"),
+      normal("• CCG 협업: Claude + Codex(OpenAI) + Gemini(Google) 3개 AI 동시 분석 후 최선의 방법 채택"),
+      normal("• 점진적 개발: MVP 먼저 → 사용자 피드백 반영 → 기능 확장"),
+      spacer(),
+      bold("설계 원칙"),
+      normal("• 서버리스 아키텍처: 별도 서버 없이 Vercel + Supabase로 운영 (인프라 관리 최소화)"),
+      normal("• SSR/SEO 우선: Next.js App Router로 서버사이드 렌더링, 검색엔진 최적화"),
+      normal("• 국제화 기본: 8개국 언어 URL 기반 라우팅 (/en, /ko, /zh 등)"),
+      normal("• 공공데이터 기반: 심평원 공인 데이터로 병원 정보 신뢰성 확보"),
+      normal("• AI 보조 판단: AI는 데이터 분석/추천 역할, 최종 판단은 사용자에게"),
+      spacer(),
+      bold("코드 규칙"),
+      normal("• 코드/변수명: 영어"),
+      normal("• 주석/설명/커밋 메시지: 한국어"),
+      normal("• 에러 메시지/로그: 영어"),
+      normal("• 함수 길이: 30줄 이내 권장"),
+      normal("• 중첩 레벨: 3단계 이하 (early return 패턴)"),
+      normal("• 커밋: conventional commit + git trailers (Constraint, Rejected, Confidence 등)"),
+      spacer(),
+      bold("아키텍처 결정 이유"),
+      normal("• Next.js 16 선택 이유: SSR/SEO, App Router, API Routes 내장, Vercel 최적화"),
+      normal("• TypeScript 선택 이유: 타입 안전성, 자동완성, 리팩토링 용이"),
+      normal("• Tailwind CSS 선택 이유: 유틸리티 클래스로 빠른 UI 개발, AI 코딩에 최적"),
+      normal("• Supabase 선택 이유: PostgreSQL + Auth + Storage 올인원, 무료 티어, 관리형 DB"),
+      normal("• Vercel 선택 이유: Next.js 공식 호스팅, GitHub 자동 배포, 서버리스"),
+      normal("• next-intl 선택 이유: URL 기반 i18n, SSR 지원, 8개국 SEO 최적화"),
+      normal("• Resend 선택 이유: HTTP API (서버리스 호환), Vercel 공식 통합, 무료 100건/일"),
+      normal("• Google OAuth 선택 이유: 글로벌 커버, Supabase Auth 내장 지원"),
+      spacer(),
+
+      // ═══ 3. 기술 스택 ═══
+      heading("3. 기술 스택"),
       normal("Framework: Next.js 16.2.1 (App Router, Turbopack)"),
       normal("Language: TypeScript 5.x"),
       normal("Styling: Tailwind CSS 4.x"),
@@ -98,7 +132,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 3. 환경변수 + 비밀키 ═══
-      heading("3. 환경변수 및 비밀키"),
+      heading("4. 환경변수 및 비밀키"),
       normal("⚠️ 이 섹션은 보안 정보를 포함합니다. 외부 유출 금지."),
       normal("파일 위치: .env.local (git에 포함되지 않음)"),
       spacer(),
@@ -112,7 +146,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 4. 외부 서비스 계정 ═══
-      heading("4. 외부 서비스 계정 정보"),
+      heading("5. 외부 서비스 계정 정보"),
       bold("[Supabase]"),
       normal("대시보드: https://supabase.com/dashboard"),
       normal("조직: jbshim1-coder's Org (PRO 플랜)"),
@@ -142,14 +176,35 @@ const doc = new Document({
       spacer(),
 
       // ═══ 5. 지원 언어 ═══
-      heading("5. 지원 언어 (8개국)"),
+      heading("6. 지원 언어 (8개국)"),
       normal("en (영어/기본), ko (한국어), zh (중국어), ja (일본어)"),
       normal("ru (러시아어), vi (베트남어), th (태국어), mn (몽골어)"),
       normal("번역 파일: messages/[locale].json"),
       spacer(),
 
-      // ═══ 6. DB 스키마 ═══
-      heading("6. 데이터베이스 스키마 (Supabase PostgreSQL)"),
+      // ═══ 7. DB 스키마 ═══
+      heading("7. 데이터베이스 상세"),
+      spacer(),
+      bold("DB 종류: PostgreSQL 15 (Supabase 호스팅)"),
+      normal("• 위치: Supabase Cloud (AWS ap-northeast-1, 도쿄)"),
+      normal("• 접속: Supabase 대시보드 또는 REST API (PostgREST)"),
+      normal("• ORM: 사용 안 함. Supabase JS Client로 직접 쿼리"),
+      normal("• 마이그레이션: supabase/migrations/ 폴더의 SQL 파일을 SQL Editor에서 수동 실행"),
+      spacer(),
+      bold("왜 PostgreSQL/Supabase인가"),
+      normal("• PostgreSQL: 세계에서 가장 신뢰받는 오픈소스 관계형 DB. JSON, 전문검색, RPC 함수 지원"),
+      normal("• Supabase: PostgreSQL을 관리형으로 제공. Auth, Storage, Realtime, Edge Functions 내장"),
+      normal("• 비개발자도 대시보드에서 데이터 확인/수정 가능"),
+      normal("• Row Level Security(RLS)로 테이블별 접근 권한 제어"),
+      spacer(),
+      bold("RLS 정책 요약"),
+      normal("• clinics: 전체 공개 조회 (is_active=true)"),
+      normal("• posts/comments: 삭제되지 않은 것만 공개, 본인만 수정/삭제"),
+      normal("• users/user_profiles: 본인만 조회/수정"),
+      normal("• votes: 본인만 조회/투표/변경"),
+      normal("• contact_inquiries: 본인 문의만 조회, 누구나 생성"),
+      normal("• faqs: 전체 공개 조회"),
+      spacer(),
       normal("총 18개 테이블 + daily_visitors + RPC 함수"),
       spacer(),
       bold("주요 테이블:"),
@@ -167,7 +222,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 7. API 라우트 ═══
-      heading("7. API 라우트 목록"),
+      heading("8. API 라우트 목록"),
       ...apiRoutes.split("\n").filter(Boolean).map(l => {
         const route = l.replace("src/app/api/", "/api/").replace("/route.ts", "");
         return normal(`${route}`);
@@ -186,7 +241,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 8. 배포 ═══
-      heading("8. 배포 및 CI/CD"),
+      heading("9. 배포 및 CI/CD"),
       normal("방식: GitHub main 브랜치에 push → Vercel 자동 배포"),
       normal("빌드: next build (Turbopack)"),
       normal("환경: Vercel Serverless Functions (10초 타임아웃)"),
@@ -196,7 +251,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 9. 백업 정책 ═══
-      heading("9. 백업 정책"),
+      heading("10. 백업 정책"),
       normal("자동 백업: 4시간마다 cron 실행 (0 */4 * * *)"),
       normal("스크립트: /home/jbshi/kbbg-backup.sh"),
       normal("저장 위치: D:\\backup\\01.kbbg\\"),
@@ -205,7 +260,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 10. 보안 ═══
-      heading("10. 보안 설정"),
+      heading("11. 보안 설정"),
       normal("Supabase RLS: 모든 테이블에 Row Level Security 활성화"),
       normal("인증: Google OAuth (Supabase Auth)"),
       normal("관리자: admin@2bstory.com (마스터 권한)"),
@@ -214,7 +269,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 11. SEO ═══
-      heading("11. SEO 설정"),
+      heading("12. SEO 설정"),
       normal("sitemap.xml: 자동 생성"),
       normal("robots.txt: 설정 완료"),
       normal("OG 태그: 페이지별 설정"),
@@ -224,7 +279,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 12. 수익 모델 ═══
-      heading("12. 수익 모델 및 광고 시스템"),
+      heading("13. 수익 모델 및 광고 시스템"),
       normal("1단계: 트래픽 확보 — 무료 운영 (현재)"),
       normal("2단계: AI 추천 광고 (3+1), 배너 광고, 카테고리 스폰서"),
       normal("3단계: 프리미엄 추천 컨설팅"),
@@ -234,7 +289,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 13. 핵심 비즈니스 로직 ═══
-      heading("13. 핵심 비즈니스 로직"),
+      heading("14. 핵심 비즈니스 로직"),
       spacer(),
       bold("13-1. AI 병원 추천 알고리즘 (Relevance Score)"),
       normal("사용자가 진료과+지역을 검색하면 관련성 점수로 병원을 정렬합니다."),
@@ -316,7 +371,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 14. 알려진 제한사항 ═══
-      heading("14. 알려진 제한사항 및 주의사항"),
+      heading("15. 알려진 제한사항 및 주의사항"),
       normal("• Vercel 서버리스 타임아웃: 10초 (Pro: 60초)"),
       normal("• 구글 별점 조회: 페이지당 5개 제한 (API 비용)"),
       normal("• 심평원 Cron 동기화: 지역별 분할 실행 필요"),
@@ -326,7 +381,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 14. 성능 제약 ═══
-      heading("15. 성능 및 비용"),
+      heading("16. 성능 및 비용"),
       bold("월간 예상 비용:"),
       normal("Vercel: 무료~$20"),
       normal("Supabase: 무료~$25 (Pro)"),
@@ -337,7 +392,7 @@ const doc = new Document({
       spacer(),
 
       // ═══ 15. 패키지 의존성 ═══
-      heading("16. 패키지 의존성"),
+      heading("17. 패키지 의존성"),
       bold("dependencies:"),
       ...Object.entries(pkg.dependencies || {}).map(([k, v]) => new Paragraph({ children: [new TextRun({ text: `  ${k}: ${v}`, font: "Consolas", size: 18 })] })),
       spacer(),
@@ -346,12 +401,12 @@ const doc = new Document({
       spacer(),
 
       // ═══ 16. 프로젝트 파일 구조 ═══
-      heading("17. 프로젝트 소스 파일 구조"),
+      heading("18. 프로젝트 소스 파일 구조"),
       ...tree.split("\n").filter(Boolean).map(l => new Paragraph({ children: [new TextRun({ text: l, font: "Consolas", size: 16 })] })),
       spacer(),
 
       // ═══ 17. Git 히스토리 ═══
-      heading("18. Git 커밋 히스토리 (최근 50개)"),
+      heading("19. Git 커밋 히스토리 (최근 50개)"),
       bold("Remote:"),
       ...gitRemote.split("\n").filter(Boolean).map(l => new Paragraph({ children: [new TextRun({ text: l, font: "Consolas", size: 18 })] })),
       spacer(),
@@ -359,12 +414,12 @@ const doc = new Document({
       spacer(),
 
       // ═══ 18. 작업 기록 ═══
-      heading("19. 작업 기록 (Development Log)"),
+      heading("20. 작업 기록 (Development Log)"),
       ...textToParas(devLog),
       spacer(),
 
       // ═══ 19. 구현 계획서 ═══
-      heading("20. 구현 계획서"),
+      heading("21. 구현 계획서"),
       ...textToParas(implPlan.slice(0, 5000)),
       normal("... (전체는 docs/IMPLEMENTATION_PLAN.md 참조)"),
     ],
