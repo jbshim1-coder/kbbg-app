@@ -202,7 +202,6 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
         ref={fileRef}
         type="file"
         accept="image/jpeg,image/png"
-        capture="user"
         onChange={handleFileChange}
         className="hidden"
       />
