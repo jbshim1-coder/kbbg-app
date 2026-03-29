@@ -10,7 +10,7 @@ export default function BeautyBanner() {
   const isKo = locale === "ko";
 
   return (
-    <section className="relative w-full h-[320px] sm:h-[360px] overflow-hidden">
+    <section className="relative w-full h-[360px] sm:h-[420px] overflow-hidden">
       {/* 배경 이미지 */}
       <Image
         src="/hero/model1.jpg"
