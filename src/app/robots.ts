@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         // 관리자 및 API 경로는 크롤링 차단
-        disallow: ["/admin/", "/api/"],
+        disallow: ["/admin/", "/api/", "/ko/"],
       },
     ],
     // 사이트맵 위치 명시

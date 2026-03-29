@@ -130,6 +130,9 @@ export default async function LocaleLayout({
       lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {locale === "ko" && <meta name="robots" content="noindex, nofollow" />}
+      </head>
       <body className="min-h-full flex flex-col">
         {/* JSON-LD 구조화 데이터 - 검색 엔진 최적화(SEO)용 */}
         <script
