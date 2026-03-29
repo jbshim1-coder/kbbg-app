@@ -42,6 +42,7 @@ export async function GET(request: NextRequest) {
           const result = await fetchHiraClinics({
             dgsbjtCd: subjectCd,
             sidoCd: sidoCd,
+            clCd: "31", // 의원만 수집 (종합병원/대학병원 제외)
             numOfRows: 100,
             pageNo: 1,
           });
