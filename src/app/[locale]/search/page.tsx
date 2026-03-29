@@ -49,7 +49,7 @@ export default function SearchPage() {
   const totalCount = clinicResults.length + postResults.length + faqResults.length;
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-stone-50">
       <div className="max-w-3xl mx-auto px-4 py-10">
 
         {/* 제목 + 검색어 */}
@@ -79,7 +79,7 @@ export default function SearchPage() {
               {clinicResults.map((clinic) => (
                 <li
                   key={clinic.id}
-                  className="bg-white rounded-xl border border-gray-100 px-5 py-4 shadow-sm"
+                  className="bg-white rounded-xl border border-stone-100 px-5 py-4 shadow-sm"
                 >
                   <p className="font-semibold text-gray-800">
                     {locale === "ko" ? clinic.name : clinic.nameEn}
@@ -129,7 +129,7 @@ export default function SearchPage() {
               {faqResults.map((faq) => (
                 <li
                   key={faq.id}
-                  className="bg-white rounded-xl border border-gray-100 px-5 py-4 shadow-sm"
+                  className="bg-white rounded-xl border border-stone-100 px-5 py-4 shadow-sm"
                 >
                   <p className="font-semibold text-gray-800">{faq.question}</p>
                   <p className="text-sm text-gray-600 mt-1 line-clamp-3">{faq.answer}</p>

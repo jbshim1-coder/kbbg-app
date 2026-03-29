@@ -88,7 +88,7 @@ export default function FaqPage() {
       </section>
 
       {/* 카테고리 필터 탭 */}
-      <section className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-3">
+      <section className="sticky top-0 z-10 bg-white border-b border-stone-100 px-4 py-3">
         <div className="mx-auto max-w-3xl flex gap-2 overflow-x-auto pb-1">
           {ALL_CATEGORIES.map((cat) => (
             <button
@@ -114,12 +114,12 @@ export default function FaqPage() {
             return (
               <div
                 key={faq.id}
-                className="rounded-2xl border border-gray-100 overflow-hidden"
+                className="rounded-2xl border border-stone-100 overflow-hidden"
               >
                 {/* 질문 헤더 — 클릭으로 토글 */}
                 <button
                   onClick={() => toggleOpen(faq.id)}
-                  className="w-full flex items-start justify-between gap-4 px-6 py-4 text-left hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-start justify-between gap-4 px-6 py-4 text-left hover:bg-stone-50 transition-colors"
                   aria-expanded={isOpen}
                 >
                   <span className="font-medium text-gray-900 text-sm leading-relaxed">

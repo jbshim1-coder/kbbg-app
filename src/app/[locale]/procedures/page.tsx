@@ -46,7 +46,7 @@ export default async function ProceduresPage() {
             {CATEGORY_KEYS.map((key) => (
               <div
                 key={key}
-                className="rounded-xl border border-gray-100 bg-gray-50 px-4 py-5 text-center text-sm font-medium text-gray-700"
+                className="rounded-xl border border-stone-100 bg-stone-50 px-4 py-5 text-center text-sm font-medium text-gray-700"
               >
                 {t(key)}
               </div>

@@ -37,13 +37,13 @@ export default async function HomePage({
   const t = await getTranslations();
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-stone-50">
 
       {/* ━━━ 히어로: 한국 명소 롤링 + AI 검색 ━━━ */}
       <HeroSlider locale={locale} />
 
       {/* ━━━ AI 얼굴 분석 + 병원 찾기 — 2분할 ━━━ */}
-      <section className="bg-white px-4 py-12 border-b border-gray-100">
+      <section className="bg-white px-4 py-12 border-b border-stone-100">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* 서비스 2: AI 얼굴 분석 */}
@@ -53,7 +53,7 @@ export default async function HomePage({
 
           {/* 서비스 3: 병원 찾기 */}
           <div className="rounded-2xl bg-white shadow-sm overflow-hidden">
-            <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-gray-100">
+            <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-stone-100">
               <div>
                 <h2 className="text-base font-bold text-gray-900">조건별 병원검색</h2>
                 <p className="text-xs text-gray-400">진료과·지역·유형으로 실시간 검색</p>
@@ -77,7 +77,7 @@ export default async function HomePage({
       />
 
       {/* ━━━ 운영자에게 병원 추천 받기 ━━━ */}
-      <section className="px-4 py-10 bg-gray-50 border-b border-gray-100">
+      <section className="px-4 py-10 bg-stone-50 border-b border-stone-100">
         <div className="mx-auto max-w-6xl">
           <div className="bg-white rounded-2xl shadow-sm p-8">
             <div className="flex items-center gap-3 mb-5">
@@ -92,7 +92,7 @@ export default async function HomePage({
       </section>
 
       {/* ━━━ 인기 진료과 + 사이드바 ━━━ */}
-      <section className="px-4 py-12 bg-gray-50">
+      <section className="px-4 py-12 bg-stone-50">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           {/* 왼쪽: 인기 진료과 + 커뮤니티 */}
@@ -106,7 +106,7 @@ export default async function HomePage({
             <div>
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-gray-900">{t("community_preview.title")}</h2>
-                <Link href={`/${locale}/community`} className="text-sm text-slate-700 hover:text-slate-800 transition-colors">
+                <Link href={`/${locale}/community`} className="text-sm text-rose-500 hover:text-rose-500 transition-colors">
                   {t("community_preview.view_all")}
                 </Link>
               </div>
@@ -180,7 +180,7 @@ export default async function HomePage({
               <Link
                 key={ch.id}
                 href={`/${locale}/live`}
-                className="group relative overflow-hidden rounded-xl border border-slate-700 hover:border-slate-500 transition-colors"
+                className="group relative overflow-hidden rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
               >
                 <div className="relative aspect-video bg-slate-800">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

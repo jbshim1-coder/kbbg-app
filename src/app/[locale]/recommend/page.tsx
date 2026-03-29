@@ -125,7 +125,7 @@ export default function RecommendPage() {
   // 시작 화면
   if (currentStep === 0) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-stone-50 px-4">
         <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm text-center">
           <p className="text-4xl">🤖</p>
           <h1 className="mt-4 text-2xl font-bold text-gray-900">{t("recommend.title")}</h1>
@@ -149,7 +149,7 @@ export default function RecommendPage() {
     // 광고를 두 번째 위치에 삽입
     const allClinics = [RESULTS[0], AD_CLINIC, RESULTS[1], RESULTS[2]];
     return (
-      <main className="min-h-screen bg-gray-50 px-4 py-12">
+      <main className="min-h-screen bg-stone-50 px-4 py-12">
         <div className="mx-auto max-w-2xl">
           <h1 className="text-2xl font-bold text-gray-900">{t("recommend.results_title")}</h1>
           <p className="mt-1 text-gray-500">{t("recommend.results_subtitle", { conditions: answers.join(" · ") })}</p>
@@ -206,7 +206,7 @@ export default function RecommendPage() {
           {/* 재추천 버튼 */}
           <button
             onClick={handleReset}
-            className="mt-8 w-full rounded-xl border border-gray-300 py-3 font-semibold text-gray-700 hover:bg-gray-50"
+            className="mt-8 w-full rounded-xl border border-stone-300 py-3 font-semibold text-gray-700 hover:bg-stone-50"
           >
             {t("recommend.try_again")}
           </button>
@@ -221,7 +221,7 @@ export default function RecommendPage() {
   const progress = (currentStep / STEPS.length) * 100;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-stone-50 px-4">
       <div className="w-full max-w-md">
         {/* 진행 표시바 */}
         <div className="mb-6">

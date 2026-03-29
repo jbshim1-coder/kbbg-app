@@ -223,8 +223,8 @@ export default function EventsPage() {
   const filtered = filter === "all" ? EVENTS : EVENTS.filter(e => e.category === filter);
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-100 px-4 py-8">
+    <main className="min-h-screen bg-stone-50">
+      <div className="bg-white border-b border-stone-100 px-4 py-8">
         <div className="mx-auto max-w-4xl">
           <h1 className="text-2xl font-bold text-gray-900">
             {isKo ? "이벤트 · 시술 특가" : "Events & Special Offers"}
@@ -249,8 +249,8 @@ export default function EventsPage() {
               onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === f
-                  ? "bg-slate-800 text-white"
-                  : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                  ? "bg-rose-400 text-white"
+                  : "bg-white border border-stone-200 text-gray-600 hover:bg-stone-50"
               }`}
             >
               {f === "all" ? (isKo ? "전체" : "All") : f}
@@ -261,11 +261,11 @@ export default function EventsPage() {
         {/* 이벤트 목록 */}
         <div className="space-y-4">
           {filtered.map(event => (
-            <div key={event.id} className="bg-white rounded-lg border border-gray-200 p-5">
+            <div key={event.id} className="bg-white rounded-lg border border-stone-200 p-5">
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-medium text-white bg-slate-700 px-2 py-0.5 rounded">
+                    <span className="text-xs font-medium text-white bg-rose-400 px-2 py-0.5 rounded">
                       {event.category}
                     </span>
                     <span className="text-xs text-gray-400">{event.area}</span>
@@ -278,7 +278,7 @@ export default function EventsPage() {
                     href={event.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-slate-600 hover:underline shrink-0 ml-3"
+                    className="text-xs text-stone-600 hover:underline shrink-0 ml-3"
                   >
                     {isKo ? "홈페이지 →" : "Website →"}
                   </a>

@@ -95,7 +95,7 @@ export default function NewPostPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10">
+    <main className="min-h-screen bg-stone-50 px-4 py-10">
       <div className="mx-auto max-w-2xl">
         <h1 className="text-2xl font-bold text-gray-900">{t("community.write_title")}</h1>
 
@@ -108,7 +108,7 @@ export default function NewPostPage() {
             <select
               value={categoryKey}
               onChange={(e) => setCategoryKey(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400 bg-white"
+              className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400 bg-white"
             >
               <option value="">{locale === "ko" ? "카테고리를 선택하세요" : "Select a category"}</option>
               {CATEGORY_KEYS.map((catKey) => (
@@ -130,7 +130,7 @@ export default function NewPostPage() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder={t("community.title_placeholder")}
               maxLength={100}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
+              className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
             {/* 글자 수 카운터 */}
             <p className="mt-1 text-right text-xs text-gray-400">{title.length}/100</p>
@@ -146,7 +146,7 @@ export default function NewPostPage() {
               onChange={(e) => setBody(e.target.value)}
               placeholder={t("community.content_placeholder")}
               rows={10}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
+              className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
           </div>
 
@@ -166,7 +166,7 @@ export default function NewPostPage() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 rounded-xl border border-gray-300 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+              className="flex-1 rounded-xl border border-stone-300 py-3 text-sm font-semibold text-gray-700 hover:bg-stone-50"
             >
               {t("community.cancel")}
             </button>

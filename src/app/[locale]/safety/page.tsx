@@ -43,7 +43,7 @@ export default async function SafetyPage() {
       <section className="px-4 py-14">
         <div className="mx-auto max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6">
           {SAFETY_TIPS.map((tip) => (
-            <div key={tip.titleKey} className="rounded-2xl border border-gray-100 p-6">
+            <div key={tip.titleKey} className="rounded-2xl border border-stone-100 p-6">
               <p className="text-2xl">{tip.icon}</p>
               <h2 className="mt-3 font-semibold text-gray-900">{t(tip.titleKey)}</h2>
               <p className="mt-2 text-sm text-gray-500 leading-relaxed">{t(tip.descKey)}</p>
@@ -53,7 +53,7 @@ export default async function SafetyPage() {
       </section>
 
       {/* 긴급 연락처 안내 */}
-      <section className="border-t border-gray-100 bg-gray-50 px-4 py-12 text-center">
+      <section className="border-t border-stone-100 bg-stone-50 px-4 py-12 text-center">
         <h2 className="font-bold text-gray-900">{t("safety.emergency_title")}</h2>
         <div className="mt-4 flex flex-col sm:flex-row justify-center gap-6 text-sm text-gray-600">
           <span>{t("safety.emergency_line")}</span>

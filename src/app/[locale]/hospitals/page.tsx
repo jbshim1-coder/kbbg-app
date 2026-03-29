@@ -139,7 +139,7 @@ export default function HospitalsPage() {
   const isKo = locale === "ko";
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-stone-50">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
           {isKo ? "병원 찾기" : "Find Clinics"}
@@ -154,7 +154,7 @@ export default function HospitalsPage() {
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "지역" : "Region"}</label>
               <select value={region} onChange={(e) => setRegion(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400">
+                className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-rose-300">
                 <option value="">{isKo ? "전체 지역" : "All Regions"}</option>
                 {Object.entries(SIDO_CODES).map(([code, name]) => (
                   <option key={code} value={code}>{name}</option>
@@ -164,7 +164,7 @@ export default function HospitalsPage() {
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "진료과" : "Specialty"}</label>
               <select value={subject} onChange={(e) => setSubject(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400">
+                className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-rose-300">
                 <option value="">{isKo ? "전체 진료과" : "All Specialties"}</option>
                 {Object.entries(SUBJECT_CODES).map(([code, name]) => (
                   <option key={code} value={code}>{name}</option>
@@ -173,7 +173,7 @@ export default function HospitalsPage() {
             </div>
           </div>
           <button type="submit" disabled={loading}
-            className="mt-4 w-full sm:w-auto px-8 py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 disabled:bg-slate-400 transition">
+            className="mt-4 w-full sm:w-auto px-8 py-2.5 bg-rose-400 text-white rounded-xl text-sm font-semibold hover:bg-rose-500 disabled:bg-rose-300 transition">
             {loading ? (isKo ? "검색 중..." : "Searching...") : (isKo ? "검색" : "Search")}
           </button>
         </form>
@@ -187,10 +187,10 @@ export default function HospitalsPage() {
 
             {/* 광고 카드 — 검색 결과 최상단에 "광고" 라벨과 함께 표시 */}
             {topAd && (
-              <div className="mb-4 bg-gray-50 border border-gray-200 rounded-2xl p-5 shadow-sm">
+              <div className="mb-4 bg-stone-50 border border-stone-200 rounded-2xl p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-1">
                   {/* 광고임을 명시하는 라벨 */}
-                  <span className="text-xs font-semibold text-slate-700 bg-gray-200 px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-semibold text-rose-500 bg-stone-200 px-2 py-0.5 rounded-full">
                     광고
                   </span>
                   <span className="text-xs text-gray-500">{topAd.hospitalName}</span>
@@ -204,7 +204,7 @@ export default function HospitalsPage() {
                     href={topAd.linkUrl}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
-                    className="inline-block mt-2 text-xs text-slate-700 hover:underline"
+                    className="inline-block mt-2 text-xs text-rose-500 hover:underline"
                   >
                     {isKo ? "자세히 보기 →" : "Learn more →"}
                   </a>
@@ -214,15 +214,15 @@ export default function HospitalsPage() {
 
             {/* AI 분석 카드 */}
             {(aiLoading || aiAnalysis) && (
-              <div className="mb-6 bg-slate-50 border border-slate-200 rounded-2xl p-5 shadow-sm">
+              <div className="mb-6 bg-rose-50 border border-stone-200 rounded-2xl p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-lg">🤖</span>
-                  <span className="text-sm font-bold text-slate-800">
+                  <span className="text-sm font-bold text-stone-800">
                     {isKo ? "AI 추천 분석" : "AI Recommendation"}
                   </span>
                 </div>
                 {aiLoading ? (
-                  <p className="text-sm text-slate-700 animate-pulse">
+                  <p className="text-sm text-rose-500 animate-pulse">
                     {isKo ? "AI가 병원을 분석하고 있습니다..." : "AI is analyzing hospitals..."}
                   </p>
                 ) : (
@@ -247,7 +247,7 @@ export default function HospitalsPage() {
                       {clinic.hospUrl && (
                         <a href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="text-xs text-slate-700 hover:underline shrink-0 ml-3">
+                          className="text-xs text-rose-500 hover:underline shrink-0 ml-3">
                           {isKo ? "홈페이지" : "Website"}
                         </a>
                       )}
@@ -268,10 +268,10 @@ export default function HospitalsPage() {
             {totalPages > 1 && (
               <div className="flex justify-center gap-2 mt-8">
                 <button onClick={() => handleSearch(page - 1)} disabled={page <= 1}
-                  className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50">←</button>
+                  className="px-3 py-1.5 text-sm border border-stone-200 rounded-lg disabled:opacity-30 hover:bg-stone-50">←</button>
                 <span className="px-3 py-1.5 text-sm text-gray-600">{page} / {totalPages}</span>
                 <button onClick={() => handleSearch(page + 1)} disabled={page >= totalPages}
-                  className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50">→</button>
+                  className="px-3 py-1.5 text-sm border border-stone-200 rounded-lg disabled:opacity-30 hover:bg-stone-50">→</button>
               </div>
             )}
           </>

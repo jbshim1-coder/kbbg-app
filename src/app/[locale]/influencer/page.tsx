@@ -33,8 +33,8 @@ export default function InfluencerPage() {
 
   if (submitted) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+      <main className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
+        <div className="max-w-md bg-white rounded-2xl shadow-sm border border-stone-100 p-8 text-center">
           <p className="text-4xl">🎉</p>
           <h2 className="mt-4 text-xl font-bold text-gray-900">
             {isKo ? "신청이 접수되었습니다!" : "Application Received!"}
@@ -74,7 +74,7 @@ export default function InfluencerPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {BENEFITS.map((b) => (
-              <div key={b.titleKey} className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <div key={b.titleKey} className="bg-stone-50 rounded-2xl p-6 border border-stone-100">
                 <span className="text-3xl">{b.emoji}</span>
                 <h3 className="mt-3 font-semibold text-gray-800">
                   {t(b.titleKey as Parameters<typeof t>[0])}
@@ -89,21 +89,21 @@ export default function InfluencerPage() {
       </section>
 
       {/* 지원 자격 */}
-      <section className="bg-gray-50 px-4 py-14">
+      <section className="bg-stone-50 px-4 py-14">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
             {isKo ? "지원 자격" : "Who Can Apply"}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-            <div className="bg-white rounded-xl p-5 border border-gray-100">
+            <div className="bg-white rounded-xl p-5 border border-stone-100">
               <p className="text-2xl mb-2">📱</p>
               <p className="font-semibold text-gray-800">{isKo ? "SNS 팔로워 1,000명 이상" : "1,000+ SNS Followers"}</p>
             </div>
-            <div className="bg-white rounded-xl p-5 border border-gray-100">
+            <div className="bg-white rounded-xl p-5 border border-stone-100">
               <p className="text-2xl mb-2">💄</p>
               <p className="font-semibold text-gray-800">{isKo ? "뷰티·의료 관련 콘텐츠" : "Beauty/Medical Content"}</p>
             </div>
-            <div className="bg-white rounded-xl p-5 border border-gray-100">
+            <div className="bg-white rounded-xl p-5 border border-stone-100">
               <p className="text-2xl mb-2">🌐</p>
               <p className="font-semibold text-gray-800">{isKo ? "한국어 또는 외국어 가능" : "Korean or Other Languages"}</p>
             </div>
@@ -117,31 +117,31 @@ export default function InfluencerPage() {
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
             {isKo ? "제휴 신청" : "Apply Now"}
           </h2>
-          <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+          <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-stone-100 shadow-sm p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "이름 / 활동명" : "Name"}</label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)} required
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
+                className="w-full px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "이메일" : "Email"}</label>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
+                className="w-full px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "SNS 채널 URL" : "SNS Channel URL"}</label>
               <input type="url" value={sns} onChange={(e) => setSns(e.target.value)} placeholder="https://instagram.com/..."
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
+                className="w-full px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "팔로워 수" : "Followers"}</label>
               <input type="text" value={followers} onChange={(e) => setFollowers(e.target.value)} placeholder="e.g. 50,000"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
+                className="w-full px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "하고 싶은 말" : "Message"}</label>
               <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={3}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
+                className="w-full px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <button type="submit"
               className="w-full py-3 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition">

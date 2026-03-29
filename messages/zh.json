@@ -16,6 +16,10 @@
     "find_clinic": "找医院",
     "kbeauty": "K-Beauty",
     "guides": "手术指南",
+    "ai_search": "AI搜索",
+    "ai_face": "AI面部分析",
+    "hospital_search": "按条件搜索医院",
+    "events": "活动",
     "live_short": "LIVE"
   },
   "hero": {

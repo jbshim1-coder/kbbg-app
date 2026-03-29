@@ -16,6 +16,10 @@
     "find_clinic": "Клиники",
     "kbeauty": "K-Beauty",
     "guides": "Гид",
+    "ai_search": "AI-поиск",
+    "ai_face": "AI-анализ лица",
+    "hospital_search": "Поиск клиник по критериям",
+    "events": "Акции",
     "live_short": "LIVE"
   },
   "hero": {

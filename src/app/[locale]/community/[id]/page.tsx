@@ -139,7 +139,7 @@ export default function PostDetailPage({
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-stone-50">
       <div className="mx-auto max-w-2xl px-4 py-10">
         {/* 뒤로가기 링크 */}
         <Link href={`/${locale}/community`} className="text-sm text-gray-400 hover:text-gray-600">
@@ -180,7 +180,7 @@ export default function PostDetailPage({
               onClick={() => handleVote("down")}
               className={`flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition ${
                 voted === "down"
-                  ? "bg-gray-500 text-white"
+                  ? "bg-stone-500 text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
@@ -190,7 +190,7 @@ export default function PostDetailPage({
 
           {/* 마스터 전용 게시글 삭제 버튼 */}
           {master && (
-            <div className="mt-4 border-t border-gray-100 pt-4">
+            <div className="mt-4 border-t border-stone-100 pt-4">
               <button
                 onClick={() => setPostDeleted(true)}
                 className="text-xs px-3 py-1 bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition-colors"
@@ -235,7 +235,7 @@ export default function PostDetailPage({
 
           {/* 댓글 작성 폼 — 비회원은 회원가입 유도 메시지 표시 */}
           {loggedIn === false ? (
-            <div className="text-center py-4 bg-gray-50 rounded-xl mt-4">
+            <div className="text-center py-4 bg-stone-50 rounded-xl mt-4">
               <p className="text-sm text-gray-500 mb-2">
                 {locale === "ko" ? "댓글을 작성하려면 로그인이 필요합니다" : "Login required to write comments"}
               </p>
@@ -253,7 +253,7 @@ export default function PostDetailPage({
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder={t("community.comment_placeholder")}
                 rows={3}
-                className="w-full rounded-xl border border-gray-200 p-3 text-sm outline-none focus:border-teal-400"
+                className="w-full rounded-xl border border-stone-200 p-3 text-sm outline-none focus:border-teal-400"
               />
               <button
                 type="submit"

@@ -118,9 +118,9 @@ export default async function GuidesPage({
     },
     "korean-medicine": {
       labelKey: "cat_korean_medicine",
-      color: "text-slate-800",
-      bgColor: "bg-slate-50",
-      borderColor: "border-slate-200",
+      color: "text-stone-800",
+      bgColor: "bg-rose-50",
+      borderColor: "border-stone-200",
     },
     urology: {
       labelKey: "cat_urology",
@@ -172,7 +172,7 @@ export default async function GuidesPage({
       </section>
 
       {/* 카테고리 네비게이션 */}
-      <nav className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-3">
+      <nav className="sticky top-0 z-10 bg-white border-b border-stone-100 px-4 py-3">
         <div className="mx-auto max-w-5xl flex gap-2 overflow-x-auto pb-1">
           {CATEGORY_ORDER.map((cat) => {
             const meta = CATEGORY_META[cat];

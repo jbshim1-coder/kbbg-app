@@ -16,6 +16,10 @@
     "find_clinic": "หาคลินิก",
     "kbeauty": "K-Beauty",
     "guides": "คู่มือ",
+    "ai_search": "ค้นหา AI",
+    "ai_face": "วิเคราะห์ใบหน้า AI",
+    "hospital_search": "ค้นหาคลินิกตามเงื่อนไข",
+    "events": "อีเวนต์",
     "live_short": "LIVE"
   },
   "hero": {

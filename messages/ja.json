@@ -16,6 +16,10 @@
     "find_clinic": "病院検索",
     "kbeauty": "K-Beauty",
     "guides": "施術ガイド",
+    "ai_search": "AI検索",
+    "ai_face": "AI顔分析",
+    "hospital_search": "条件別病院検索",
+    "events": "イベント",
     "live_short": "LIVE"
   },
   "hero": {

@@ -112,14 +112,14 @@ function AiSearchContent() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-10 px-4">
+    <main className="min-h-screen bg-stone-50 py-10 px-4">
       <div className="mx-auto max-w-2xl">
         {/* 상단 재검색창 */}
         <div className="mb-8">
           <h1 className="text-xl font-semibold text-gray-800 mb-4">
             {t("ai_search.title" as Parameters<typeof t>[0])}
           </h1>
-          <div className="flex items-center bg-white border border-gray-200 rounded-full shadow-sm px-5 py-3 gap-3">
+          <div className="flex items-center bg-white border border-stone-200 rounded-full shadow-sm px-5 py-3 gap-3">
             <span className="text-gray-300">+</span>
             <input
               type="text"
@@ -203,7 +203,7 @@ function AiSearchContent() {
             {results.map((clinic, idx) => (
               <div
                 key={clinic.ykiho || idx}
-                className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100"
+                className="bg-white rounded-2xl p-5 shadow-sm border border-stone-100"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
