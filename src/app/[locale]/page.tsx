@@ -41,7 +41,7 @@ export default async function HomePage({
       {/* ━━━ AI 맞춤 추천 — 전체 너비 ━━━ */}
       <section className="bg-slate-800 px-4 py-12 border-b border-slate-700">
         <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-2xl shadow-md p-6">
+          <div className="bg-white rounded-2xl shadow-sm p-6">
             <AiSearchBox locale={locale} />
           </div>
         </div>
@@ -52,12 +52,12 @@ export default async function HomePage({
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* 서비스 2: AI 얼굴 분석 */}
-          <div className="rounded-2xl overflow-hidden shadow-md">
+          <div className="rounded-2xl overflow-hidden shadow-sm">
             <FaceAnalysis locale={locale} />
           </div>
 
           {/* 서비스 3: 병원 찾기 */}
-          <div className="rounded-2xl bg-white shadow-md overflow-hidden">
+          <div className="rounded-2xl bg-white shadow-sm overflow-hidden">
             <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-gray-100">
               <div>
                 <h2 className="text-base font-bold text-gray-900">조건별 병원검색</h2>
@@ -75,7 +75,7 @@ export default async function HomePage({
       {/* ━━━ 운영자에게 추천받기 ━━━ */}
       <section className="px-4 py-10 bg-gray-50 border-b border-gray-100">
         <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-2xl shadow-md p-8">
+          <div className="bg-white rounded-2xl shadow-sm p-8">
             <div className="flex items-center gap-3 mb-5">
               <span className="text-3xl">💬</span>
               <h2 className="text-lg font-bold text-gray-900">
@@ -94,7 +94,7 @@ export default async function HomePage({
           {/* 왼쪽: 인기 진료과 + 커뮤니티 */}
           <div className="lg:col-span-2 space-y-8">
 
-            <div className="bg-white rounded-2xl shadow-md p-6">
+            <div className="bg-white rounded-2xl shadow-sm p-6">
               <TopDepartments locale={locale} />
             </div>
 
@@ -102,7 +102,7 @@ export default async function HomePage({
             <div>
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-gray-900">{t("community_preview.title")}</h2>
-                <Link href={`/${locale}/community`} className="text-sm text-emerald-600 hover:text-emerald-700 transition-colors">
+                <Link href={`/${locale}/community`} className="text-sm text-slate-700 hover:text-slate-800 transition-colors">
                   {t("community_preview.view_all")}
                 </Link>
               </div>
@@ -111,7 +111,7 @@ export default async function HomePage({
                   <Link
                     key={post.id}
                     href={`/${locale}/community/${post.id}`}
-                    className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 shadow-md transition-shadow hover:shadow-lg"
+                    className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md"
                   >
                     <div>
                       <span className="mr-2 rounded bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">

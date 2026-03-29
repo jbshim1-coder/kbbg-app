@@ -118,9 +118,9 @@ export default async function GuidesPage({
     },
     "korean-medicine": {
       labelKey: "cat_korean_medicine",
-      color: "text-emerald-700",
-      bgColor: "bg-emerald-50",
-      borderColor: "border-emerald-200",
+      color: "text-slate-800",
+      bgColor: "bg-slate-50",
+      borderColor: "border-slate-200",
     },
     urology: {
       labelKey: "cat_urology",
@@ -211,7 +211,7 @@ export default async function GuidesPage({
                   <Link
                     key={guide.id}
                     href={`/${locale}/guides/${guide.slug}`}
-                    className={`group block rounded-2xl border ${meta.borderColor} ${meta.bgColor} p-5 transition-all hover:shadow-md hover:-translate-y-0.5`}
+                    className={`group block rounded-2xl border ${meta.borderColor} ${meta.bgColor} p-5 transition-all hover:shadow-sm hover:-translate-y-0.5`}
                   >
                     <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${meta.color} bg-white/70 mb-3`}>
                       {t(meta.labelKey as Parameters<typeof t>[0])}

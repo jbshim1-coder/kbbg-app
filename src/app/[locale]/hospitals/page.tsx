@@ -149,12 +149,12 @@ export default function HospitalsPage() {
         </p>
 
         {/* 검색 폼 */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md p-6 mb-8">
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm p-6 mb-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "지역" : "Region"}</label>
               <select value={region} onChange={(e) => setRegion(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400">
                 <option value="">{isKo ? "전체 지역" : "All Regions"}</option>
                 {Object.entries(SIDO_CODES).map(([code, name]) => (
                   <option key={code} value={code}>{name}</option>
@@ -164,7 +164,7 @@ export default function HospitalsPage() {
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "진료과" : "Specialty"}</label>
               <select value={subject} onChange={(e) => setSubject(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400">
                 <option value="">{isKo ? "전체 진료과" : "All Specialties"}</option>
                 {Object.entries(SUBJECT_CODES).map(([code, name]) => (
                   <option key={code} value={code}>{name}</option>
@@ -173,7 +173,7 @@ export default function HospitalsPage() {
             </div>
           </div>
           <button type="submit" disabled={loading}
-            className="mt-4 w-full sm:w-auto px-8 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-semibold hover:bg-emerald-600 disabled:bg-emerald-300 transition">
+            className="mt-4 w-full sm:w-auto px-8 py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 disabled:bg-slate-400 transition">
             {loading ? (isKo ? "검색 중..." : "Searching...") : (isKo ? "검색" : "Search")}
           </button>
         </form>
@@ -204,7 +204,7 @@ export default function HospitalsPage() {
                     href={topAd.linkUrl}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
-                    className="inline-block mt-2 text-xs text-emerald-600 hover:underline"
+                    className="inline-block mt-2 text-xs text-slate-700 hover:underline"
                   >
                     {isKo ? "자세히 보기 →" : "Learn more →"}
                   </a>
@@ -214,15 +214,15 @@ export default function HospitalsPage() {
 
             {/* AI 분석 카드 */}
             {(aiLoading || aiAnalysis) && (
-              <div className="mb-6 bg-emerald-50 border border-emerald-200 rounded-2xl p-5 shadow-sm">
+              <div className="mb-6 bg-slate-50 border border-slate-200 rounded-2xl p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-lg">🤖</span>
-                  <span className="text-sm font-bold text-emerald-700">
+                  <span className="text-sm font-bold text-slate-800">
                     {isKo ? "AI 추천 분석" : "AI Recommendation"}
                   </span>
                 </div>
                 {aiLoading ? (
-                  <p className="text-sm text-emerald-500 animate-pulse">
+                  <p className="text-sm text-slate-700 animate-pulse">
                     {isKo ? "AI가 병원을 분석하고 있습니다..." : "AI is analyzing hospitals..."}
                   </p>
                 ) : (
@@ -238,7 +238,7 @@ export default function HospitalsPage() {
             ) : (
               <div className="space-y-3">
                 {clinics.map((clinic, idx) => (
-                  <div key={clinic.ykiho || idx} className="bg-white rounded-2xl shadow-md p-5">
+                  <div key={clinic.ykiho || idx} className="bg-white rounded-2xl shadow-sm p-5">
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="font-semibold text-gray-800">{clinic.yadmNm}</h3>
@@ -247,7 +247,7 @@ export default function HospitalsPage() {
                       {clinic.hospUrl && (
                         <a href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="text-xs text-emerald-600 hover:underline shrink-0 ml-3">
+                          className="text-xs text-slate-700 hover:underline shrink-0 ml-3">
                           {isKo ? "홈페이지" : "Website"}
                         </a>
                       )}

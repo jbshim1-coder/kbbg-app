@@ -161,7 +161,7 @@ export default function CommunityPage() {
           <h1 className="text-2xl font-bold text-gray-900">{t("community.title")}</h1>
           <Link
             href={loggedIn ? `/${locale}/community/new` : `/${locale}/signup`}
-            className="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 transition-colors"
+            className="rounded-xl bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-900 transition-colors"
           >
             {t("community.new_post")}
           </Link>
@@ -178,13 +178,13 @@ export default function CommunityPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={locale === "ko" ? "제목, 작성자 검색..." : "Search by title, author..."}
-              className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
             />
             <button
               onClick={() => setIsSearchAll(!isSearchAll)}
               className={`px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
                 isSearchAll
-                  ? "bg-emerald-500 text-white"
+                  ? "bg-slate-800 text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
@@ -206,13 +206,13 @@ export default function CommunityPage() {
         <div className="flex gap-3 text-sm mb-4">
           <button
             onClick={() => setSort("popular")}
-            className={`font-medium transition-colors ${sort === "popular" ? "text-emerald-600" : "text-gray-400 hover:text-gray-600"}`}
+            className={`font-medium transition-colors ${sort === "popular" ? "text-slate-700" : "text-gray-400 hover:text-gray-600"}`}
           >
             {t("community.trending")}
           </button>
           <button
             onClick={() => setSort("latest")}
-            className={`font-medium transition-colors ${sort === "latest" ? "text-emerald-600" : "text-gray-400 hover:text-gray-600"}`}
+            className={`font-medium transition-colors ${sort === "latest" ? "text-slate-700" : "text-gray-400 hover:text-gray-600"}`}
           >
             {t("community.latest")}
           </button>
@@ -226,9 +226,9 @@ export default function CommunityPage() {
         ) : (
           <div className="space-y-3">
             {sorted.map((post) => (
-              <div key={post.id} className="bg-white rounded-2xl shadow-md p-5 flex items-start justify-between hover:shadow-lg transition-shadow">
+              <div key={post.id} className="bg-white rounded-2xl shadow-sm p-5 flex items-start justify-between hover:shadow-md transition-shadow">
                 <div className="flex-1">
-                  <span className="text-xs text-emerald-600 font-medium">
+                  <span className="text-xs text-slate-700 font-medium">
                     {t(post.categoryKey as Parameters<typeof t>[0])}
                   </span>
                   <h3 className="mt-1 font-semibold text-gray-800">{post.title}</h3>

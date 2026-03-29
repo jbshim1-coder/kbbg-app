@@ -19,7 +19,7 @@ export default function AdBanner() {
           <span>010-8718-5000</span>
           <span className="hidden sm:inline text-gray-300">|</span>
           <span className="hidden sm:inline">help@2bstory.com</span>
-          <a href="mailto:help@2bstory.com" className="px-4 py-2 bg-emerald-500 text-white text-sm font-semibold rounded-lg hover:bg-emerald-600 transition">
+          <a href="mailto:help@2bstory.com" className="px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 transition">
             문의하기
           </a>
         </div>

@@ -28,7 +28,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
 
       {/* AI 검색창 */}
       <div className="mt-6 mx-auto max-w-2xl">
-        <div className="flex items-center bg-white border border-gray-200 rounded-full shadow-md hover:shadow-lg transition-shadow px-5 py-3">
+        <div className="flex items-center bg-white border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-shadow px-5 py-3">
           <span className="text-gray-300 mr-3">+</span>
           <input
             type="text"
@@ -46,7 +46,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
         {/* AI 추천 시작 버튼 */}
         <button
           onClick={handleSubmit}
-          className="mt-4 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-full transition-colors"
+          className="mt-4 px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-full transition-colors"
         >
           AI 추천 시작
         </button>

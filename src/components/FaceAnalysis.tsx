@@ -160,7 +160,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
         /* 업로드 영역 */
         <button
           onClick={() => fileRef.current?.click()}
-          className="mx-auto block w-full max-w-md py-12 border-2 border-dashed border-gray-300 rounded-2xl hover:border-emerald-400 hover:bg-emerald-50/30 transition"
+          className="mx-auto block w-full max-w-md py-12 border-2 border-dashed border-gray-300 rounded-2xl hover:border-slate-300 hover:bg-slate-50/30 transition"
         >
           <div className="flex flex-col items-center gap-3">
             <span className="text-5xl">📸</span>
@@ -173,7 +173,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
       ) : !analysis ? (
         /* 미리보기 + 분석 시작 */
         <div className="flex flex-col items-center gap-4">
-          <div className="w-40 h-40 rounded-2xl overflow-hidden border-2 border-gray-200 shadow-md">
+          <div className="w-40 h-40 rounded-2xl overflow-hidden border-2 border-gray-200 shadow-sm">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={image} alt="selfie" className="w-full h-full object-cover" />
           </div>
@@ -187,7 +187,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
             <button
               onClick={handleAnalyze}
               disabled={loading}
-              className="px-8 py-2.5 text-sm rounded-xl bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition disabled:opacity-50"
+              className="px-8 py-2.5 text-sm rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-900 transition disabled:opacity-50"
             >
               {loading
                 ? (isKo ? "AI 분석 중..." : "Analyzing...")
@@ -199,7 +199,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
               <div className="relative w-16 h-16">
                 <span className="absolute inset-0 flex items-center justify-center text-3xl animate-spin" style={{ animationDuration: "2s" }}>⏳</span>
               </div>
-              <p className="text-sm text-emerald-600 font-medium animate-pulse">
+              <p className="text-sm text-slate-700 font-medium animate-pulse">
                 {isKo ? "AI가 분석하고 있습니다. 잠시만 기다려주세요..." : "AI is analyzing your photo. Please wait..."}
               </p>
             </div>
@@ -220,7 +220,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
             </button>
             <button
               onClick={() => setFullscreen(true)}
-              className="px-8 py-3 text-sm rounded-xl bg-slate-800 text-white font-bold hover:bg-slate-900 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="px-8 py-3 text-sm rounded-xl bg-slate-800 text-white font-bold hover:bg-slate-900 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               {isKo ? "🪞 분석 결과 & 맞춤 병원 보기" : "🪞 View Results & Hospital Match"}
             </button>
@@ -266,7 +266,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
           <div className="flex flex-col sm:flex-row gap-6 mb-8">
             {/* 업로드된 이미지 */}
             <div className="shrink-0 mx-auto sm:mx-0">
-              <div className="w-48 h-48 rounded-2xl overflow-hidden border-4 border-gray-100 shadow-md">
+              <div className="w-48 h-48 rounded-2xl overflow-hidden border-4 border-gray-100 shadow-sm">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={image!} alt="selfie" className="w-full h-full object-cover" />
               </div>
@@ -290,7 +290,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
             <div className="text-center">
               <button
                 onClick={handleRecommendClick}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-500 text-white text-base font-bold rounded-2xl shadow-md hover:bg-emerald-600 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-slate-800 text-white text-base font-bold rounded-2xl shadow-sm hover:bg-slate-900 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
                 <span className="text-xl">🏥</span>
                 {isKo ? "분석 결과 기반 맞춤 병원 추천받기" : "Get Hospital Recommendations"}
@@ -320,7 +320,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                   <select
                     value={region}
                     onChange={(e) => setRegion(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400"
                   >
                     {Object.entries(SIDO_CODES).map(([code, name]) => (
                       <option key={code} value={code}>{name}</option>
@@ -334,7 +334,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                   <select
                     value={selectedSubject}
                     onChange={(e) => setSelectedSubject(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400"
                   >
                     {/* AI가 추천한 진료과를 상단에 표시 */}
                     {subjectCodes.map((code) => (
@@ -357,7 +357,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                   <select
                     value={hospType}
                     onChange={(e) => setHospType(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400"
                   >
                     <option value="">{isKo ? "전체" : "All"}</option>
                     <option value="31">{isKo ? "의원 (전문클리닉)" : "Clinic"}</option>
@@ -370,7 +370,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                   <button
                     onClick={handleFilterChange}
                     disabled={hospLoading}
-                    className="px-6 py-2 bg-emerald-500 text-white text-sm font-semibold rounded-xl hover:bg-emerald-600 disabled:opacity-50 transition"
+                    className="px-6 py-2 bg-slate-800 text-white text-sm font-semibold rounded-xl hover:bg-slate-900 disabled:opacity-50 transition"
                   >
                     {hospLoading
                       ? (isKo ? "검색 중..." : "Searching...")
@@ -405,7 +405,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                   {clinics.map((clinic, idx) => (
                     <div
                       key={clinic.ykiho || idx}
-                      className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition"
+                      className="bg-white rounded-2xl shadow-sm p-5 hover:shadow-md transition"
                     >
                       <div className="flex items-start justify-between">
                         <div>
@@ -419,7 +419,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                             href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-emerald-600 hover:underline shrink-0 ml-3"
+                            className="text-xs text-slate-700 hover:underline shrink-0 ml-3"
                           >
                             {isKo ? "홈페이지" : "Website"}
                           </a>

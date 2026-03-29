@@ -50,7 +50,7 @@ export default function InfluencerPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* 히어로 */}
-      <section className="bg-gradient-to-br from-teal-50 to-cyan-50 px-4 py-16 text-center">
+      <section className="bg-gradient-to-br from-slate-50 to-gray-100 px-4 py-16 text-center">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
             {isKo ? "인플루언서 제휴" : "Influencer Partnership"}

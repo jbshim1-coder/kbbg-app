@@ -67,7 +67,7 @@ export default async function Footer({ locale }: { locale: string }) {
               <p>{t("footer.company_info")}</p>
               <a
                 href="mailto:help@2bstory.com"
-                className="inline-flex items-center gap-1 hover:text-emerald-600 transition-colors"
+                className="inline-flex items-center gap-1 hover:text-slate-700 transition-colors"
               >
                 <Mail size={12} />
                 help@2bstory.com
@@ -86,7 +86,7 @@ export default async function Footer({ locale }: { locale: string }) {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-500 hover:text-emerald-600 transition-colors"
+                      className="text-sm text-gray-500 hover:text-slate-700 transition-colors"
                     >
                       {t(link.labelKey as Parameters<typeof t>[0])}
                     </Link>
@@ -116,7 +116,7 @@ export default async function Footer({ locale }: { locale: string }) {
                 )}
                 <Link
                   href={link.href}
-                  className="text-xs text-gray-400 hover:text-emerald-600 transition-colors"
+                  className="text-xs text-gray-400 hover:text-slate-700 transition-colors"
                 >
                   {t(link.labelKey as Parameters<typeof t>[0])}
                 </Link>

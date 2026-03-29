@@ -97,7 +97,7 @@ export default function CosmeticsPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* 히어로 */}
-      <section className="bg-gradient-to-br from-teal-50 to-orange-50 px-4 py-12 text-center">
+      <section className="bg-gradient-to-br from-slate-50 to-orange-50 px-4 py-12 text-center">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
             {isKo ? "화장품 랭킹" : "Cosmetics Ranking"}
@@ -194,7 +194,7 @@ export default function CosmeticsPage() {
                   href={item.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition hover:shadow-md"
+                  className="flex items-center gap-4 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition hover:shadow-sm"
                 >
                   <div
                     className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${

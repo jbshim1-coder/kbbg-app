@@ -17,7 +17,7 @@ interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {}
 // 변형별 스타일 맵 — flat(그림자 없음), raised(그림자 있음), bordered(테두리)
 const variantStyles: Record<CardVariant, string> = {
   flat: "bg-white",
-  raised: "bg-white shadow-md",
+  raised: "bg-white shadow-sm",
   bordered: "bg-white border border-gray-200",
 };
 
@@ -50,7 +50,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
         variantStyles[variant],
         paddingStyles[padding],
         hoverable
-          ? "transition-shadow duration-200 hover:shadow-lg cursor-pointer"
+          ? "transition-shadow duration-200 hover:shadow-md cursor-pointer"
           : "",
         className,
       ]

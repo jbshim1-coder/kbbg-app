@@ -35,7 +35,7 @@ const TRENDING_SEARCHES = [
 // 순위별 색상 — 1~3위는 강조색
 function getRankColor(rank: number): string {
   if (rank === 1) return "text-red-500 font-bold";
-  if (rank === 2) return "text-emerald-600 font-bold";
+  if (rank === 2) return "text-slate-700 font-bold";
   if (rank === 3) return "text-orange-400 font-bold";
   return "text-gray-400";
 }
@@ -48,7 +48,7 @@ export default function TrendingSidebar() {
   return (
     <aside className="w-full space-y-4">
       {/* 실시간 인기 게시글 */}
-      <div className="rounded-2xl bg-white shadow-md overflow-hidden">
+      <div className="rounded-2xl bg-white shadow-sm overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100">
           <span className="text-base">🔥</span>
           <h3 className="text-sm font-bold text-gray-900">
@@ -78,7 +78,7 @@ export default function TrendingSidebar() {
       </div>
 
       {/* 실시간 인기 검색어 */}
-      <div className="rounded-2xl bg-white shadow-md overflow-hidden">
+      <div className="rounded-2xl bg-white shadow-sm overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100">
           <span className="text-base">📈</span>
           <h3 className="text-sm font-bold text-gray-900">

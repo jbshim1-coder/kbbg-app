@@ -166,7 +166,7 @@ export default function Header() {
                 key={link.href}
                 href={localePath(link.href)}
                 className="px-3 py-2 rounded-lg text-sm font-medium text-gray-700
-                  hover:text-emerald-600 hover:bg-emerald-50 transition-colors duration-150"
+                  hover:text-slate-700 hover:bg-slate-50 transition-colors duration-150"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
@@ -185,7 +185,7 @@ export default function Header() {
                 aria-expanded={langOpen}
                 aria-haspopup="listbox"
                 className="flex items-center gap-1 p-2 rounded-lg text-gray-500
-                  hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                  hover:text-slate-700 hover:bg-slate-50 transition-colors"
               >
                 <Globe size={18} />
                 <span className="hidden sm:inline text-sm font-medium">
@@ -217,7 +217,7 @@ export default function Header() {
                       className={[
                         "w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors",
                         currentLocale.code === locale.code
-                          ? "bg-emerald-50 text-emerald-700 font-medium"
+                          ? "bg-slate-50 text-slate-800 font-medium"
                           : "text-gray-700 hover:bg-gray-50",
                       ].join(" ")}
                     >
@@ -235,7 +235,7 @@ export default function Header() {
                 <>
                   <Link
                     href={localePath("/mypage")}
-                    className="flex items-center gap-1.5 text-sm text-gray-600 truncate max-w-[120px] hover:text-emerald-600 transition-colors"
+                    className="flex items-center gap-1.5 text-sm text-gray-600 truncate max-w-[120px] hover:text-slate-700 transition-colors"
                   >
                     {user.user_metadata?.full_name || user.email?.split("@")[0]}
                     <LevelBadge
@@ -263,8 +263,8 @@ export default function Header() {
                   </Link>
                   <Link
                     href={localePath("/signup")}
-                    className="px-3 py-1.5 text-sm font-medium rounded-lg bg-emerald-500
-                      text-white hover:bg-emerald-600 transition-colors"
+                    className="px-3 py-1.5 text-sm font-medium rounded-lg bg-slate-800
+                      text-white hover:bg-slate-900 transition-colors"
                   >
                     {t("nav.signup")}
                   </Link>
@@ -299,7 +299,7 @@ export default function Header() {
               <Link
                 key={key}
                 href={localePath(`/community?cat=${key}`)}
-                className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-emerald-700 hover:bg-emerald-50 transition-colors whitespace-nowrap"
+                className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-slate-800 hover:bg-slate-50 transition-colors whitespace-nowrap"
               >
                 {t(`community.${key}` as Parameters<typeof t>[0])}
               </Link>
@@ -319,7 +319,7 @@ export default function Header() {
                 href={localePath(link.href)}
                 onClick={() => setMobileOpen(false)}
                 className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700
-                  hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
+                  hover:bg-slate-50 hover:text-slate-700 transition-colors"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
@@ -332,7 +332,7 @@ export default function Header() {
               href={localePath("/login")}
               onClick={() => setMobileOpen(false)}
               className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
-                border border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition-colors"
+                border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
             >
               {t("nav.login")}
             </Link>
@@ -340,7 +340,7 @@ export default function Header() {
               href={localePath("/signup")}
               onClick={() => setMobileOpen(false)}
               className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
-                bg-emerald-500 text-white hover:bg-emerald-600 transition-colors"
+                bg-slate-800 text-white hover:bg-slate-900 transition-colors"
             >
               {t("nav.signup")}
             </Link>

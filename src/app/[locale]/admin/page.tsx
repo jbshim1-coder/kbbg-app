@@ -55,7 +55,7 @@ export default function AdminDashboard() {
           <Link
             key={card.href}
             href={card.href}
-            className={`block rounded-xl border p-6 hover:shadow-md transition-shadow ${card.color}`}
+            className={`block rounded-xl border p-6 hover:shadow-sm transition-shadow ${card.color}`}
           >
             <div className="text-3xl mb-3">{card.icon}</div>
             <h3 className="font-semibold text-gray-800 text-lg">{card.label}</h3>
