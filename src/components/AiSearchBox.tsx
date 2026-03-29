@@ -39,7 +39,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
       </h1>
 
       <div className="mt-6 mx-auto max-w-2xl">
-        <div className="flex items-center bg-white border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-shadow px-5 py-3">
+        <div className="flex items-center bg-white border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-shadow px-5 min-h-[52px]">
           <span className="text-gray-300 mr-3">+</span>
           <input
             type="text"
@@ -47,7 +47,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={t("filter.ai_placeholder" as Parameters<typeof t>[0])}
-            className="flex-1 text-sm text-gray-800 placeholder-gray-400 outline-none bg-transparent focus:ring-0"
+            className="flex-1 text-sm text-gray-800 placeholder-gray-400 outline-none bg-transparent focus:ring-0 py-3"
           />
           <span className="ml-3 text-gray-400 text-xs font-medium flex items-center gap-1">
             ✦ AI
@@ -56,7 +56,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
 
         <button
           onClick={handleSubmit}
-          className="mt-4 px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-full transition-colors"
+          className="mt-4 px-8 py-3 min-h-[44px] bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-full transition-colors"
         >
           AI 추천 시작
         </button>

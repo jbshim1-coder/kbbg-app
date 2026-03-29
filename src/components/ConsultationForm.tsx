@@ -69,7 +69,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "성명 *" : "Name *"}
           </label>
           <input name="name" value={form.name} onChange={handleChange} required
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+            className="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 min-h-[44px]"
             placeholder={isKo ? "홍길동" : "Your name"} />
         </div>
         <div>
@@ -77,15 +77,15 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "이메일 *" : "Email *"}
           </label>
           <input name="email" type="email" value={form.email} onChange={handleChange} required
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+            className="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 min-h-[44px]"
             placeholder="email@example.com" />
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">
             {isKo ? "나이" : "Age"}
           </label>
-          <input name="age" value={form.age} onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+          <input name="age" type="number" inputMode="numeric" value={form.age} onChange={handleChange}
+            className="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 min-h-[44px]"
             placeholder={isKo ? "30" : "30"} />
         </div>
         <div>
@@ -93,7 +93,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "한국에서 지역" : "Region in Korea"}
           </label>
           <input name="region" value={form.region} onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+            className="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 min-h-[44px]"
             placeholder={isKo ? "서울 강남" : "Seoul Gangnam"} />
         </div>
         <div>
@@ -101,7 +101,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "국적" : "Nationality"}
           </label>
           <input name="nationality" value={form.nationality} onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+            className="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 min-h-[44px]"
             placeholder={isKo ? "대한민국" : "USA"} />
         </div>
         <div>
@@ -109,7 +109,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "성별" : "Gender"}
           </label>
           <select name="gender" value={form.gender} onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400">
+            className="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400 min-h-[44px]">
             <option value="">{isKo ? "선택" : "Select"}</option>
             <option value="male">{isKo ? "남성" : "Male"}</option>
             <option value="female">{isKo ? "여성" : "Female"}</option>

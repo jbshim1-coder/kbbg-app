@@ -10,7 +10,7 @@ export default function BeautyMoodBanner({
   titleEn = "Experience the Difference",
   subKo = "한국 피부과 전문의가 추천하는 맞춤 시술",
   subEn = "Personalized treatments recommended by Korean dermatologists",
-  height = "h-[260px] sm:h-[320px]",
+  height = "h-[300px] sm:h-[320px]",
 }: {
   image?: string;
   titleKo?: string;

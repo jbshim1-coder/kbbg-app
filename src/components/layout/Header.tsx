@@ -320,15 +320,15 @@ export default function Header() {
               )}
             </div>
 
-            {/* 모바일 햄버거 버튼 — lg 미만에서만 표시 */}
+            {/* 모바일 햄버거 버튼 — lg 미만에서만 표시, 최소 44px 터치 타겟 보장 */}
             <button
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? t("common.back") : t("nav.home")}
               aria-expanded={mobileOpen}
-              className="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
+              className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
             >
               {/* 메뉴 열림 여부에 따라 X 또는 햄버거 아이콘 전환 */}
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
@@ -359,14 +359,14 @@ export default function Header() {
       {/* ── 모바일 메뉴 패널 ── */}
       {mobileOpen && (
         <div className="lg:hidden border-t border-gray-100 bg-white">
-          {/* 모바일 네비 링크 */}
-          <nav aria-label={t("nav.home")} className="px-4 py-2 flex flex-col gap-1">
+          {/* 모바일 네비 링크 — 최소 44px 터치 타겟 보장 */}
+          <nav aria-label={t("nav.home")} className="px-4 py-2 flex flex-col gap-0.5">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={localePath(link.href)}
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700
+                className="px-3 min-h-[44px] flex items-center rounded-lg text-sm font-medium text-gray-700
                   hover:bg-slate-50 hover:text-slate-700 transition-colors"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}

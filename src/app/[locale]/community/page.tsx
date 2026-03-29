@@ -259,11 +259,11 @@ function CommunityContent() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={isKo ? "제목, 작성자 검색..." : "Search by title, author..."}
-              className="flex-1 px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
+              className="flex-1 px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 min-h-[44px]"
             />
             <button
               onClick={() => setIsSearchAll(!isSearchAll)}
-              className={`px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
+              className={`px-4 min-h-[44px] rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
                 isSearchAll
                   ? "bg-rose-400 text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -283,17 +283,17 @@ function CommunityContent() {
           )}
         </div>
 
-        {/* 정렬 옵션 */}
-        <div className="flex gap-3 text-sm mb-4">
+        {/* 정렬 옵션 — 44px 터치 타겟 보장 */}
+        <div className="flex gap-1 text-sm mb-4">
           <button
             onClick={() => setSort("popular")}
-            className={`font-medium transition-colors ${sort === "popular" ? "text-rose-500" : "text-gray-400 hover:text-gray-600"}`}
+            className={`min-h-[44px] px-3 font-medium transition-colors ${sort === "popular" ? "text-rose-500" : "text-gray-400 hover:text-gray-600"}`}
           >
             {t("community.trending")}
           </button>
           <button
             onClick={() => setSort("latest")}
-            className={`font-medium transition-colors ${sort === "latest" ? "text-rose-500" : "text-gray-400 hover:text-gray-600"}`}
+            className={`min-h-[44px] px-3 font-medium transition-colors ${sort === "latest" ? "text-rose-500" : "text-gray-400 hover:text-gray-600"}`}
           >
             {t("community.latest")}
           </button>
@@ -396,7 +396,7 @@ function CommunityContent() {
                       </button>
                     </div>
 
-                    {/* 답글 입력창 */}
+                    {/* 답글 입력창 — 44px 터치 타겟 보장 */}
                     {isReplyOpen && (
                       <div className="mt-2 flex gap-2">
                         <input
@@ -404,12 +404,12 @@ function CommunityContent() {
                           value={replyText}
                           onChange={(e) => setReplyText(e.target.value)}
                           placeholder={isKo ? "답글 입력..." : "Write a reply..."}
-                          className="flex-1 text-xs px-3 py-2 border border-stone-200 rounded-xl outline-none focus:border-rose-300"
+                          className="flex-1 text-xs px-3 py-2.5 border border-stone-200 rounded-xl outline-none focus:border-rose-300 min-h-[44px]"
                           onKeyDown={(e) => { if (e.key === "Enter") handleReplySubmit(post.id); }}
                         />
                         <button
                           onClick={() => handleReplySubmit(post.id)}
-                          className="text-xs px-3 py-2 bg-rose-400 text-white rounded-xl hover:bg-rose-500"
+                          className="text-xs px-4 min-h-[44px] bg-rose-400 text-white rounded-xl hover:bg-rose-500 shrink-0"
                         >
                           {isKo ? "등록" : "Post"}
                         </button>

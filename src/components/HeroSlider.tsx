@@ -69,16 +69,19 @@ export default function HeroSlider({ locale }: { locale: string }) {
           <span>✓ {isKo ? "8개국 언어" : "8 Languages"}</span>
         </div>
 
-        {/* 슬라이드 인디케이터 */}
-        <div className="mt-5 flex gap-2">
+        {/* 슬라이드 인디케이터 — 터치 타겟 44px 확보 */}
+        <div className="mt-3 flex gap-1">
           {SLIDES.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrent(idx)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                idx === current ? "bg-white w-6" : "bg-white/40"
-              }`}
-            />
+              aria-label={`Slide ${idx + 1}`}
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center"
+            >
+              <span className={`block rounded-full transition-all duration-300 h-2 ${
+                idx === current ? "bg-white w-6" : "bg-white/40 w-2"
+              }`} />
+            </button>
           ))}
         </div>
       </div>

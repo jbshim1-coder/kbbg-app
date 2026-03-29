@@ -148,14 +148,14 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
           <div className="flex gap-3">
             <button
               onClick={handleReset}
-              className="px-6 py-2.5 text-sm rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 transition"
+              className="px-6 min-h-[44px] text-sm rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 transition"
             >
               {isKo ? "다시 선택" : "Re-select"}
             </button>
             <button
               onClick={handleAnalyze}
               disabled={loading}
-              className="px-8 py-2.5 text-sm rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-900 transition disabled:opacity-50"
+              className="px-8 min-h-[44px] text-sm rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-900 transition disabled:opacity-50"
             >
               {loading
                 ? (isKo ? "AI 분석 중..." : "Analyzing...")
@@ -298,17 +298,17 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
             </button>
           </div>
 
-          {/* 하단 버튼 */}
+          {/* 하단 버튼 — 44px 터치 타겟 보장 */}
           <div className="flex justify-center gap-3 mt-8 pt-6 border-t border-gray-100">
             <button
               onClick={handleReset}
-              className="px-6 py-2.5 text-sm rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 transition"
+              className="px-6 min-h-[44px] text-sm rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 transition"
             >
               {isKo ? "새로 분석하기" : "New Analysis"}
             </button>
             <button
               onClick={() => setFullscreen(false)}
-              className="px-6 py-2.5 text-sm rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-900 transition"
+              className="px-6 min-h-[44px] text-sm rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-900 transition"
             >
               {isKo ? "닫기" : "Close"}
             </button>

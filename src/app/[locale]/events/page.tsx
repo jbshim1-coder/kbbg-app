@@ -242,12 +242,13 @@ export default function EventsPage() {
 
       <div className="mx-auto max-w-4xl px-4 py-8">
         {/* 필터 */}
+        {/* 필터 버튼 — 최소 44px 터치 타겟 보장 */}
         <div className="flex flex-wrap gap-2 mb-6">
           {(["all", "피부과", "성형외과", "안과"] as FilterType[]).map(f => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-4 min-h-[44px] rounded-lg text-sm font-medium transition-colors ${
                 filter === f
                   ? "bg-rose-400 text-white"
                   : "bg-white border border-stone-200 text-gray-600 hover:bg-stone-50"

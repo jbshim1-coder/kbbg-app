@@ -81,12 +81,12 @@ export default async function Footer({ locale }: { locale: string }) {
               <h3 className="text-sm font-semibold text-gray-900 mb-4">
                 {t(section.titleKey as Parameters<typeof t>[0])}
               </h3>
-              <ul className="space-y-2.5">
+              <ul className="space-y-1">
                 {section.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-500 hover:text-slate-700 transition-colors"
+                      className="text-sm text-gray-500 hover:text-slate-700 transition-colors min-h-[44px] flex items-center"
                     >
                       {t(link.labelKey as Parameters<typeof t>[0])}
                     </Link>

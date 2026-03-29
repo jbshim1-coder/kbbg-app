@@ -124,7 +124,8 @@ export default function ClinicFilter({ locale }: { locale: string }) {
     setDoctorType(""); setDoctorCount(""); setRating(""); setWebsite(""); setKeyword("");
   };
 
-  const sc = "px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300";
+  // 모바일 터치 타겟 44px 최소 높이 보장
+  const sc = "px-3 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300 min-h-[44px]";
 
   return (
     <div>
@@ -132,7 +133,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
         <h3 className="text-base font-bold text-gray-900">
           {isKo ? "병원 찾기" : "Find Clinics"}
         </h3>
-        <button onClick={handleReset} className="text-xs text-gray-400 hover:text-gray-600">
+        <button onClick={handleReset} className="min-h-[44px] px-3 text-xs text-gray-400 hover:text-gray-600">
           {isKo ? "초기화" : "Reset"}
         </button>
       </div>
@@ -144,7 +145,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder={isKo ? "병원명 또는 동 이름 (예: 역삼동)" : "Hospital name or dong (e.g. Yeoksam)"}
-          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 min-h-[44px]"
         />
       </div>
 

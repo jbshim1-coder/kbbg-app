@@ -178,10 +178,10 @@ function HospitalsContent() {
             {totalPages > 1 && (
               <div className="flex justify-center gap-2 mt-8">
                 <button onClick={() => handleSearch(page - 1)} disabled={page <= 1}
-                  className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50">←</button>
-                <span className="px-3 py-1.5 text-sm text-gray-600">{page} / {totalPages}</span>
+                  className="min-w-[44px] min-h-[44px] px-4 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50 flex items-center justify-center">←</button>
+                <span className="min-h-[44px] px-4 text-sm text-gray-600 flex items-center">{page} / {totalPages}</span>
                 <button onClick={() => handleSearch(page + 1)} disabled={page >= totalPages}
-                  className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50">→</button>
+                  className="min-w-[44px] min-h-[44px] px-4 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50 flex items-center justify-center">→</button>
               </div>
             )}
           </>
