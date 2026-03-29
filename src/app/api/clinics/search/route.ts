@@ -52,8 +52,8 @@ export async function GET(request: NextRequest) {
       if (region) query = query.eq("sido_cd", region);
       if (subject) query = query.eq("dgsbjt_cd", subject);
       if (type === "korean_medicine") query = query.in("cl_cd", ["91", "92"]);
-      // 2차/3차 병원 제외 (내과/건강검진은 허용)
-      if (subject && subject !== "01") query = query.not("cl_cd", "in", '("01","11")');
+      // 의원만 노출 (내과/건강검진은 허용)
+      if (subject && subject !== "01") query = query.in("cl_cd", ["31", "91", "92"]);
 
       query = query
         .order("google_rating", { ascending: false, nullsFirst: false })

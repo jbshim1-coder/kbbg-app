@@ -125,8 +125,8 @@ BEGIN
       AND (p_region = '' OR c.sido_cd = p_region)
       AND (p_keyword = '' OR c.name ILIKE '%' || p_keyword || '%' OR c.address ILIKE '%' || p_keyword || '%')
       AND (p_type = '' OR (p_type = 'korean_medicine' AND c.cl_cd IN ('91', '92')))
-      -- 2차/3차 병원 제외 (내과/건강검진은 허용)
-      AND (p_subject IN ('', '01') OR c.cl_cd NOT IN ('01', '11') OR c.cl_cd IS NULL)
+      -- 의원만 노출 (2차/종합/대학병원 제외, 내과/건강검진은 허용)
+      AND (p_subject IN ('', '01') OR c.cl_cd IN ('31', '91', '92') OR c.cl_cd IS NULL)
   )
   SELECT * FROM scored
   ORDER BY scored.relevance_score DESC, scored.google_rating DESC NULLS LAST, scored.sdr_cnt DESC
