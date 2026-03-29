@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ClinicFilter from "@/components/ClinicFilter";
-import AiSearchBox from "@/components/AiSearchBox";
 import TrendingSidebar from "@/components/TrendingSidebar";
-
+import HeroSlider from "@/components/HeroSlider";
+import BeautyBanner from "@/components/BeautyBanner";
 import DailyCheckIn from "@/components/DailyCheckIn";
 import FaceAnalysis from "@/components/FaceAnalysis";
 import TopDepartments from "@/components/TopDepartments";
@@ -38,14 +38,8 @@ export default async function HomePage({
   return (
     <main className="min-h-screen bg-gray-50">
 
-      {/* ━━━ AI 맞춤 추천 — 전체 너비 ━━━ */}
-      <section className="bg-slate-800 px-4 py-12 border-b border-slate-700">
-        <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <AiSearchBox locale={locale} />
-          </div>
-        </div>
-      </section>
+      {/* ━━━ 히어로: 한국 명소 롤링 + AI 검색 ━━━ */}
+      <HeroSlider locale={locale} />
 
       {/* ━━━ AI 얼굴 분석 + 병원 찾기 — 2분할 ━━━ */}
       <section className="bg-white px-4 py-12 border-b border-gray-100">
@@ -137,6 +131,9 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* ━━━ 뷰티 배너 — 여성 모델 + CTA ━━━ */}
+      <BeautyBanner />
 
       {/* 한국의 거리 라이브 — 5개 그리드 */}
       <section className="bg-slate-900 px-4 py-14">
