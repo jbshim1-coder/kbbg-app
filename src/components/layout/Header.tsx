@@ -366,8 +366,11 @@ export default function Header() {
                 key={link.href}
                 href={localePath(link.href)}
                 onClick={() => setMobileOpen(false)}
-                className="px-3 min-h-[44px] flex items-center rounded-lg text-sm font-medium text-gray-700
-                  hover:bg-slate-50 hover:text-slate-700 transition-colors"
+                className={`px-3 min-h-[44px] flex items-center rounded-lg text-sm font-medium transition-colors ${
+                  pathname.includes(link.href) && link.href !== "/"
+                    ? "bg-slate-100 text-slate-900 font-semibold"
+                    : "text-gray-700 hover:bg-slate-50 hover:text-slate-700"
+                }`}
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
@@ -388,7 +391,7 @@ export default function Header() {
                   key={key}
                   href={localePath(`/community?cat=${key}`)}
                   onClick={() => setMobileOpen(false)}
-                  className="px-2.5 py-1 rounded-full text-xs font-medium text-gray-500 bg-gray-50 hover:text-slate-800 hover:bg-slate-100 transition-colors whitespace-nowrap"
+                  className="px-3 py-2 min-h-[36px] rounded-full text-xs font-medium text-gray-500 bg-gray-50 hover:text-slate-800 hover:bg-slate-100 transition-colors whitespace-nowrap"
                 >
                   {t(`community.${key}` as Parameters<typeof t>[0])}
                 </Link>
@@ -415,7 +418,7 @@ export default function Header() {
                 </Link>
                 <button
                   onClick={() => { handleLogout(); setMobileOpen(false); }}
-                  className="px-3 py-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors shrink-0"
+                  className="px-4 py-3 min-h-[44px] text-sm font-medium rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors shrink-0"
                 >
                   {t("nav.logout")}
                 </button>
@@ -425,7 +428,7 @@ export default function Header() {
                 <Link
                   href={localePath("/login")}
                   onClick={() => setMobileOpen(false)}
-                  className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
+                  className="flex-1 text-center px-4 py-3 min-h-[44px] text-sm font-medium rounded-lg
                     border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
                 >
                   {t("nav.login")}
@@ -433,7 +436,7 @@ export default function Header() {
                 <Link
                   href={localePath("/signup")}
                   onClick={() => setMobileOpen(false)}
-                  className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
+                  className="flex-1 text-center px-4 py-3 min-h-[44px] text-sm font-medium rounded-lg
                     bg-slate-800 text-white hover:bg-slate-900 transition-colors"
                 >
                   {t("nav.signup")}
