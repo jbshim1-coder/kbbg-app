@@ -1,7 +1,7 @@
 "use client";
 
 // 병원 검색 결과 페이지 — 심평원 API 직접 호출 + 광고
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -9,7 +9,7 @@ import type { HiraClinic } from "@/lib/hira-api";
 import { SIDO_CODES, SUBJECT_CODES } from "@/lib/hira-api";
 import type { Ad } from "@/app/api/admin/ads/route";
 
-export default function HospitalsPage() {
+function HospitalsContent() {
   const t = useTranslations();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -188,5 +188,13 @@ export default function HospitalsPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function HospitalsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center"><p className="text-sm text-gray-400">Loading...</p></div>}>
+      <HospitalsContent />
+    </Suspense>
   );
 }

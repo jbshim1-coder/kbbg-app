@@ -5,12 +5,19 @@ import { procedureGuides, type ProcedureGuideCategory, type ProcedureGuide } fro
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kbeautybuyersguide.com";
 
-export const metadata: Metadata = {
-  title: "Korea Medical Procedure Guides — KBBG",
-  description:
-    "Authoritative guides to 20 popular cosmetic and medical procedures in South Korea — including costs, recovery times, and expert FAQs.",
-  alternates: { canonical: `${siteUrl}/en/guides` },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Korea Medical Procedure Guides — KBBG",
+    description:
+      "Authoritative guides to 20 popular cosmetic and medical procedures in South Korea — including costs, recovery times, and expert FAQs.",
+    alternates: { canonical: `${siteUrl}/${locale}/guides` },
+  };
+}
 
 const CATEGORY_ORDER: ProcedureGuideCategory[] = [
   "plastic-surgery",

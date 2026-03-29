@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -90,7 +90,7 @@ const INITIAL_POSTS = [
 type SortType = "popular" | "latest";
 type Reply = { author: string; text: string; time: string };
 
-export default function CommunityPage() {
+function CommunityContent() {
   const t = useTranslations();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -232,7 +232,7 @@ export default function CommunityPage() {
     return true;
   });
   const sorted = [...filtered].sort((a, b) =>
-    sort === "popular" ? b.upvotes - a.upvotes : 0
+    sort === "popular" ? b.upvotes - a.upvotes : b.id - a.id
   );
 
   return (
@@ -437,5 +437,13 @@ export default function CommunityPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function CommunityPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-stone-50 flex items-center justify-center"><p className="text-sm text-gray-400">Loading...</p></div>}>
+      <CommunityContent />
+    </Suspense>
   );
 }

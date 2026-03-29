@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
-// 한국 거리 라이브캠 12개 — 검증된 24시간 유튜브 라이브
+// 한국 거리 라이브캠 5개 — 검증된 24시간 유튜브 라이브
 // 영상이 종료되면 videoId만 교체하면 됨
 // 검증된 24시간 라이브캠만 유지 — 안 되는 채널은 제거
 // 새 라이브캠을 찾으면 여기에 추가하면 됨
@@ -75,7 +75,7 @@ export default function LivePage() {
           </div>
         )}
 
-        {/* 12개 바둑판 그리드 */}
+        {/* 5개 바둑판 그리드 */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {LIVE_CHANNELS.map((ch) => (
             <button

@@ -26,6 +26,8 @@ function checkRateLimit(ip: string): boolean {
 }
 
 export async function POST(request: NextRequest) {
+  // locale을 catch에서도 참조할 수 있도록 스코프 상단에 선언
+  let locale = "ko";
   try {
     // IP 추출 및 rate limit 체크
     const ip =
@@ -45,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const query: string = body.query || "";
-    const locale: string = body.locale || "ko";
+    locale = body.locale || "ko";
 
     if (!query.trim()) {
       return NextResponse.json({ error: "query is required" }, { status: 400 });
@@ -120,7 +122,9 @@ Rules:
   } catch (error) {
     console.error("AI search error:", error);
     return NextResponse.json({
-      narrative: "AI 검색 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+      narrative: locale === "ko"
+        ? "AI 검색 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+        : "An error occurred during AI search. Please try again later.",
       clinics: [],
       totalCount: 0,
     });

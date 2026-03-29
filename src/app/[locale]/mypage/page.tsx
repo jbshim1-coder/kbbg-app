@@ -114,7 +114,7 @@ export default function MyPage() {
                 <>
                   <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                     <div
-                      className={["h-2 rounded-full transition-all", getLevelColor(userLevel as number).replace("text-white", "").trim()].join(" ")}
+                      className={["h-2 rounded-full transition-all", getLevelColor(userLevel as number).split(" ").find((c) => c.startsWith("bg-")) ?? "bg-gray-200"].join(" ")}
                       style={{ width: `${progressPercent}%` }}
                     />
                   </div>

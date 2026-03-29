@@ -6,6 +6,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase";
+import { useRecaptcha } from "@/lib/useRecaptcha";
 
 // 신고 유형 번역 키 목록
 const REPORT_TYPE_KEYS = [
@@ -32,6 +33,7 @@ export default function ReportPage() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const { verifyRecaptcha } = useRecaptcha();
 
   // 필수 필드 유효성 검사
   const isValid = email.trim() && type && description.trim();
@@ -42,6 +44,13 @@ export default function ReportPage() {
     if (!isValid) return;
     setLoading(true);
     setError("");
+
+    const isHuman = await verifyRecaptcha("report");
+    if (!isHuman) {
+      setError("Security verification failed. Please try again.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const supabase = createClient();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import { useTranslations } from "next-intl";
@@ -17,7 +17,7 @@ const INQUIRY_TYPE_KEYS = [
 ];
 
 // 문의 폼 페이지 — 클라이언트 컴포넌트 (폼 상태 관리 필요)
-export default function ContactPage() {
+function ContactContent() {
   const t = useTranslations();
   const locale = useLocale();
   const isKo = locale === "ko";
@@ -200,5 +200,13 @@ export default function ContactPage() {
         </form>
       </div>
     </main>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center"><p className="text-sm text-gray-400">Loading...</p></div>}>
+      <ContactContent />
+    </Suspense>
   );
 }

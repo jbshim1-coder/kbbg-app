@@ -111,6 +111,10 @@ export default function ClinicFilter({ locale }: { locale: string }) {
     if (region) params.set("region", region);
     if (sggu) params.set("sggu", sggu);
     if (clinicType) params.set("type", clinicType);
+    if (doctorType) params.set("doctorType", doctorType);
+    if (doctorCount) params.set("doctorCount", doctorCount);
+    if (rating) params.set("rating", rating);
+    if (website) params.set("website", website);
     if (keyword) params.set("keyword", keyword);
     router.push(`/${currentLocale}/hospitals?${params.toString()}`);
   };
