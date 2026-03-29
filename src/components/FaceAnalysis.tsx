@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import { SIDO_CODES, SUBJECT_CODES } from "@/lib/hira-api";
-import type { HiraClinic } from "@/lib/hira-api";
+import { useState, useRef, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function FaceAnalysis({ locale }: { locale: string }) {
   const isKo = locale === "ko";
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentLocale = pathname.split("/")[1] || "en";
   const [image, setImage] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [subjectCodes, setSubjectCodes] = useState<string[]>([]);
@@ -23,15 +25,6 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
     }).catch(() => {});
   }, []);
 
-  // 병원 추천 상태
-  const [showHospitals, setShowHospitals] = useState(false);
-  const [region, setRegion] = useState("110000"); // 서울 기본
-  const [selectedSubject, setSelectedSubject] = useState("");
-  const [hospType, setHospType] = useState("31"); // 의원 기본 (AI 추천 맥락)
-  const [clinics, setClinics] = useState<HiraClinic[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [hospLoading, setHospLoading] = useState(false);
-  const [hospPage, setHospPage] = useState(1);
 
   // ESC 키로 전체화면 닫기
   useEffect(() => {
@@ -60,7 +53,6 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
       setImage(reader.result as string);
       setAnalysis(null);
       setError(null);
-      setShowHospitals(false);
     };
     reader.readAsDataURL(file);
   };
@@ -79,7 +71,6 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
       if (data.success) {
         setAnalysis(data.analysis);
         setSubjectCodes(data.subjectCodes || ["08"]);
-        setSelectedSubject(data.subjectCodes?.[0] || "08");
         setFullscreen(true); // 분석 완료 시 전체 화면으로
       } else {
         setError(data.error || (isKo ? "분석에 실패했습니다" : "Analysis failed"));
@@ -95,43 +86,8 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
     setImage(null);
     setAnalysis(null);
     setError(null);
-    setShowHospitals(false);
     setFullscreen(false);
-    setClinics([]);
     if (fileRef.current) fileRef.current.value = "";
-  };
-
-  // 병원 검색
-  const fetchHospitals = useCallback(async (pageNo = 1) => {
-    setHospLoading(true);
-    setHospPage(pageNo);
-    try {
-      const params = new URLSearchParams();
-      if (region) params.set("region", region);
-      if (selectedSubject) params.set("subject", selectedSubject);
-      if (hospType) params.set("type", hospType);
-      params.set("page", String(pageNo));
-      const res = await fetch(`/api/hira?${params.toString()}`);
-      const data = await res.json();
-      setClinics(data.clinics || []);
-      setTotalCount(data.totalCount || 0);
-    } catch {
-      setClinics([]);
-      setTotalCount(0);
-    } finally {
-      setHospLoading(false);
-    }
-  }, [region, selectedSubject, hospType]);
-
-  // 맞춤 병원 추천 클릭
-  const handleRecommendClick = () => {
-    setShowHospitals(true);
-    fetchHospitals(1);
-  };
-
-  // 필터 변경 시 재검색
-  const handleFilterChange = () => {
-    fetchHospitals(1);
   };
 
   // 마크다운 볼드 처리
@@ -146,8 +102,6 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
       return <p key={i} className="mb-1.5">{parts}</p>;
     });
   };
-
-  const totalPages = Math.ceil(totalCount / 10);
 
   // 메인 섹션용 가로형 카드
   const mainCard = (
@@ -318,188 +272,32 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
               : "※ This is AI reference information, not medical diagnosis. Please consult a specialist."}
           </p>
 
-          {/* 맞춤 병원 추천 버튼 */}
-          {!showHospitals ? (
-            <div className="text-center">
+          {/* 맞춤 병원 추천 — 강남/서초 피부과·성형외과 */}
+          <div className="text-center space-y-3">
+            <p className="text-sm text-gray-500 mb-4">
+              {isKo ? "강남·서초 지역 전문 클리닉을 추천합니다" : "Recommending clinics in Gangnam & Seocho"}
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
               <button
-                onClick={handleRecommendClick}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-slate-800 text-white text-base font-bold rounded-2xl shadow-sm hover:bg-slate-900 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
+                onClick={() => router.push(`/${currentLocale}/hospitals?dept=14&region=110000`)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900 transition min-h-[44px]"
               >
-                <span className="text-xl">🏥</span>
-                {isKo ? "분석 결과 기반 맞춤 병원 추천받기" : "Get Hospital Recommendations"}
+                🏥 {isKo ? "강남·서초 피부과 보기" : "Gangnam Dermatology"}
               </button>
-              <p className="text-xs text-gray-400 mt-2">
-                {isKo
-                  ? "서울 지역 기준으로 추천하며, 이후 지역 변경이 가능합니다"
-                  : "Defaults to Seoul area. You can change the region after."}
-              </p>
+              <button
+                onClick={() => router.push(`/${currentLocale}/hospitals?dept=08&region=110000`)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900 transition min-h-[44px]"
+              >
+                🏥 {isKo ? "강남·서초 성형외과 보기" : "Gangnam Plastic Surgery"}
+              </button>
             </div>
-          ) : (
-            <div>
-              {/* 병원 추천 헤더 */}
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-xl">🏥</span>
-                <h3 className="text-lg font-bold text-gray-900">
-                  {isKo ? "맞춤 병원 추천" : "Recommended Hospitals"}
-                </h3>
-              </div>
-
-              {/* 필터 */}
-              <div className="flex flex-wrap gap-3 mb-5 bg-gray-50 rounded-xl p-4">
-                <div className="flex-1 min-w-[140px]">
-                  <label className="block text-xs font-medium text-gray-500 mb-1">
-                    {isKo ? "지역" : "Region"}
-                  </label>
-                  <select
-                    value={region}
-                    onChange={(e) => setRegion(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400"
-                  >
-                    {Object.entries(SIDO_CODES).map(([code, name]) => (
-                      <option key={code} value={code}>{name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex-1 min-w-[140px]">
-                  <label className="block text-xs font-medium text-gray-500 mb-1">
-                    {isKo ? "진료과" : "Specialty"}
-                  </label>
-                  <select
-                    value={selectedSubject}
-                    onChange={(e) => setSelectedSubject(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400"
-                  >
-                    {/* AI가 추천한 진료과를 상단에 표시 */}
-                    {subjectCodes.map((code) => (
-                      <option key={`ai-${code}`} value={code}>
-                        ⭐ {SUBJECT_CODES[code] || code} {isKo ? "(AI 추천)" : "(AI pick)"}
-                      </option>
-                    ))}
-                    <option disabled>──────────</option>
-                    {Object.entries(SUBJECT_CODES)
-                      .filter(([code]) => !subjectCodes.includes(code))
-                      .map(([code, name]) => (
-                        <option key={code} value={code}>{name}</option>
-                      ))}
-                  </select>
-                </div>
-                <div className="flex-1 min-w-[140px]">
-                  <label className="block text-xs font-medium text-gray-500 mb-1">
-                    {isKo ? "병원 유형" : "Type"}
-                  </label>
-                  <select
-                    value={hospType}
-                    onChange={(e) => setHospType(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-400"
-                  >
-                    <option value="">{isKo ? "전체" : "All"}</option>
-                    <option value="31">{isKo ? "의원 (전문클리닉)" : "Clinic"}</option>
-                    <option value="21">{isKo ? "병원" : "Hospital"}</option>
-                    <option value="11">{isKo ? "종합병원" : "General Hospital"}</option>
-                    <option value="01">{isKo ? "상급종합" : "Tertiary Hospital"}</option>
-                  </select>
-                </div>
-                <div className="flex items-end w-full sm:w-auto">
-                  <button
-                    onClick={handleFilterChange}
-                    disabled={hospLoading}
-                    className="w-full sm:w-auto px-6 py-2.5 bg-slate-800 text-white text-sm font-semibold rounded-xl hover:bg-slate-900 disabled:opacity-50 transition min-h-[44px]"
-                  >
-                    {hospLoading
-                      ? (isKo ? "검색 중..." : "Searching...")
-                      : (isKo ? "재검색" : "Search")}
-                  </button>
-                </div>
-              </div>
-
-              {/* 검색 결과 수 */}
-              {totalCount > 0 && (
-                <p className="text-sm text-gray-500 mb-3">
-                  {isKo
-                    ? `${SIDO_CODES[region] || ""} ${SUBJECT_CODES[selectedSubject] || ""} — 총 ${totalCount.toLocaleString()}개 병원`
-                    : `${totalCount.toLocaleString()} clinics found`}
-                </p>
-              )}
-
-              {/* 병원 목록 */}
-              {hospLoading ? (
-                <div className="text-center py-12">
-                  <div className="inline-block w-8 h-8 border-3 border-gray-200 border-t-emerald-500 rounded-full animate-spin" />
-                  <p className="text-sm text-gray-400 mt-3">
-                    {isKo ? "맞춤 병원을 찾고 있습니다..." : "Finding matching hospitals..."}
-                  </p>
-                </div>
-              ) : clinics.length === 0 ? (
-                <div className="text-center py-12 text-gray-400">
-                  {isKo ? "검색 결과가 없습니다. 다른 조건을 선택해보세요." : "No results. Try different filters."}
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {clinics.map((clinic, idx) => (
-                    <div
-                      key={clinic.ykiho || idx}
-                      className="bg-white rounded-2xl shadow-sm p-4 sm:p-5 hover:shadow-md transition"
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <h4 className="font-semibold text-gray-800 break-words">{clinic.yadmNm}</h4>
-                          <p className="text-xs text-gray-400 mt-0.5">
-                            {clinic.clCdNm} · {clinic.dgsbjtCdNm}
-                          </p>
-                        </div>
-                        {clinic.hospUrl && (
-                          <a
-                            href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-slate-700 hover:underline shrink-0 min-h-[44px] flex items-start pt-1"
-                          >
-                            {isKo ? "홈페이지" : "Website"}
-                          </a>
-                        )}
-                      </div>
-                      <p className="text-sm text-gray-600 mt-2">{clinic.addr}</p>
-                      <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-500">
-                        {clinic.telno && <span>📞 {clinic.telno}</span>}
-                        {clinic.drTotCnt > 0 && (
-                          <span>👨‍⚕️ {isKo ? `의사 ${clinic.drTotCnt}명` : `${clinic.drTotCnt} doctors`}</span>
-                        )}
-                        {(clinic.sdrCnt > 0 || clinic.mdeptSdrCnt > 0) && (
-                          <span>🏅 {isKo ? `전문의 ${clinic.sdrCnt || clinic.mdeptSdrCnt}명` : `${clinic.sdrCnt || clinic.mdeptSdrCnt} specialists`}</span>
-                        )}
-                        {clinic.googleRating && (
-                          <span>⭐ {clinic.googleRating} ({clinic.googleReviewCount})</span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* 페이지네이션 */}
-              {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-6">
-                  <button
-                    onClick={() => fetchHospitals(hospPage - 1)}
-                    disabled={hospPage <= 1 || hospLoading}
-                    className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50"
-                  >
-                    ←
-                  </button>
-                  <span className="px-3 py-1.5 text-sm text-gray-600">
-                    {hospPage} / {totalPages}
-                  </span>
-                  <button
-                    onClick={() => fetchHospitals(hospPage + 1)}
-                    disabled={hospPage >= totalPages || hospLoading}
-                    className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50"
-                  >
-                    →
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+            <button
+              onClick={() => router.push(`/${currentLocale}`)}
+              className="text-xs text-gray-400 hover:text-gray-600 mt-2"
+            >
+              {isKo ? "← 홈으로 돌아가기" : "← Back to Home"}
+            </button>
+          </div>
 
           {/* 하단 버튼 */}
           <div className="flex justify-center gap-3 mt-8 pt-6 border-t border-gray-100">
