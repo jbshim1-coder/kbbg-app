@@ -151,7 +151,7 @@ export default function ImageUpload({ onUploadComplete }: ImageUploadProps) {
 
       {/* 파일 추가 영역 — 최대 3장 미만일 때만 표시 */}
       {canAddMore && (
-        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 px-4 py-4 text-sm text-gray-500 hover:border-pink-300 hover:bg-pink-50">
+        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 px-4 py-4 text-sm text-gray-500 hover:border-pink-300 hover:bg-teal-50">
           <span>📎</span>
           <span>
             이미지 추가 ({entries.length}/{MAX_FILES}) — 최대 5MB

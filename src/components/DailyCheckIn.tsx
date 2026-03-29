@@ -55,7 +55,7 @@ export default function DailyCheckIn({ locale }: { locale: string }) {
         className={`w-full py-2.5 rounded-xl text-sm font-semibold transition ${
           checked
             ? "bg-green-50 text-green-600 border-2 border-green-400"
-            : "bg-pink-500 text-white hover:bg-pink-600"
+            : "bg-teal-600 text-white hover:bg-teal-700"
         }`}
       >
         {checked
@@ -64,10 +64,10 @@ export default function DailyCheckIn({ locale }: { locale: string }) {
       </button>
       {showAnim && (
         <div className="mt-2 text-center animate-bounce">
-          <p className="text-pink-500 text-sm font-bold">
+          <p className="text-teal-600 text-sm font-bold">
             🎉 {isKo ? "축하합니다! 출석 체크 완료!" : "Congratulations! Checked in!"}
           </p>
-          <p className="text-pink-400 text-xs font-semibold mt-0.5">+1P 획득!</p>
+          <p className="text-teal-500 text-xs font-semibold mt-0.5">+1P 획득!</p>
         </div>
       )}
       <p className="mt-2 text-center text-xs text-gray-400">

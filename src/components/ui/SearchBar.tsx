@@ -82,7 +82,7 @@ export default function SearchBar({
           className={[
             "w-full pl-9 pr-9 rounded-xl border border-gray-200 bg-gray-50",
             "text-gray-900 placeholder-gray-400",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white",
+            "focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent focus:bg-white",
             "transition-colors duration-150",
             inputSize,
           ].join(" ")}

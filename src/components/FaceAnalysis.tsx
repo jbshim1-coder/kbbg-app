@@ -220,7 +220,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
             </button>
             <button
               onClick={() => setFullscreen(true)}
-              className="px-8 py-3 text-sm rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="px-8 py-3 text-sm rounded-xl bg-gradient-to-r from-teal-500 to-rose-500 text-white font-bold hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               {isKo ? "🪞 분석 결과 & 맞춤 병원 보기" : "🪞 View Results & Hospital Match"}
             </button>
@@ -290,7 +290,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
             <div className="text-center">
               <button
                 onClick={handleRecommendClick}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-base font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-rose-500 text-white text-base font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
                 <span className="text-xl">🏥</span>
                 {isKo ? "분석 결과 기반 맞춤 병원 추천받기" : "Get Hospital Recommendations"}
@@ -419,7 +419,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                             href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-blue-500 hover:underline shrink-0 ml-3"
+                            className="text-xs text-teal-500 hover:underline shrink-0 ml-3"
                           >
                             {isKo ? "홈페이지" : "Website"}
                           </a>

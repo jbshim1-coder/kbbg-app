@@ -88,7 +88,7 @@ export default function MyPage() {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={avatarUrl} alt={displayName} className="w-14 h-14 rounded-full object-cover" />
             ) : (
-              <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl font-bold">
+              <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-teal-600 text-xl font-bold">
                 {displayName.charAt(0).toUpperCase()}
               </div>
             )}

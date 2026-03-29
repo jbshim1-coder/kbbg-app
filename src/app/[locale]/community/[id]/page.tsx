@@ -94,7 +94,7 @@ export default function PostDetailPage({
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-4">
         <p className="text-gray-500">{t("community.post_not_found")}</p>
-        <Link href={`/${locale}/community`} className="mt-4 text-pink-500 hover:underline">
+        <Link href={`/${locale}/community`} className="mt-4 text-teal-600 hover:underline">
           {t("community.back_to_community")}
         </Link>
       </main>
@@ -148,7 +148,7 @@ export default function PostDetailPage({
 
         {/* 게시글 본문 카드 */}
         <article className="mt-4 rounded-2xl bg-white p-6 shadow-sm">
-          <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+          <span className="rounded-full bg-teal-50 px-2 py-0.5 text-xs font-medium text-teal-600">
             {t(post.categoryKey as Parameters<typeof t>[0])}
           </span>
           <h1 className="mt-3 text-2xl font-bold text-gray-900">
@@ -170,8 +170,8 @@ export default function PostDetailPage({
               onClick={() => handleVote("up")}
               className={`flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition ${
                 voted === "up"
-                  ? "bg-pink-500 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-pink-50"
+                  ? "bg-teal-600 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-teal-50"
               }`}
             >
               ↑ {t("community.upvote")} {upvotes}
@@ -241,7 +241,7 @@ export default function PostDetailPage({
               </p>
               <Link
                 href={`/${locale}/signup`}
-                className="inline-block px-4 py-2 bg-pink-500 text-white text-sm rounded-lg hover:bg-pink-600 transition"
+                className="inline-block px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700 transition"
               >
                 {locale === "ko" ? "회원가입" : "Sign Up"}
               </Link>
@@ -253,11 +253,11 @@ export default function PostDetailPage({
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder={t("community.comment_placeholder")}
                 rows={3}
-                className="w-full rounded-xl border border-gray-200 p-3 text-sm outline-none focus:border-pink-400"
+                className="w-full rounded-xl border border-gray-200 p-3 text-sm outline-none focus:border-teal-400"
               />
               <button
                 type="submit"
-                className="mt-2 rounded-xl bg-pink-500 px-6 py-2 text-sm font-semibold text-white hover:bg-pink-600"
+                className="mt-2 rounded-xl bg-teal-600 px-6 py-2 text-sm font-semibold text-white hover:bg-teal-700"
               >
                 {t("community.comment_submit")}
               </button>

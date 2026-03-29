@@ -118,7 +118,7 @@ export default function Dropdown({
                   "w-full text-left px-4 py-2 text-sm transition-colors",
                   item.disabled
                     ? "text-gray-300 cursor-not-allowed"
-                    : "text-gray-700 hover:bg-blue-50 hover:text-blue-700",
+                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-700",
                 ]
                   .filter(Boolean)
                   .join(" ")}

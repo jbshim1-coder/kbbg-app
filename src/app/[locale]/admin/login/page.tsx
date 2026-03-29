@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
               value={id}
               onChange={(e) => setId(e.target.value)}
               placeholder="admin@2bstory.com"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
               autoComplete="username"
             />
@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
               value={pw}
               onChange={(e) => setPw(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
               autoComplete="current-password"
             />

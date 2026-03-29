@@ -89,7 +89,7 @@ export default function SignupPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t("auth.name_placeholder")}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
@@ -100,7 +100,7 @@ export default function SignupPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("auth.email_placeholder")}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
@@ -111,7 +111,7 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t("auth.password_placeholder")}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
               minLength={8}
             />
@@ -128,7 +128,7 @@ export default function SignupPage() {
                 if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
               }}
               placeholder={t("auth.confirm_password_placeholder")}
-              className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 ${
                 errors.confirmPassword ? "border-red-400" : "border-gray-200"
               }`}
               required
@@ -146,14 +146,14 @@ export default function SignupPage() {
           {/* 약관 동의 */}
           <p className="text-xs text-gray-400">
             {t("auth.agree_terms")}{" "}
-            <Link href={`/${locale}/terms`} className="text-blue-500 hover:underline">{t("auth.terms")}</Link>{" "}
+            <Link href={`/${locale}/terms`} className="text-teal-500 hover:underline">{t("auth.terms")}</Link>{" "}
             {t("auth.and")}{" "}
-            <Link href={`/${locale}/privacy`} className="text-blue-500 hover:underline">{t("auth.privacy")}</Link>.
+            <Link href={`/${locale}/privacy`} className="text-teal-500 hover:underline">{t("auth.privacy")}</Link>.
           </p>
 
           <button
             type="submit"
-            className="w-full py-2.5 bg-pink-500 text-white rounded-xl text-sm font-semibold hover:bg-pink-600 transition"
+            className="w-full py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition"
           >
             {t("auth.signup_btn")}
           </button>
@@ -162,7 +162,7 @@ export default function SignupPage() {
         {/* 로그인 링크 */}
         <p className="mt-6 text-center text-sm text-gray-500">
           {t("auth.has_account")}{" "}
-          <Link href={`/${locale}/login`} className="text-blue-600 font-medium hover:underline">
+          <Link href={`/${locale}/login`} className="text-teal-600 font-medium hover:underline">
             {t("auth.login")}
           </Link>
         </p>

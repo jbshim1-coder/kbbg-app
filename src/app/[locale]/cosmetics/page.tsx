@@ -97,9 +97,9 @@ export default function CosmeticsPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* 히어로 */}
-      <section className="bg-gradient-to-br from-pink-50 to-orange-50 px-4 py-12 text-center">
+      <section className="bg-gradient-to-br from-teal-50 to-orange-50 px-4 py-12 text-center">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
+          <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
             {isKo ? "화장품 랭킹" : "Cosmetics Ranking"}
           </p>
           <h1 className="mt-2 text-3xl font-bold text-gray-900">
@@ -118,7 +118,7 @@ export default function CosmeticsPage() {
             const week = Math.ceil(monday.getDate() / 7);
             const fmt = (d: Date) => `${d.getMonth()+1}.${d.getDate()}`;
             return (
-              <p className="mt-2 text-xs text-pink-500 font-medium">
+              <p className="mt-2 text-xs text-teal-600 font-medium">
                 {isKo
                   ? `📅 ${year}년 ${month}월 ${week}주차 기준 (${fmt(monday)} ~ ${fmt(sunday)})`
                   : `📅 ${year} Week ${week} of ${month} (${fmt(monday)} ~ ${fmt(sunday)})`}
@@ -143,7 +143,7 @@ export default function CosmeticsPage() {
               onClick={() => setSource(tab.id)}
               className={`shrink-0 px-4 py-2 text-sm font-semibold border-b-2 transition ${
                 source === tab.id
-                  ? "border-pink-500 text-pink-500"
+                  ? "border-pink-500 text-teal-600"
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -161,7 +161,7 @@ export default function CosmeticsPage() {
                 onClick={() => setCategory(cat)}
                 className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition ${
                   category === cat
-                    ? "bg-pink-500 text-white"
+                    ? "bg-teal-600 text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
               >
@@ -199,7 +199,7 @@ export default function CosmeticsPage() {
                   <div
                     className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
                       item.rank <= 3
-                        ? "bg-pink-500 text-white"
+                        ? "bg-teal-600 text-white"
                         : "bg-gray-100 text-gray-600"
                     }`}
                   >
@@ -228,7 +228,7 @@ export default function CosmeticsPage() {
                     </p>
                   </div>
 
-                  <div className="shrink-0 text-sm font-semibold text-pink-500">
+                  <div className="shrink-0 text-sm font-semibold text-teal-600">
                     {formatPrice(item.lprice)}
                   </div>
                 </a>
@@ -251,7 +251,7 @@ export default function CosmeticsPage() {
               <div
                 className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
                   item.rank <= 3
-                    ? "bg-pink-500 text-white"
+                    ? "bg-teal-600 text-white"
                     : "bg-gray-100 text-gray-600"
                 }`}
               >
@@ -267,7 +267,7 @@ export default function CosmeticsPage() {
                 </p>
               </div>
 
-              <div className="shrink-0 text-sm font-semibold text-pink-500">
+              <div className="shrink-0 text-sm font-semibold text-teal-600">
                 {item.price}
               </div>
             </div>

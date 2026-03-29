@@ -35,7 +35,7 @@ const TRENDING_SEARCHES = [
 // 순위별 색상 — 1~3위는 강조색
 function getRankColor(rank: number): string {
   if (rank === 1) return "text-red-500 font-bold";
-  if (rank === 2) return "text-pink-500 font-bold";
+  if (rank === 2) return "text-teal-600 font-bold";
   if (rank === 3) return "text-orange-400 font-bold";
   return "text-gray-400";
 }

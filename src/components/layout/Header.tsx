@@ -164,7 +164,7 @@ export default function Header() {
                 key={link.href}
                 href={localePath(link.href)}
                 className="px-3 py-2 rounded-lg text-base font-bold text-gray-800
-                  hover:text-blue-600 hover:bg-blue-50 transition-colors duration-150"
+                  hover:text-teal-600 hover:bg-teal-50 transition-colors duration-150"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
@@ -183,7 +183,7 @@ export default function Header() {
                 aria-expanded={langOpen}
                 aria-haspopup="listbox"
                 className="flex items-center gap-1 p-2 rounded-lg text-gray-500
-                  hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                  hover:text-teal-600 hover:bg-teal-50 transition-colors"
               >
                 <Globe size={18} />
                 <span className="hidden sm:inline text-sm font-medium">
@@ -215,7 +215,7 @@ export default function Header() {
                       className={[
                         "w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors",
                         currentLocale.code === locale.code
-                          ? "bg-blue-50 text-blue-700 font-medium"
+                          ? "bg-teal-50 text-teal-700 font-medium"
                           : "text-gray-700 hover:bg-gray-50",
                       ].join(" ")}
                     >
@@ -233,7 +233,7 @@ export default function Header() {
                 <>
                   <Link
                     href={localePath("/mypage")}
-                    className="flex items-center gap-1.5 text-sm text-gray-600 truncate max-w-[120px] hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-1.5 text-sm text-gray-600 truncate max-w-[120px] hover:text-teal-600 transition-colors"
                   >
                     {user.user_metadata?.full_name || user.email?.split("@")[0]}
                     <LevelBadge
@@ -261,8 +261,8 @@ export default function Header() {
                   </Link>
                   <Link
                     href={localePath("/signup")}
-                    className="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600
-                      text-white hover:bg-blue-700 transition-colors"
+                    className="px-3 py-1.5 text-sm font-medium rounded-lg bg-teal-600
+                      text-white hover:bg-teal-700 transition-colors"
                   >
                     {t("nav.signup")}
                   </Link>
@@ -297,7 +297,7 @@ export default function Header() {
               <Link
                 key={key}
                 href={localePath(`/community?cat=${key}`)}
-                className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-pink-600 hover:bg-pink-50 transition-colors whitespace-nowrap"
+                className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-teal-700 hover:bg-teal-50 transition-colors whitespace-nowrap"
               >
                 {t(`community.${key}` as Parameters<typeof t>[0])}
               </Link>
@@ -317,7 +317,7 @@ export default function Header() {
                 href={localePath(link.href)}
                 onClick={() => setMobileOpen(false)}
                 className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700
-                  hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  hover:bg-teal-50 hover:text-teal-600 transition-colors"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
@@ -330,7 +330,7 @@ export default function Header() {
               href={localePath("/login")}
               onClick={() => setMobileOpen(false)}
               className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
-                border border-blue-600 text-blue-600 hover:bg-blue-50 transition-colors"
+                border border-teal-600 text-teal-600 hover:bg-teal-50 transition-colors"
             >
               {t("nav.login")}
             </Link>
@@ -338,7 +338,7 @@ export default function Header() {
               href={localePath("/signup")}
               onClick={() => setMobileOpen(false)}
               className="flex-1 text-center px-4 py-2 text-sm font-medium rounded-lg
-                bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                bg-teal-600 text-white hover:bg-teal-700 transition-colors"
             >
               {t("nav.signup")}
             </Link>

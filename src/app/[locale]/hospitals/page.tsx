@@ -153,7 +153,7 @@ export default function HospitalsPage() {
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "지역" : "Region"}</label>
               <select value={region} onChange={(e) => setRegion(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
                 <option value="">{isKo ? "전체 지역" : "All Regions"}</option>
                 {Object.entries(SIDO_CODES).map(([code, name]) => (
                   <option key={code} value={code}>{name}</option>
@@ -163,7 +163,7 @@ export default function HospitalsPage() {
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">{isKo ? "진료과" : "Specialty"}</label>
               <select value={subject} onChange={(e) => setSubject(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
                 <option value="">{isKo ? "전체 진료과" : "All Specialties"}</option>
                 {Object.entries(SUBJECT_CODES).map(([code, name]) => (
                   <option key={code} value={code}>{name}</option>
@@ -172,7 +172,7 @@ export default function HospitalsPage() {
             </div>
           </div>
           <button type="submit" disabled={loading}
-            className="mt-4 w-full sm:w-auto px-8 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:bg-blue-300 transition">
+            className="mt-4 w-full sm:w-auto px-8 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 disabled:bg-blue-300 transition">
             {loading ? (isKo ? "검색 중..." : "Searching...") : (isKo ? "검색" : "Search")}
           </button>
         </form>
@@ -203,7 +203,7 @@ export default function HospitalsPage() {
                     href={topAd.linkUrl}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
-                    className="inline-block mt-2 text-xs text-blue-500 hover:underline"
+                    className="inline-block mt-2 text-xs text-teal-500 hover:underline"
                   >
                     {isKo ? "자세히 보기 →" : "Learn more →"}
                   </a>
@@ -213,15 +213,15 @@ export default function HospitalsPage() {
 
             {/* AI 분석 카드 */}
             {(aiLoading || aiAnalysis) && (
-              <div className="mb-6 bg-blue-50 border-2 border-blue-200 rounded-xl p-5 shadow-sm">
+              <div className="mb-6 bg-teal-50 border-2 border-teal-300 rounded-xl p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-lg">🤖</span>
-                  <span className="text-sm font-bold text-blue-700">
+                  <span className="text-sm font-bold text-teal-700">
                     {isKo ? "AI 추천 분석" : "AI Recommendation"}
                   </span>
                 </div>
                 {aiLoading ? (
-                  <p className="text-sm text-blue-500 animate-pulse">
+                  <p className="text-sm text-teal-500 animate-pulse">
                     {isKo ? "AI가 병원을 분석하고 있습니다..." : "AI is analyzing hospitals..."}
                   </p>
                 ) : (
@@ -246,7 +246,7 @@ export default function HospitalsPage() {
                       {clinic.hospUrl && (
                         <a href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="text-xs text-blue-500 hover:underline shrink-0 ml-3">
+                          className="text-xs text-teal-500 hover:underline shrink-0 ml-3">
                           {isKo ? "홈페이지" : "Website"}
                         </a>
                       )}

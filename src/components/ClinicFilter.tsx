@@ -122,7 +122,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
   };
 
   const totalPages = Math.ceil(totalCount / 10);
-  const selectClass = "w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 appearance-none";
+  const selectClass = "w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 appearance-none";
 
   return (
     <div>
@@ -165,7 +165,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           <button
             onClick={() => handleSearch(1)}
             disabled={loading}
-            className="w-full rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:bg-blue-300 transition"
+            className="w-full rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white hover:bg-teal-700 disabled:bg-blue-300 transition"
           >
             {loading ? (isKo ? "검색 중..." : "Searching...") : t("filter.search_btn" as Parameters<typeof t>[0])}
           </button>
@@ -188,7 +188,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
               </button>
               <button
                 onClick={() => { const next = sortBy === "doctors" ? "" : "doctors"; setSortBy(next); handleSearch(1); }}
-                className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "doctors" ? "bg-blue-50 border-blue-300 text-blue-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
+                className={`text-xs px-3 py-1.5 rounded-lg border transition ${sortBy === "doctors" ? "bg-teal-50 border-blue-300 text-teal-700 font-semibold" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
               >
                 👨‍⚕️ {isKo ? "의사수순" : "Doctors"}
               </button>
@@ -219,14 +219,14 @@ export default function ClinicFilter({ locale }: { locale: string }) {
                         <a
                           href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="text-xs text-blue-500 hover:underline"
+                          className="text-xs text-teal-500 hover:underline"
                         >
                           {isKo ? "홈페이지" : "Website"}
                         </a>
                       )}
                       <a
                         href={`/${locale}/contact?hospital=${encodeURIComponent(clinic.yadmNm)}`}
-                        className="text-xs px-2.5 py-1 border border-pink-400 text-pink-500 rounded-lg hover:bg-pink-50 transition"
+                        className="text-xs px-2.5 py-1 border border-teal-400 text-teal-600 rounded-lg hover:bg-teal-50 transition"
                       >
                         {isKo ? "상담 문의" : "Inquiry"}
                       </a>

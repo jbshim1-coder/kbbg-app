@@ -59,7 +59,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className={[
               "w-full rounded-lg border bg-white text-gray-900 placeholder-gray-400",
               "text-sm transition-colors duration-150",
-              "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+              "focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent",
               "disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed",
               error
                 ? "border-red-400 focus:ring-red-400"

@@ -73,9 +73,9 @@ export default async function HomePage({
       </section>
 
       {/* ━━━ 운영자에게 추천받기 ━━━ */}
-      <section className="px-4 py-8 bg-gradient-to-r from-pink-50 to-purple-50 border-b border-gray-100">
+      <section className="px-4 py-8 bg-gradient-to-r from-teal-50 to-cyan-50 border-b border-gray-100">
         <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-2xl border-2 border-pink-200 shadow-sm p-6">
+          <div className="bg-white rounded-2xl border-2 border-teal-300 shadow-sm p-6">
             <div className="flex items-center gap-3 mb-5">
               <span className="text-3xl">💬</span>
               <h2 className="text-lg font-bold text-gray-900">

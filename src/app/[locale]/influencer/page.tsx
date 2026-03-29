@@ -50,9 +50,9 @@ export default function InfluencerPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* 히어로 */}
-      <section className="bg-gradient-to-br from-pink-50 to-purple-50 px-4 py-16 text-center">
+      <section className="bg-gradient-to-br from-teal-50 to-cyan-50 px-4 py-16 text-center">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
+          <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
             {isKo ? "인플루언서 제휴" : "Influencer Partnership"}
           </p>
           <h1 className="mt-3 text-3xl font-bold text-gray-900 sm:text-4xl">
@@ -121,30 +121,30 @@ export default function InfluencerPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "이름 / 활동명" : "Name"}</label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)} required
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "이메일" : "Email"}</label>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "SNS 채널 URL" : "SNS Channel URL"}</label>
               <input type="url" value={sns} onChange={(e) => setSns(e.target.value)} placeholder="https://instagram.com/..."
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "팔로워 수" : "Followers"}</label>
               <input type="text" value={followers} onChange={(e) => setFollowers(e.target.value)} placeholder="e.g. 50,000"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{isKo ? "하고 싶은 말" : "Message"}</label>
               <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={3}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <button type="submit"
-              className="w-full py-3 bg-pink-500 text-white font-semibold rounded-xl hover:bg-pink-600 transition">
+              className="w-full py-3 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition">
               {isKo ? "제휴 신청하기" : "Submit Application"}
             </button>
           </form>

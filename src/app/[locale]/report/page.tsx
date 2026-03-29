@@ -96,7 +96,7 @@ export default function ReportPage() {
           {t("report.subtitle")}
           <br />
           {t("report.email_hint")}{" "}
-          <a href="mailto:help@2bstory.com" className="text-pink-500 hover:underline">
+          <a href="mailto:help@2bstory.com" className="text-teal-600 hover:underline">
             help@2bstory.com
           </a>
         </p>
@@ -110,7 +110,7 @@ export default function ReportPage() {
             <select
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-teal-400"
             >
               <option value="">{t("report.type_placeholder")}</option>
               {REPORT_TYPE_KEYS.map((key) => (
@@ -132,7 +132,7 @@ export default function ReportPage() {
               value={clinicName}
               onChange={(e) => setClinicName(e.target.value)}
               placeholder={t("report.clinic_placeholder")}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
           </div>
 
@@ -146,7 +146,7 @@ export default function ReportPage() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder={t("report.desc_placeholder")}
               rows={6}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
           </div>
 
@@ -161,7 +161,7 @@ export default function ReportPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t("report.name_placeholder")}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
           </div>
 
@@ -175,7 +175,7 @@ export default function ReportPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
             <p className="mt-1 text-xs text-gray-400">
               {t("report.email_note")}
@@ -186,7 +186,7 @@ export default function ReportPage() {
           <button
             type="submit"
             disabled={!isValid || loading}
-            className="w-full rounded-xl bg-pink-500 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-pink-200 hover:bg-pink-600 transition-colors"
+            className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-teal-300 hover:bg-teal-700 transition-colors"
           >
             {loading ? t("report.submitting") : t("report.submit_btn")}
           </button>

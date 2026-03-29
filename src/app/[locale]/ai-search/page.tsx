@@ -131,7 +131,7 @@ function AiSearchContent() {
             />
             <button
               onClick={handleSearch}
-              className="px-4 py-1.5 bg-pink-500 hover:bg-pink-600 text-white text-xs font-medium rounded-full transition-colors"
+              className="px-4 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded-full transition-colors"
             >
               AI 추천 시작
             </button>
@@ -173,7 +173,7 @@ function AiSearchContent() {
                     href={topAd.linkUrl}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
-                    className="inline-block mt-2 text-xs text-blue-500 hover:underline"
+                    className="inline-block mt-2 text-xs text-teal-500 hover:underline"
                   >
                     자세히 보기 →
                   </a>
@@ -184,7 +184,7 @@ function AiSearchContent() {
             {/* 서술형 답변 */}
             <div className="bg-white rounded-2xl p-6 shadow-sm">
               <div className="flex items-start gap-3 mb-4">
-                <span className="text-pink-400 text-lg mt-0.5">✦</span>
+                <span className="text-teal-500 text-lg mt-0.5">✦</span>
                 <div>
                   <p className="text-sm text-gray-800 whitespace-pre-line leading-relaxed">
                     {narrative}
@@ -239,7 +239,7 @@ function AiSearchContent() {
                         href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block mt-2 text-xs text-blue-500 hover:underline"
+                        className="inline-block mt-2 text-xs text-teal-500 hover:underline"
                       >
                         홈페이지 →
                       </a>
@@ -260,7 +260,7 @@ function AiSearchContent() {
             <div className="pt-2">
               <Link
                 href={`/${locale}/hospitals`}
-                className="block w-full text-center py-3 px-6 border border-pink-300 text-pink-600 hover:bg-pink-50 text-sm font-medium rounded-full transition-colors"
+                className="block w-full text-center py-3 px-6 border border-pink-300 text-teal-700 hover:bg-teal-50 text-sm font-medium rounded-full transition-colors"
               >
                 {t("ai_search.more_filter" as Parameters<typeof t>[0])}
               </Link>

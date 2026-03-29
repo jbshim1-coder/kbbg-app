@@ -46,7 +46,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
         {/* AI 추천 시작 버튼 */}
         <button
           onClick={handleSubmit}
-          className="mt-4 px-6 py-2.5 bg-pink-500 hover:bg-pink-600 text-white text-sm font-medium rounded-full transition-colors"
+          className="mt-4 px-6 py-2.5 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-full transition-colors"
         >
           AI 추천 시작
         </button>

@@ -100,7 +100,7 @@ export default function AdminUsersPage() {
                       {/* 로그인 방식 배지 */}
                       <span className={`text-xs px-2 py-0.5 rounded-full ${
                         user.provider === "google"
-                          ? "bg-blue-100 text-blue-700"
+                          ? "bg-blue-100 text-teal-700"
                           : "bg-gray-100 text-gray-600"
                       }`}>
                         {user.provider === "google" ? "Google" : "이메일"}

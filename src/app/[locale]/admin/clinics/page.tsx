@@ -64,7 +64,7 @@ export default function AdminClinicsPage() {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">병원 데이터 관리</h2>
         {/* 새 병원 등록 버튼 — 클릭 시 등록 폼으로 이동 (미구현) */}
-        <button className="text-sm px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <button className="text-sm px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
           + 병원 추가
         </button>
       </div>
@@ -84,7 +84,7 @@ export default function AdminClinicsPage() {
                   <h3 className="font-semibold text-gray-900">{clinic.name}</h3>
                   {/* verified 여부에 따라 인증/미인증 배지를 조건부 렌더링 */}
                   {clinic.verified ? (
-                    <span className="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+                    <span className="text-xs bg-blue-100 text-teal-600 px-2 py-0.5 rounded-full">
                       인증됨
                     </span>
                   ) : (
@@ -119,7 +119,7 @@ export default function AdminClinicsPage() {
 
               {/* 수정/삭제 액션 버튼 영역 */}
               <div className="flex gap-2 ml-4">
-                <button className="text-sm px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
+                <button className="text-sm px-3 py-1.5 bg-teal-50 text-teal-600 rounded-lg hover:bg-blue-100 transition-colors">
                   수정
                 </button>
                 <button className="text-sm px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">

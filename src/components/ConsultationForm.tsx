@@ -58,7 +58,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "성명 *" : "Name *"}
           </label>
           <input name="name" value={form.name} onChange={handleChange} required
-            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder={isKo ? "홍길동" : "Your name"} />
         </div>
         <div>
@@ -66,7 +66,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "이메일 *" : "Email *"}
           </label>
           <input name="email" type="email" value={form.email} onChange={handleChange} required
-            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder="email@example.com" />
         </div>
         <div>
@@ -74,7 +74,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "나이" : "Age"}
           </label>
           <input name="age" value={form.age} onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder={isKo ? "30" : "30"} />
         </div>
         <div>
@@ -82,7 +82,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "한국에서 지역" : "Region in Korea"}
           </label>
           <input name="region" value={form.region} onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder={isKo ? "서울 강남" : "Seoul Gangnam"} />
         </div>
         <div>
@@ -90,7 +90,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "국적" : "Nationality"}
           </label>
           <input name="nationality" value={form.nationality} onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder={isKo ? "대한민국" : "USA"} />
         </div>
         <div>
@@ -98,7 +98,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
             {isKo ? "성별" : "Gender"}
           </label>
           <select name="gender" value={form.gender} onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-pink-400">
+            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400">
             <option value="">{isKo ? "선택" : "Select"}</option>
             <option value="male">{isKo ? "남성" : "Male"}</option>
             <option value="female">{isKo ? "여성" : "Female"}</option>
@@ -111,7 +111,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
           {isKo ? "원하는 진료" : "Desired Treatment"}
         </label>
         <input name="procedure" value={form.procedure} onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+          className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
           placeholder={isKo ? "예: 코성형, 피부 레이저, 치아교정" : "e.g. Rhinoplasty, Laser, Orthodontics"} />
       </div>
       <div>
@@ -119,11 +119,11 @@ export default function ConsultationForm({ locale }: { locale: string }) {
           {isKo ? "문의사항" : "Message"}
         </label>
         <textarea name="message" value={form.message} onChange={handleChange} rows={3}
-          className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 resize-none"
+          className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 resize-none"
           placeholder={isKo ? "궁금한 점을 자유롭게 작성해 주세요" : "Feel free to ask anything"} />
       </div>
       <button type="submit" disabled={loading}
-        className="w-full py-3 bg-pink-500 text-white text-sm font-bold rounded-xl hover:bg-pink-600 disabled:bg-pink-300 transition">
+        className="w-full py-3 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 disabled:bg-teal-400 transition">
         {loading
           ? (isKo ? "접수 중..." : "Submitting...")
           : (isKo ? "무료 상담 신청 (24시간 이내 답변)" : "Request Free Consultation (Reply within 24h)")}

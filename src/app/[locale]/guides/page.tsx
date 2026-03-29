@@ -77,8 +77,8 @@ export default async function GuidesPage({
     "plastic-surgery": {
       labelKey: "cat_plastic",
       color: "text-pink-700",
-      bgColor: "bg-pink-50",
-      borderColor: "border-pink-200",
+      bgColor: "bg-teal-50",
+      borderColor: "border-teal-300",
     },
     dermatology: {
       labelKey: "cat_dermatology",
@@ -88,9 +88,9 @@ export default async function GuidesPage({
     },
     dental: {
       labelKey: "cat_dental",
-      color: "text-blue-700",
-      bgColor: "bg-blue-50",
-      borderColor: "border-blue-200",
+      color: "text-teal-700",
+      bgColor: "bg-teal-50",
+      borderColor: "border-teal-300",
     },
     ophthalmology: {
       labelKey: "cat_ophthalmology",
@@ -147,7 +147,7 @@ export default async function GuidesPage({
       {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-20 text-center">
         <div className="mx-auto max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
+          <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
             {t("subtitle")}
           </p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">
@@ -163,7 +163,7 @@ export default async function GuidesPage({
               { value: "10", label: t("stat_categories") },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="text-2xl font-black text-pink-500">{stat.value}</p>
+                <p className="text-2xl font-black text-teal-600">{stat.value}</p>
                 <p className="text-xs text-gray-500">{stat.label}</p>
               </div>
             ))}
@@ -216,7 +216,7 @@ export default async function GuidesPage({
                     <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${meta.color} bg-white/70 mb-3`}>
                       {t(meta.labelKey as Parameters<typeof t>[0])}
                     </span>
-                    <h3 className="text-base font-bold text-gray-900 group-hover:text-pink-600 transition-colors">
+                    <h3 className="text-base font-bold text-gray-900 group-hover:text-teal-700 transition-colors">
                       {isKo ? guide.title : guide.titleEn}
                     </h3>
                     {!isKo && (

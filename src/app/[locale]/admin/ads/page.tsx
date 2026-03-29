@@ -109,7 +109,7 @@ export default function AdminAdsPage() {
         <h2 className="text-2xl font-bold text-gray-900">광고관리</h2>
         <button
           onClick={openCreate}
-          className="text-sm px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="text-sm px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
         >
           + 광고 등록
         </button>
@@ -132,7 +132,7 @@ export default function AdminAdsPage() {
                   value={form.title}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div>
@@ -144,7 +144,7 @@ export default function AdminAdsPage() {
                   value={form.hospitalName}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div className="sm:col-span-2">
@@ -156,7 +156,7 @@ export default function AdminAdsPage() {
                   value={form.description}
                   onChange={handleChange}
                   rows={2}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
                 />
               </div>
               <div>
@@ -169,7 +169,7 @@ export default function AdminAdsPage() {
                   onChange={handleChange}
                   type="url"
                   placeholder="https://..."
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div>
@@ -182,7 +182,7 @@ export default function AdminAdsPage() {
                   onChange={handleChange}
                   type="url"
                   placeholder="https://..."
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
             </div>
@@ -194,7 +194,7 @@ export default function AdminAdsPage() {
                 name="active"
                 checked={form.active}
                 onChange={handleChange}
-                className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="w-4 h-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
               />
               <span className="text-sm text-gray-700">활성화 (검색 결과에 노출)</span>
             </label>
@@ -203,7 +203,7 @@ export default function AdminAdsPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="px-5 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 disabled:bg-blue-300 transition-colors"
+                className="px-5 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700 disabled:bg-blue-300 transition-colors"
               >
                 {submitting ? "저장 중..." : editingId ? "수정 완료" : "등록"}
               </button>
@@ -262,7 +262,7 @@ export default function AdminAdsPage() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => openEdit(ad)}
-                        className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
+                        className="text-xs px-2 py-1 bg-teal-50 text-teal-600 rounded hover:bg-blue-100 transition-colors"
                       >
                         수정
                       </button>

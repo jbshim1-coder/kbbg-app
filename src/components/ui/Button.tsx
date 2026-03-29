@@ -16,11 +16,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 // 변형별 스타일 맵
 const variantStyles: Record<Variant, string> = {
   primary:
-    "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 disabled:bg-blue-300",
+    "bg-teal-600 text-white hover:bg-teal-700 active:bg-blue-800 disabled:bg-blue-300",
   secondary:
-    "bg-pink-400 text-white hover:bg-pink-500 active:bg-pink-600 disabled:bg-pink-200",
+    "bg-teal-500 text-white hover:bg-teal-600 active:bg-teal-700 disabled:bg-teal-300",
   outline:
-    "border border-blue-600 text-blue-600 hover:bg-blue-50 active:bg-blue-100 disabled:border-blue-200 disabled:text-blue-200",
+    "border border-teal-600 text-teal-600 hover:bg-teal-50 active:bg-blue-100 disabled:border-teal-300 disabled:text-blue-200",
   ghost:
     "text-gray-700 hover:bg-gray-100 active:bg-gray-200 disabled:text-gray-300",
   danger:
@@ -60,7 +60,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={[
           "inline-flex items-center justify-center gap-2 rounded-lg font-medium",
           "transition-colors duration-150 cursor-pointer",
-          "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+          "focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2",
           "disabled:cursor-not-allowed",
           variantStyles[variant],
           sizeStyles[size],

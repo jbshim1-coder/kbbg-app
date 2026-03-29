@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const BANNERS = [
-  { titleKo: "AI가 추천하는 나만의 병원 찾기", titleEn: "Find Your Perfect Clinic with AI", subKo: "건강보험심사평가원과 구글의 정보를 취합하여 추천드립니다.", subEn: "Combining data from HIRA and Google to find the best recommendations for you.", href: "/ai-search", bg: "from-pink-500 to-rose-400", cta: { ko: "AI 추천 시작", en: "Start AI Search" } },
+  { titleKo: "AI가 추천하는 나만의 병원 찾기", titleEn: "Find Your Perfect Clinic with AI", subKo: "건강보험심사평가원과 구글의 정보를 취합하여 추천드립니다.", subEn: "Combining data from HIRA and Google to find the best recommendations for you.", href: "/ai-search", bg: "from-teal-500 to-teal-500", cta: { ko: "AI 추천 시작", en: "Start AI Search" } },
   { titleKo: "이번 주 인기 화장품 TOP 20", titleEn: "This Week's TOP 20 Cosmetics", subKo: "네이버·올리브영·글로우픽·화해 실시간 랭킹", subEn: "Real-time ranking from Naver, Oliveyoung & more", href: "/cosmetics", bg: "from-orange-400 to-amber-400", cta: { ko: "랭킹 보기", en: "View Ranking" } },
   { titleKo: "한국 의료관광 시술 가이드", titleEn: "Korea Medical Tourism Guide", subKo: "20가지 시술 비용·회복기간·FAQ 총정리", subEn: "20 procedures — cost, recovery & FAQ", href: "/guides", bg: "from-blue-500 to-cyan-400", cta: { ko: "가이드 보기", en: "View Guide" } },
   { titleKo: "실제 후기를 커뮤니티에서 확인하세요", titleEn: "Check Real Reviews in Community", subKo: "K-Pop, K-Food, K-Drama까지 다양한 토픽", subEn: "K-Pop, K-Food, K-Drama & more topics", href: "/community", bg: "from-emerald-500 to-teal-400", cta: { ko: "커뮤니티 가기", en: "Go to Community" } },

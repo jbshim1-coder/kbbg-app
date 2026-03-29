@@ -24,7 +24,7 @@ export default function AdminDashboard() {
       label: "회원관리",
       description: "가입 회원 목록 조회 및 차단/정지 처리",
       icon: "👥",
-      color: "bg-blue-50 border-blue-100",
+      color: "bg-teal-50 border-blue-100",
     },
     {
       href: `/${locale}/admin/ads`,

@@ -67,10 +67,10 @@ export default async function Footer({ locale }: { locale: string }) {
           <div className="lg:col-span-2">
             <Link
               href={lp("/")}
-              className="text-xl font-bold text-blue-600 tracking-tight"
+              className="text-xl font-bold text-teal-600 tracking-tight"
               aria-label="K-Beauty Buyers Guide"
             >
-              K-Beauty<span className="text-pink-400">BG</span>
+              K-Beauty<span className="text-teal-500">BG</span>
             </Link>
 
             <p className="mt-3 text-sm text-gray-500 leading-relaxed max-w-xs">
@@ -83,7 +83,7 @@ export default async function Footer({ locale }: { locale: string }) {
               <p>{t("footer.company_info")}</p>
               <a
                 href="mailto:help@2bstory.com"
-                className="inline-flex items-center gap-1 hover:text-blue-600 transition-colors"
+                className="inline-flex items-center gap-1 hover:text-teal-600 transition-colors"
               >
                 <Mail size={12} />
                 help@2bstory.com
@@ -99,8 +99,8 @@ export default async function Footer({ locale }: { locale: string }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="p-2 rounded-lg text-gray-400 hover:text-blue-600
-                    hover:bg-blue-50 transition-colors"
+                  className="p-2 rounded-lg text-gray-400 hover:text-teal-600
+                    hover:bg-teal-50 transition-colors"
                 >
                   <Icon size={16} />
                 </a>
@@ -119,7 +119,7 @@ export default async function Footer({ locale }: { locale: string }) {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
+                      className="text-sm text-gray-500 hover:text-teal-600 transition-colors"
                     >
                       {t(link.labelKey as Parameters<typeof t>[0])}
                     </Link>
@@ -149,7 +149,7 @@ export default async function Footer({ locale }: { locale: string }) {
                 )}
                 <Link
                   href={link.href}
-                  className="text-xs text-gray-400 hover:text-blue-600 transition-colors"
+                  className="text-xs text-gray-400 hover:text-teal-600 transition-colors"
                 >
                   {t(link.labelKey as Parameters<typeof t>[0])}
                 </Link>

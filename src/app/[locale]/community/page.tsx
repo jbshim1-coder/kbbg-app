@@ -97,7 +97,7 @@ export default function CommunityPage() {
           <h1 className="text-2xl font-bold text-gray-900">{t("community.title")}</h1>
           <Link
             href={loggedIn ? `/${locale}/community/new` : `/${locale}/signup`}
-            className="rounded-xl bg-pink-500 px-4 py-2 text-sm font-semibold text-white hover:bg-pink-600"
+            className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
           >
             {t("community.new_post")}
           </Link>
@@ -115,7 +115,7 @@ export default function CommunityPage() {
               onClick={() => setActiveCategoryKey(catKey)}
               className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
                 activeCategoryKey === catKey
-                  ? "bg-pink-500 text-white"
+                  ? "bg-teal-600 text-white"
                   : "bg-white border border-gray-200 text-gray-600 hover:border-pink-300"
               }`}
             >
@@ -128,13 +128,13 @@ export default function CommunityPage() {
         <div className="mt-3 flex gap-3 text-sm">
             <button
               onClick={() => setSort("popular")}
-              className={`font-medium ${sort === "popular" ? "text-pink-500" : "text-gray-400 hover:text-gray-600"}`}
+              className={`font-medium ${sort === "popular" ? "text-teal-600" : "text-gray-400 hover:text-gray-600"}`}
             >
               {t("community.trending")}
             </button>
             <button
               onClick={() => setSort("latest")}
-              className={`font-medium ${sort === "latest" ? "text-pink-500" : "text-gray-400 hover:text-gray-600"}`}
+              className={`font-medium ${sort === "latest" ? "text-teal-600" : "text-gray-400 hover:text-gray-600"}`}
             >
               {t("community.latest")}
             </button>
@@ -150,7 +150,7 @@ export default function CommunityPage() {
                     <div className="min-w-0">
                       {/* 카테고리 배지 */}
                       <div className="flex items-center gap-2">
-                        <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+                        <span className="rounded-full bg-teal-50 px-2 py-0.5 text-xs font-medium text-teal-600">
                           {t(post.categoryKey as Parameters<typeof t>[0])}
                         </span>
                       </div>

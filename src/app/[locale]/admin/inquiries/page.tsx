@@ -147,7 +147,7 @@ export default function AdminInquiriesPage() {
                   {inq.assignedClinic && (
                     <span className="text-gray-500">
                       배정:{" "}
-                      <span className="text-blue-600 font-medium">
+                      <span className="text-teal-600 font-medium">
                         {inq.assignedClinic}
                       </span>
                     </span>
@@ -162,7 +162,7 @@ export default function AdminInquiriesPage() {
 
               {/* 문의 처리 액션 버튼 — 답변하기/종료 */}
               <div className="flex flex-col gap-2 ml-5 shrink-0">
-                <button className="text-sm px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
+                <button className="text-sm px-3 py-1.5 bg-teal-50 text-teal-600 rounded-lg hover:bg-blue-100 transition-colors">
                   답변하기
                 </button>
                 <button className="text-sm px-3 py-1.5 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors">

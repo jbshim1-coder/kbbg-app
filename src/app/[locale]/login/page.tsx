@@ -64,7 +64,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("auth.email_placeholder")}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
@@ -75,13 +75,13 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2.5 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition"
+            className="w-full py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition"
           >
             {t("auth.login_btn")}
           </button>
@@ -90,7 +90,7 @@ export default function LoginPage() {
         {/* 회원가입 링크 */}
         <p className="mt-6 text-center text-sm text-gray-500">
           {t("auth.no_account")}{" "}
-          <Link href={`/${locale}/signup`} className="text-blue-600 font-medium hover:underline">
+          <Link href={`/${locale}/signup`} className="text-teal-600 font-medium hover:underline">
             {t("auth.signup")}
           </Link>
         </p>

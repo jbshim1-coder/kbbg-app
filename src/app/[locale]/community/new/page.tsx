@@ -103,12 +103,12 @@ export default function NewPostPage() {
           {/* 카테고리 선택 — 드롭다운 */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              {t("community.category_label")} <span className="text-pink-500">{t("community.required_marker")}</span>
+              {t("community.category_label")} <span className="text-teal-600">{t("community.required_marker")}</span>
             </label>
             <select
               value={categoryKey}
               onChange={(e) => setCategoryKey(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400 bg-white"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400 bg-white"
             >
               <option value="">{locale === "ko" ? "카테고리를 선택하세요" : "Select a category"}</option>
               {CATEGORY_KEYS.map((catKey) => (
@@ -122,7 +122,7 @@ export default function NewPostPage() {
           {/* 제목 입력 — 최대 100자 제한 */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              {t("community.post_title")} <span className="text-pink-500">{t("community.required_marker")}</span>
+              {t("community.post_title")} <span className="text-teal-600">{t("community.required_marker")}</span>
             </label>
             <input
               type="text"
@@ -130,7 +130,7 @@ export default function NewPostPage() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder={t("community.title_placeholder")}
               maxLength={100}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
             {/* 글자 수 카운터 */}
             <p className="mt-1 text-right text-xs text-gray-400">{title.length}/100</p>
@@ -139,14 +139,14 @@ export default function NewPostPage() {
           {/* 본문 에디터 — textarea 기반 (리치에디터는 추후 연동) */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              {t("community.post_content")} <span className="text-pink-500">{t("community.required_marker")}</span>
+              {t("community.post_content")} <span className="text-teal-600">{t("community.required_marker")}</span>
             </label>
             <textarea
               value={body}
               onChange={(e) => setBody(e.target.value)}
               placeholder={t("community.content_placeholder")}
               rows={10}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
           </div>
 
@@ -173,7 +173,7 @@ export default function NewPostPage() {
             <button
               type="submit"
               disabled={!isValid || submitting}
-              className="flex-1 rounded-xl bg-pink-500 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-pink-200 hover:bg-pink-600"
+              className="flex-1 rounded-xl bg-teal-600 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-teal-300 hover:bg-teal-700"
             >
               {submitting ? t("community.publishing") : t("community.publish")}
             </button>

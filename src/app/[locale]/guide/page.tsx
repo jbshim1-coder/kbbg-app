@@ -24,7 +24,7 @@ export default async function GuidePage() {
       {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-16 text-center">
         <div className="mx-auto max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
+          <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
             {t("guide.label")}
           </p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">
@@ -43,7 +43,7 @@ export default async function GuidePage() {
             <div key={item.step} className="flex gap-5">
               {/* 단계 번호 배지 */}
               <div className="flex-shrink-0 w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center">
-                <span className="text-sm font-bold text-pink-600">{item.step}</span>
+                <span className="text-sm font-bold text-teal-700">{item.step}</span>
               </div>
               <div>
                 <h2 className="font-semibold text-gray-900">{t(item.titleKey)}</h2>
@@ -58,11 +58,11 @@ export default async function GuidePage() {
       <section className="border-t border-gray-100 px-4 py-12 text-center">
         <p className="text-gray-500">
           {t("guide.help_text")}{" "}
-          <a href="../faq" className="text-pink-500 hover:underline font-medium">
+          <a href="../faq" className="text-teal-600 hover:underline font-medium">
             {t("guide.faq_link")}
           </a>{" "}
           {t("guide.or")}{" "}
-          <a href="../contact" className="text-pink-500 hover:underline font-medium">
+          <a href="../contact" className="text-teal-600 hover:underline font-medium">
             {t("guide.contact_link")}
           </a>.
         </p>

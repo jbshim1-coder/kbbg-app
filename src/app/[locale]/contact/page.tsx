@@ -105,7 +105,7 @@ export default function ContactPage() {
           {t("contact.subtitle")}
           <br />
           {t("contact.email_label")}{" "}
-          <a href="mailto:help@2bstory.com" className="text-pink-500 hover:underline">
+          <a href="mailto:help@2bstory.com" className="text-teal-600 hover:underline">
             help@2bstory.com
           </a>
         </p>
@@ -121,40 +121,40 @@ export default function ContactPage() {
           {/* 이름 입력 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("contact.name")} <span className="text-pink-500">*</span>
+              {t("contact.name")} <span className="text-teal-600">*</span>
             </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t("contact.name_placeholder")}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
           </div>
 
           {/* 이메일 입력 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("contact.email")} <span className="text-pink-500">*</span>
+              {t("contact.email")} <span className="text-teal-600">*</span>
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("contact.email_placeholder")}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
           </div>
 
           {/* 문의 유형 선택 드롭다운 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("contact.type")} <span className="text-pink-500">*</span>
+              {t("contact.type")} <span className="text-teal-600">*</span>
             </label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-teal-400"
             >
               <option value="">{t("contact.type_placeholder")}</option>
               {INQUIRY_TYPE_KEYS.map((key) => (
@@ -168,14 +168,14 @@ export default function ContactPage() {
           {/* 메시지 본문 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("contact.message")} <span className="text-pink-500">*</span>
+              {t("contact.message")} <span className="text-teal-600">*</span>
             </label>
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={t("contact.message_placeholder")}
               rows={6}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-pink-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
             />
           </div>
 
@@ -183,7 +183,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={!isValid}
-            className="w-full rounded-xl bg-pink-500 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-pink-200 hover:bg-pink-600"
+            className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-teal-300 hover:bg-teal-700"
           >
             {loading ? t("contact.sending") : t("contact.submit")}
           </button>

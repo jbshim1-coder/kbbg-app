@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 const DEPARTMENTS = [
-  { id: 1, code: "08", icon: "✨", nameKo: "성형외과", nameEn: "Plastic Surgery", descKo: "쌍꺼풀·코성형·안면윤곽", descEn: "Eyelid · Nose · Face Contouring", color: "from-pink-400 to-rose-400" },
+  { id: 1, code: "08", icon: "✨", nameKo: "성형외과", nameEn: "Plastic Surgery", descKo: "쌍꺼풀·코성형·안면윤곽", descEn: "Eyelid · Nose · Face Contouring", color: "from-teal-400 to-teal-500" },
   { id: 2, code: "14", icon: "💎", nameKo: "피부과", nameEn: "Dermatology", descKo: "레이저·보톡스·필러", descEn: "Laser · Botox · Filler", color: "from-purple-400 to-violet-400" },
   { id: 3, code: "01", icon: "🩺", nameKo: "내과", nameEn: "Internal Medicine", descKo: "건강검진", descEn: "Health Checkup", color: "from-blue-400 to-cyan-400" },
   { id: 4, code: "49", icon: "🦷", nameKo: "치과", nameEn: "Dental", descKo: "임플란트·라미네이트", descEn: "Implant · Laminate", color: "from-sky-400 to-blue-400" },
@@ -39,7 +39,7 @@ export default function TopDepartments({ locale }: { locale: string }) {
             <div className={`mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${dept.color} text-2xl`}>
               {dept.icon}
             </div>
-            <p className="text-sm font-semibold text-gray-800 group-hover:text-pink-500 transition-colors">
+            <p className="text-sm font-semibold text-gray-800 group-hover:text-teal-600 transition-colors">
               {isKo ? dept.nameKo : dept.nameEn}
             </p>
             <p className="mt-0.5 text-[11px] text-gray-400 line-clamp-1">
