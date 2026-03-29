@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import { Globe, Menu, X, ChevronDown, LogOut } from "lucide-react";
+import { Globe, Menu, X, ChevronDown, LogOut, Bell } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
@@ -58,6 +58,17 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   // 언어 선택 드롭다운 열림/닫힘 상태
   const [langOpen, setLangOpen] = useState(false);
+  // 알림 드롭다운 상태
+  const [notifOpen, setNotifOpen] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  // 더미 알림 데이터 — 향후 Supabase 실시간 연동 예정
+  const DUMMY_NOTIFICATIONS = [
+    { id: 1, text: currentLocaleCode === "ko" ? "sarah_jp님이 내 게시글에 댓글을 달았습니다." : "sarah_jp commented on your post.", time: "2m ago", read: false },
+    { id: 2, text: currentLocaleCode === "ko" ? "내 게시글이 인기글에 선정되었습니다! 🎉" : "Your post was featured as trending! 🎉", time: "1h ago", read: false },
+    { id: 3, text: currentLocaleCode === "ko" ? "mike_us님이 내 댓글에 답글을 달았습니다." : "mike_us replied to your comment.", time: "3h ago", read: true },
+    { id: 4, text: currentLocaleCode === "ko" ? "새 공지사항: 커뮤니티 가이드라인 업데이트" : "Notice: Community guidelines updated.", time: "1d ago", read: true },
+  ];
   // 현재 선택된 언어 (URL 기반으로 초기화)
   const [currentLocale, setCurrentLocale] = useState<(typeof LOCALES)[number]>(
     LOCALES.find((l) => l.code === currentLocaleCode) || LOCALES[0]
@@ -99,6 +110,9 @@ export default function Header() {
     const handler = (e: MouseEvent) => {
       if (!langRef.current?.contains(e.target as Node)) {
         setLangOpen(false);
+      }
+      if (!notifRef.current?.contains(e.target as Node)) {
+        setNotifOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -176,6 +190,40 @@ export default function Header() {
 
           {/* ── 우측 액션 영역 ── */}
           <div className="flex items-center gap-2">
+
+            {/* 알림 아이콘 — 로그인 시만 표시 */}
+            {user && (
+              <div ref={notifRef} className="relative">
+                <button
+                  onClick={() => setNotifOpen((prev) => !prev)}
+                  aria-label="Notifications"
+                  className="relative p-2 rounded-lg text-gray-500 hover:text-slate-700 hover:bg-slate-50 transition-colors"
+                >
+                  <Bell size={18} />
+                  {/* 읽지 않은 알림 뱃지 */}
+                  {DUMMY_NOTIFICATIONS.some((n) => !n.read) && (
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full" />
+                  )}
+                </button>
+
+                {notifOpen && (
+                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-40">
+                    <p className="px-4 py-2 text-xs font-semibold text-gray-500 border-b border-gray-100">
+                      {currentLocaleCode === "ko" ? "알림" : "Notifications"}
+                    </p>
+                    {DUMMY_NOTIFICATIONS.map((n) => (
+                      <div
+                        key={n.id}
+                        className={`px-4 py-3 text-sm border-b border-gray-50 last:border-0 ${n.read ? "text-gray-500" : "text-gray-800 bg-rose-50/40"}`}
+                      >
+                        <p className="leading-snug">{n.text}</p>
+                        <p className="mt-0.5 text-xs text-gray-400">{n.time}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* 언어 선택 드롭다운 */}
             <div ref={langRef} className="relative">
