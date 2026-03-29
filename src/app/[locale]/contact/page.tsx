@@ -74,6 +74,14 @@ export default function ContactPage() {
       });
 
       if (dbError) throw dbError;
+
+      // 운영자에게 이메일 알림
+      fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user: name, email, country: "", procedure: type, budget: "", visitDate: "", message }),
+      }).catch(() => {});
+
       setSubmitted(true);
     } catch {
       setError(t("contact.error"));
