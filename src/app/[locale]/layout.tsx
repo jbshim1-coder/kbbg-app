@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import MedicalDisclaimer from "@/components/MedicalDisclaimer";
 import AdBanner from "@/components/AdBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import CookieConsent from "@/components/CookieConsent";
@@ -145,6 +146,7 @@ export default async function LocaleLayout({
             <AdBanner />
             <main className="flex-1">{children}</main>
             <CookieConsent locale={locale} />
+            <MedicalDisclaimer locale={locale} />
             <Footer locale={locale} />
           </div>
         </NextIntlClientProvider>

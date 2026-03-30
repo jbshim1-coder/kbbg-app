@@ -329,6 +329,9 @@
     "support_report": "Báo cáo",
     "support_guidelines": "Nguyên tắc cộng đồng"
   },
+  "medical_disclaimer": {
+    "text": "Thông tin trên trang web này không thay thế chẩn đoán hoặc điều trị y tế chuyên nghiệp. Trong trường hợp khẩn cấp, hãy liên hệ 119 (Hàn Quốc) hoặc dịch vụ khẩn cấp địa phương."
+  },
   "common": {
     "loading": "Đang tải...",
     "error": "Đã xảy ra lỗi",

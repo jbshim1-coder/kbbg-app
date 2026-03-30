@@ -39,6 +39,7 @@ export default async function Footer({ locale }: { locale: string }) {
         { href: lp("/guide"), labelKey: "footer.support_guide" },
         { href: lp("/safety"), labelKey: "footer.support_safety" },
         { href: lp("/report"), labelKey: "footer.support_report" },
+        { href: lp("/guidelines"), labelKey: "footer.support_guidelines" },
       ],
     },
   ];
