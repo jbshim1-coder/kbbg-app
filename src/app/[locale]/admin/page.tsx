@@ -40,6 +40,13 @@ export default function AdminDashboard() {
       icon: "📝",
       color: "bg-purple-50 border-purple-100",
     },
+    {
+      href: `/${locale}/admin/bug-reports`,
+      label: "기능오류 신고",
+      description: "사용자 기능오류 신고 확인 및 100P 지급 처리",
+      icon: "🐛",
+      color: "bg-red-50 border-red-100",
+    },
   ];
 
   return (

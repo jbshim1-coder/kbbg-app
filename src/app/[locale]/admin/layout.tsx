@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { path: "/admin/posts", label: "게시글관리", icon: "📝" },
   { path: "/admin/clinics", label: "병원 데이터", icon: "🏥" },
   { path: "/admin/inquiries", label: "추천 문의", icon: "💬" },
+  { path: "/admin/bug-reports", label: "기능오류 신고", icon: "🐛" },
 ];
 
 // AdminLayout: /admin 하위 모든 페이지를 감싸는 레이아웃 컴포넌트

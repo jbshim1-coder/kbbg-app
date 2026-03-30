@@ -326,9 +326,9 @@
     "support_guide": "User Guide",
     "support_safety": "Safety Info",
     "support_report": "Report",
-    "support_guidelines",
-    "bug_report",
-    "bug_report_reward": "Earn 100P for bug reports": "Report a Bug": "Community Guidelines"
+    "support_guidelines": "Community Guidelines",
+    "bug_report": "Report a Bug",
+    "bug_report_reward": "Earn 100P for bug reports"
   },
   "medical_disclaimer": {
     "text": "Information on this site is not a substitute for professional medical diagnosis or treatment. In case of emergency, contact 119 (Korea) or your local emergency services."
