@@ -55,8 +55,8 @@ export default async function HomePage({
           <div className="rounded-2xl bg-white shadow-sm overflow-hidden">
             <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-stone-100">
               <div>
-                <h2 className="text-base font-bold text-gray-900">조건별 병원검색</h2>
-                <p className="text-xs text-gray-400">진료과·지역·유형으로 실시간 검색</p>
+                <h2 className="text-base font-bold text-gray-900">{locale === "ko" ? "조건별 병원검색" : "Hospital Search"}</h2>
+                <p className="text-xs text-gray-400">{locale === "ko" ? "진료과·지역·유형으로 실시간 검색" : "Search by specialty, region & type"}</p>
               </div>
             </div>
             <div className="p-6 pt-4">
