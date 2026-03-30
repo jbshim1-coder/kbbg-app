@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import LevelBadge from "@/components/LevelBadge";
 import { createClient } from "@/lib/supabase";
 import { isMaster } from "@/lib/level-system";
+import { DUMMY_POSTS } from "./data/posts";
 
 // 카테고리 키 목록
 const CATEGORY_KEYS = [
@@ -29,6 +30,7 @@ const CAT_TO_KEY: Record<string, string> = {
 };
 
 // 16개 카테고리 전체 가상 게시글 — 다양한 국적의 가상 회원
+// DUMMY_POSTS(id 1~10)에서 미리보기 텍스트를 가져옴
 const INITIAL_POSTS = [
   // 성형외과
   { id: 1, title: "강남 쌍꺼풀 후기 — 3개월 경과", categoryKey: "community.plastic_surgery", author: "user_kr", level: 12, upvotes: 87, comments: 24, time: "2h ago", imageUrl: "https://images.unsplash.com/photo-1614359975067-0f0b3c6d2d3a?w=400&h=300&fit=crop" },
@@ -86,6 +88,13 @@ const INITIAL_POSTS = [
   { id: 38, title: "2026년 한국어 학습 앱 추천", categoryKey: "community.korean_learn", author: "lucy_au", level: 9, upvotes: 58, comments: 21, time: "7h ago" },
   { id: 39, title: "병원에서 쓸 수 있는 한국어 표현 모음", categoryKey: "community.korean_learn", author: "lin_tw", level: 13, upvotes: 69, comments: 27, time: "1d ago" },
 ];
+
+// DUMMY_POSTS에서 id에 해당하는 미리보기 텍스트 추출 (isKo에 따라 한/영 선택)
+function getPreview(postId: number, isKo: boolean): string {
+  const dummy = DUMMY_POSTS.find((p) => p.id === postId);
+  if (!dummy) return "";
+  return isKo ? dummy.preview : dummy.previewEn;
+}
 
 type SortType = "popular" | "latest";
 type Reply = { author: string; text: string; time: string };
@@ -312,18 +321,20 @@ function CommunityContent() {
               const postReplies = replies[post.id] || [];
               const isReplyOpen = replyOpenId === post.id;
 
+              const preview = getPreview(post.id, isKo);
+
               return (
                 <div key={post.id} className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-                  {/* 이미지 썸네일 */}
+                  {/* 이미지 썸네일 — 클릭 시 상세 이동 */}
                   {"imageUrl" in post && post.imageUrl && (
-                    <div className="overflow-hidden rounded-t-2xl">
+                    <Link href={`/${locale}/community/${post.id}`} className="block overflow-hidden rounded-t-2xl">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={post.imageUrl}
                         alt={post.title}
-                        className="w-full h-32 object-cover"
+                        className="w-full h-32 object-cover hover:scale-105 transition-transform duration-200"
                       />
-                    </div>
+                    </Link>
                   )}
 
                   <div className="p-5">
@@ -332,7 +343,19 @@ function CommunityContent() {
                         <span className="text-xs text-rose-500 font-medium">
                           {t(post.categoryKey as Parameters<typeof t>[0])}
                         </span>
-                        <h3 className="mt-1 font-semibold text-gray-800">{post.title}</h3>
+                        {/* 제목 — 클릭 시 상세 페이지 이동 */}
+                        <Link href={`/${locale}/community/${post.id}`}>
+                          <h3 className="mt-1 font-semibold text-gray-800 hover:text-rose-500 transition-colors cursor-pointer">
+                            {post.title}
+                          </h3>
+                        </Link>
+
+                        {/* 본문 미리보기 2줄 — id 1~10만 표시 */}
+                        {preview && (
+                          <p className="mt-1.5 text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                            {preview}
+                          </p>
+                        )}
 
                         {/* 번역 결과 표시 */}
                         {translation?.loading && (
