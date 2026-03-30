@@ -40,7 +40,7 @@ export default async function Footer({ locale }: { locale: string }) {
         { href: lp("/safety"), labelKey: "footer.support_safety" },
         { href: lp("/report"), labelKey: "footer.support_report" },
         { href: lp("/guidelines"), labelKey: "footer.support_guidelines" },
-        { href: "mailto:help@2bstory.com?subject=Bug Report", labelKey: "footer.bug_report" },
+        { href: "mailto:help@2bstory.com?subject=Bug Report", labelKey: "footer.bug_report", sub: "footer.bug_report_reward" },
       ],
     },
   ];
@@ -92,6 +92,9 @@ export default async function Footer({ locale }: { locale: string }) {
                     >
                       {t(link.labelKey as Parameters<typeof t>[0])}
                     </Link>
+                    {"sub" in link && link.sub && (
+                      <p className="text-[10px] text-rose-400 -mt-2 ml-0.5">{t(link.sub as Parameters<typeof t>[0])}</p>
+                    )}
                   </li>
                 ))}
               </ul>

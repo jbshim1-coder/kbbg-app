@@ -328,7 +328,8 @@
     "support_safety": "安全情報",
     "support_report": "報告する",
     "support_guidelines",
-    "bug_report": "バグ報告": "コミュニティガイドライン"
+    "bug_report",
+    "bug_report_reward": "バグ報告で100P獲得": "バグ報告": "コミュニティガイドライン"
   },
   "medical_disclaimer": {
     "text": "このサイトの情報は、医療診断や治療の代わりにはなりません。緊急の場合は119（韓国）または現地の緊急サービスにご連絡ください。"
