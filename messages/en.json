@@ -325,7 +325,11 @@
     "support_guides": "Procedure Guides",
     "support_guide": "User Guide",
     "support_safety": "Safety Info",
-    "support_report": "Report"
+    "support_report": "Report",
+    "support_guidelines": "Community Guidelines"
+  },
+  "medical_disclaimer": {
+    "text": "Information on this site is not a substitute for professional medical diagnosis or treatment. In case of emergency, contact 119 (Korea) or your local emergency services."
   },
   "common": {
     "loading": "Loading...",

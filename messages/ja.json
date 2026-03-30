@@ -326,7 +326,8 @@
     "support_guides": "施術ガイド",
     "support_guide": "ユーザーガイド",
     "support_safety": "安全情報",
-    "support_report": "報告する"
+    "support_report": "報告する",
+    "support_guidelines": "コミュニティガイドライン"
   },
   "common": {
     "loading": "読み込み中...",

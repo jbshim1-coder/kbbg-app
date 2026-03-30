@@ -326,7 +326,8 @@
     "support_guides": "คู่มือการรักษา",
     "support_guide": "คู่มือการใช้งาน",
     "support_safety": "ข้อมูลความปลอดภัย",
-    "support_report": "รายงาน"
+    "support_report": "รายงาน",
+    "support_guidelines": "แนวทางชุมชน"
   },
   "common": {
     "loading": "กำลังโหลด...",

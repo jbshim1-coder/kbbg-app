@@ -326,7 +326,8 @@
     "support_guides": "Руководство по процедурам",
     "support_guide": "Руководство пользователя",
     "support_safety": "Информация о безопасности",
-    "support_report": "Пожаловаться"
+    "support_report": "Пожаловаться",
+    "support_guidelines": "Правила сообщества"
   },
   "common": {
     "loading": "Загрузка...",

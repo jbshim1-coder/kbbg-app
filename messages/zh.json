@@ -326,7 +326,8 @@
     "support_guides": "手术指南",
     "support_guide": "使用指南",
     "support_safety": "安全信息",
-    "support_report": "举报"
+    "support_report": "举报",
+    "support_guidelines": "社区准则"
   },
   "common": {
     "loading": "加载中...",

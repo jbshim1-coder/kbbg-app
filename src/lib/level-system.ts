@@ -45,11 +45,11 @@ export const POINT_ACTIONS = {
 };
 
 // 마스터 관리자 이메일 — 이 이메일은 항상 "M" 레벨로 표시
-const MASTER_EMAIL = "admin@2bstory.com";
+const MASTER_EMAILS = ["admin@2bstory.com", "jbshim1@gmail.com"];
 
 // 마스터 여부 확인
 export function isMaster(email: string): boolean {
-  return email === MASTER_EMAIL;
+  return MASTER_EMAILS.includes(email);
 }
 
 // 포인트 → 레벨 변환 (1~30, 마스터는 "M")
