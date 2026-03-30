@@ -327,7 +327,8 @@
     "support_guide": "이용 가이드",
     "support_safety": "안전 정보",
     "support_report": "신고하기",
-    "support_guidelines": "커뮤니티 가이드라인"
+    "support_guidelines",
+    "bug_report": "기능오류 신고": "커뮤니티 가이드라인"
   },
   "medical_disclaimer": {
     "text": "본 사이트의 정보는 의료 진단이나 치료를 대신하지 않습니다. 응급 상황 시 119(한국)에 연락하세요."

@@ -40,6 +40,7 @@ export default async function Footer({ locale }: { locale: string }) {
         { href: lp("/safety"), labelKey: "footer.support_safety" },
         { href: lp("/report"), labelKey: "footer.support_report" },
         { href: lp("/guidelines"), labelKey: "footer.support_guidelines" },
+        { href: "mailto:help@2bstory.com?subject=Bug Report", labelKey: "footer.bug_report" },
       ],
     },
   ];
