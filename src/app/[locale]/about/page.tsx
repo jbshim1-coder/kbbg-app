@@ -27,7 +27,7 @@ export default async function AboutPage() {
       {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-16 text-center">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">{t("badge")}</p>
+          <p className="text-sm font-semibold uppercase tracking-widest text-slate-700">{t("badge")}</p>
           <h1 className="mt-2 text-4xl font-bold text-gray-900">
             {t("title")}
           </h1>
@@ -42,7 +42,7 @@ export default async function AboutPage() {
         <div className="mx-auto grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
           {STATS.map((s) => (
             <div key={s.labelKey} className="text-center">
-              <p className="text-3xl font-black text-teal-600">{s.value}</p>
+              <p className="text-3xl font-black text-slate-700">{s.value}</p>
               <p className="mt-1 text-sm text-gray-500">{t(s.labelKey as Parameters<typeof t>[0])}</p>
             </div>
           ))}
@@ -84,7 +84,7 @@ export default async function AboutPage() {
         <p className="mt-2 text-gray-500">{t("partnership_desc")}</p>
         <Link
           href={`/${locale}/contact`}
-          className="mt-6 inline-block rounded-xl bg-teal-600 px-8 py-3 font-semibold text-white hover:bg-teal-700"
+          className="mt-6 inline-block rounded-xl bg-slate-800 px-8 py-3 font-semibold text-white hover:bg-slate-900"
         >
           {t("contact_btn")}
         </Link>

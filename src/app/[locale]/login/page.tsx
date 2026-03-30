@@ -81,7 +81,7 @@ export default function LoginPage() {
           </div>
           <button
             type="submit"
-            className="w-full py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition"
+            className="w-full py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 transition"
           >
             {t("auth.login_btn")}
           </button>
@@ -90,7 +90,7 @@ export default function LoginPage() {
         {/* 회원가입 링크 */}
         <p className="mt-6 text-center text-sm text-gray-500">
           {t("auth.no_account")}{" "}
-          <Link href={`/${locale}/signup`} className="text-teal-600 font-medium hover:underline">
+          <Link href={`/${locale}/signup`} className="text-slate-700 font-medium hover:underline">
             {t("auth.signup")}
           </Link>
         </p>

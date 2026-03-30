@@ -132,7 +132,7 @@ export default function RecommendPage() {
           <p className="mt-2 text-gray-500">{t("recommend.subtitle")}</p>
           <button
             onClick={() => setCurrentStep(1)}
-            className="mt-8 w-full rounded-xl bg-teal-600 py-3 font-semibold text-white hover:bg-teal-700"
+            className="mt-8 w-full rounded-xl bg-slate-800 py-3 font-semibold text-white hover:bg-slate-900"
           >
             {t("recommend.start")}
           </button>
@@ -179,7 +179,7 @@ export default function RecommendPage() {
                   </div>
                   {/* 추천 점수 — 광고 병원에는 표시하지 않음 */}
                   {clinic.score && (
-                    <span className="rounded-full bg-teal-50 px-3 py-1 text-sm font-bold text-teal-700">
+                    <span className="rounded-full bg-slate-50 px-3 py-1 text-sm font-bold text-slate-700">
                       {t("recommend.score_label", { score: clinic.score })}
                     </span>
                   )}
@@ -189,7 +189,7 @@ export default function RecommendPage() {
                   {clinic.specialtyKeys.map((key) => (
                     <span
                       key={key}
-                      className="rounded-full bg-teal-50 px-2 py-0.5 text-xs text-teal-600"
+                      className="rounded-full bg-slate-50 px-2 py-0.5 text-xs text-slate-700"
                     >
                       {t(key as Parameters<typeof t>[0])}
                     </span>
@@ -231,7 +231,7 @@ export default function RecommendPage() {
           </div>
           <div className="h-2 w-full rounded-full bg-gray-200">
             <div
-              className="h-2 rounded-full bg-teal-600 transition-all"
+              className="h-2 rounded-full bg-slate-800 transition-all"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -250,8 +250,8 @@ export default function RecommendPage() {
                   onClick={() => setSelected(label)}
                   className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${
                     selected === label
-                      ? "border-pink-500 bg-teal-50 text-pink-700"
-                      : "border-gray-200 text-gray-700 hover:border-teal-300 hover:bg-teal-50"
+                      ? "border-pink-500 bg-slate-50 text-pink-700"
+                      : "border-gray-200 text-gray-700 hover:border-slate-300 hover:bg-slate-50"
                   }`}
                 >
                   {label}
@@ -264,7 +264,7 @@ export default function RecommendPage() {
           <button
             onClick={handleNext}
             disabled={!selected}
-            className="mt-8 w-full rounded-xl bg-teal-600 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-teal-300 hover:bg-teal-700"
+            className="mt-8 w-full rounded-xl bg-slate-800 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300 hover:bg-slate-900"
           >
             {currentStep === STEPS.length ? t("recommend.get_results") : t("recommend.next")}
           </button>

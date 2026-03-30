@@ -52,7 +52,7 @@ export default function InfluencerPage() {
       {/* 히어로 */}
       <section className="bg-gradient-to-br from-slate-50 to-gray-100 px-4 py-16 text-center">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
+          <p className="text-sm font-semibold uppercase tracking-widest text-slate-700">
             {isKo ? "인플루언서 제휴" : "Influencer Partnership"}
           </p>
           <h1 className="mt-3 text-3xl font-bold text-gray-900 sm:text-4xl">
@@ -144,7 +144,7 @@ export default function InfluencerPage() {
                 className="w-full px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
             <button type="submit"
-              className="w-full py-3 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition">
+              className="w-full py-3 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-900 transition">
               {isKo ? "제휴 신청하기" : "Submit Application"}
             </button>
           </form>

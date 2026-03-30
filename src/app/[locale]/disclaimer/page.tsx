@@ -65,7 +65,7 @@ export default async function DisclaimerPage() {
             <h2 className="text-lg font-bold text-gray-900">{t("s7_title")}</h2>
             <p className="mt-3">
               {t("s7_contact_prefix")}{" "}
-              <a href="mailto:help@2bstory.com" className="text-teal-600 hover:underline">
+              <a href="mailto:help@2bstory.com" className="text-slate-700 hover:underline">
                 help@2bstory.com
               </a>
               {t("s7_contact_suffix")}

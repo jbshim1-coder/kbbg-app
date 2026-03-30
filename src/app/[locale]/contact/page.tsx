@@ -113,7 +113,7 @@ function ContactContent() {
           {t("contact.subtitle")}
           <br />
           {t("contact.email_label")}{" "}
-          <a href="mailto:help@2bstory.com" className="text-teal-600 hover:underline">
+          <a href="mailto:help@2bstory.com" className="text-slate-700 hover:underline">
             help@2bstory.com
           </a>
         </p>
@@ -129,7 +129,7 @@ function ContactContent() {
           {/* 이름 입력 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("contact.name")} <span className="text-teal-600">*</span>
+              {t("contact.name")} <span className="text-slate-700">*</span>
             </label>
             <input
               type="text"
@@ -143,7 +143,7 @@ function ContactContent() {
           {/* 이메일 입력 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("contact.email")} <span className="text-teal-600">*</span>
+              {t("contact.email")} <span className="text-slate-700">*</span>
             </label>
             <input
               type="email"
@@ -157,7 +157,7 @@ function ContactContent() {
           {/* 문의 유형 선택 드롭다운 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("contact.type")} <span className="text-teal-600">*</span>
+              {t("contact.type")} <span className="text-slate-700">*</span>
             </label>
             <select
               value={type}
@@ -176,7 +176,7 @@ function ContactContent() {
           {/* 메시지 본문 */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("contact.message")} <span className="text-teal-600">*</span>
+              {t("contact.message")} <span className="text-slate-700">*</span>
             </label>
             <textarea
               value={message}
@@ -191,7 +191,7 @@ function ContactContent() {
           <button
             type="submit"
             disabled={!isValid}
-            className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-teal-300 hover:bg-teal-700"
+            className="w-full rounded-xl bg-slate-800 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300 hover:bg-slate-900"
           >
             {loading ? t("contact.sending") : t("contact.submit")}
           </button>

@@ -105,7 +105,7 @@ export default function ReportPage() {
           {t("report.subtitle")}
           <br />
           {t("report.email_hint")}{" "}
-          <a href="mailto:help@2bstory.com" className="text-teal-600 hover:underline">
+          <a href="mailto:help@2bstory.com" className="text-slate-700 hover:underline">
             help@2bstory.com
           </a>
         </p>
@@ -195,7 +195,7 @@ export default function ReportPage() {
           <button
             type="submit"
             disabled={!isValid || loading}
-            className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-teal-300 hover:bg-teal-700 transition-colors"
+            className="w-full rounded-xl bg-slate-800 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300 hover:bg-slate-900 transition-colors"
           >
             {loading ? t("report.submitting") : t("report.submit_btn")}
           </button>

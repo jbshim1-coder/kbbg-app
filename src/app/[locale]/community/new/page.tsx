@@ -177,7 +177,7 @@ export default function NewPostPage() {
           {/* 카테고리 선택 — 드롭다운 */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              {t("community.category_label")} <span className="text-teal-600">{t("community.required_marker")}</span>
+              {t("community.category_label")} <span className="text-slate-700">{t("community.required_marker")}</span>
             </label>
             <select
               value={categoryKey}
@@ -206,8 +206,8 @@ export default function NewPostPage() {
                   onClick={() => setPostType(pt)}
                   className={`flex-1 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
                     postType === pt
-                      ? "bg-teal-600 text-white border-teal-600"
-                      : "bg-white text-gray-600 border-stone-200 hover:border-teal-300"
+                      ? "bg-slate-800 text-white border-slate-600"
+                      : "bg-white text-gray-600 border-stone-200 hover:border-slate-300"
                   }`}
                 >
                   {pt === "text"  ? (locale === "ko" ? "📝 텍스트" : "📝 Text") :
@@ -272,7 +272,7 @@ export default function NewPostPage() {
           {/* 제목 입력 — 최대 100자 제한 */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              {t("community.post_title")} <span className="text-teal-600">{t("community.required_marker")}</span>
+              {t("community.post_title")} <span className="text-slate-700">{t("community.required_marker")}</span>
             </label>
             <input
               type="text"
@@ -289,7 +289,7 @@ export default function NewPostPage() {
           {/* 본문 에디터 — textarea 기반 (리치에디터는 추후 연동) */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              {t("community.post_content")} <span className="text-teal-600">{t("community.required_marker")}</span>
+              {t("community.post_content")} <span className="text-slate-700">{t("community.required_marker")}</span>
             </label>
             <textarea
               value={body}
@@ -324,7 +324,7 @@ export default function NewPostPage() {
             <button
               type="submit"
               disabled={!isValid || submitting}
-              className="flex-1 rounded-xl bg-teal-600 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-teal-300 hover:bg-teal-700"
+              className="flex-1 rounded-xl bg-slate-800 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300 hover:bg-slate-900"
             >
               {submitting ? t("community.publishing") : t("community.publish")}
             </button>

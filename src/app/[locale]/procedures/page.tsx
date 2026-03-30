@@ -24,7 +24,7 @@ export default async function ProceduresPage() {
       {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-20 text-center">
         <div className="mx-auto max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
+          <p className="text-sm font-semibold uppercase tracking-widest text-slate-700">
             {t("procedures.coming_soon_label")}
           </p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">

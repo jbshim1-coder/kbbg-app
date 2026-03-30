@@ -155,7 +155,7 @@ export default function AdminPostsPage() {
                 <td className="px-6 py-3">
                   {/* 게시글 관리 액션 버튼 — 승인/숨김/삭제 */}
                   <div className="flex gap-2">
-                    <button className="text-xs px-2 py-1 bg-teal-50 text-teal-600 rounded hover:bg-blue-100 transition-colors">
+                    <button className="text-xs px-2 py-1 bg-slate-50 text-slate-700 rounded hover:bg-blue-100 transition-colors">
                       승인
                     </button>
                     <button className="text-xs px-2 py-1 bg-yellow-50 text-yellow-600 rounded hover:bg-yellow-100 transition-colors">

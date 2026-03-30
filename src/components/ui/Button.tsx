@@ -16,11 +16,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 // 변형별 스타일 맵
 const variantStyles: Record<Variant, string> = {
   primary:
-    "bg-teal-600 text-white hover:bg-teal-700 active:bg-blue-800 disabled:bg-blue-300",
+    "bg-slate-800 text-white hover:bg-slate-900 active:bg-blue-800 disabled:bg-blue-300",
   secondary:
-    "bg-teal-500 text-white hover:bg-teal-600 active:bg-teal-700 disabled:bg-teal-300",
+    "bg-slate-700 text-white hover:bg-slate-800 active:bg-slate-900 disabled:bg-slate-300",
   outline:
-    "border border-teal-600 text-teal-600 hover:bg-teal-50 active:bg-blue-100 disabled:border-teal-300 disabled:text-blue-200",
+    "border border-slate-600 text-slate-700 hover:bg-slate-50 active:bg-blue-100 disabled:border-slate-300 disabled:text-blue-200",
   ghost:
     "text-gray-700 hover:bg-gray-100 active:bg-gray-200 disabled:text-gray-300",
   danger:

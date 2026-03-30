@@ -60,7 +60,7 @@ export default function ShareButton({ locale }: { locale: string }) {
         f
       </button>
       {showToast && (
-        <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-xs px-3 py-1 rounded-full animate-bounce whitespace-nowrap">
+        <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs px-3 py-1 rounded-full animate-bounce whitespace-nowrap">
           +2P!
         </span>
       )}

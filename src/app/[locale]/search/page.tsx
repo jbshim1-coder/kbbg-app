@@ -108,7 +108,7 @@ export default function SearchPage() {
                 <li key={post.id}>
                   <Link
                     href={`/${locale}/community/${post.id}`}
-                    className="block bg-white rounded-xl border border-gray-100 px-5 py-4 shadow-sm hover:border-teal-300 transition-colors"
+                    className="block bg-white rounded-xl border border-gray-100 px-5 py-4 shadow-sm hover:border-slate-300 transition-colors"
                   >
                     <p className="font-semibold text-gray-800 line-clamp-1">{post.title}</p>
                     <p className="text-sm text-gray-500 mt-1">{post.author} · {post.board}</p>

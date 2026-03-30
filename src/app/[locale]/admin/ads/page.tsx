@@ -109,7 +109,7 @@ export default function AdminAdsPage() {
         <h2 className="text-2xl font-bold text-gray-900">광고관리</h2>
         <button
           onClick={openCreate}
-          className="text-sm px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+          className="text-sm px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors"
         >
           + 광고 등록
         </button>
@@ -194,7 +194,7 @@ export default function AdminAdsPage() {
                 name="active"
                 checked={form.active}
                 onChange={handleChange}
-                className="w-4 h-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                className="w-4 h-4 rounded border-gray-300 text-slate-700 focus:ring-teal-500"
               />
               <span className="text-sm text-gray-700">활성화 (검색 결과에 노출)</span>
             </label>
@@ -203,7 +203,7 @@ export default function AdminAdsPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="px-5 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700 disabled:bg-blue-300 transition-colors"
+                className="px-5 py-2 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-900 disabled:bg-blue-300 transition-colors"
               >
                 {submitting ? "저장 중..." : editingId ? "수정 완료" : "등록"}
               </button>
@@ -262,7 +262,7 @@ export default function AdminAdsPage() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => openEdit(ad)}
-                        className="text-xs px-2 py-1 bg-teal-50 text-teal-600 rounded hover:bg-blue-100 transition-colors"
+                        className="text-xs px-2 py-1 bg-slate-50 text-slate-700 rounded hover:bg-blue-100 transition-colors"
                       >
                         수정
                       </button>

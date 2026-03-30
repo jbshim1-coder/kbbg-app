@@ -166,7 +166,7 @@ export default function PostDetailPage({
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-4">
         <p className="text-gray-500">{t("community.post_not_found")}</p>
-        <Link href={`/${locale}/community`} className="mt-4 text-teal-600 hover:underline">
+        <Link href={`/${locale}/community`} className="mt-4 text-slate-700 hover:underline">
           {t("community.back_to_community")}
         </Link>
       </main>
@@ -324,7 +324,7 @@ export default function PostDetailPage({
         <article className="mt-4 rounded-2xl bg-white p-6 shadow-sm">
           {/* 카테고리 + flair 뱃지 */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="inline-block rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-600">
+            <span className="inline-block rounded-full bg-slate-50 px-2.5 py-0.5 text-xs font-medium text-slate-700">
               {t(post.categoryKey as Parameters<typeof t>[0])}
             </span>
             {post.flair && (() => {
@@ -396,8 +396,8 @@ export default function PostDetailPage({
               onClick={() => handleVote("up")}
               className={`flex items-center gap-1.5 rounded-xl px-4 min-h-[44px] text-sm font-medium transition ${
                 voted === "up"
-                  ? "bg-teal-600 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-teal-50 hover:text-teal-600"
+                  ? "bg-slate-800 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-slate-50 hover:text-slate-700"
               }`}
             >
               ↑ {upvotes}
@@ -483,7 +483,7 @@ export default function PostDetailPage({
               </p>
               <Link
                 href={`/${locale}/signup`}
-                className="inline-flex items-center justify-center px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700 transition min-h-[44px] mx-auto"
+                className="inline-flex items-center justify-center px-4 py-2 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-900 transition min-h-[44px] mx-auto"
               >
                 {isKo ? "로그인 / 회원가입" : "Login / Sign Up"}
               </Link>
@@ -503,7 +503,7 @@ export default function PostDetailPage({
               <button
                 type="submit"
                 disabled={!newComment.trim() || submittingComment}
-                className="mt-2 rounded-xl bg-teal-600 px-6 min-h-[44px] text-sm font-semibold text-white hover:bg-teal-700 disabled:bg-teal-300 disabled:cursor-not-allowed transition"
+                className="mt-2 rounded-xl bg-slate-800 px-6 min-h-[44px] text-sm font-semibold text-white hover:bg-slate-900 disabled:bg-slate-300 disabled:cursor-not-allowed transition"
               >
                 {submittingComment
                   ? (isKo ? "등록 중..." : "Posting...")

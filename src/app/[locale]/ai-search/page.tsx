@@ -131,7 +131,7 @@ function AiSearchContent() {
             />
             <button
               onClick={handleSearch}
-              className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded-full transition-colors shrink-0 min-h-[44px] whitespace-nowrap"
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium rounded-full transition-colors shrink-0 min-h-[44px] whitespace-nowrap"
             >
               {t("ai_start.button" as Parameters<typeof t>[0])}
             </button>
@@ -260,7 +260,7 @@ function AiSearchContent() {
             <div className="pt-2">
               <Link
                 href={`/${locale}/hospitals`}
-                className="block w-full text-center py-3 px-6 border border-pink-300 text-teal-700 hover:bg-teal-50 text-sm font-medium rounded-full transition-colors"
+                className="block w-full text-center py-3 px-6 border border-pink-300 text-slate-700 hover:bg-slate-50 text-sm font-medium rounded-full transition-colors"
               >
                 {t("ai_search.more_filter" as Parameters<typeof t>[0])}
               </Link>

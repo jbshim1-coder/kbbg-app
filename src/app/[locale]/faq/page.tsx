@@ -75,7 +75,7 @@ export default function FaqPage() {
       {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-16 text-center">
         <div className="mx-auto max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-teal-600">
+          <p className="text-sm font-semibold uppercase tracking-widest text-slate-700">
             {t("faq.label")}
           </p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">
@@ -96,7 +96,7 @@ export default function FaqPage() {
               onClick={() => setActiveCategory(cat)}
               className={`flex-shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
                 activeCategory === cat
-                  ? "bg-teal-600 text-white"
+                  ? "bg-slate-800 text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >

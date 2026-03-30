@@ -136,7 +136,7 @@ export default function BugReportPage() {
           <div className="mt-6 flex flex-col gap-3">
             <button
               onClick={() => router.push(`/${locale}/login`)}
-              className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white hover:bg-teal-700 transition-colors"
+              className="w-full rounded-xl bg-slate-800 py-3 font-semibold text-white hover:bg-slate-900 transition-colors"
             >
               {isKo ? "로그인" : "Log In"}
             </button>
@@ -168,7 +168,7 @@ export default function BugReportPage() {
           </p>
           <button
             onClick={() => router.push(`/${locale}/`)}
-            className="mt-6 w-full rounded-xl bg-teal-600 py-3 font-semibold text-white hover:bg-teal-700 transition-colors"
+            className="mt-6 w-full rounded-xl bg-slate-800 py-3 font-semibold text-white hover:bg-slate-900 transition-colors"
           >
             {isKo ? "홈으로" : "Go Home"}
           </button>
@@ -190,7 +190,7 @@ export default function BugReportPage() {
         </p>
 
         {/* 포인트 안내 배너 */}
-        <div className="mt-4 rounded-xl bg-teal-50 border border-teal-100 px-4 py-3 text-sm text-teal-700">
+        <div className="mt-4 rounded-xl bg-slate-50 border border-teal-100 px-4 py-3 text-sm text-slate-700">
           🎁 {isKo ? "신고 채택 시 100P 지급" : "Earn 100P for accepted bug reports"}
         </div>
 
@@ -199,7 +199,7 @@ export default function BugReportPage() {
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
               {isKo ? "신고 내용" : "Description"}{" "}
-              <span className="text-teal-600">*</span>
+              <span className="text-slate-700">*</span>
             </label>
             <textarea
               value={message}
@@ -218,7 +218,7 @@ export default function BugReportPage() {
           <button
             type="submit"
             disabled={!isValid || loading}
-            className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-teal-300 hover:bg-teal-700 transition-colors"
+            className="w-full rounded-xl bg-slate-800 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300 hover:bg-slate-900 transition-colors"
           >
             {loading
               ? isKo ? "제출 중..." : "Submitting..."

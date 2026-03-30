@@ -157,7 +157,7 @@ export default function AdminBugReportsPage() {
                   <button
                     onClick={() => handleResolve(report.id)}
                     disabled={resolving === report.id}
-                    className="text-sm px-3 py-1.5 bg-teal-50 text-teal-600 rounded-lg hover:bg-teal-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                    className="text-sm px-3 py-1.5 bg-slate-50 text-slate-700 rounded-lg hover:bg-teal-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                   >
                     {resolving === report.id
                       ? isKo ? "처리 중..." : "Processing..."
