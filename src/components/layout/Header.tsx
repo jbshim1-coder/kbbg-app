@@ -179,8 +179,8 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={localePath(link.href)}
-                className="px-3 py-2 rounded-lg text-sm font-medium text-gray-700
-                  hover:text-slate-700 hover:bg-slate-50 transition-colors duration-150"
+                className="px-3 py-2 rounded-lg text-sm font-bold text-gray-900
+                  hover:text-slate-900 hover:bg-slate-100 transition-colors duration-150"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
