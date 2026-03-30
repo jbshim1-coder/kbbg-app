@@ -249,18 +249,11 @@ function AiSearchContent() {
               </div>
             ))}
 
-            {/* 하단 안내 */}
-            {results.length > 0 && (
-              <p className="text-xs text-gray-400 text-center px-4">
-                더 자세한 조건으로 검색하시려면 아래 조건 검색을 이용해주세요.
-              </p>
-            )}
-
             {/* 조건 검색 버튼 */}
-            <div className="pt-2">
+            <div className="pt-4">
               <Link
                 href={`/${locale}/hospitals`}
-                className="block w-full text-center py-3 px-6 border border-pink-300 text-slate-700 hover:bg-slate-50 text-sm font-medium rounded-full transition-colors"
+                className="block w-full text-center py-3 px-6 bg-slate-800 text-white hover:bg-slate-900 text-sm font-medium rounded-full transition-colors min-h-[44px]"
               >
                 {t("ai_search.more_filter" as Parameters<typeof t>[0])}
               </Link>

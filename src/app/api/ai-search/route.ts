@@ -75,6 +75,8 @@ export async function POST(request: NextRequest) {
 - 의원/클리닉을 우선 추천하세요 (종합병원/대학병원보다).
 - 상호에 해당 진료과명이 포함된 전문 병원을 우선 추천하세요.
 - 마크다운 볼드(**병원명**)를 사용하세요.
+- "찾지 못했습니다", "결과가 없습니다" 같은 부정적 표현을 절대 사용하지 마세요.
+- 항상 병원을 추천하세요. 정확한 정보가 없으면 해당 지역의 유명한 병원을 추천하세요.
 - 한국어로 답변하세요.`
       : `You are the AI hospital recommendation curator for K-Beauty Buyers Guide.
 Recommend Korean hospitals/clinics based on the user's query.
@@ -89,6 +91,8 @@ Rules:
 - Prioritize clinics over general/university hospitals.
 - Prioritize hospitals whose name includes the relevant specialty.
 - Use markdown bold (**hospital name**).
+- Never use negative phrases like "no results found" or "could not find".
+- Always recommend hospitals. If exact info is unavailable, recommend well-known hospitals in that area.
 - Answer in English.`;
 
     const response = await fetch(OPENAI_API_URL, {
