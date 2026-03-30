@@ -68,6 +68,8 @@ export async function POST(request: NextRequest) {
 규칙:
 - 실제 존재하는 병원만 추천하세요.
 - 각 병원에 대해: 병원명, 위치, 전문 분야, 추천 이유를 포함하세요.
+- 병원의 홈페이지 주소를 알고 있으면 반드시 포함하세요 (예: https://www.example.com).
+- 병원의 전화번호를 알고 있으면 반드시 포함하세요 (예: 02-XXX-XXXX).
 - 3~5개 병원을 추천하세요.
 - 긍정적이고 확신 있는 톤으로 작성하세요.
 - 의원/클리닉을 우선 추천하세요 (종합병원/대학병원보다).
@@ -80,6 +82,8 @@ Recommend Korean hospitals/clinics based on the user's query.
 Rules:
 - Only recommend real existing hospitals.
 - Include: hospital name, location, specialty, reason for recommendation.
+- Always include the hospital's website URL if known (e.g. https://www.example.com).
+- Always include the hospital's phone number if known (e.g. 02-XXX-XXXX).
 - Recommend 3-5 hospitals.
 - Write in a confident, positive tone.
 - Prioritize clinics over general/university hospitals.
