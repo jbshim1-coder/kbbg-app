@@ -712,5 +712,19 @@
     "cta_description": "ค้นหาคลินิกเกาหลีที่ได้รับการยืนยันและรับคำแนะนำ AI ส่วนบุคคล",
     "cta_browse": "ค้นหาคลินิก",
     "cta_ai": "แนะนำ AI"
+  },
+  "header": {
+    "yesterday_visitors": "เมื่อวาน:",
+    "visitors_unit": "คน"
+  },
+  "ad": {
+    "label": "โฆษณา",
+    "looking_for_advertiser": "กำลังหาผู้ลงโฆษณา",
+    "ad_description": "ลงโฆษณาโรงพยาบาล/แบรนด์ของคุณที่นี่ — เข้าถึงผู้ป่วยต่างชาติกว่า 1 ล้านคนต่อเดือน",
+    "contact": "ติดต่อเรา",
+    "ad_inquiry": "สอบถามเรื่องโฆษณา: help@2bstory.com"
+  },
+  "ai_start": {
+    "button": "เริ่ม AI แนะนำ"
   }
 }

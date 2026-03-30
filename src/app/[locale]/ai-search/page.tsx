@@ -133,7 +133,7 @@ function AiSearchContent() {
               onClick={handleSearch}
               className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded-full transition-colors shrink-0 min-h-[44px] whitespace-nowrap"
             >
-              AI 추천 시작
+              {t("ai_start.button" as Parameters<typeof t>[0])}
             </button>
           </div>
         </div>
@@ -160,7 +160,7 @@ function AiSearchContent() {
                 <div className="flex items-center gap-2 mb-2">
                   {/* "광고" 라벨 — 명시적으로 광고임을 표시 */}
                   <span className="text-xs font-semibold text-yellow-700 bg-yellow-200 px-2 py-0.5 rounded-full">
-                    광고
+                    {t("ad.label" as Parameters<typeof t>[0])}
                   </span>
                   <span className="text-xs text-yellow-600">{topAd.hospitalName}</span>
                 </div>

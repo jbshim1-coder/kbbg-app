@@ -764,5 +764,19 @@
     "cta_description": "검증된 한국 병원을 검색하고 맞춤 AI 추천을 받아보세요.",
     "cta_browse": "병원 검색",
     "cta_ai": "AI 추천"
+  },
+  "header": {
+    "yesterday_visitors": "어제 방문자 :",
+    "visitors_unit": "명"
+  },
+  "ad": {
+    "label": "광고",
+    "looking_for_advertiser": "광고주를 찾습니다",
+    "ad_description": "이 자리에 병원/브랜드 광고를 게재하세요 — 월 100만+ 외국인 환자에게 노출",
+    "contact": "문의하기",
+    "ad_inquiry": "광고 게재 문의: help@2bstory.com"
+  },
+  "ai_start": {
+    "button": "AI 추천 시작"
   }
 }

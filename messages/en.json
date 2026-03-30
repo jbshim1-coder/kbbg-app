@@ -711,5 +711,19 @@
     "cta_description": "Browse verified Korean clinics offering these procedures and get personalized recommendations.",
     "cta_browse": "Browse Clinics",
     "cta_ai": "AI Recommendation"
+  },
+  "header": {
+    "yesterday_visitors": "Yesterday:",
+    "visitors_unit": ""
+  },
+  "ad": {
+    "label": "AD",
+    "looking_for_advertiser": "Advertise With Us",
+    "ad_description": "Reach 1M+ international patients monthly — place your hospital or brand ad here",
+    "contact": "Contact Us",
+    "ad_inquiry": "Advertising inquiries: help@2bstory.com"
+  },
+  "ai_start": {
+    "button": "Start AI Search"
   }
 }

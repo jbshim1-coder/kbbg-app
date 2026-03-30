@@ -712,5 +712,19 @@
     "cta_description": "搜索经过验证的韩国医院，获取个性化AI推荐。",
     "cta_browse": "搜索医院",
     "cta_ai": "AI推荐"
+  },
+  "header": {
+    "yesterday_visitors": "昨日访问:",
+    "visitors_unit": "人"
+  },
+  "ad": {
+    "label": "广告",
+    "looking_for_advertiser": "寻找广告商",
+    "ad_description": "在此刊登医院/品牌广告 — 每月触达100万+外国患者",
+    "contact": "联系我们",
+    "ad_inquiry": "广告咨询: help@2bstory.com"
+  },
+  "ai_start": {
+    "button": "开始AI推荐"
   }
 }

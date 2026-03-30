@@ -712,5 +712,19 @@
     "cta_description": "Tìm kiếm phòng khám Hàn Quốc đã được xác minh và nhận đề xuất AI cá nhân hóa.",
     "cta_browse": "Tìm phòng khám",
     "cta_ai": "Đề xuất AI"
+  },
+  "header": {
+    "yesterday_visitors": "Hôm qua:",
+    "visitors_unit": ""
+  },
+  "ad": {
+    "label": "Quảng cáo",
+    "looking_for_advertiser": "Tìm kiếm nhà quảng cáo",
+    "ad_description": "Đặt quảng cáo bệnh viện/thương hiệu tại đây — tiếp cận 1 triệu+ bệnh nhân nước ngoài mỗi tháng",
+    "contact": "Liên hệ",
+    "ad_inquiry": "Hỏi về quảng cáo: help@2bstory.com"
+  },
+  "ai_start": {
+    "button": "Bắt đầu AI"
   }
 }

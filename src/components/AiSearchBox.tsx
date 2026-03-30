@@ -58,7 +58,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
           onClick={handleSubmit}
           className="mt-4 px-8 py-3 min-h-[44px] bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-full transition-colors"
         >
-          AI 추천 시작
+          {t("ai_start.button" as Parameters<typeof t>[0])}
         </button>
       </div>
 

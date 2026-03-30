@@ -166,7 +166,7 @@ export default function Header() {
           {/* ── 어제 방문자 수 ── */}
           {yesterdayVisitors > 0 && (
             <span className="hidden md:inline text-[11px] text-gray-400 whitespace-nowrap">
-              어제 방문자 : <span className="font-bold text-red-500">{yesterdayVisitors.toLocaleString()}</span>명
+              {t("header.yesterday_visitors" as Parameters<typeof t>[0])} <span className="font-bold text-red-500">{yesterdayVisitors.toLocaleString()}</span>{t("header.visitors_unit" as Parameters<typeof t>[0])}
             </span>
           )}
 

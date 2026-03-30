@@ -311,7 +311,13 @@ export default function EventsPage() {
             : "※ Prices are based on clinic website listings. Please contact clinics directly for confirmation."}</p>
           <p className="mt-1">{isKo
             ? "광고 게재 문의: help@2bstory.com"
-            : "For advertising inquiries: help@2bstory.com"}</p>
+            : locale === "zh" ? "广告咨询: help@2bstory.com"
+            : locale === "ja" ? "広告掲載のお問い合わせ: help@2bstory.com"
+            : locale === "ru" ? "Вопросы по рекламе: help@2bstory.com"
+            : locale === "vi" ? "Hỏi về quảng cáo: help@2bstory.com"
+            : locale === "th" ? "สอบถามเรื่องโฆษณา: help@2bstory.com"
+            : locale === "mn" ? "Зар сурталчилгааны асуулга: help@2bstory.com"
+            : "Advertising inquiries: help@2bstory.com"}</p>
         </div>
       </div>
     </main>

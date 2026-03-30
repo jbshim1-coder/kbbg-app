@@ -712,5 +712,19 @@
     "cta_description": "認証済みの韓国クリニックを検索し、パーソナライズされたAI推薦を受けましょう。",
     "cta_browse": "クリニック検索",
     "cta_ai": "AI推薦"
+  },
+  "header": {
+    "yesterday_visitors": "昨日の訪問者:",
+    "visitors_unit": "人"
+  },
+  "ad": {
+    "label": "広告",
+    "looking_for_advertiser": "広告主を募集しています",
+    "ad_description": "この場所に病院/ブランド広告を掲載しましょう — 月間100万人以上の外国人患者にリーチ",
+    "contact": "お問い合わせ",
+    "ad_inquiry": "広告掲載のお問い合わせ: help@2bstory.com"
+  },
+  "ai_start": {
+    "button": "AIレコメンド開始"
   }
 }
