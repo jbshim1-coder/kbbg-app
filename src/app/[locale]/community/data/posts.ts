@@ -1,6 +1,9 @@
 // 커뮤니티 더미 게시글 데이터 — id 1~10 상세 본문 + 댓글
 // 실제 Supabase posts 테이블 데이터가 없을 때 폴백으로 사용
 
+export type FlairType = "review" | "question" | "info" | "before_after" | "cost" | "recommend";
+export type PostType = "text" | "image" | "link";
+
 export type DummyComment = {
   id: number;
   author: string;
@@ -25,6 +28,11 @@ export type DummyPost = {
   downvotes: number;
   time: string;
   comments: DummyComment[];
+  flair?: FlairType;
+  postType?: PostType;
+  isPinned?: boolean;
+  imageUrl?: string;  // image 타입 게시글의 이미지 URL
+  linkUrl?: string;   // link 타입 게시글의 외부 링크 URL
 };
 
 export const DUMMY_POSTS: DummyPost[] = [
@@ -60,6 +68,9 @@ I booked via KakaoTalk and they also provided same-day interpretation service.`,
     upvotes: 87,
     downvotes: 3,
     time: "2h ago",
+    flair: "review",
+    postType: "text",
+    isPinned: true,
     comments: [
       { id: 101, author: "sarah_jp", level: 7, body: "정확히 어느 병원인가요?", createdAt: "1시간 전" },
       { id: 102, author: "mike_us", level: 3, body: "붓기 사진도 공유해주실 수 있나요!", createdAt: "30분 전" },
@@ -68,8 +79,8 @@ I booked via KakaoTalk and they also provided same-day interpretation service.`,
   },
   {
     id: 2,
-    title: "베트남에서 온 코성형 후기",
-    titleEn: "Rhinoplasty Review from Vietnam",
+    title: "베트남에서 온 코성형 전후 비교",
+    titleEn: "Rhinoplasty Before & After from Vietnam",
     categoryKey: "community.plastic_surgery",
     author: "tom_vn",
     level: 15,
@@ -98,6 +109,9 @@ I'm considering eye surgery next time. Korean medical standards are truly the be
     upvotes: 54,
     downvotes: 2,
     time: "1d ago",
+    flair: "before_after",
+    postType: "image",
+    imageUrl: "https://images.unsplash.com/photo-1614359975067-0f0b3c6d2d3a?w=800&h=600&fit=crop",
     comments: [
       { id: 201, author: "mai_vn", level: 5, body: "어느 병원인지 알 수 있나요? 저도 베트남에서 가려고 해요!", createdAt: "20시간 전" },
       { id: 202, author: "tom_vn", level: 15, body: "DM 주시면 알려드릴게요 😊 통역 서비스 포함 패키지 있어요", createdAt: "18시간 전", parentId: 201 },
@@ -142,6 +156,8 @@ Overall very satisfied, strongly recommend Korean medical tourism!`,
     upvotes: 41,
     downvotes: 1,
     time: "3d ago",
+    flair: "before_after",
+    postType: "text",
     comments: [
       { id: 301, author: "sophie_fr", level: 6, body: "사진 없나요? 경과가 너무 궁금해요!", createdAt: "2일 전" },
       { id: 302, author: "emma_us", level: 8, body: "개인 보호를 위해 사진은 올리기 어렵지만 DM으로 공유할게요", createdAt: "2일 전", parentId: 301 },
@@ -187,6 +203,9 @@ I'll post a final review after completing all 10 sessions!`,
     upvotes: 42,
     downvotes: 1,
     time: "4h ago",
+    flair: "review",
+    postType: "image",
+    imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
     comments: [
       { id: 401, author: "lisa_cn", level: 3, body: "어느 피부과인지 알려주실 수 있나요?", createdAt: "3시간 전" },
       { id: 402, author: "david_uk", level: 10, body: "레이저 토닝 통증은 어느 정도인가요?", createdAt: "2시간 전" },
@@ -235,6 +254,8 @@ They say maintenance is needed every 3-6 months, so I plan to get it again on my
     upvotes: 29,
     downvotes: 0,
     time: "8h ago",
+    flair: "question",
+    postType: "text",
     comments: [
       { id: 501, author: "wang_cn", level: 8, body: "같은 중국인으로서 도움이 많이 됐어요! 저도 가보고 싶네요", createdAt: "7시간 전" },
       { id: 502, author: "yuki_jp", level: 5, body: "보톡스 후 멍은 없었나요?", createdAt: "6시간 전" },
@@ -284,6 +305,8 @@ The same treatment in the UK would cost at least 2,500,000 KRW, but I got better
     upvotes: 63,
     downvotes: 2,
     time: "2d ago",
+    flair: "cost",
+    postType: "text",
     comments: [
       { id: 601, author: "peter_nl", level: 7, body: "홍대 어느 피부과인지 알 수 있나요?", createdAt: "1일 전" },
       { id: 602, author: "david_uk", level: 10, body: "DM으로 알려드릴게요! 영어 잘 되는 곳이에요 👍", createdAt: "1일 전", parentId: 601 },
@@ -338,6 +361,9 @@ The Korean healthcare system is really efficient. I want to come every year!`,
     upvotes: 31,
     downvotes: 0,
     time: "6h ago",
+    flair: "info",
+    postType: "text",
+    isPinned: true,
     comments: [
       { id: 701, author: "james_au", level: 9, body: "어느 병원에서 받으셨나요? 저도 건강검진 고민 중이에요", createdAt: "5시간 전" },
       { id: 702, author: "chen_cn", level: 5, body: "강남 세브란스 건강검진센터요! 영어도 잘 됩니다", createdAt: "4시간 전", parentId: 701 },
@@ -401,6 +427,8 @@ Highly recommend!`,
     upvotes: 25,
     downvotes: 0,
     time: "1d ago",
+    flair: "recommend",
+    postType: "text",
     comments: [
       { id: 801, author: "oliver_uk", level: 15, body: "VIP 패키지 예약은 얼마나 일찍 해야 하나요?", createdAt: "22시간 전" },
       { id: 802, author: "james_au", level: 9, body: "최소 한 달 전에는 예약하시는 게 좋아요. 국제환자센터에 이메일로 문의하세요!", createdAt: "20시간 전", parentId: 801 },
@@ -473,6 +501,8 @@ Really satisfied and highly recommend!`,
     upvotes: 63,
     downvotes: 1,
     time: "6h ago",
+    flair: "cost",
+    postType: "text",
     comments: [
       { id: 901, author: "rachel_us", level: 12, body: "미국에서 오는 사람으로서 너무 공감돼요! 저도 치과 때문에 한국 가려고요", createdAt: "5시간 전" },
       { id: 902, author: "alex_ca", level: 9, body: "캐나다도 비슷한 상황이에요. 항공비 포함해도 훨씬 저렴하네요", createdAt: "4시간 전" },
@@ -539,6 +569,8 @@ I'll post a final review in 6 months when it's complete! Hang in there fellow br
     upvotes: 71,
     downvotes: 2,
     time: "2d ago",
+    flair: "review",
+    postType: "text",
     comments: [
       { id: 1001, author: "nina_de", level: 13, body: "독일에서도 교정이 비싼데 한국 고려해볼게요! 원격 진료 앱은 어떤 걸 쓰나요?", createdAt: "1일 전" },
       { id: 1002, author: "anna_ru", level: 28, body: "병원에서 자체 앱을 제공해줘요! 알라이너 진행 상황을 사진으로 보내면 의사가 확인해줍니다 😊", createdAt: "1일 전", parentId: 1001 },

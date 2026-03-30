@@ -22,6 +22,18 @@ const CATEGORY_KEYS = [
   "community.korean_learn",
 ];
 
+type PostType = "text" | "image" | "link";
+type FlairType = "review" | "question" | "info" | "before_after" | "cost" | "recommend";
+
+const FLAIR_OPTIONS: { value: FlairType; labelKo: string; labelEn: string }[] = [
+  { value: "review",       labelKo: "후기",         labelEn: "Review" },
+  { value: "question",     labelKo: "질문",         labelEn: "Question" },
+  { value: "info",         labelKo: "정보",         labelEn: "Info" },
+  { value: "before_after", labelKo: "Before/After", labelEn: "Before/After" },
+  { value: "cost",         labelKo: "비용공유",      labelEn: "Cost" },
+  { value: "recommend",    labelKo: "병원추천",      labelEn: "Recommend" },
+];
+
 // 새 게시글 작성 페이지 — 카테고리·제목·본문·이미지 첨부
 export default function NewPostPage() {
   const router = useRouter();
@@ -48,6 +60,10 @@ export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [flair, setFlair] = useState<FlairType | "">("");
+  const [postType, setPostType] = useState<PostType>("text");
+  const [linkUrl, setLinkUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   // 제출 중 상태 — 중복 제출 방지
   const [submitting, setSubmitting] = useState(false);
   const [recaptchaError, setRecaptchaError] = useState("");
@@ -176,6 +192,82 @@ export default function NewPostPage() {
               ))}
             </select>
           </div>
+
+          {/* 게시 유형 선택 */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              {locale === "ko" ? "게시 유형" : "Post Type"}
+            </label>
+            <div className="flex gap-2">
+              {(["text", "image", "link"] as PostType[]).map((pt) => (
+                <button
+                  key={pt}
+                  type="button"
+                  onClick={() => setPostType(pt)}
+                  className={`flex-1 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
+                    postType === pt
+                      ? "bg-teal-600 text-white border-teal-600"
+                      : "bg-white text-gray-600 border-stone-200 hover:border-teal-300"
+                  }`}
+                >
+                  {pt === "text"  ? (locale === "ko" ? "📝 텍스트" : "📝 Text") :
+                   pt === "image" ? (locale === "ko" ? "🖼️ 이미지" : "🖼️ Image") :
+                                    (locale === "ko" ? "🔗 링크"   : "🔗 Link")}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Flair 선택 */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              {locale === "ko" ? "태그 (Flair)" : "Flair Tag"}
+            </label>
+            <select
+              value={flair}
+              onChange={(e) => setFlair(e.target.value as FlairType | "")}
+              className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400 bg-white"
+            >
+              <option value="">{locale === "ko" ? "태그 없음 (선택 사항)" : "No tag (optional)"}</option>
+              {FLAIR_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {locale === "ko" ? opt.labelKo : opt.labelEn}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* 이미지 URL 입력 (image 타입) */}
+          {postType === "image" && (
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                {locale === "ko" ? "이미지 URL" : "Image URL"}
+              </label>
+              <input
+                type="url"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                placeholder="https://..."
+                className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
+              />
+            </div>
+          )}
+
+          {/* 링크 URL 입력 (link 타입) */}
+          {postType === "link" && (
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                {locale === "ko" ? "외부 링크 URL" : "External Link URL"}
+              </label>
+              <input
+                type="url"
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                placeholder="https://..."
+                className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400"
+              />
+            </div>
+          )}
 
           {/* 제목 입력 — 최대 100자 제한 */}
           <div>
