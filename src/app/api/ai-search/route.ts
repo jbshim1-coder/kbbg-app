@@ -1,8 +1,8 @@
-// AI 검색 API — GPT-4o-mini (최저 비용, 한국어 최고 품질)
+// AI 검색 API — DB 기반 실데이터 + AI 설명 (재설계)
+// 흐름: 자연어 → GPT-4o-mini 조건추출 → DB 검색 → Claude 설명생성
 import { NextRequest, NextResponse } from "next/server";
-
-const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-const MODEL = "gpt-4o-mini";
+import { parseIntent, searchClinics, composeNarrative } from "@/lib/clinic-search-service";
+import type { SearchIntent, ClinicResult } from "@/lib/clinic-search-service";
 
 // IP별 요청 횟수 추적 (메모리 기반)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -21,6 +21,41 @@ function checkRateLimit(ip: string): boolean {
   return true;
 }
 
+// 진료과 코드 → 한국어 이름 매핑
+function subjectCodeToName(code: string | null): string {
+  if (!code) return "";
+  const map: Record<string, string> = {
+    "01": "내과", "02": "신경과", "03": "정신건강의학과",
+    "04": "외과", "05": "정형외과", "06": "신경외과",
+    "08": "성형외과", "09": "마취통증의학과", "10": "산부인과",
+    "12": "안과", "13": "이비인후과", "14": "피부과",
+    "15": "비뇨의학과", "21": "재활의학과", "49": "치과", "80": "한방내과",
+  };
+  return map[code] || "";
+}
+
+// ClinicResult → 프론트엔드 HiraClinic 형식으로 변환
+function toHiraFormat(c: ClinicResult) {
+  return {
+    yadmNm: c.name,
+    clCdNm: c.cl_cd_nm,
+    dgsbjtCdNm: c.dgsbjt_cd_nm,
+    addr: c.address,
+    telno: c.phone,
+    hospUrl: c.website,
+    drTotCnt: c.dr_tot_cnt,
+    sdrCnt: c.sdr_cnt,
+    mdeptSdrCnt: c.sdr_cnt,
+    sidoCdNm: c.sido_cd_nm,
+    sgguCdNm: c.sggu_cd_nm,
+    ykiho: c.ykiho,
+    googleRating: c.google_rating,
+    googleReviewCount: c.google_review_count,
+    blogReviewCount: c.naver_blog_count,
+    relevanceScore: c.relevance_score,
+  };
+}
+
 export async function POST(request: NextRequest) {
   let locale = "ko";
 
@@ -32,10 +67,7 @@ export async function POST(request: NextRequest) {
 
     if (!checkRateLimit(ip)) {
       return NextResponse.json(
-        {
-          error: "Too many requests. Please try again in 1 minute.",
-          errorKo: "요청이 너무 많습니다. 1분 후 다시 시도해 주세요.",
-        },
+        { error: "Too many requests. Please try again in 1 minute.", errorKo: "요청이 너무 많습니다. 1분 후 다시 시도해 주세요." },
         { status: 429 }
       );
     }
@@ -48,80 +80,46 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "query is required" }, { status: 400 });
     }
 
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({
-        narrative: locale === "ko"
-          ? "AI 검색 서비스가 현재 점검 중입니다. 잠시 후 다시 시도해 주세요."
-          : "AI search is currently under maintenance. Please try again later.",
-        clinics: [],
-        totalCount: 0,
-      });
+    // ── 1단계: 자연어 → 검색조건 추출 ──
+    let intent: SearchIntent;
+    try {
+      intent = await parseIntent(query);
+    } catch {
+      intent = { region: null, subject_code: null, clinic_type: null, keyword: query, confidence: 0, reason: "fallback" };
     }
 
-    const isKorean = locale === "ko";
+    // 지역 없는 질문 처리: needsRegion 플래그
+    const needsRegion = !intent.region;
 
-    const systemPrompt = isKorean
-      ? `당신은 K-Beauty Buyers Guide의 AI 병원 추천 큐레이터입니다.
-사용자의 질문에 맞는 한국 병원/클리닉을 추천해주세요.
+    // ── 2단계: DB 검색 ──
+    const { clinics, totalCount } = await searchClinics(intent, 1, 10);
 
-규칙:
-- 실제 존재하는 병원만 추천하세요.
-- 각 병원에 대해: 병원명, 위치, 전문 분야, 추천 이유를 포함하세요.
-- 병원의 홈페이지 주소를 알고 있으면 반드시 포함하세요 (예: https://www.example.com).
-- 병원의 전화번호를 알고 있으면 반드시 포함하세요 (예: 02-XXX-XXXX).
-- 3~5개 병원을 추천하세요.
-- 긍정적이고 확신 있는 톤으로 작성하세요.
-- 의원/클리닉을 우선 추천하세요 (종합병원/대학병원보다).
-- 상호에 해당 진료과명이 포함된 전문 병원을 우선 추천하세요.
-- 마크다운 볼드(**병원명**)를 사용하세요.
-- "찾지 못했습니다", "결과가 없습니다" 같은 부정적 표현을 절대 사용하지 마세요.
-- 항상 병원을 추천하세요. 정확한 정보가 없으면 해당 지역의 유명한 병원을 추천하세요.
-- 한국어로 답변하세요.`
-      : `You are the AI hospital recommendation curator for K-Beauty Buyers Guide.
-Recommend Korean hospitals/clinics based on the user's query.
-
-Rules:
-- Only recommend real existing hospitals.
-- Include: hospital name, location, specialty, reason for recommendation.
-- Always include the hospital's website URL if known (e.g. https://www.example.com).
-- Always include the hospital's phone number if known (e.g. 02-XXX-XXXX).
-- Recommend 3-5 hospitals.
-- Write in a confident, positive tone.
-- Prioritize clinics over general/university hospitals.
-- Prioritize hospitals whose name includes the relevant specialty.
-- Use markdown bold (**hospital name**).
-- Never use negative phrases like "no results found" or "could not find".
-- Always recommend hospitals. If exact info is unavailable, recommend well-known hospitals in that area.
-- Answer in English.`;
-
-    const response = await fetch(OPENAI_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 1000,
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: query },
-        ],
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`);
+    // ── 3단계: AI 설명 생성 (Claude) ──
+    let narrative: string;
+    try {
+      narrative = await composeNarrative(query, clinics, totalCount, locale);
+    } catch {
+      narrative = locale === "ko"
+        ? `심평원 공공데이터 기준 ${totalCount.toLocaleString()}개 병원이 검색되었습니다.`
+        : `Found ${totalCount.toLocaleString()} clinics based on verified HIRA data.`;
     }
 
-    const data = await response.json();
-    const narrative = data.choices?.[0]?.message?.content || (isKorean ? "검색 결과를 불러오지 못했습니다." : "Failed to load results.");
+    // 추출된 조건 정보 (프론트엔드에서 칩/필터 연계용)
+    const extractedFilters = {
+      region: intent.region,
+      subject_code: intent.subject_code,
+      subject_name: subjectCodeToName(intent.subject_code),
+      clinic_type: intent.clinic_type,
+      keyword: intent.keyword,
+      confidence: intent.confidence,
+    };
 
     return NextResponse.json({
       narrative,
-      clinics: [],
-      totalCount: 0,
+      clinics: clinics.map(toHiraFormat),
+      totalCount,
+      extractedFilters,
+      needsRegion,
     });
   } catch (error) {
     console.error("AI search error:", error);
@@ -131,6 +129,8 @@ Rules:
         : "An error occurred during AI search. Please try again later.",
       clinics: [],
       totalCount: 0,
+      extractedFilters: null,
+      needsRegion: false,
     });
   }
 }

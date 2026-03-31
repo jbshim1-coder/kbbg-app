@@ -1,5 +1,6 @@
 // 심평원 데이터 일일 동기화 API
 // 하루 1회 호출하여 심평원 데이터를 Supabase clinics 테이블에 저장
+// 폐업 병원 자동 비활성화 포함
 // Vercel Cron 또는 수동 호출로 트리거
 
 import { NextResponse } from "next/server";
@@ -16,6 +17,7 @@ export async function POST() {
   try {
     const supabase = createServiceRoleClient();
     let totalSynced = 0;
+    const syncedYkihos = new Set<string>();
 
     // 진료과 × 지역 조합으로 수집
     for (const subjectCd of TARGET_SUBJECTS) {
@@ -38,9 +40,11 @@ export async function POST() {
 
           // Supabase clinics 테이블에 upsert
           for (const clinic of result.clinics) {
+            syncedYkihos.add(clinic.ykiho);
+
             const clinicData = {
               name: clinic.yadmNm,
-              name_en: clinic.yadmNm, // 영문명은 추후 번역
+              name_en: clinic.yadmNm,
               description: `${clinic.clCdNm} · ${clinic.dgsbjtCdNm}`,
               address: clinic.addr,
               city: clinic.sidoCdNm,
@@ -50,10 +54,20 @@ export async function POST() {
               longitude: clinic.XPos ? parseFloat(clinic.XPos) : null,
               is_verified: true,
               is_active: true,
-              // 외국어 지원은 홈페이지 크롤링으로 추후 보강
               supports_english: false,
               supports_chinese: false,
               supports_japanese: false,
+              // 심평원 전용 필드
+              ykiho: clinic.ykiho,
+              cl_cd_nm: clinic.clCdNm,
+              dgsbjt_cd: subjectCd,
+              dgsbjt_cd_nm: clinic.dgsbjtCdNm,
+              dr_tot_cnt: clinic.drTotCnt || 0,
+              sdr_cnt: clinic.mdeptSdrCnt || clinic.sdrCnt || 0,
+              sido_cd: sidoCd,
+              sido_cd_nm: clinic.sidoCdNm,
+              sggu_cd_nm: clinic.sgguCdNm,
+              synced_at: new Date().toISOString(),
             };
 
             // ykiho(요양기관기호)를 고유 키로 사용하여 upsert
@@ -79,9 +93,41 @@ export async function POST() {
       }
     }
 
+    // ── 폐업 병원 비활성화 ──
+    // 심평원에서 더이상 조회되지 않는 병원 = 폐업/휴업
+    // is_active를 false로 변경 (데이터는 삭제하지 않음)
+    let deactivatedCount = 0;
+    if (syncedYkihos.size > 0) {
+      // 현재 활성 상태인 병원 중, 이번 동기화에서 조회되지 않은 병원 찾기
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: activeClinics } = await (supabase as any)
+        .from("clinics")
+        .select("id")
+        .eq("is_active", true)
+        .eq("is_verified", true);
+
+      if (activeClinics) {
+        const toDeactivate = activeClinics
+          .filter((c: { id: string }) => !syncedYkihos.has(c.id))
+          .map((c: { id: string }) => c.id);
+
+        if (toDeactivate.length > 0) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (supabase as any)
+            .from("clinics")
+            .update({ is_active: false, synced_at: new Date().toISOString() })
+            .in("id", toDeactivate);
+
+          deactivatedCount = toDeactivate.length;
+        }
+      }
+    }
+
     return NextResponse.json({
       success: true,
-      message: `${totalSynced} clinics synced`,
+      message: `${totalSynced} clinics synced, ${deactivatedCount} deactivated`,
+      totalSynced,
+      deactivatedCount,
       syncedAt: new Date().toISOString(),
     });
   } catch (error) {
