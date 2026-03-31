@@ -100,6 +100,37 @@ export async function parseIntent(query: string): Promise<SearchIntent> {
   };
 }
 
+// ─── 지역명 → 심평원 시도코드 매핑 ───
+
+const REGION_NAME_TO_CODE: Record<string, string> = {
+  "서울": "110000", "seoul": "110000",
+  "부산": "210000", "busan": "210000",
+  "대구": "220000", "daegu": "220000",
+  "인천": "230000", "incheon": "230000",
+  "광주": "240000", "gwangju": "240000",
+  "대전": "250000", "daejeon": "250000",
+  "울산": "260000", "ulsan": "260000",
+  "경기": "310000", "gyeonggi": "310000",
+  "강원": "320000", "gangwon": "320000",
+  "충북": "330000", "chungbuk": "330000", "충청북도": "330000",
+  "충남": "340000", "chungnam": "340000", "충청남도": "340000",
+  "전북": "350000", "jeonbuk": "350000", "전라북도": "350000",
+  "전남": "360000", "jeonnam": "360000", "전라남도": "360000",
+  "경북": "370000", "gyeongbuk": "370000", "경상북도": "370000",
+  "경남": "380000", "gyeongnam": "380000", "경상남도": "380000",
+  "제주": "390000", "jeju": "390000",
+  "세종": "410000", "sejong": "410000",
+};
+
+function resolveRegionCode(regionText: string | null): string {
+  if (!regionText) return "";
+  const normalized = regionText.trim().toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
+  // 정확히 코드인 경우 (이미 6자리 숫자)
+  if (/^\d{6}$/.test(regionText)) return regionText;
+  // 이름으로 매핑
+  return REGION_NAME_TO_CODE[normalized] || REGION_NAME_TO_CODE[regionText.trim()] || REGION_NAME_TO_CODE[regionText.trim().toLowerCase()] || "";
+}
+
 // ─── 2단계: DB 검색 (Supabase RPC) ───
 
 export async function searchClinics(
@@ -109,8 +140,7 @@ export async function searchClinics(
 ): Promise<{ clinics: ClinicResult[]; totalCount: number }> {
   const supabase = createServiceRoleClient();
 
-  // 지역 없으면 기본값: 서울 (외국인 대상 서비스)
-  const region = intent.region || "";
+  const region = resolveRegionCode(intent.region);
   const subject = intent.subject_code || "";
   const keyword = "";
   const type = intent.clinic_type === "korean_medicine" ? "korean_medicine" : "";
