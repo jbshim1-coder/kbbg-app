@@ -251,7 +251,7 @@ const DISTRICT_TO_REGION: Record<string, { sido: string; keyword: string }> = {
 
   // ── 대전 주요구 ──
   "유성구": { sido: "250000", keyword: "유성" }, "유성": { sido: "250000", keyword: "유성" },
-  "서구대전": { sido: "250000", keyword: "서구" },
+  "대전서구": { sido: "250000", keyword: "서구" },
   "대전중구": { sido: "250000", keyword: "중구" },
   "대전동구": { sido: "250000", keyword: "동구" },
   "대덕구": { sido: "250000", keyword: "대덕" }, "대덕": { sido: "250000", keyword: "대덕" },
@@ -301,12 +301,14 @@ function resolveRegion(
 ): { code: string; districtKeyword: string } {
   // city + district 모두 있는 경우
   if (city && district) {
-    const cityNorm = city.trim().toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
+    const cityNorm = city.trim().toLowerCase().replace(/특별자치도$|특별자치시$|광역시$|특별시$|도$|시$/, "");
     const cityCode = REGION_NAME_TO_CODE[cityNorm] || REGION_NAME_TO_CODE[city.trim()] || REGION_NAME_TO_CODE[city.trim().toLowerCase()] || "";
 
     // district에서 구/동 이름 추출 (keyword로 사용)
     const distTrimmed = district.trim();
-    const distEntry = DISTRICT_TO_REGION[distTrimmed] || DISTRICT_TO_REGION[distTrimmed.replace(/구$|군$|시$/, "")];
+    // city+district 복합키로 먼저 조회 (예: "부산"+"남구" → "부산남구")
+    const compositeKey = `${cityNorm}${distTrimmed}`;
+    const distEntry = DISTRICT_TO_REGION[compositeKey] || DISTRICT_TO_REGION[distTrimmed] || DISTRICT_TO_REGION[distTrimmed.replace(/구$|군$|시$/, "")];
     const kw = distEntry ? distEntry.keyword : distTrimmed.replace(/구$|군$/, "");
 
     return { code: cityCode || (distEntry ? distEntry.sido : ""), districtKeyword: kw };
@@ -328,7 +330,7 @@ function resolveRegion(
     const trimmed = city.trim();
     if (/^\d{6}$/.test(trimmed)) return { code: trimmed, districtKeyword: "" };
 
-    const normalized = trimmed.toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
+    const normalized = trimmed.toLowerCase().replace(/특별자치도$|특별자치시$|광역시$|특별시$|도$|시$/, "");
     const directMatch = REGION_NAME_TO_CODE[normalized] || REGION_NAME_TO_CODE[trimmed] || REGION_NAME_TO_CODE[trimmed.toLowerCase()];
     if (directMatch) return { code: directMatch, districtKeyword: "" };
 
