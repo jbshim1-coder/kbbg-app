@@ -179,8 +179,8 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={localePath(link.href)}
-                className="px-3 py-2 rounded-lg text-sm font-bold text-gray-900
-                  hover:text-slate-900 hover:bg-slate-100 transition-colors duration-150"
+                className="px-3 py-2 rounded-lg text-sm font-medium text-gray-700
+                  hover:text-slate-900 hover:bg-stone-100 transition-all duration-150"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
@@ -335,19 +335,30 @@ export default function Header() {
       </div>
 
       {/* ── 커뮤니티 카테고리 서브메뉴 ── */}
-      <div className="hidden lg:block border-t border-gray-100 bg-gray-50">
+      <div className="hidden lg:block border-t border-stone-100 bg-stone-50/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center gap-1 py-1.5">
-            {[
-              "plastic_surgery", "dermatology", "internal_medicine", "dental",
+          <div className="flex items-center gap-3 py-1.5">
+            {/* 의료 그룹 */}
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">의료</span>
+            {["plastic_surgery", "dermatology", "internal_medicine", "dental",
               "ophthalmology", "gynecology", "orthopedics", "oriental",
-              "urology", "ent", "kpop", "kfood", "kdrama", "kfashion",
-              "travel", "korean_learn",
-            ].map((key) => (
+              "urology", "ent"].map((key) => (
               <Link
                 key={key}
                 href={localePath(`/community?cat=${key}`)}
-                className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-slate-800 hover:bg-slate-50 transition-colors whitespace-nowrap"
+                className="px-2.5 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-slate-800 hover:bg-white hover:shadow-sm transition-all whitespace-nowrap"
+              >
+                {t(`community.${key}` as Parameters<typeof t>[0])}
+              </Link>
+            ))}
+            <span className="text-stone-300 mx-1">|</span>
+            {/* K-Culture 그룹 */}
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">K-Culture</span>
+            {["kpop", "kfood", "kdrama", "kfashion", "travel", "korean_learn"].map((key) => (
+              <Link
+                key={key}
+                href={localePath(`/community?cat=${key}`)}
+                className="px-2.5 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-slate-800 hover:bg-white hover:shadow-sm transition-all whitespace-nowrap"
               >
                 {t(`community.${key}` as Parameters<typeof t>[0])}
               </Link>
@@ -378,20 +389,30 @@ export default function Header() {
           </nav>
 
           {/* 모바일 카테고리 서브메뉴 */}
-          <div className="px-4 py-2 border-t border-gray-100">
-            <p className="text-xs text-gray-400 mb-2">{t("community.categories")}</p>
-            <div className="flex flex-wrap gap-1">
-              {[
-                "plastic_surgery", "dermatology", "internal_medicine", "dental",
+          <div className="px-4 py-3 border-t border-stone-100">
+            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">의료</p>
+            <div className="flex flex-wrap gap-1 mb-3">
+              {["plastic_surgery", "dermatology", "internal_medicine", "dental",
                 "ophthalmology", "gynecology", "orthopedics", "oriental",
-                "urology", "ent", "kpop", "kfood", "kdrama", "kfashion",
-                "travel", "korean_learn",
-              ].map((key) => (
+                "urology", "ent"].map((key) => (
                 <Link
                   key={key}
                   href={localePath(`/community?cat=${key}`)}
                   onClick={() => setMobileOpen(false)}
-                  className="px-3 py-2 min-h-[36px] rounded-full text-xs font-medium text-gray-500 bg-gray-50 hover:text-slate-800 hover:bg-slate-100 transition-colors whitespace-nowrap"
+                  className="px-3 py-1.5 min-h-[36px] rounded-full text-xs font-medium text-gray-500 bg-stone-50 hover:text-slate-800 hover:bg-stone-100 transition-colors whitespace-nowrap flex items-center"
+                >
+                  {t(`community.${key}` as Parameters<typeof t>[0])}
+                </Link>
+              ))}
+            </div>
+            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">K-Culture</p>
+            <div className="flex flex-wrap gap-1">
+              {["kpop", "kfood", "kdrama", "kfashion", "travel", "korean_learn"].map((key) => (
+                <Link
+                  key={key}
+                  href={localePath(`/community?cat=${key}`)}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-3 py-1.5 min-h-[36px] rounded-full text-xs font-medium text-gray-500 bg-stone-50 hover:text-slate-800 hover:bg-stone-100 transition-colors whitespace-nowrap flex items-center"
                 >
                   {t(`community.${key}` as Parameters<typeof t>[0])}
                 </Link>

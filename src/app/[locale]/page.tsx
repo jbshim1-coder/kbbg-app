@@ -43,23 +43,21 @@ export default async function HomePage({
       <HeroSlider locale={locale} />
 
       {/* ━━━ AI 얼굴 분석 + 병원 찾기 — 2분할 ━━━ */}
-      <section className="bg-white px-4 py-12 border-b border-stone-100">
+      <section className="bg-white px-4 py-16 border-b border-stone-100">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* 서비스 2: AI 얼굴 분석 */}
-          <div className="rounded-2xl overflow-hidden shadow-sm">
+          <div className="rounded-2xl overflow-hidden shadow-sm border border-stone-100">
             <FaceAnalysis locale={locale} />
           </div>
 
           {/* 서비스 3: 병원 찾기 */}
-          <div className="rounded-2xl bg-white shadow-sm overflow-hidden">
-            <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-stone-100">
-              <div>
-                <h2 className="text-base font-bold text-gray-900">{locale === "ko" ? "조건별 병원검색" : "Hospital Search"}</h2>
-                <p className="text-xs text-gray-400">{locale === "ko" ? "진료과·지역·유형으로 실시간 검색" : "Search by specialty, region & type"}</p>
-              </div>
+          <div className="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
+            <div className="px-6 pt-6 pb-4 border-b border-stone-100">
+              <h2 className="text-lg font-semibold text-gray-900">{locale === "ko" ? "조건별 병원검색" : "Hospital Search"}</h2>
+              <p className="text-sm text-gray-400 mt-0.5">{locale === "ko" ? "진료과·지역·유형으로 실시간 검색" : "Search by specialty, region & type"}</p>
             </div>
-            <div className="p-6 pt-4">
+            <div className="p-6">
               <ClinicFilter locale={locale} />
             </div>
           </div>
@@ -77,14 +75,19 @@ export default async function HomePage({
       />
 
       {/* ━━━ 운영자에게 병원 추천 받기 ━━━ */}
-      <section className="px-4 py-10 bg-stone-50 border-b border-stone-100">
+      <section className="px-4 py-12 bg-stone-50 border-b border-stone-100">
         <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-8">
-            <div className="flex items-center gap-3 mb-5">
+          <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-6 sm:p-8">
+            <div className="flex items-center gap-3 mb-6">
               <span className="text-3xl">💬</span>
-              <h2 className="text-lg font-bold text-gray-900">
-                {locale === "ko" ? "운영자에게 병원 추천 받기" : "Get Expert Recommendation"}
-              </h2>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {locale === "ko" ? "운영자에게 병원 추천 받기" : "Get Expert Recommendation"}
+                </h2>
+                <p className="text-sm text-gray-400 mt-0.5">
+                  {locale === "ko" ? "조건을 입력하면 운영자가 직접 추천해드립니다" : "Tell us your needs and our team will recommend the best options"}
+                </p>
+              </div>
             </div>
             <ConsultationForm locale={locale} />
           </div>
@@ -92,21 +95,21 @@ export default async function HomePage({
       </section>
 
       {/* ━━━ 인기 진료과 + 사이드바 ━━━ */}
-      <section className="px-4 py-12 bg-stone-50">
+      <section className="px-4 py-16 bg-stone-50">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           {/* 왼쪽: 인기 진료과 + 커뮤니티 */}
           <div className="lg:col-span-2 space-y-8">
 
-            <div className="bg-white rounded-2xl shadow-sm p-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-6">
               <TopDepartments locale={locale} />
             </div>
 
             {/* 최신 커뮤니티 글 */}
             <div>
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900">{t("community_preview.title")}</h2>
-                <Link href={`/${locale}/community`} className="text-sm text-rose-500 hover:text-rose-500 transition-colors">
+              <div className="mb-6 flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900">{t("community_preview.title")}</h2>
+                <Link href={`/${locale}/community`} className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
                   {t("community_preview.view_all")}
                 </Link>
               </div>
@@ -115,18 +118,18 @@ export default async function HomePage({
                   <Link
                     key={post.id}
                     href={`/${locale}/community/${post.id}`}
-                    className="flex items-start justify-between rounded-2xl bg-white px-4 py-4 shadow-sm transition-shadow hover:shadow-md gap-3"
+                    className="flex items-start justify-between rounded-2xl bg-white border border-stone-100 px-5 py-4 shadow-sm transition-all hover:shadow-md hover:border-stone-200 gap-3"
                   >
                     <div className="min-w-0 flex-1">
-                      <span className="mr-2 rounded bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 whitespace-nowrap">
+                      <span className="mr-2 rounded-full bg-stone-100 px-2.5 py-0.5 text-xs font-medium text-gray-500 whitespace-nowrap">
                         {t(post.categoryKey as Parameters<typeof t>[0])}
                       </span>
                       <span className="text-sm font-medium text-gray-900 break-words">{t(post.titleKey as Parameters<typeof t>[0])}</span>
                       <p className="mt-0.5 text-xs text-gray-400">by {post.author}</p>
                     </div>
-                    <div className="flex shrink-0 gap-3 text-xs text-gray-400 pt-0.5">
-                      <span>{post.upvotes}</span>
-                      <span>{post.comments}</span>
+                    <div className="flex shrink-0 flex-col items-end gap-1 text-xs text-gray-400 pt-0.5">
+                      <span>↑ {post.upvotes}</span>
+                      <span>💬 {post.comments}</span>
                     </div>
                   </Link>
                 ))}

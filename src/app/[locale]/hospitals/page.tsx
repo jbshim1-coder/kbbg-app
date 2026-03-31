@@ -73,21 +73,21 @@ function HospitalsContent() {
   const totalPages = Math.ceil(totalCount / 10);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-stone-50">
       {/* 선택 조건 표시 */}
-      <div className="bg-white border-b border-gray-100 px-4 py-5">
+      <div className="bg-white border-b border-stone-100 px-4 py-6">
         <div className="mx-auto max-w-4xl">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
-              <h1 className="text-xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-gray-900">
                 {t("hospitals.search_results")}
               </h1>
               <div className="flex flex-wrap gap-2 mt-2">
                 {regionName && (
-                  <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">{regionName}</span>
+                  <span className="text-xs bg-stone-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">{regionName}</span>
                 )}
                 {subjectName && (
-                  <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">{subjectName}</span>
+                  <span className="text-xs bg-stone-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">{subjectName}</span>
                 )}
                 {!regionName && !subjectName && (
                   <span className="text-xs text-gray-400">{t("hospitals.all_results")}</span>
@@ -96,7 +96,7 @@ function HospitalsContent() {
             </div>
             <Link
               href={`/${locale}`}
-              className="text-sm text-gray-500 hover:text-gray-700 border border-gray-200 px-4 py-2 rounded-lg shrink-0 min-h-[44px] flex items-center"
+              className="text-sm font-medium text-gray-600 hover:text-slate-800 bg-white border border-stone-200 hover:bg-stone-50 px-4 py-2 rounded-xl shrink-0 min-h-[44px] flex items-center transition-colors"
             >
               {t("hospitals.change_filters")}
             </Link>
@@ -122,17 +122,17 @@ function HospitalsContent() {
 
             {/* 광고 */}
             {topAd && (
-              <div className="mb-4 bg-stone-50 border border-stone-200 rounded-lg p-5">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-semibold text-white bg-slate-600 px-2 py-0.5 rounded">광고</span>
-                  <span className="text-xs text-gray-500">{topAd.hospitalName}</span>
+              <div className="mb-4 bg-white border border-stone-200 rounded-2xl p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-semibold text-white bg-slate-600 px-2 py-0.5 rounded-full">광고</span>
+                  <span className="text-xs text-gray-400">{topAd.hospitalName}</span>
                 </div>
                 <p className="font-semibold text-gray-800">{topAd.title}</p>
                 {topAd.description && <p className="text-sm text-gray-600 mt-1">{topAd.description}</p>}
                 {topAd.linkUrl && (
                   <a href={topAd.linkUrl} target="_blank" rel="noopener noreferrer sponsored"
-                    className="inline-block mt-2 text-xs text-gray-500 hover:underline">
-                    {t("hospitals.learn_more")}
+                    className="inline-block mt-3 text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors">
+                    {t("hospitals.learn_more")} →
                   </a>
                 )}
               </div>
@@ -146,27 +146,30 @@ function HospitalsContent() {
             ) : (
               <div className="space-y-3">
                 {clinics.map((clinic, idx) => (
-                  <div key={clinic.ykiho || idx} className="bg-white rounded-lg border border-gray-100 p-4 sm:p-5">
+                  <div key={clinic.ykiho || idx} className="bg-white rounded-2xl border border-stone-100 p-5 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
-                        <h3 className="font-semibold text-gray-800 break-words">{clinic.yadmNm}</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 break-words">{clinic.yadmNm}</h3>
                         <p className="text-xs text-gray-400 mt-0.5">{clinic.clCdNm} · {clinic.dgsbjtCdNm}</p>
                       </div>
                       {clinic.hospUrl && (
                         <a href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="text-xs text-gray-500 hover:underline shrink-0 min-h-[44px] flex items-start pt-1">
-                          {t("hospitals.website")}
+                          className="text-xs font-medium text-blue-600 hover:text-blue-700 shrink-0 min-h-[44px] flex items-start pt-1 transition-colors">
+                          {t("hospitals.website")} →
                         </a>
                       )}
                     </div>
                     <p className="text-sm text-gray-600 mt-2">{clinic.addr}</p>
-                    <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-500">
-                      {clinic.telno && <span>📞 {clinic.telno}</span>}
+                    <div className="flex flex-wrap gap-3 mt-3 text-xs text-gray-500">
+                      {clinic.telno && <span className="flex items-center gap-1">📞 {clinic.telno}</span>}
                       {clinic.drTotCnt > 0 && <span>{t("hospitals.doctors_count", { count: clinic.drTotCnt })}</span>}
                       {clinic.sdrCnt > 0 && <span>{t("hospitals.specialists_count", { count: clinic.sdrCnt })}</span>}
                       {clinic.googleRating && (
-                        <span>⭐ {clinic.googleRating} · {t("hospitals.reviews")} {clinic.googleReviewCount || 0}</span>
+                        <span className="flex items-center gap-1 font-medium text-yellow-600">
+                          ⭐ {clinic.googleRating}
+                          <span className="text-gray-400 font-normal">· {t("hospitals.reviews")} {clinic.googleReviewCount || 0}</span>
+                        </span>
                       )}
                     </div>
                   </div>
@@ -178,10 +181,10 @@ function HospitalsContent() {
             {totalPages > 1 && (
               <div className="flex justify-center gap-2 mt-8">
                 <button onClick={() => handleSearch(page - 1)} disabled={page <= 1}
-                  className="min-w-[44px] min-h-[44px] px-4 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50 flex items-center justify-center">←</button>
+                  className="min-w-[44px] min-h-[44px] px-4 text-sm border border-stone-200 rounded-xl disabled:opacity-30 hover:bg-stone-50 flex items-center justify-center transition-colors">←</button>
                 <span className="min-h-[44px] px-4 text-sm text-gray-600 flex items-center">{page} / {totalPages}</span>
                 <button onClick={() => handleSearch(page + 1)} disabled={page >= totalPages}
-                  className="min-w-[44px] min-h-[44px] px-4 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50 flex items-center justify-center">→</button>
+                  className="min-w-[44px] min-h-[44px] px-4 text-sm border border-stone-200 rounded-xl disabled:opacity-30 hover:bg-stone-50 flex items-center justify-center transition-colors">→</button>
               </div>
             )}
           </>
