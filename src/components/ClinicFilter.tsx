@@ -6,72 +6,97 @@ import { usePathname, useRouter } from "next/navigation";
 import { SGGU_CODES } from "@/data/sggu-codes";
 import { createClient } from "@/lib/supabase";
 
-// 진료과목
+// 진료과목 (다국어)
 const SPECIALTIES = [
-  { value: "", label: "진료과 선택", d: false },
-  { value: "08", label: "성형외과", d: false }, { value: "14", label: "피부과", d: false },
-  { value: "49", label: "치과", d: false }, { value: "12", label: "안과", d: false },
-  { value: "01", label: "내과", d: false }, { value: "02", label: "신경과", d: false },
-  { value: "03", label: "정신건강의학과", d: false }, { value: "04", label: "외과", d: false },
-  { value: "05", label: "정형외과", d: false }, { value: "06", label: "신경외과", d: false },
-  { value: "09", label: "마취통증의학과", d: false }, { value: "10", label: "산부인과", d: false },
-  { value: "13", label: "이비인후과", d: false }, { value: "15", label: "비뇨의학과", d: false },
-  { value: "21", label: "재활의학과", d: false },
-  { value: "_sep1", label: "── 한방 ──", d: true },
-  { value: "80", label: "한방내과", d: false }, { value: "81", label: "한방부인과", d: false },
-  { value: "82", label: "한방소아과", d: false }, { value: "83", label: "한방안이비인후피부과", d: false },
-  { value: "84", label: "한방신경정신과", d: false }, { value: "85", label: "한방재활의학과", d: false },
-  { value: "86", label: "사상체질과", d: false }, { value: "87", label: "침구과", d: false },
+  { value: "", ko: "진료과 선택", en: "Select Specialty", d: false },
+  { value: "08", ko: "성형외과", en: "Plastic Surgery", d: false },
+  { value: "14", ko: "피부과", en: "Dermatology", d: false },
+  { value: "49", ko: "치과", en: "Dentistry", d: false },
+  { value: "12", ko: "안과", en: "Ophthalmology", d: false },
+  { value: "01", ko: "내과", en: "Internal Medicine", d: false },
+  { value: "02", ko: "신경과", en: "Neurology", d: false },
+  { value: "03", ko: "정신건강의학과", en: "Psychiatry", d: false },
+  { value: "04", ko: "외과", en: "General Surgery", d: false },
+  { value: "05", ko: "정형외과", en: "Orthopedics", d: false },
+  { value: "06", ko: "신경외과", en: "Neurosurgery", d: false },
+  { value: "09", ko: "마취통증의학과", en: "Anesthesiology", d: false },
+  { value: "10", ko: "산부인과", en: "OB/GYN", d: false },
+  { value: "13", ko: "이비인후과", en: "ENT", d: false },
+  { value: "15", ko: "비뇨의학과", en: "Urology", d: false },
+  { value: "21", ko: "재활의학과", en: "Rehabilitation", d: false },
+  { value: "_sep1", ko: "── 한방 ──", en: "── Korean Medicine ──", d: true },
+  { value: "80", ko: "한방내과", en: "Korean Internal Med.", d: false },
+  { value: "81", ko: "한방부인과", en: "Korean OB/GYN", d: false },
+  { value: "82", ko: "한방소아과", en: "Korean Pediatrics", d: false },
+  { value: "83", ko: "한방안이비인후피부과", en: "Korean ENT/Derma", d: false },
+  { value: "84", ko: "한방신경정신과", en: "Korean Neuropsych.", d: false },
+  { value: "85", ko: "한방재활의학과", en: "Korean Rehab.", d: false },
+  { value: "86", ko: "사상체질과", en: "Sasang Medicine", d: false },
+  { value: "87", ko: "침구과", en: "Acupuncture", d: false },
 ];
 
-// 시도 (심평원 실제 코드)
+// 시도 (심평원 실제 코드, 다국어)
 const REGIONS = [
-  { value: "", label: "시/도 선택" },
-  { value: "110000", label: "서울" }, { value: "210000", label: "부산" },
-  { value: "220000", label: "대구" }, { value: "230000", label: "인천" },
-  { value: "240000", label: "광주" }, { value: "250000", label: "대전" },
-  { value: "260000", label: "울산" }, { value: "310000", label: "경기" },
-  { value: "320000", label: "강원" }, { value: "330000", label: "충북" },
-  { value: "340000", label: "충남" }, { value: "350000", label: "전북" },
-  { value: "360000", label: "전남" }, { value: "370000", label: "경북" },
-  { value: "380000", label: "경남" }, { value: "390000", label: "제주" },
-  { value: "410000", label: "세종" },
+  { value: "", ko: "시/도 선택", en: "Select Region" },
+  { value: "110000", ko: "서울", en: "Seoul" },
+  { value: "210000", ko: "부산", en: "Busan" },
+  { value: "220000", ko: "대구", en: "Daegu" },
+  { value: "230000", ko: "인천", en: "Incheon" },
+  { value: "240000", ko: "광주", en: "Gwangju" },
+  { value: "250000", ko: "대전", en: "Daejeon" },
+  { value: "260000", ko: "울산", en: "Ulsan" },
+  { value: "310000", ko: "경기", en: "Gyeonggi" },
+  { value: "320000", ko: "강원", en: "Gangwon" },
+  { value: "330000", ko: "충북", en: "Chungbuk" },
+  { value: "340000", ko: "충남", en: "Chungnam" },
+  { value: "350000", ko: "전북", en: "Jeonbuk" },
+  { value: "360000", ko: "전남", en: "Jeonnam" },
+  { value: "370000", ko: "경북", en: "Gyeongbuk" },
+  { value: "380000", ko: "경남", en: "Gyeongnam" },
+  { value: "390000", ko: "제주", en: "Jeju" },
+  { value: "410000", ko: "세종", en: "Sejong" },
 ];
 
-// 병원 유형
+// 병원 유형 (다국어)
 const CLINIC_TYPES = [
-  { value: "", label: "병원 유형 (모두)" },
-  { value: "01", label: "상급종합병원" }, { value: "11", label: "종합병원" },
-  { value: "21", label: "병원" }, { value: "28", label: "요양병원" },
-  { value: "31", label: "의원" },
+  { value: "", ko: "병원 유형 (모두)", en: "Hospital Type (All)" },
+  { value: "01", ko: "상급종합병원", en: "Tertiary Hospital" },
+  { value: "11", ko: "종합병원", en: "General Hospital" },
+  { value: "21", ko: "병원", en: "Hospital" },
+  { value: "28", ko: "요양병원", en: "Long-term Care" },
+  { value: "31", ko: "의원", en: "Clinic" },
 ];
 
-// 전문의/일반의
+// 전문의/일반의 (다국어)
 const DOCTOR_TYPE = [
-  { value: "", label: "전문의/일반의 (모두)" },
-  { value: "specialist", label: "전문의" },
-  { value: "general", label: "일반의" },
+  { value: "", ko: "전문의/일반의 (모두)", en: "Specialist/General (All)" },
+  { value: "specialist", ko: "전문의", en: "Specialist" },
+  { value: "general", ko: "일반의", en: "General" },
 ];
 
-// 의사 수
+// 의사 수 (다국어)
 const DOCTOR_COUNT = [
-  { value: "", label: "의사 수 (모두)" },
-  { value: "1", label: "1명" }, { value: "2", label: "2~3명" },
-  { value: "5", label: "5명 이상" }, { value: "10", label: "10명 이상" },
+  { value: "", ko: "의사 수 (모두)", en: "Doctors (All)" },
+  { value: "1", ko: "1명", en: "1" },
+  { value: "2", ko: "2~3명", en: "2~3" },
+  { value: "5", ko: "5명 이상", en: "5+" },
+  { value: "10", ko: "10명 이상", en: "10+" },
 ];
 
-// 구글 평점
+// 구글 평점 (다국어)
 const RATING = [
-  { value: "", label: "구글 평점 (모두)" },
-  { value: "4.5", label: "4.5점 이상" }, { value: "4", label: "4점 이상" },
-  { value: "3.5", label: "3.5점 이상" }, { value: "3", label: "3점 이상" },
+  { value: "", ko: "구글 평점 (모두)", en: "Google Rating (All)" },
+  { value: "4.5", ko: "4.5점 이상", en: "4.5+" },
+  { value: "4", ko: "4점 이상", en: "4.0+" },
+  { value: "3.5", ko: "3.5점 이상", en: "3.5+" },
+  { value: "3", ko: "3점 이상", en: "3.0+" },
 ];
 
-// 홈페이지
+// 홈페이지 (다국어)
 const WEBSITE = [
-  { value: "", label: "홈페이지 (모두)" },
-  { value: "yes", label: "홈페이지 있음" },
-  { value: "no", label: "홈페이지 없음" },
+  { value: "", ko: "홈페이지 (모두)", en: "Website (All)" },
+  { value: "yes", ko: "홈페이지 있음", en: "Has Website" },
+  { value: "no", ko: "홈페이지 없음", en: "No Website" },
 ];
 
 export default function ClinicFilter({ locale }: { locale: string }) {
@@ -152,10 +177,10 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       {/* 필터 그리드 */}
       <div className="grid grid-cols-2 gap-2 mb-2">
         <select value={specialty} onChange={(e) => setSpecialty(e.target.value)} className={sc}>
-          {SPECIALTIES.map((s, i) => <option key={s.value || `s${i}`} value={s.value} disabled={s.d}>{s.label}</option>)}
+          {SPECIALTIES.map((s, i) => <option key={s.value || `s${i}`} value={s.value} disabled={s.d}>{isKo ? s.ko : s.en}</option>)}
         </select>
         <select value={region} onChange={(e) => handleRegionChange(e.target.value)} className={sc}>
-          {REGIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
+          {REGIONS.map((r) => <option key={r.value} value={r.value}>{isKo ? r.ko : r.en}</option>)}
         </select>
       </div>
       {sgguOptions.length > 0 && (
@@ -167,21 +192,21 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       )}
       <div className="grid grid-cols-2 gap-2 mb-2">
         <select value={clinicType} onChange={(e) => setClinicType(e.target.value)} className={sc}>
-          {CLINIC_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+          {CLINIC_TYPES.map((t) => <option key={t.value} value={t.value}>{isKo ? t.ko : t.en}</option>)}
         </select>
         <select value={doctorType} onChange={(e) => setDoctorType(e.target.value)} className={sc}>
-          {DOCTOR_TYPE.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
+          {DOCTOR_TYPE.map((d) => <option key={d.value} value={d.value}>{isKo ? d.ko : d.en}</option>)}
         </select>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
         <select value={doctorCount} onChange={(e) => setDoctorCount(e.target.value)} className={sc}>
-          {DOCTOR_COUNT.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
+          {DOCTOR_COUNT.map((d) => <option key={d.value} value={d.value}>{isKo ? d.ko : d.en}</option>)}
         </select>
         <select value={rating} onChange={(e) => setRating(e.target.value)} className={sc}>
-          {RATING.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
+          {RATING.map((r) => <option key={r.value} value={r.value}>{isKo ? r.ko : r.en}</option>)}
         </select>
         <select value={website} onChange={(e) => setWebsite(e.target.value)} className={sc}>
-          {WEBSITE.map((w) => <option key={w.value} value={w.value}>{w.label}</option>)}
+          {WEBSITE.map((w) => <option key={w.value} value={w.value}>{isKo ? w.ko : w.en}</option>)}
         </select>
       </div>
 
