@@ -358,7 +358,7 @@ function CommunityContent() {
           <h1 className="text-2xl font-bold text-gray-900">{t("community.title")}</h1>
           <Link
             href={loggedIn ? `/${locale}/community/new` : `/${locale}/signup`}
-            className="rounded-xl bg-slate-800 hover:bg-slate-900 px-5 py-2.5 text-sm font-medium text-white transition-colors"
+            className="rounded-xl bg-rose-400 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 transition-colors"
           >
             {t("community.new_post")}
           </Link>
@@ -381,8 +381,8 @@ function CommunityContent() {
               onClick={() => setIsSearchAll(!isSearchAll)}
               className={`px-4 min-h-[44px] rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
                 isSearchAll
-                  ? "bg-slate-800 text-white"
-                  : "bg-stone-100 text-gray-600 hover:bg-stone-200"
+                  ? "bg-rose-400 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
               {isKo
@@ -408,7 +408,7 @@ function CommunityContent() {
                 key={s}
                 onClick={() => setSort(s)}
                 className={`min-h-[44px] px-3 font-medium transition-colors rounded-lg ${
-                  sort === s ? "text-slate-800 bg-stone-100" : "text-gray-400 hover:text-gray-600"
+                  sort === s ? "text-rose-500 bg-rose-50" : "text-gray-400 hover:text-gray-600"
                 }`}
               >
                 {s === "hot" ? (isKo ? "🔥 인기" : "🔥 Hot") :
