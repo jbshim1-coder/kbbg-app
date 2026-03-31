@@ -102,6 +102,7 @@ export async function parseIntent(query: string): Promise<SearchIntent> {
 
 // ─── 지역명 → 심평원 시도코드 매핑 ───
 
+// 시도 코드 매핑
 const REGION_NAME_TO_CODE: Record<string, string> = {
   "서울": "110000", "seoul": "110000",
   "부산": "210000", "busan": "210000",
@@ -122,13 +123,58 @@ const REGION_NAME_TO_CODE: Record<string, string> = {
   "세종": "410000", "sejong": "410000",
 };
 
-function resolveRegionCode(regionText: string | null): string {
-  if (!regionText) return "";
-  const normalized = regionText.trim().toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
-  // 정확히 코드인 경우 (이미 6자리 숫자)
-  if (/^\d{6}$/.test(regionText)) return regionText;
-  // 이름으로 매핑
-  return REGION_NAME_TO_CODE[normalized] || REGION_NAME_TO_CODE[regionText.trim()] || REGION_NAME_TO_CODE[regionText.trim().toLowerCase()] || "";
+// 구/군 → 시도코드 매핑 (주요 지역)
+const DISTRICT_TO_SIDO: Record<string, string> = {
+  // 서울
+  "강남구": "110000", "강남": "110000", "gangnam": "110000",
+  "서초구": "110000", "서초": "110000", "seocho": "110000",
+  "송파구": "110000", "송파": "110000",
+  "강동구": "110000", "강서구": "110000", "관악구": "110000",
+  "광진구": "110000", "구로구": "110000", "금천구": "110000",
+  "노원구": "110000", "도봉구": "110000", "동대문구": "110000",
+  "동작구": "110000", "마포구": "110000", "서대문구": "110000",
+  "성동구": "110000", "성북구": "110000", "양천구": "110000",
+  "영등포구": "110000", "용산구": "110000", "은평구": "110000",
+  "종로구": "110000", "중구": "110000", "중랑구": "110000",
+  "명동": "110000", "홍대": "110000", "신촌": "110000", "압구정": "110000",
+  // 부산
+  "해운대구": "210000", "해운대": "210000", "haeundae": "210000",
+  "수영구": "210000", "부산진구": "210000", "동래구": "210000",
+  "남구": "210000", "연제구": "210000", "사하구": "210000",
+  "북구": "210000", "사상구": "210000", "금정구": "210000",
+  "서면": "210000",
+  // 대구
+  "수성구": "220000", "달서구": "220000", "동구": "220000",
+  // 인천
+  "연수구": "230000", "남동구": "230000", "부평구": "230000", "계양구": "230000",
+  "송도": "230000",
+};
+
+// 지역명 → { sido_cd, district } 변환
+function resolveRegion(regionText: string | null): { code: string; district: string } {
+  if (!regionText) return { code: "", district: "" };
+  const trimmed = regionText.trim();
+
+  // 이미 6자리 숫자 코드면 바로 반환
+  if (/^\d{6}$/.test(trimmed)) return { code: trimmed, district: "" };
+
+  // 시도 이름 직접 매칭
+  const normalized = trimmed.toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
+  const directMatch = REGION_NAME_TO_CODE[normalized] || REGION_NAME_TO_CODE[trimmed] || REGION_NAME_TO_CODE[trimmed.toLowerCase()];
+  if (directMatch) return { code: directMatch, district: "" };
+
+  // 구/군 매칭 → 시도코드 + 구이름을 키워드로
+  const districtMatch = DISTRICT_TO_SIDO[trimmed] || DISTRICT_TO_SIDO[trimmed.replace(/구$|군$/, "")] || DISTRICT_TO_SIDO[trimmed.toLowerCase()];
+  if (districtMatch) return { code: districtMatch, district: trimmed.replace(/구$/, "") };
+
+  // "서울 서초" 같이 공백으로 구분된 경우
+  const parts = trimmed.split(/\s+/);
+  if (parts.length >= 2) {
+    const cityCode = REGION_NAME_TO_CODE[parts[0]] || REGION_NAME_TO_CODE[parts[0].toLowerCase()];
+    if (cityCode) return { code: cityCode, district: parts.slice(1).join(" ").replace(/구$/, "") };
+  }
+
+  return { code: "", district: "" };
 }
 
 // ─── 2단계: DB 검색 (Supabase RPC) ───
@@ -140,9 +186,9 @@ export async function searchClinics(
 ): Promise<{ clinics: ClinicResult[]; totalCount: number }> {
   const supabase = createServiceRoleClient();
 
-  const region = resolveRegionCode(intent.region);
+  const { code: region, district } = resolveRegion(intent.region);
   const subject = intent.subject_code || "";
-  const keyword = "";
+  const keyword = district;
   const type = intent.clinic_type === "korean_medicine" ? "korean_medicine" : "";
 
   try {
