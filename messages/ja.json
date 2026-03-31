@@ -166,9 +166,9 @@
     "urology": "泌尿器科",
     "ent": "耳鼻咽喉科",
     "kpop": "K-Pop",
-    "kfood": "K-Food",
-    "kdrama": "K-ドラマ",
-    "kfashion": "K-ファッション",
+    "kfood": "韓国グルメ",
+    "kdrama": "韓国ドラマ",
+    "kfashion": "韓国ファッション",
     "travel": "韓国旅行",
     "korean_learn": "韓国語学習",
     "trending": "トレンド",
@@ -218,12 +218,6 @@
     "comment1_time": "1時間前",
     "comment2_body": "腫れの写真も共有してもらえますか！",
     "comment2_time": "30分前",
-    "kpop": "K-Pop",
-    "kfood": "韓国グルメ",
-    "kdrama": "韓国ドラマ",
-    "kfashion": "韓国ファッション",
-    "travel": "韓国旅行",
-    "korean_learn": "韓国語学習",
     "delete": "削除"
   },
   "about": {
@@ -732,5 +726,9 @@
   },
   "ai_start": {
     "button": "AIレコメンド開始"
+  },
+  "badge": {
+    "safe_anesthesia": "麻酔安心",
+    "safe_anesthesia_desc": "麻酔科専門医常駐"
   }
 }

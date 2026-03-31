@@ -319,6 +319,17 @@ function AiSearchContent() {
                         </span>
                       )}
                     </div>
+                    {/* 마취과 전문의 상주 뱃지 */}
+                    {clinic.safeAnesthesiaBadge && (
+                      <div className="mt-2">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-xs font-medium">
+                          🛡️ {isKo
+                            ? t("badge.safe_anesthesia" as Parameters<typeof t>[0])
+                            : t("badge.safe_anesthesia" as Parameters<typeof t>[0])}
+                          {clinic.anesthesiaSdrCount > 1 && "+"}
+                        </span>
+                      </div>
+                    )}
                     {clinic.hospUrl && (
                       <a
                         href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}

@@ -218,12 +218,6 @@
     "comment1_time": "1시간 전",
     "comment2_body": "붓기 사진도 공유해주실 수 있나요!",
     "comment2_time": "30분 전",
-    "kpop": "K-Pop",
-    "kfood": "K-Food",
-    "kdrama": "K-드라마",
-    "kfashion": "K-패션",
-    "travel": "한국 여행",
-    "korean_learn": "한국어 배우기",
     "delete": "삭제"
   },
   "about": {
@@ -784,5 +778,9 @@
   },
   "ai_start": {
     "button": "AI 추천 시작"
+  },
+  "badge": {
+    "safe_anesthesia": "마취 안심",
+    "safe_anesthesia_desc": "마취통증의학과 전문의 상주"
   }
 }

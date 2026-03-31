@@ -26,7 +26,9 @@ RETURNS TABLE (
   google_rating numeric,
   google_review_count int,
   relevance_score numeric,
-  total_count bigint
+  total_count bigint,
+  anesthesia_sdr_count int,
+  safe_anesthesia_badge boolean
 ) LANGUAGE plpgsql AS $$
 DECLARE
   v_subject_name text := '';
@@ -79,6 +81,8 @@ BEGIN
       c.sggu_cd_nm,
       c.google_rating,
       c.google_review_count,
+      COALESCE(c.anesthesia_sdr_count, 0) AS anesthesia_sdr_count,
+      COALESCE(c.safe_anesthesia_badge, false) AS safe_anesthesia_badge,
       (
         -- 1) 상호 매칭 (최대 100점)
         CASE

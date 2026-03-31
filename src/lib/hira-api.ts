@@ -21,6 +21,8 @@ export interface HiraClinic {
   ykiho: string;        // 요양기관기호 (고유 ID)
   googleRating: number | null;      // 구글 별점 (API 응답 후 추가)
   googleReviewCount: number | null; // 구글 리뷰 수 (API 응답 후 추가)
+  anesthesiaSdrCount: number;       // 마취통증의학과 전문의 수
+  safeAnesthesiaBadge: boolean;     // 마취과 전문의 상주 뱃지 표시 여부
 }
 
 // API 응답 구조

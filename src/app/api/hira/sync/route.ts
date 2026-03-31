@@ -93,6 +93,39 @@ export async function POST() {
       }
     }
 
+    // ── 마취과 전문의 수 업데이트 ──
+    // 마취통증의학과(09) 데이터를 별도 수집하여, 이미 동기화된 병원에 마취과 전문의 수를 업데이트
+    const ANESTHESIA_CODE = "09";
+    for (const sidoCd of TARGET_REGIONS) {
+      let pageNo = 1;
+      let hasMore = true;
+      while (hasMore) {
+        const result = await fetchHiraClinics({
+          dgsbjtCd: ANESTHESIA_CODE,
+          sidoCd,
+          numOfRows: 100,
+          pageNo,
+        });
+        if (result.clinics.length === 0) { hasMore = false; break; }
+
+        for (const clinic of result.clinics) {
+          const sdrCount = clinic.mdeptSdrCnt || clinic.sdrCnt || 0;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (supabase as any).from("clinics").update({
+            anesthesia_sdr_count: sdrCount,
+            safe_anesthesia_badge: sdrCount >= 1,
+          }).eq("id", clinic.ykiho);
+        }
+
+        if (pageNo * 100 >= result.totalCount) {
+          hasMore = false;
+        } else {
+          pageNo++;
+        }
+        await new Promise((r) => setTimeout(r, 200));
+      }
+    }
+
     // ── 폐업 병원 비활성화 ──
     // 심평원에서 더이상 조회되지 않는 병원 = 폐업/휴업
     // is_active를 false로 변경 (데이터는 삭제하지 않음)

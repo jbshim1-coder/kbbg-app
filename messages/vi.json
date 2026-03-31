@@ -166,9 +166,9 @@
     "urology": "Tiết niệu",
     "ent": "Tai mũi họng",
     "kpop": "K-Pop",
-    "kfood": "K-Food",
-    "kdrama": "K-Drama",
-    "kfashion": "K-Fashion",
+    "kfood": "Ẩm thực Hàn",
+    "kdrama": "Phim Hàn",
+    "kfashion": "Thời trang Hàn",
     "travel": "Du lịch Hàn Quốc",
     "korean_learn": "Học tiếng Hàn",
     "trending": "Xu hướng",
@@ -218,12 +218,6 @@
     "comment1_time": "1 giờ trước",
     "comment2_body": "Bạn có thể chia sẻ ảnh sưng không!",
     "comment2_time": "30 phút trước",
-    "kpop": "K-Pop",
-    "kfood": "Ẩm thực Hàn",
-    "kdrama": "Phim Hàn",
-    "kfashion": "Thời trang Hàn",
-    "travel": "Du lịch Hàn Quốc",
-    "korean_learn": "Học tiếng Hàn",
     "delete": "Xóa"
   },
   "about": {
@@ -732,5 +726,9 @@
   },
   "ai_start": {
     "button": "Bắt đầu AI"
+  },
+  "badge": {
+    "safe_anesthesia": "Gây mê an toàn",
+    "safe_anesthesia_desc": "Có bác sĩ gây mê chuyên khoa thường trực"
   }
 }

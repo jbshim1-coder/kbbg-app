@@ -166,9 +166,9 @@
     "urology": "泌尿科",
     "ent": "耳鼻喉科",
     "kpop": "K-Pop",
-    "kfood": "K-Food",
-    "kdrama": "K-剧",
-    "kfashion": "K-时尚",
+    "kfood": "韩国美食",
+    "kdrama": "韩剧",
+    "kfashion": "韩国时尚",
     "travel": "韩国旅行",
     "korean_learn": "学韩语",
     "trending": "热门",
@@ -218,12 +218,6 @@
     "comment1_time": "1小时前",
     "comment2_body": "可以分享消肿照片吗！",
     "comment2_time": "30分钟前",
-    "kpop": "K-Pop",
-    "kfood": "韩国美食",
-    "kdrama": "韩剧",
-    "kfashion": "韩国时尚",
-    "travel": "韩国旅行",
-    "korean_learn": "学韩语",
     "delete": "删除"
   },
   "about": {
@@ -732,5 +726,9 @@
   },
   "ai_start": {
     "button": "开始AI推荐"
+  },
+  "badge": {
+    "safe_anesthesia": "麻醉安心",
+    "safe_anesthesia_desc": "麻醉科专科医师常驻"
   }
 }

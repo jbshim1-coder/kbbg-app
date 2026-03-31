@@ -31,6 +31,8 @@ export interface ClinicResult {
   google_review_count: number | null;
   naver_blog_count: number | null;
   relevance_score: number | null;
+  anesthesia_sdr_count: number;
+  safe_anesthesia_badge: boolean;
 }
 
 // ─── 1단계: 자연어 → 검색조건 추출 (GPT-4o-mini) ───
@@ -144,6 +146,8 @@ export async function searchClinics(
       google_review_count: c.google_review_count || null,
       naver_blog_count: c.naver_blog_count || null,
       relevance_score: c.relevance_score || null,
+      anesthesia_sdr_count: Number(c.anesthesia_sdr_count) || 0,
+      safe_anesthesia_badge: Boolean(c.safe_anesthesia_badge) || false,
     }));
 
     return {

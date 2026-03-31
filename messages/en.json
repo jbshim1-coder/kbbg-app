@@ -168,7 +168,7 @@
     "kfood": "K-Food",
     "kdrama": "K-Drama",
     "kfashion": "K-Fashion",
-    "travel": "Travel in Korea",
+    "travel": "Korea Travel",
     "korean_learn": "Learn Korean",
     "trending": "Trending",
     "latest": "Latest",
@@ -217,12 +217,6 @@
     "comment1_time": "1h ago",
     "comment2_body": "Could you share swelling photos too!",
     "comment2_time": "30m ago",
-    "kpop": "K-Pop",
-    "kfood": "K-Food",
-    "kdrama": "K-Drama",
-    "kfashion": "K-Fashion",
-    "travel": "Korea Travel",
-    "korean_learn": "Learn Korean",
     "delete": "Delete"
   },
   "about": {
@@ -731,5 +725,9 @@
   },
   "ai_start": {
     "button": "Start AI Search"
+  },
+  "badge": {
+    "safe_anesthesia": "Safe Anesthesia",
+    "safe_anesthesia_desc": "Board-certified anesthesiologist on staff"
   }
 }

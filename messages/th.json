@@ -166,9 +166,9 @@
     "urology": "ระบบทางเดินปัสสาวะ",
     "ent": "หู คอ จมูก",
     "kpop": "K-Pop",
-    "kfood": "K-Food",
-    "kdrama": "K-Drama",
-    "kfashion": "K-Fashion",
+    "kfood": "อาหารเกาหลี",
+    "kdrama": "ซีรีส์เกาหลี",
+    "kfashion": "แฟชั่นเกาหลี",
     "travel": "เที่ยวเกาหลี",
     "korean_learn": "เรียนภาษาเกาหลี",
     "trending": "กำลังนิยม",
@@ -218,12 +218,6 @@
     "comment1_time": "1 ชั่วโมงที่แล้ว",
     "comment2_body": "แชร์รูปบวมได้ไหมคะ!",
     "comment2_time": "30 นาทีที่แล้ว",
-    "kpop": "K-Pop",
-    "kfood": "อาหารเกาหลี",
-    "kdrama": "ซีรีส์เกาหลี",
-    "kfashion": "แฟชั่นเกาหลี",
-    "travel": "เที่ยวเกาหลี",
-    "korean_learn": "เรียนภาษาเกาหลี",
     "delete": "ลบ"
   },
   "about": {
@@ -732,5 +726,9 @@
   },
   "ai_start": {
     "button": "เริ่ม AI แนะนำ"
+  },
+  "badge": {
+    "safe_anesthesia": "วิสัญญีปลอดภัย",
+    "safe_anesthesia_desc": "มีวิสัญญีแพทย์ผู้เชี่ยวชาญประจำ"
   }
 }

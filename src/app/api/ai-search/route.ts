@@ -53,6 +53,8 @@ function toHiraFormat(c: ClinicResult) {
     googleReviewCount: c.google_review_count,
     blogReviewCount: c.naver_blog_count,
     relevanceScore: c.relevance_score,
+    anesthesiaSdrCount: c.anesthesia_sdr_count,
+    safeAnesthesiaBadge: c.safe_anesthesia_badge,
   };
 }
 
