@@ -139,7 +139,8 @@ function AiSearchContent() {
   const handleSearch = () => {
     const q = inputValue.trim();
     if (!q) return;
-    router.push(`/${locale}/ai-search?q=${encodeURIComponent(q)}`);
+    setRawQuery(q);
+    window.history.pushState(null, "", `/${locale}/ai-search?q=${encodeURIComponent(q)}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -150,7 +151,8 @@ function AiSearchContent() {
   const handleRegionChip = (regionLabel: string) => {
     const newQuery = `${rawQuery} ${regionLabel}`;
     setInputValue(newQuery);
-    router.push(`/${locale}/ai-search?q=${encodeURIComponent(newQuery)}`);
+    setRawQuery(newQuery);
+    window.history.pushState(null, "", `/${locale}/ai-search?q=${encodeURIComponent(newQuery)}`);
   };
 
   // 조건 검색 페이지로 필터 전달
