@@ -51,7 +51,7 @@ function toHiraFormat(c: ClinicResult) {
     ykiho: c.ykiho,
     googleRating: c.google_rating,
     googleReviewCount: c.google_review_count,
-    blogReviewCount: c.naver_blog_count,
+    blogReviewCount: null,
     relevanceScore: c.relevance_score,
     anesthesiaSdrCount: c.anesthesia_sdr_count,
     safeAnesthesiaBadge: c.safe_anesthesia_badge,
@@ -87,11 +87,15 @@ export async function POST(request: NextRequest) {
     try {
       intent = await parseIntent(query);
     } catch {
-      intent = { region: null, subject_code: null, clinic_type: null, keyword: query, confidence: 0, reason: "fallback" };
+      intent = {
+        region_city: null, region_district: null, region: null,
+        subject_code: null, clinic_type: null, keyword: query,
+        confidence: 0, reason: "fallback",
+      };
     }
 
     // 지역 없는 질문 처리: needsRegion 플래그
-    const needsRegion = !intent.region;
+    const needsRegion = !intent.region_city && !intent.region_district;
 
     // ── 2단계: DB 검색 ──
     const { clinics, totalCount } = await searchClinics(intent, 1, 10);

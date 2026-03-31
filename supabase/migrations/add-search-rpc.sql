@@ -119,7 +119,7 @@ BEGIN
     WHERE c.is_active = true
       AND (p_subject = '' OR c.dgsbjt_cd = p_subject)
       AND (p_region = '' OR c.sido_cd = p_region)
-      AND (p_keyword = '' OR c.name ILIKE '%' || p_keyword || '%' OR c.address ILIKE '%' || p_keyword || '%')
+      AND (p_keyword = '' OR c.name ILIKE '%' || p_keyword || '%' OR c.address ILIKE '%' || p_keyword || '%' OR c.sggu_cd_nm ILIKE '%' || p_keyword || '%')
       AND (p_type = '' OR (p_type = 'korean_medicine' AND c.cl_cd IN ('91', '92')))
       -- 의원만 노출 (2차/종합/대학병원 제외, 내과/건강검진은 허용)
       AND (p_subject IN ('', '01') OR c.cl_cd IN ('31', '91', '92') OR c.cl_cd IS NULL)

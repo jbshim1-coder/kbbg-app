@@ -7,12 +7,15 @@ import { createServiceRoleClient } from "@/lib/supabase";
 // ─── 타입 정의 ───
 
 export interface SearchIntent {
-  region: string | null;
+  region_city: string | null;
+  region_district: string | null;
   subject_code: string | null;
   clinic_type: string | null;
   keyword: string;
   confidence: number;
   reason: string;
+  // 하위호환: 기존 API 응답용
+  region: string | null;
 }
 
 export interface ClinicResult {
@@ -29,7 +32,6 @@ export interface ClinicResult {
   sggu_cd_nm: string;
   google_rating: number | null;
   google_review_count: number | null;
-  naver_blog_count: number | null;
   relevance_score: number | null;
   anesthesia_sdr_count: number;
   safe_anesthesia_badge: boolean;
@@ -43,17 +45,38 @@ const INTENT_SYSTEM_PROMPT = `당신은 병원 추천 검색 파라미터 추출
 사용자의 자연어 질문에서 병원 검색 조건을 JSON으로 추출하세요.
 
 규칙:
-- region: 지역명. "강남"→"강남구", "부산"→"부산" 등 정규화. 없으면 null
+- region_city: 시/도 단위 지역명. 정규화하여 반환. 없으면 null
+  예: "서울", "부산", "대구", "인천", "광주", "대전", "울산", "경기", "제주", "세종"
+  "강남 성형외과" → region_city: "서울" (강남은 서울에 속함)
+  "해운대 피부과" → region_city: "부산"
+  "서면 성형외과" → region_city: "부산"
+  "분당 안과" → region_city: "경기"
+  "수원 피부과" → region_city: "경기"
+  "명동 피부과" → region_city: "서울"
+  "홍대 치과" → region_city: "서울"
+- region_district: 구/군/동/비공식지명. 없으면 null
+  예: "강남구", "서초구", "해운대구", "역삼동", "명동", "홍대", "서면", "분당", "수원"
+  "서울 강남 성형외과" → region_district: "강남구"
+  "역삼동 피부과" → region_district: "역삼동"
+  "분당 안과" → region_district: "분당"
 - subject_code: 진료과 코드만 반환. 모르면 null
-  - 쌍꺼풀/코성형/윤곽/보톡스/필러/리프팅(얼굴) → "08" (성형외과)
-  - 여드름/기미/피부/레이저/모공 → "14" (피부과)
-  - 치아/임플란트/교정/미백 → "49" (치과)
-  - 눈/시력/라식/라섹 → "12" (안과)
+  - 쌍꺼풀/코성형/윤곽/보톡스/필러/리프팅(얼굴)/성형 → "08" (성형외과)
+  - 여드름/기미/피부/레이저/모공/피부과 → "14" (피부과)
+  - 치아/임플란트/교정/미백/치과 → "49" (치과)
+  - 눈/시력/라식/라섹/안과 → "12" (안과)
   - 다이어트/비만/지방흡입/체형 → "08" (성형외과)
-  - 통증/허리/어깨/관절 → "05" (정형외과)
+  - 통증/허리/어깨/관절/정형 → "05" (정형외과)
   - 탈모/모발이식 → "14" (피부과)
+  - 주름/안티에이징 → "14" (피부과)
+  - plastic surgery/cosmetic → "08"
+  - dermatology/skin → "14"
+  - dentist/dental → "49"
+  - ophthalmology/eye → "12"
 - clinic_type: "clinic"(의원), "hospital"(병원), "korean_medicine"(한의원). 모르면 null
-- keyword: 핵심 검색 키워드 (한국어)
+- keyword: 시술명/고민 등 핵심 키워드. 지역명·진료과명 제외. 없으면 빈 문자열 ""
+  예: "쌍꺼풀", "보톡스", "여드름", "종아리", "다이어트"
+  "강남 성형외과" → keyword: "" (지역+진료과만이므로)
+  "40대 여성 성형외과 추천" → keyword: "40대 여성 추천"
 - confidence: 추출 확신도 0~1
 - reason: 추출 근거 (한국어)
 
@@ -62,7 +85,11 @@ const INTENT_SYSTEM_PROMPT = `당신은 병원 추천 검색 파라미터 추출
 export async function parseIntent(query: string): Promise<SearchIntent> {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    return { region: null, subject_code: null, clinic_type: null, keyword: query, confidence: 0, reason: "API key missing" };
+    return {
+      region_city: null, region_district: null, region: null,
+      subject_code: null, clinic_type: null, keyword: query,
+      confidence: 0, reason: "API key missing",
+    };
   }
 
   const response = await fetch(OPENAI_API_URL, {
@@ -73,7 +100,7 @@ export async function parseIntent(query: string): Promise<SearchIntent> {
     },
     body: JSON.stringify({
       model: "gpt-4o-mini",
-      max_tokens: 300,
+      max_tokens: 400,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: INTENT_SYSTEM_PROMPT },
@@ -90,11 +117,19 @@ export async function parseIntent(query: string): Promise<SearchIntent> {
   if (!content) throw new Error("Empty OpenAI response");
 
   const parsed = JSON.parse(content);
+
+  // 하위호환: region 필드 합성
+  const city = parsed.region_city || null;
+  const district = parsed.region_district || null;
+  const region = district ? (city ? `${city} ${district}` : district) : city;
+
   return {
-    region: parsed.region || null,
+    region_city: city,
+    region_district: district,
+    region,
     subject_code: parsed.subject_code || null,
     clinic_type: parsed.clinic_type || null,
-    keyword: parsed.keyword || query,
+    keyword: parsed.keyword ?? "",
     confidence: parsed.confidence ?? 0.5,
     reason: parsed.reason || "",
   };
@@ -123,58 +158,212 @@ const REGION_NAME_TO_CODE: Record<string, string> = {
   "세종": "410000", "sejong": "410000",
 };
 
-// 구/군 → 시도코드 매핑 (주요 지역)
-const DISTRICT_TO_SIDO: Record<string, string> = {
-  // 서울
-  "강남구": "110000", "강남": "110000", "gangnam": "110000",
-  "서초구": "110000", "서초": "110000", "seocho": "110000",
-  "송파구": "110000", "송파": "110000",
-  "강동구": "110000", "강서구": "110000", "관악구": "110000",
-  "광진구": "110000", "구로구": "110000", "금천구": "110000",
-  "노원구": "110000", "도봉구": "110000", "동대문구": "110000",
-  "동작구": "110000", "마포구": "110000", "서대문구": "110000",
-  "성동구": "110000", "성북구": "110000", "양천구": "110000",
-  "영등포구": "110000", "용산구": "110000", "은평구": "110000",
-  "종로구": "110000", "중구": "110000", "중랑구": "110000",
-  "명동": "110000", "홍대": "110000", "신촌": "110000", "압구정": "110000",
-  // 부산
-  "해운대구": "210000", "해운대": "210000", "haeundae": "210000",
-  "수영구": "210000", "부산진구": "210000", "동래구": "210000",
-  "남구": "210000", "연제구": "210000", "사하구": "210000",
-  "북구": "210000", "사상구": "210000", "금정구": "210000",
-  "서면": "210000",
-  // 대구
-  "수성구": "220000", "달서구": "220000", "동구": "220000",
-  // 인천
-  "연수구": "230000", "남동구": "230000", "부평구": "230000", "계양구": "230000",
-  "송도": "230000",
+// 구/군/동/비공식지명 → { sido코드, keyword로 사용할 구/동 이름 }
+const DISTRICT_TO_REGION: Record<string, { sido: string; keyword: string }> = {
+  // ── 서울 25개구 ──
+  "강남구": { sido: "110000", keyword: "강남" }, "강남": { sido: "110000", keyword: "강남" }, "gangnam": { sido: "110000", keyword: "강남" },
+  "강동구": { sido: "110000", keyword: "강동" }, "강동": { sido: "110000", keyword: "강동" },
+  "강북구": { sido: "110000", keyword: "강북" }, "강북": { sido: "110000", keyword: "강북" },
+  "강서구": { sido: "110000", keyword: "강서" },
+  "관악구": { sido: "110000", keyword: "관악" }, "관악": { sido: "110000", keyword: "관악" },
+  "광진구": { sido: "110000", keyword: "광진" }, "광진": { sido: "110000", keyword: "광진" },
+  "구로구": { sido: "110000", keyword: "구로" }, "구로": { sido: "110000", keyword: "구로" },
+  "금천구": { sido: "110000", keyword: "금천" }, "금천": { sido: "110000", keyword: "금천" },
+  "노원구": { sido: "110000", keyword: "노원" }, "노원": { sido: "110000", keyword: "노원" },
+  "도봉구": { sido: "110000", keyword: "도봉" }, "도봉": { sido: "110000", keyword: "도봉" },
+  "동대문구": { sido: "110000", keyword: "동대문" }, "동대문": { sido: "110000", keyword: "동대문" },
+  "동작구": { sido: "110000", keyword: "동작" }, "동작": { sido: "110000", keyword: "동작" },
+  "마포구": { sido: "110000", keyword: "마포" }, "마포": { sido: "110000", keyword: "마포" },
+  "서대문구": { sido: "110000", keyword: "서대문" }, "서대문": { sido: "110000", keyword: "서대문" },
+  "서초구": { sido: "110000", keyword: "서초" }, "서초": { sido: "110000", keyword: "서초" }, "seocho": { sido: "110000", keyword: "서초" },
+  "성동구": { sido: "110000", keyword: "성동" }, "성동": { sido: "110000", keyword: "성동" },
+  "성북구": { sido: "110000", keyword: "성북" },
+  "송파구": { sido: "110000", keyword: "송파" }, "송파": { sido: "110000", keyword: "송파" },
+  "양천구": { sido: "110000", keyword: "양천" }, "양천": { sido: "110000", keyword: "양천" },
+  "영등포구": { sido: "110000", keyword: "영등포" }, "영등포": { sido: "110000", keyword: "영등포" },
+  "용산구": { sido: "110000", keyword: "용산" }, "용산": { sido: "110000", keyword: "용산" },
+  "은평구": { sido: "110000", keyword: "은평" }, "은평": { sido: "110000", keyword: "은평" },
+  "종로구": { sido: "110000", keyword: "종로" }, "종로": { sido: "110000", keyword: "종로" },
+  "중구": { sido: "110000", keyword: "중구" },
+  "중랑구": { sido: "110000", keyword: "중랑" }, "중랑": { sido: "110000", keyword: "중랑" },
+  // 서울 비공식지명/동
+  "명동": { sido: "110000", keyword: "명동" }, "myeongdong": { sido: "110000", keyword: "명동" },
+  "홍대": { sido: "110000", keyword: "홍대" }, "hongdae": { sido: "110000", keyword: "홍대" },
+  "신촌": { sido: "110000", keyword: "신촌" },
+  "압구정": { sido: "110000", keyword: "압구정" }, "apgujeong": { sido: "110000", keyword: "압구정" },
+  "잠실": { sido: "110000", keyword: "잠실" },
+  "이태원": { sido: "110000", keyword: "이태원" }, "itaewon": { sido: "110000", keyword: "이태원" },
+  "청담": { sido: "110000", keyword: "청담" }, "cheongdam": { sido: "110000", keyword: "청담" },
+  "신사": { sido: "110000", keyword: "신사" },
+  "역삼": { sido: "110000", keyword: "역삼" },
+  "논현": { sido: "110000", keyword: "논현" },
+  "삼성": { sido: "110000", keyword: "삼성" },
+  "대치": { sido: "110000", keyword: "대치" },
+
+  // ── 부산 주요구 ──
+  "해운대구": { sido: "210000", keyword: "해운대" }, "해운대": { sido: "210000", keyword: "해운대" }, "haeundae": { sido: "210000", keyword: "해운대" },
+  "수영구": { sido: "210000", keyword: "수영" }, "수영": { sido: "210000", keyword: "수영" },
+  "부산진구": { sido: "210000", keyword: "부산진" }, "부산진": { sido: "210000", keyword: "부산진" },
+  "동래구": { sido: "210000", keyword: "동래" }, "동래": { sido: "210000", keyword: "동래" },
+  "연제구": { sido: "210000", keyword: "연제" }, "연제": { sido: "210000", keyword: "연제" },
+  "사하구": { sido: "210000", keyword: "사하" }, "사하": { sido: "210000", keyword: "사하" },
+  "사상구": { sido: "210000", keyword: "사상" }, "사상": { sido: "210000", keyword: "사상" },
+  "금정구": { sido: "210000", keyword: "금정" }, "금정": { sido: "210000", keyword: "금정" },
+  "기장군": { sido: "210000", keyword: "기장" }, "기장": { sido: "210000", keyword: "기장" },
+  "영도구": { sido: "210000", keyword: "영도" }, "영도": { sido: "210000", keyword: "영도" },
+  "부산남구": { sido: "210000", keyword: "남구" },
+  "부산북구": { sido: "210000", keyword: "북구" },
+  "부산중구": { sido: "210000", keyword: "중구" },
+  "부산동구": { sido: "210000", keyword: "동구" },
+  "부산서구": { sido: "210000", keyword: "서구" },
+  "서면": { sido: "210000", keyword: "서면" }, "seomyeon": { sido: "210000", keyword: "서면" },
+  "광안리": { sido: "210000", keyword: "광안" },
+  "남포동": { sido: "210000", keyword: "남포" },
+  "센텀": { sido: "210000", keyword: "센텀" },
+
+  // ── 대구 주요구 ──
+  "수성구": { sido: "220000", keyword: "수성" }, "수성": { sido: "220000", keyword: "수성" },
+  "달서구": { sido: "220000", keyword: "달서" }, "달서": { sido: "220000", keyword: "달서" },
+  "달성군": { sido: "220000", keyword: "달성" }, "달성": { sido: "220000", keyword: "달성" },
+  "대구중구": { sido: "220000", keyword: "중구" },
+  "대구동구": { sido: "220000", keyword: "동구" },
+  "대구서구": { sido: "220000", keyword: "서구" },
+  "대구남구": { sido: "220000", keyword: "남구" },
+  "대구북구": { sido: "220000", keyword: "북구" },
+
+  // ── 인천 주요구 ──
+  "연수구": { sido: "230000", keyword: "연수" }, "연수": { sido: "230000", keyword: "연수" },
+  "남동구": { sido: "230000", keyword: "남동" }, "남동": { sido: "230000", keyword: "남동" },
+  "부평구": { sido: "230000", keyword: "부평" }, "부평": { sido: "230000", keyword: "부평" },
+  "계양구": { sido: "230000", keyword: "계양" }, "계양": { sido: "230000", keyword: "계양" },
+  "미추홀구": { sido: "230000", keyword: "미추홀" }, "미추홀": { sido: "230000", keyword: "미추홀" },
+  "서구": { sido: "230000", keyword: "서구" },
+  "인천중구": { sido: "230000", keyword: "중구" },
+  "인천동구": { sido: "230000", keyword: "동구" },
+  "송도": { sido: "230000", keyword: "송도" }, "songdo": { sido: "230000", keyword: "송도" },
+
+  // ── 광주 주요구 ──
+  "광산구": { sido: "240000", keyword: "광산" }, "광산": { sido: "240000", keyword: "광산" },
+  "광주서구": { sido: "240000", keyword: "서구" },
+  "광주남구": { sido: "240000", keyword: "남구" },
+  "광주북구": { sido: "240000", keyword: "북구" },
+  "광주동구": { sido: "240000", keyword: "동구" },
+
+  // ── 대전 주요구 ──
+  "유성구": { sido: "250000", keyword: "유성" }, "유성": { sido: "250000", keyword: "유성" },
+  "서구대전": { sido: "250000", keyword: "서구" },
+  "대전중구": { sido: "250000", keyword: "중구" },
+  "대전동구": { sido: "250000", keyword: "동구" },
+  "대덕구": { sido: "250000", keyword: "대덕" }, "대덕": { sido: "250000", keyword: "대덕" },
+  "둔산": { sido: "250000", keyword: "둔산" },
+
+  // ── 울산 주요구 ──
+  "울주군": { sido: "260000", keyword: "울주" }, "울주": { sido: "260000", keyword: "울주" },
+  "울산남구": { sido: "260000", keyword: "남구" },
+  "울산중구": { sido: "260000", keyword: "중구" },
+  "울산동구": { sido: "260000", keyword: "동구" },
+  "울산북구": { sido: "260000", keyword: "북구" },
+
+  // ── 경기도 주요 시 ──
+  "수원": { sido: "310000", keyword: "수원" }, "suwon": { sido: "310000", keyword: "수원" },
+  "수원시": { sido: "310000", keyword: "수원" },
+  "성남": { sido: "310000", keyword: "성남" }, "성남시": { sido: "310000", keyword: "성남" },
+  "분당": { sido: "310000", keyword: "분당" }, "분당구": { sido: "310000", keyword: "분당" }, "bundang": { sido: "310000", keyword: "분당" },
+  "용인": { sido: "310000", keyword: "용인" }, "용인시": { sido: "310000", keyword: "용인" },
+  "고양": { sido: "310000", keyword: "고양" }, "고양시": { sido: "310000", keyword: "고양" },
+  "일산": { sido: "310000", keyword: "일산" }, "ilsan": { sido: "310000", keyword: "일산" },
+  "화성": { sido: "310000", keyword: "화성" }, "화성시": { sido: "310000", keyword: "화성" },
+  "안양": { sido: "310000", keyword: "안양" }, "안양시": { sido: "310000", keyword: "안양" },
+  "안산": { sido: "310000", keyword: "안산" }, "안산시": { sido: "310000", keyword: "안산" },
+  "평택": { sido: "310000", keyword: "평택" }, "평택시": { sido: "310000", keyword: "평택" },
+  "시흥": { sido: "310000", keyword: "시흥" }, "시흥시": { sido: "310000", keyword: "시흥" },
+  "파주": { sido: "310000", keyword: "파주" }, "파주시": { sido: "310000", keyword: "파주" },
+  "김포": { sido: "310000", keyword: "김포" }, "김포시": { sido: "310000", keyword: "김포" },
+  "광명": { sido: "310000", keyword: "광명" }, "광명시": { sido: "310000", keyword: "광명" },
+  "군포": { sido: "310000", keyword: "군포" }, "군포시": { sido: "310000", keyword: "군포" },
+  "하남": { sido: "310000", keyword: "하남" }, "하남시": { sido: "310000", keyword: "하남" },
+  "오산": { sido: "310000", keyword: "오산" }, "오산시": { sido: "310000", keyword: "오산" },
+  "이천": { sido: "310000", keyword: "이천" }, "이천시": { sido: "310000", keyword: "이천" },
+  "의정부": { sido: "310000", keyword: "의정부" }, "의정부시": { sido: "310000", keyword: "의정부" },
+  "남양주": { sido: "310000", keyword: "남양주" }, "남양주시": { sido: "310000", keyword: "남양주" },
+  "구리": { sido: "310000", keyword: "구리" }, "구리시": { sido: "310000", keyword: "구리" },
+  "양주": { sido: "310000", keyword: "양주" }, "양주시": { sido: "310000", keyword: "양주" },
+  "동탄": { sido: "310000", keyword: "동탄" },
+  "판교": { sido: "310000", keyword: "판교" },
+  "광교": { sido: "310000", keyword: "광교" },
 };
 
-// 지역명 → { sido_cd, district } 변환
-function resolveRegion(regionText: string | null): { code: string; district: string } {
-  if (!regionText) return { code: "", district: "" };
-  const trimmed = regionText.trim();
+// 지역명 → { sido_cd, districtKeyword } 변환
+// city: GPT가 추출한 시/도, district: GPT가 추출한 구/군/동
+function resolveRegion(
+  city: string | null,
+  district: string | null
+): { code: string; districtKeyword: string } {
+  // city + district 모두 있는 경우
+  if (city && district) {
+    const cityNorm = city.trim().toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
+    const cityCode = REGION_NAME_TO_CODE[cityNorm] || REGION_NAME_TO_CODE[city.trim()] || REGION_NAME_TO_CODE[city.trim().toLowerCase()] || "";
 
-  // 이미 6자리 숫자 코드면 바로 반환
-  if (/^\d{6}$/.test(trimmed)) return { code: trimmed, district: "" };
+    // district에서 구/동 이름 추출 (keyword로 사용)
+    const distTrimmed = district.trim();
+    const distEntry = DISTRICT_TO_REGION[distTrimmed] || DISTRICT_TO_REGION[distTrimmed.replace(/구$|군$|시$/, "")];
+    const kw = distEntry ? distEntry.keyword : distTrimmed.replace(/구$|군$/, "");
 
-  // 시도 이름 직접 매칭
-  const normalized = trimmed.toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
-  const directMatch = REGION_NAME_TO_CODE[normalized] || REGION_NAME_TO_CODE[trimmed] || REGION_NAME_TO_CODE[trimmed.toLowerCase()];
-  if (directMatch) return { code: directMatch, district: "" };
-
-  // 구/군 매칭 → 시도코드 + 구이름을 키워드로
-  const districtMatch = DISTRICT_TO_SIDO[trimmed] || DISTRICT_TO_SIDO[trimmed.replace(/구$|군$/, "")] || DISTRICT_TO_SIDO[trimmed.toLowerCase()];
-  if (districtMatch) return { code: districtMatch, district: trimmed.replace(/구$/, "") };
-
-  // "서울 서초" 같이 공백으로 구분된 경우
-  const parts = trimmed.split(/\s+/);
-  if (parts.length >= 2) {
-    const cityCode = REGION_NAME_TO_CODE[parts[0]] || REGION_NAME_TO_CODE[parts[0].toLowerCase()];
-    if (cityCode) return { code: cityCode, district: parts.slice(1).join(" ").replace(/구$/, "") };
+    return { code: cityCode || (distEntry ? distEntry.sido : ""), districtKeyword: kw };
   }
 
-  return { code: "", district: "" };
+  // district만 있는 경우
+  if (district) {
+    const distTrimmed = district.trim();
+    const distEntry = DISTRICT_TO_REGION[distTrimmed] || DISTRICT_TO_REGION[distTrimmed.replace(/구$|군$|시$/, "")] || DISTRICT_TO_REGION[distTrimmed.toLowerCase()];
+    if (distEntry) return { code: distEntry.sido, districtKeyword: distEntry.keyword };
+
+    // 동 단위 (역삼동, 논현동 등) — 시도코드 모르면 keyword만 사용
+    const dongKw = distTrimmed.replace(/동$/, "");
+    return { code: "", districtKeyword: dongKw || distTrimmed };
+  }
+
+  // city만 있는 경우
+  if (city) {
+    const trimmed = city.trim();
+    if (/^\d{6}$/.test(trimmed)) return { code: trimmed, districtKeyword: "" };
+
+    const normalized = trimmed.toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
+    const directMatch = REGION_NAME_TO_CODE[normalized] || REGION_NAME_TO_CODE[trimmed] || REGION_NAME_TO_CODE[trimmed.toLowerCase()];
+    if (directMatch) return { code: directMatch, districtKeyword: "" };
+
+    // city가 실제로는 구/동 이름인 경우 (GPT가 잘못 분류)
+    const distEntry = DISTRICT_TO_REGION[trimmed] || DISTRICT_TO_REGION[trimmed.replace(/구$|군$|시$/, "")] || DISTRICT_TO_REGION[trimmed.toLowerCase()];
+    if (distEntry) return { code: distEntry.sido, districtKeyword: distEntry.keyword };
+
+    return { code: "", districtKeyword: "" };
+  }
+
+  return { code: "", districtKeyword: "" };
+}
+
+// 하위호환: region 단일 문자열에서도 city/district 분리
+function parseRegionString(regionText: string | null): { city: string | null; district: string | null } {
+  if (!regionText) return { city: null, district: null };
+  const trimmed = regionText.trim();
+
+  // "서울 강남구" → city=서울, district=강남구
+  const parts = trimmed.split(/\s+/);
+  if (parts.length >= 2) {
+    const maybeCity = parts[0];
+    if (REGION_NAME_TO_CODE[maybeCity] || REGION_NAME_TO_CODE[maybeCity.toLowerCase().replace(/시$|도$|특별시$|광역시$/, "")]) {
+      return { city: maybeCity, district: parts.slice(1).join(" ") };
+    }
+  }
+
+  // 단일 단어 — 시도인지 구/동인지 판별
+  const norm = trimmed.toLowerCase().replace(/시$|도$|특별시$|광역시$|특별자치시$|특별자치도$/, "");
+  if (REGION_NAME_TO_CODE[norm] || REGION_NAME_TO_CODE[trimmed] || REGION_NAME_TO_CODE[trimmed.toLowerCase()]) {
+    return { city: trimmed, district: null };
+  }
+
+  // 구/동이면 district로
+  return { city: null, district: trimmed };
 }
 
 // ─── 2단계: DB 검색 (Supabase RPC) ───
@@ -186,9 +375,20 @@ export async function searchClinics(
 ): Promise<{ clinics: ClinicResult[]; totalCount: number }> {
   const supabase = createServiceRoleClient();
 
-  const { code: region, district } = resolveRegion(intent.region);
+  // city/district 분리 — GPT 응답에 region_city가 있으면 직접 사용, 없으면 region 파싱
+  let city = intent.region_city;
+  let district = intent.region_district;
+  if (!city && !district && intent.region) {
+    const parsed = parseRegionString(intent.region);
+    city = parsed.city;
+    district = parsed.district;
+  }
+
+  const { code: regionCode, districtKeyword } = resolveRegion(city, district);
   const subject = intent.subject_code || "";
-  const keyword = district;
+  // keyword = 구/동 키워드 (지역 필터링용)
+  // intent.keyword는 시술명/고민 등이므로 별도로 전달하지 않음 (RPC의 name/address ILIKE에 사용)
+  const keyword = districtKeyword;
   const type = intent.clinic_type === "korean_medicine" ? "korean_medicine" : "";
 
   try {
@@ -196,43 +396,63 @@ export async function searchClinics(
     const { data, error } = await (supabase as any).rpc("search_clinics_ranked", {
       p_subject: subject,
       p_keyword: keyword,
-      p_region: region,
+      p_region: regionCode,
       p_type: type,
       p_page: page,
       p_limit: limit,
     });
 
     if (error || !data || data.length === 0) {
+      // keyword가 있는데 결과가 없으면, keyword 없이 재시도 (지역+진료과만으로)
+      if (keyword && regionCode) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const retry = await (supabase as any).rpc("search_clinics_ranked", {
+          p_subject: subject,
+          p_keyword: "",
+          p_region: regionCode,
+          p_type: type,
+          p_page: page,
+          p_limit: limit,
+        });
+        if (!retry.error && retry.data && retry.data.length > 0) {
+          return {
+            clinics: mapClinicData(retry.data),
+            totalCount: Number(retry.data[0]?.total_count) || retry.data.length,
+          };
+        }
+      }
       return { clinics: [], totalCount: 0 };
     }
 
-    const clinics: ClinicResult[] = data.map((c: Record<string, unknown>) => ({
-      ykiho: c.ykiho || "",
-      name: c.name || "",
-      cl_cd_nm: c.cl_cd_nm || "",
-      dgsbjt_cd_nm: c.dgsbjt_cd_nm || "",
-      address: c.address || "",
-      phone: c.phone || "",
-      website: c.website || "",
-      dr_tot_cnt: c.dr_tot_cnt || 0,
-      sdr_cnt: c.sdr_cnt || 0,
-      sido_cd_nm: c.sido_cd_nm || "",
-      sggu_cd_nm: c.sggu_cd_nm || "",
-      google_rating: c.google_rating || null,
-      google_review_count: c.google_review_count || null,
-      naver_blog_count: c.naver_blog_count || null,
-      relevance_score: c.relevance_score || null,
-      anesthesia_sdr_count: Number(c.anesthesia_sdr_count) || 0,
-      safe_anesthesia_badge: Boolean(c.safe_anesthesia_badge) || false,
-    }));
-
     return {
-      clinics,
-      totalCount: Number(data[0]?.total_count) || clinics.length,
+      clinics: mapClinicData(data),
+      totalCount: Number(data[0]?.total_count) || data.length,
     };
   } catch {
     return { clinics: [], totalCount: 0 };
   }
+}
+
+// DB 결과 → ClinicResult 매핑
+function mapClinicData(data: Record<string, unknown>[]): ClinicResult[] {
+  return data.map((c) => ({
+    ykiho: (c.ykiho as string) || "",
+    name: (c.name as string) || "",
+    cl_cd_nm: (c.cl_cd_nm as string) || "",
+    dgsbjt_cd_nm: (c.dgsbjt_cd_nm as string) || "",
+    address: (c.address as string) || "",
+    phone: (c.phone as string) || "",
+    website: (c.website as string) || "",
+    dr_tot_cnt: (c.dr_tot_cnt as number) || 0,
+    sdr_cnt: (c.sdr_cnt as number) || 0,
+    sido_cd_nm: (c.sido_cd_nm as string) || "",
+    sggu_cd_nm: (c.sggu_cd_nm as string) || "",
+    google_rating: (c.google_rating as number) || null,
+    google_review_count: (c.google_review_count as number) || null,
+    relevance_score: (c.relevance_score as number) || null,
+    anesthesia_sdr_count: Number(c.anesthesia_sdr_count) || 0,
+    safe_anesthesia_badge: Boolean(c.safe_anesthesia_badge) || false,
+  }));
 }
 
 // ─── 3단계: AI 설명 생성 (Claude Sonnet) ───

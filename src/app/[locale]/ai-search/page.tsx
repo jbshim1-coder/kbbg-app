@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef, Suspense } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type { HiraClinic } from "@/lib/hira-api";
@@ -50,7 +49,6 @@ export default function AiSearchPageWrapper() {
 
 function AiSearchContent() {
   const t = useTranslations();
-  const router = useRouter();
   const locale = useLocale();
 
   const [rawQuery, setRawQuery] = useState("");
@@ -58,6 +56,7 @@ function AiSearchContent() {
   const [isThinking, setIsThinking] = useState(true);
   const [initialized, setInitialized] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
+  const [searchTrigger, setSearchTrigger] = useState(0);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search).get("q") || "";
@@ -99,6 +98,9 @@ function AiSearchContent() {
       return;
     }
 
+    // 이전 요청 취소용 AbortController
+    const abortController = new AbortController();
+
     // 단계별 로딩 메시지 전환 (2초 간격)
     stepTimerRef.current = setInterval(() => {
       setLoadingStep((prev) => Math.min(prev + 1, LOADING_STEPS.length - 1));
@@ -111,6 +113,7 @@ function AiSearchContent() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query: rawQuery, locale }),
+          signal: abortController.signal,
         });
         const data = await res.json();
 
@@ -120,7 +123,7 @@ function AiSearchContent() {
         setFilters(data.extractedFilters || null);
         setNeedsRegion(data.needsRegion || false);
       } catch (err) {
-        console.error("AI Search error:", err);
+        if ((err as Error).name === "AbortError") return;
         setResults([]);
         setTotalCount(0);
         setNarrative(locale === "ko" ? `"${rawQuery}" 검색 중 오류가 발생했습니다.` : `Error searching for "${rawQuery}".`);
@@ -131,15 +134,22 @@ function AiSearchContent() {
     }, 300);
 
     return () => {
+      abortController.abort();
       if (timerRef.current) clearTimeout(timerRef.current);
       if (stepTimerRef.current) clearInterval(stepTimerRef.current);
     };
-  }, [rawQuery, initialized, locale]);
+  // searchTrigger: 같은 검색어로 재검색 시에도 effect 재실행
+  }, [rawQuery, initialized, locale, searchTrigger]);
 
   const handleSearch = () => {
     const q = inputValue.trim();
     if (!q) return;
-    setRawQuery(q);
+    if (q === rawQuery) {
+      // 같은 검색어 → searchTrigger 증가로 재검색
+      setSearchTrigger((prev) => prev + 1);
+    } else {
+      setRawQuery(q);
+    }
     window.history.pushState(null, "", `/${locale}/ai-search?q=${encodeURIComponent(q)}`);
   };
 
@@ -149,9 +159,15 @@ function AiSearchContent() {
 
   // 지역 칩 클릭 → 지역 추가해서 재검색
   const handleRegionChip = (regionLabel: string) => {
-    const newQuery = `${rawQuery} ${regionLabel}`;
+    // 기존 검색어에서 다른 지역 칩이 이미 붙어있으면 제거하고 새로 추가
+    let baseQuery = rawQuery;
+    for (const chip of REGION_CHIPS) {
+      baseQuery = baseQuery.replace(new RegExp(`\\s*${chip.label}\\s*`, "g"), " ").trim();
+    }
+    const newQuery = `${baseQuery} ${regionLabel}`.trim();
     setInputValue(newQuery);
     setRawQuery(newQuery);
+    setSearchTrigger((prev) => prev + 1);
     window.history.pushState(null, "", `/${locale}/ai-search?q=${encodeURIComponent(newQuery)}`);
   };
 
