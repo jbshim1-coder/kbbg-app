@@ -74,9 +74,19 @@ const INTENT_SYSTEM_PROMPT = `당신은 병원 추천 검색 파라미터 추출
   - ophthalmology/eye → "12"
 - clinic_type: "clinic"(의원), "hospital"(병원), "korean_medicine"(한의원). 모르면 null
 - keyword: 시술명/고민 등 핵심 키워드. 지역명·진료과명 제외. 없으면 빈 문자열 ""
-  예: "쌍꺼풀", "보톡스", "여드름", "종아리", "다이어트"
+  병원명에 포함될 수 있는 짧은 한글 키워드로 변환:
+  예: "눈성형/쌍꺼풀/눈매교정" → keyword: "눈"
+  "코성형/코수술" → keyword: "코"
+  "치아교정/교정" → keyword: "교정"
+  "임플란트" → keyword: "임플란트"
+  "보톡스/필러" → keyword: "보톡스"
+  "여드름/피부" → keyword: "여드름"
+  "탈모/모발이식" → keyword: "모발"
+  "라식/라섹/시력" → keyword: "눈"
+  "다이어트/지방흡입" → keyword: "다이어트"
+  "리프팅/주름" → keyword: "리프팅"
   "강남 성형외과" → keyword: "" (지역+진료과만이므로)
-  "40대 여성 성형외과 추천" → keyword: "40대 여성 추천"
+  "40대 여성 성형외과 추천" → keyword: ""
 - confidence: 추출 확신도 0~1
 - reason: 추출 근거 (한국어)
 
@@ -388,12 +398,19 @@ export async function searchClinics(
 
   const { code: regionCode, districtKeyword } = resolveRegion(city, district);
   const subject = intent.subject_code || "";
-  // keyword = 구/동 키워드 (지역 필터링용)
-  // intent.keyword는 시술명/고민 등이므로 별도로 전달하지 않음 (RPC의 name/address ILIKE에 사용)
-  const keyword = districtKeyword;
   const type = intent.clinic_type === "korean_medicine" ? "korean_medicine" : "";
 
+  // keyword 전략: 구/동 키워드 + 시술 키워드를 조합하여 3단계 폴백
+  // 1차: 구/동 + 시술 키워드 (가장 정밀)
+  // 2차: 구/동만 (지역 필터링)
+  // 3차: 시술 키워드만 (병원명에 시술어 포함된 곳)
+  // 4차: 키워드 없이 (지역+진료과만)
+  const procedureKw = intent.keyword?.trim() || "";
+  const combinedKeyword = [districtKeyword, procedureKw].filter(Boolean).join(" ");
+
   try {
+    // 1차 시도: 구/동 + 시술 키워드
+    const keyword = combinedKeyword || districtKeyword;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase as any).rpc("search_clinics_ranked", {
       p_subject: subject,
@@ -405,10 +422,48 @@ export async function searchClinics(
     });
 
     if (error || !data || data.length === 0) {
-      // keyword가 있는데 결과가 없으면, keyword 없이 재시도 (지역+진료과만으로)
-      if (keyword && regionCode) {
+      // 2차: 구/동만으로 재시도
+      if (districtKeyword && districtKeyword !== keyword) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const retry = await (supabase as any).rpc("search_clinics_ranked", {
+        const retry2 = await (supabase as any).rpc("search_clinics_ranked", {
+          p_subject: subject,
+          p_keyword: districtKeyword,
+          p_region: regionCode,
+          p_type: type,
+          p_page: page,
+          p_limit: limit,
+        });
+        if (!retry2.error && retry2.data && retry2.data.length > 0) {
+          return {
+            clinics: mapClinicData(retry2.data),
+            totalCount: Number(retry2.data[0]?.total_count) || retry2.data.length,
+          };
+        }
+      }
+
+      // 3차: 시술 키워드만으로 재시도 (병원명에 "눈", "아이" 등 포함)
+      if (procedureKw && regionCode) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const retry3 = await (supabase as any).rpc("search_clinics_ranked", {
+          p_subject: subject,
+          p_keyword: procedureKw,
+          p_region: regionCode,
+          p_type: type,
+          p_page: page,
+          p_limit: limit,
+        });
+        if (!retry3.error && retry3.data && retry3.data.length > 0) {
+          return {
+            clinics: mapClinicData(retry3.data),
+            totalCount: Number(retry3.data[0]?.total_count) || retry3.data.length,
+          };
+        }
+      }
+
+      // 4차: 키워드 없이 (지역+진료과만)
+      if (regionCode || subject) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const retry4 = await (supabase as any).rpc("search_clinics_ranked", {
           p_subject: subject,
           p_keyword: "",
           p_region: regionCode,
@@ -416,13 +471,14 @@ export async function searchClinics(
           p_page: page,
           p_limit: limit,
         });
-        if (!retry.error && retry.data && retry.data.length > 0) {
+        if (!retry4.error && retry4.data && retry4.data.length > 0) {
           return {
-            clinics: mapClinicData(retry.data),
-            totalCount: Number(retry.data[0]?.total_count) || retry.data.length,
+            clinics: mapClinicData(retry4.data),
+            totalCount: Number(retry4.data[0]?.total_count) || retry4.data.length,
           };
         }
       }
+
       return { clinics: [], totalCount: 0 };
     }
 
@@ -470,7 +526,8 @@ function formatClinicsForNarrative(clinics: ClinicResult[]): string {
         c.address,
         c.dr_tot_cnt > 0 ? `의사 ${c.dr_tot_cnt}명` : null,
         c.sdr_cnt > 0 ? `전문의 ${c.sdr_cnt}명` : null,
-        c.google_rating ? `구글 ${c.google_rating}점 (${c.google_review_count || 0}건)` : null,
+        c.safe_anesthesia_badge ? `마취과 전문의 ${c.anesthesia_sdr_count}명 상주` : null,
+        c.google_rating ? `구글 ${c.google_rating}점 (${c.google_review_count || 0}건 리뷰)` : null,
         c.dgsbjt_cd_nm || null,
         c.website ? `홈페이지: ${c.website}` : null,
         c.phone ? `전화: ${c.phone}` : null,
@@ -497,20 +554,28 @@ export async function composeNarrative(
     ? `당신은 K-Beauty Buyers Guide의 AI 추천 큐레이터입니다. 심평원 공공데이터와 구글 별점을 기반으로 병원을 추천합니다.
 
 규칙:
-- 검색 결과 병원들을 긍정적으로 소개하세요.
-- 각 병원의 장점(전문의 수, 구글 별점, 위치 등)을 강조하세요.
-- 병원의 홈페이지 주소와 전화번호를 반드시 포함하세요.
+- 각 병원을 추천하는 **구체적 근거**를 반드시 명시하세요. 예시:
+  · "전문의 N명이 상주하며" (심평원 데이터 기반)
+  · "구글 평점 N.N점, 리뷰 N건" (구글 데이터 기반)
+  · "마취과 전문의 상주로 안전성 확보" (심평원 마취과 데이터)
+  · "XX구에 위치하여 접근성 우수" (위치 데이터)
+- 각 병원의 홈페이지 주소와 전화번호를 반드시 포함하세요.
+- 추천 근거가 없는 막연한 추천은 하지 마세요. 데이터에 기반한 사실만 언급하세요.
 - "제한이 있을 수 있습니다", "확인이 필요합니다" 같은 부정적 표현을 사용하지 마세요.
-- 친절하고 확신 있는 톤으로 3~5문장 작성하세요.
+- 친절하고 확신 있는 톤으로 작성하세요.
 - 마크다운 볼드(**병원명**)를 사용하세요.`
     : `You are the AI recommendation curator for K-Beauty Buyers Guide. You recommend hospitals based on verified HIRA public data and Google ratings.
 
 Rules:
-- Present search results positively and confidently.
-- Highlight each hospital's strengths (specialist count, Google rating, location).
+- Always state **specific reasons** for recommending each hospital. Examples:
+  · "With N board-certified specialists" (HIRA data)
+  · "Google rating N.N with N reviews" (Google data)
+  · "Anesthesiologist on staff for safety" (HIRA anesthesia data)
+  · "Conveniently located in XX district" (location data)
 - Always include the hospital's website URL and phone number.
+- Never make vague recommendations without data-backed evidence.
 - Never use uncertain or negative expressions.
-- Write 3-5 sentences in a confident, friendly tone.
+- Write in a confident, friendly tone.
 - Use markdown bold (**hospital name**).`;
 
   const langInstruction = isKorean ? "반드시 한국어로 답변하세요." : `Answer in the user's language (locale: ${locale}).`;
