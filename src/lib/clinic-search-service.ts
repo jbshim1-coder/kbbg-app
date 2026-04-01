@@ -81,6 +81,19 @@ const INTENT_SYSTEM_PROMPT = `당신은 병원 추천 검색 파라미터 추출
   "임플란트" → keyword: "임플란트"
   "보톡스/필러" → keyword: "보톡스"
   "여드름/피부" → keyword: "여드름"
+
+  ★ 나이/성별/고민 맥락이 있으면 관련 시술로 변환:
+  "40대 여성 성형" → subject_code: "08", keyword: "리프팅" (40대=안티에이징)
+  "50대 눈밑 처짐" → subject_code: "08", keyword: "눈"
+  "20대 여자 피부 관리" → subject_code: "14", keyword: ""
+  "30대 남자 탈모" → subject_code: "14", keyword: "모발"
+  "60대 임플란트" → subject_code: "49", keyword: "임플란트"
+  "20대 코성형 추천" → subject_code: "08", keyword: "코"
+  "주름 없애고 싶어" → subject_code: "14", keyword: "리프팅"
+  "얼굴 처짐" → subject_code: "08", keyword: "리프팅"
+  "여드름 흉터" → subject_code: "14", keyword: "여드름"
+  "치아 미백" → subject_code: "49", keyword: ""
+  나이/성별/고민은 keyword에 넣지 말고, 관련 시술 키워드로 변환하세요.
   "탈모/모발이식" → keyword: "모발"
   "라식/라섹/시력" → keyword: "눈"
   "다이어트/지방흡입" → keyword: "다이어트"
