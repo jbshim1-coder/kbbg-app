@@ -73,7 +73,7 @@ async function main() {
   const { data: clinics, error } = await supabase
     .from("clinics")
     .select("ykiho, name, address, google_place_id, google_rating")
-    .not("is_closed", "eq", true)
+    .eq("is_active", true)
     .in("dgsbjt_cd", ["08", "14", "49", "12"])
     .order("google_review_count", { ascending: false, nullsFirst: false })
     .limit(limit);
