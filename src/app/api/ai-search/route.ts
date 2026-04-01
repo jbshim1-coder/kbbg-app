@@ -58,6 +58,34 @@ function toHiraFormat(c: ClinicResult) {
   };
 }
 
+// 검색 기준 설명 생성 — "이렇게 검색했고, 이런 기준으로 추천합니다"
+function buildSearchBasis(
+  intent: SearchIntent,
+  subjectName: string,
+  totalCount: number,
+  locale: string
+): string {
+  const isKo = locale === "ko";
+  const parts: string[] = [];
+
+  // 검색 조건
+  const region = intent.region || (isKo ? "전국" : "All regions");
+  const subject = subjectName || (isKo ? "전체 진료과" : "All departments");
+  const keyword = intent.keyword || "";
+
+  if (isKo) {
+    parts.push(`📋 검색 조건: ${region} / ${subject}${keyword ? ` / "${keyword}"` : ""}`);
+    parts.push(`📊 추천 기준: 심평원 공공데이터(전문의 수, 진료과) + 구글 평점/리뷰${keyword ? ` + "${keyword}" 관련도` : ""}`);
+    parts.push(`🔍 검색 결과: 총 ${totalCount.toLocaleString()}개 병원`);
+  } else {
+    parts.push(`📋 Search: ${region} / ${subject}${keyword ? ` / "${keyword}"` : ""}`);
+    parts.push(`📊 Criteria: HIRA data (specialists, dept) + Google rating/reviews${keyword ? ` + "${keyword}" relevance` : ""}`);
+    parts.push(`🔍 Results: ${totalCount.toLocaleString()} clinics found`);
+  }
+
+  return parts.join("\n");
+}
+
 export async function POST(request: NextRequest) {
   let locale = "ko";
 
@@ -111,16 +139,21 @@ export async function POST(request: NextRequest) {
     }
 
     // 추출된 조건 정보 (프론트엔드에서 칩/필터 연계용)
+    const subjectName = subjectCodeToName(intent.subject_code);
     const extractedFilters = {
       region: intent.region,
       subject_code: intent.subject_code,
-      subject_name: subjectCodeToName(intent.subject_code),
+      subject_name: subjectName,
       clinic_type: intent.clinic_type,
       keyword: intent.keyword,
       confidence: intent.confidence,
     };
 
+    // 검색 기준 설명 생성 (사용자에게 투명하게 표시)
+    const searchBasis = buildSearchBasis(intent, subjectName, totalCount, locale);
+
     return NextResponse.json({
+      searchBasis,
       narrative,
       clinics: clinics.map(toHiraFormat),
       totalCount,

@@ -68,6 +68,7 @@ function AiSearchContent() {
   const [results, setResults] = useState<HiraClinic[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [narrative, setNarrative] = useState("");
+  const [searchBasis, setSearchBasis] = useState("");
   const [filters, setFilters] = useState<ExtractedFilters | null>(null);
   const [needsRegion, setNeedsRegion] = useState(false);
   const [topAd, setTopAd] = useState<Ad | null>(null);
@@ -89,6 +90,7 @@ function AiSearchContent() {
     setIsThinking(true);
     setResults([]);
     setNarrative("");
+    setSearchBasis("");
     setFilters(null);
     setNeedsRegion(false);
     setLoadingStep(0);
@@ -120,6 +122,7 @@ function AiSearchContent() {
         setResults(data.clinics || []);
         setTotalCount(data.totalCount || 0);
         setNarrative(data.narrative || `"${rawQuery}" 검색 결과입니다.`);
+        setSearchBasis(data.searchBasis || "");
         setFilters(data.extractedFilters || null);
         setNeedsRegion(data.needsRegion || false);
       } catch (err) {
@@ -363,18 +366,26 @@ function AiSearchContent() {
               </div>
             ))}
 
-            {/* AI 서술형 답변 — 병원 카드 아래에 배치 */}
-            {narrative && (
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <div className="flex items-start gap-3">
-                  <span className="text-slate-500 text-lg mt-0.5">✦</span>
-                  <div>
-                    <p className="text-xs text-gray-400 mb-2">AI {isKo ? "추천 분석" : "Recommendation"}</p>
-                    <p className="text-sm text-gray-800 whitespace-pre-line leading-relaxed">
-                      {narrative}
-                    </p>
+            {/* 검색 기준 + AI 추천 */}
+            {(searchBasis || narrative) && (
+              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
+                {searchBasis && (
+                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                    <p className="text-xs font-medium text-slate-500 mb-1">{isKo ? "검색 기준" : "Search Criteria"}</p>
+                    <p className="text-sm text-slate-700 whitespace-pre-line leading-relaxed">{searchBasis}</p>
                   </div>
-                </div>
+                )}
+                {narrative && (
+                  <div className="flex items-start gap-3">
+                    <span className="text-slate-500 text-lg mt-0.5">✦</span>
+                    <div>
+                      <p className="text-xs text-gray-400 mb-2">AI {isKo ? "추천 분석" : "Recommendation"}</p>
+                      <p className="text-sm text-gray-800 whitespace-pre-line leading-relaxed">
+                        {narrative}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
