@@ -143,9 +143,9 @@ export default function Header() {
   void handleSearch;
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-white border-b border-gray-100 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-4">
+    <header className="sticky top-0 z-30 w-full glass-nav">
+      <div className="max-w-[980px] mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-12 gap-4">
 
           {/* ── 로고 ── */}
           <Link
@@ -165,8 +165,8 @@ export default function Header() {
 
           {/* ── 어제 방문자 수 ── */}
           {yesterdayVisitors > 0 && (
-            <span className="hidden md:inline text-[11px] text-gray-400 whitespace-nowrap">
-              {t("header.yesterday_visitors" as Parameters<typeof t>[0])} <span className="font-bold text-red-500">{yesterdayVisitors.toLocaleString()}</span>{t("header.visitors_unit" as Parameters<typeof t>[0])}
+            <span className="hidden md:inline text-[11px] text-white/60 whitespace-nowrap">
+              {t("header.yesterday_visitors" as Parameters<typeof t>[0])} <span className="font-bold text-[var(--accent-link-dark)]">{yesterdayVisitors.toLocaleString()}</span>{t("header.visitors_unit" as Parameters<typeof t>[0])}
             </span>
           )}
 
@@ -179,8 +179,8 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={localePath(link.href)}
-                className="px-3 py-2 rounded-lg text-sm font-bold text-gray-900
-                  hover:text-slate-900 hover:bg-slate-100 transition-colors duration-150"
+                className="px-3 py-1.5 rounded-[var(--radius-sm)] text-xs font-normal text-white/80
+                  hover:text-white hover:bg-white/10 transition-all duration-200"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
@@ -197,24 +197,24 @@ export default function Header() {
                 <button
                   onClick={() => setNotifOpen((prev) => !prev)}
                   aria-label="Notifications"
-                  className="relative p-2 rounded-lg text-gray-500 hover:text-slate-700 hover:bg-slate-50 transition-colors"
+                  className="relative p-2 rounded-[var(--radius-sm)] text-white/60 hover:text-white hover:bg-white/10 transition-all duration-200"
                 >
                   <Bell size={18} />
                   {/* 읽지 않은 알림 뱃지 */}
                   {DUMMY_NOTIFICATIONS.some((n) => !n.read) && (
-                    <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full" />
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--accent)] rounded-full" />
                   )}
                 </button>
 
                 {notifOpen && (
-                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-40">
-                    <p className="px-4 py-2 text-xs font-semibold text-gray-500 border-b border-gray-100">
+                  <div className="absolute right-0 mt-2 w-72 bg-[var(--background-dark-surface)] rounded-[var(--radius-lg)] apple-shadow border border-[var(--border-dark)] py-1 z-40">
+                    <p className="px-4 py-2 text-xs font-semibold text-white/60 border-b border-[var(--border-dark)]">
                       {currentLocaleCode === "ko" ? "알림" : "Notifications"}
                     </p>
                     {DUMMY_NOTIFICATIONS.map((n) => (
                       <div
                         key={n.id}
-                        className={`px-4 py-3 text-sm border-b border-gray-50 last:border-0 ${n.read ? "text-gray-500" : "text-gray-800 bg-rose-50/40"}`}
+                        className={`px-4 py-3 text-sm border-b border-[var(--border-dark)] last:border-0 ${n.read ? "text-white/50" : "text-white bg-white/5"}`}
                       >
                         <p className="leading-snug">{n.text}</p>
                         <p className="mt-0.5 text-xs text-gray-400">{n.time}</p>
@@ -232,8 +232,8 @@ export default function Header() {
                 aria-label={t("nav.language")}
                 aria-expanded={langOpen}
                 aria-haspopup="listbox"
-                className="flex items-center gap-1 p-2 rounded-lg text-gray-500
-                  hover:text-slate-700 hover:bg-slate-50 transition-colors"
+                className="flex items-center gap-1 p-2 rounded-[var(--radius-sm)] text-white/60
+                  hover:text-white hover:bg-white/10 transition-all duration-200"
               >
                 <Globe size={18} />
                 <span className="hidden sm:inline text-sm font-medium">
@@ -253,8 +253,8 @@ export default function Header() {
                 <div
                   role="listbox"
                   aria-label={t("nav.language")}
-                  className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg
-                    border border-gray-100 py-1 z-40"
+                  className="absolute right-0 mt-2 w-44 bg-[var(--background-dark-surface)] rounded-[var(--radius-lg)]
+                    apple-shadow border border-[var(--border-dark)] py-1 z-40"
                 >
                   {LOCALES.filter((l) => l.code !== "ko" || (user?.email && isMaster(user.email))).map((locale) => (
                     <button
@@ -265,8 +265,8 @@ export default function Header() {
                       className={[
                         "w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors",
                         currentLocale.code === locale.code
-                          ? "bg-slate-50 text-slate-800 font-medium"
-                          : "text-gray-700 hover:bg-gray-50",
+                          ? "bg-white/10 text-white font-medium"
+                          : "text-white/70 hover:bg-white/5 hover:text-white",
                       ].join(" ")}
                     >
                       <span className="text-base">{locale.flag}</span>
@@ -283,7 +283,7 @@ export default function Header() {
                 <>
                   <Link
                     href={localePath("/mypage")}
-                    className="flex items-center gap-1.5 text-sm text-gray-600 truncate max-w-[120px] hover:text-slate-700 transition-colors"
+                    className="flex items-center gap-1.5 text-xs text-white/70 truncate max-w-[120px] hover:text-white transition-all duration-200"
                   >
                     {user.user_metadata?.full_name || user.email?.split("@")[0]}
                     <LevelBadge
@@ -293,8 +293,8 @@ export default function Header() {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="p-1.5 text-sm font-medium rounded-lg text-gray-500
-                      hover:bg-gray-100 transition-colors"
+                    className="p-1.5 text-sm font-medium rounded-[var(--radius-sm)] text-white/50
+                      hover:bg-white/10 hover:text-white transition-all duration-200"
                     aria-label="Logout"
                   >
                     <LogOut size={16} />
@@ -304,15 +304,15 @@ export default function Header() {
                 <>
                   <Link
                     href={localePath("/login")}
-                    className="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-700
-                      hover:bg-gray-100 transition-colors"
+                    className="px-3 py-1.5 text-xs font-normal rounded-[var(--radius-pill)] text-white/80
+                      hover:text-white hover:bg-white/10 transition-all duration-200"
                   >
                     {t("nav.login")}
                   </Link>
                   <Link
                     href={localePath("/signup")}
-                    className="px-3 py-1.5 text-sm font-medium rounded-lg bg-slate-800
-                      text-white hover:bg-slate-900 transition-colors"
+                    className="px-3 py-1.5 text-xs font-normal rounded-[var(--radius-pill)] bg-[var(--accent)]
+                      text-white hover:bg-[var(--accent-hover)] transition-all duration-200"
                   >
                     {t("nav.signup")}
                   </Link>
@@ -325,7 +325,7 @@ export default function Header() {
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? t("common.back") : t("nav.home")}
               aria-expanded={mobileOpen}
-              className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
+              className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-[var(--radius-sm)] text-white/60 hover:bg-white/10 hover:text-white transition-all duration-200"
             >
               {/* 메뉴 열림 여부에 따라 X 또는 햄버거 아이콘 전환 */}
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -335,8 +335,8 @@ export default function Header() {
       </div>
 
       {/* ── 커뮤니티 카테고리 서브메뉴 ── */}
-      <div className="hidden lg:block border-t border-gray-100 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="hidden lg:block border-t border-[var(--border-dark)]">
+        <div className="max-w-[980px] mx-auto px-4 sm:px-6">
           <div className="flex flex-wrap items-center gap-1 py-1.5">
             {[
               "plastic_surgery", "dermatology", "internal_medicine", "dental",
@@ -347,7 +347,7 @@ export default function Header() {
               <Link
                 key={key}
                 href={localePath(`/community?cat=${key}`)}
-                className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 hover:text-slate-800 hover:bg-slate-50 transition-colors whitespace-nowrap"
+                className="px-3 py-1 rounded-[var(--radius-pill)] text-[10px] font-normal text-white/50 hover:text-white hover:bg-white/10 transition-all duration-200 whitespace-nowrap"
               >
                 {t(`community.${key}` as Parameters<typeof t>[0])}
               </Link>
@@ -358,7 +358,7 @@ export default function Header() {
 
       {/* ── 모바일 메뉴 패널 ── */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-gray-100 bg-white">
+        <div className="lg:hidden border-t border-[var(--border-dark)] bg-[var(--background-dark)]">
           {/* 모바일 네비 링크 — 최소 44px 터치 타겟 보장 */}
           <nav aria-label={t("nav.home")} className="px-4 py-2 flex flex-col gap-0.5">
             {NAV_LINKS.map((link) => (
@@ -366,10 +366,10 @@ export default function Header() {
                 key={link.href}
                 href={localePath(link.href)}
                 onClick={() => setMobileOpen(false)}
-                className={`px-3 min-h-[44px] flex items-center rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3 min-h-[44px] flex items-center rounded-[var(--radius-sm)] text-sm font-normal transition-all duration-200 ${
                   pathname.includes(link.href) && link.href !== "/"
-                    ? "bg-slate-100 text-slate-900 font-semibold"
-                    : "text-gray-700 hover:bg-slate-50 hover:text-slate-700"
+                    ? "bg-white/10 text-white font-medium"
+                    : "text-white/70 hover:bg-white/5 hover:text-white"
                 }`}
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
@@ -378,8 +378,8 @@ export default function Header() {
           </nav>
 
           {/* 모바일 카테고리 서브메뉴 */}
-          <div className="px-4 py-2 border-t border-gray-100">
-            <p className="text-xs text-gray-400 mb-2">{t("community.categories")}</p>
+          <div className="px-4 py-2 border-t border-[var(--border-dark)]">
+            <p className="text-xs text-white/40 mb-2">{t("community.categories")}</p>
             <div className="flex flex-wrap gap-1">
               {[
                 "plastic_surgery", "dermatology", "internal_medicine", "dental",
@@ -391,7 +391,7 @@ export default function Header() {
                   key={key}
                   href={localePath(`/community?cat=${key}`)}
                   onClick={() => setMobileOpen(false)}
-                  className="px-3 py-2 min-h-[36px] rounded-full text-xs font-medium text-gray-500 bg-gray-50 hover:text-slate-800 hover:bg-slate-100 transition-colors whitespace-nowrap"
+                  className="px-3 py-2 min-h-[36px] rounded-[var(--radius-pill)] text-xs font-normal text-white/50 bg-white/5 hover:text-white hover:bg-white/10 transition-all duration-200 whitespace-nowrap"
                 >
                   {t(`community.${key}` as Parameters<typeof t>[0])}
                 </Link>
@@ -400,13 +400,13 @@ export default function Header() {
           </div>
 
           {/* 모바일 로그인/회원가입 또는 로그인 사용자 정보 */}
-          <div className="px-4 py-4 border-t border-gray-100">
+          <div className="px-4 py-4 border-t border-[var(--border-dark)]">
             {user ? (
               <div className="flex items-center justify-between gap-3">
                 <Link
                   href={localePath("/mypage")}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 text-sm text-gray-700 min-w-0"
+                  className="flex items-center gap-2 text-sm text-white/70 min-w-0"
                 >
                   <span className="truncate max-w-[160px]">
                     {user.user_metadata?.full_name || user.email?.split("@")[0]}
@@ -418,7 +418,7 @@ export default function Header() {
                 </Link>
                 <button
                   onClick={() => { handleLogout(); setMobileOpen(false); }}
-                  className="px-4 py-3 min-h-[44px] text-sm font-medium rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors shrink-0"
+                  className="px-4 py-3 min-h-[44px] text-sm font-normal rounded-[var(--radius-md)] border border-[var(--border-dark)] text-white/50 hover:bg-white/10 hover:text-white transition-all duration-200 shrink-0"
                 >
                   {t("nav.logout")}
                 </button>

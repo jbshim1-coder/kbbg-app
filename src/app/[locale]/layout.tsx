@@ -1,6 +1,6 @@
 // locale별 레이아웃 - next-intl Provider 및 html lang 속성 설정
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { setRequestLocale } from "next-intl/server";
@@ -14,14 +14,10 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import CookieConsent from "@/components/CookieConsent";
 import "../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "cyrillic", "vietnamese"],
+  display: "swap",
 });
 
 // 사이트 기본 URL - 환경 변수 없을 경우 프로덕션 URL 사용
@@ -129,7 +125,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
     >
       <head>
         {locale === "ko" && <meta name="robots" content="noindex, nofollow" />}
@@ -141,7 +137,7 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
         <NextIntlClientProvider messages={messages}>
-          <div className="max-w-[1280px] mx-auto border-x border-gray-200 bg-white min-h-screen">
+          <div className="mx-auto bg-[var(--background)] min-h-screen">
             <Header />
             <AdBanner />
             <main className="flex-1">{children}</main>

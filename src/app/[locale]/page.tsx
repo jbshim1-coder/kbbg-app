@@ -37,26 +37,26 @@ export default async function HomePage({
   const t = await getTranslations();
 
   return (
-    <main className="min-h-screen bg-stone-50">
+    <main className="min-h-screen bg-[var(--background)]">
 
       {/* ━━━ 히어로: 한국 명소 롤링 + AI 검색 ━━━ */}
       <HeroSlider locale={locale} />
 
       {/* ━━━ AI 얼굴 분석 + 병원 찾기 — 2분할 ━━━ */}
-      <section className="bg-white px-4 py-12 border-b border-stone-100">
-        <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section className="section-light px-4 py-16">
+        <div className="mx-auto max-w-[980px] grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* 서비스 2: AI 얼굴 분석 */}
-          <div className="rounded-2xl overflow-hidden shadow-sm">
+          <div className="rounded-[var(--radius-lg)] overflow-hidden bg-white apple-shadow-sm">
             <FaceAnalysis locale={locale} />
           </div>
 
           {/* 서비스 3: 병원 찾기 */}
-          <div className="rounded-2xl bg-white shadow-sm overflow-hidden">
-            <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-stone-100">
+          <div className="rounded-[var(--radius-lg)] bg-white apple-shadow-sm overflow-hidden">
+            <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-[var(--border)]">
               <div>
-                <h2 className="text-base font-bold text-gray-900">{locale === "ko" ? "조건별 병원검색" : "Hospital Search"}</h2>
-                <p className="text-xs text-gray-400">{locale === "ko" ? "진료과·지역·유형으로 실시간 검색" : "Search by specialty, region & type"}</p>
+                <h2 className="text-base font-semibold text-[var(--foreground)]">{locale === "ko" ? "조건별 병원검색" : "Hospital Search"}</h2>
+                <p className="apple-caption text-[var(--foreground-tertiary)]">{locale === "ko" ? "진료과·지역·유형으로 실시간 검색" : "Search by specialty, region & type"}</p>
               </div>
             </div>
             <div className="p-6 pt-4">
@@ -77,12 +77,12 @@ export default async function HomePage({
       />
 
       {/* ━━━ 운영자에게 병원 추천 받기 ━━━ */}
-      <section className="px-4 py-10 bg-stone-50 border-b border-stone-100">
-        <div className="mx-auto max-w-6xl">
-          <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-8">
-            <div className="flex items-center gap-3 mb-5">
+      <section className="px-4 py-16 bg-[var(--background)]">
+        <div className="mx-auto max-w-[980px]">
+          <div className="bg-white rounded-[var(--radius-lg)] apple-shadow-sm p-6 sm:p-10">
+            <div className="flex items-center gap-3 mb-6">
               <span className="text-3xl">💬</span>
-              <h2 className="text-lg font-bold text-gray-900">
+              <h2 className="text-lg font-semibold text-[var(--foreground)]">
                 {locale === "ko" ? "운영자에게 병원 추천 받기" : "Get Expert Recommendation"}
               </h2>
             </div>
@@ -92,21 +92,21 @@ export default async function HomePage({
       </section>
 
       {/* ━━━ 인기 진료과 + 사이드바 ━━━ */}
-      <section className="px-4 py-12 bg-stone-50">
-        <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <section className="px-4 py-16 section-light">
+        <div className="mx-auto max-w-[980px] grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           {/* 왼쪽: 인기 진료과 + 커뮤니티 */}
           <div className="lg:col-span-2 space-y-8">
 
-            <div className="bg-white rounded-2xl shadow-sm p-6">
+            <div className="bg-white rounded-[var(--radius-lg)] apple-shadow-sm p-6">
               <TopDepartments locale={locale} />
             </div>
 
             {/* 최신 커뮤니티 글 */}
             <div>
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900">{t("community_preview.title")}</h2>
-                <Link href={`/${locale}/community`} className="text-sm text-rose-500 hover:text-rose-500 transition-colors">
+                <h2 className="text-xl font-semibold text-[var(--foreground)]">{t("community_preview.title")}</h2>
+                <Link href={`/${locale}/community`} className="text-sm text-[var(--accent-link)] hover:underline transition-all duration-200">
                   {t("community_preview.view_all")}
                 </Link>
               </div>
@@ -115,16 +115,16 @@ export default async function HomePage({
                   <Link
                     key={post.id}
                     href={`/${locale}/community/${post.id}`}
-                    className="flex items-start justify-between rounded-2xl bg-white px-4 py-4 shadow-sm transition-shadow hover:shadow-md gap-3"
+                    className="flex items-start justify-between rounded-[var(--radius-md)] bg-white px-4 py-4 apple-shadow-sm transition-all duration-200 hover:shadow-md gap-3"
                   >
                     <div className="min-w-0 flex-1">
-                      <span className="mr-2 rounded bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 whitespace-nowrap">
+                      <span className="mr-2 rounded-[var(--radius-sm)] bg-[var(--background-secondary)] px-2 py-0.5 text-xs font-medium text-[var(--foreground-secondary)] whitespace-nowrap">
                         {t(post.categoryKey as Parameters<typeof t>[0])}
                       </span>
-                      <span className="text-sm font-medium text-gray-900 break-words">{t(post.titleKey as Parameters<typeof t>[0])}</span>
-                      <p className="mt-0.5 text-xs text-gray-400">by {post.author}</p>
+                      <span className="text-sm font-normal text-[var(--foreground)] break-words">{t(post.titleKey as Parameters<typeof t>[0])}</span>
+                      <p className="mt-0.5 text-xs text-[var(--foreground-tertiary)]">by {post.author}</p>
                     </div>
-                    <div className="flex shrink-0 gap-3 text-xs text-gray-400 pt-0.5">
+                    <div className="flex shrink-0 gap-3 text-xs text-[var(--foreground-tertiary)] pt-0.5">
                       <span>{post.upvotes}</span>
                       <span>{post.comments}</span>
                     </div>
@@ -155,17 +155,17 @@ export default async function HomePage({
       <BeautyBanner />
 
       {/* 한국의 거리 라이브 — 5개 그리드 */}
-      <section className="bg-slate-900 px-4 py-14">
-        <div className="mx-auto max-w-6xl">
+      <section className="section-dark px-4 py-16">
+        <div className="mx-auto max-w-[980px]">
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-0.5 text-xs font-semibold text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                 LIVE
               </span>
-              <h2 className="text-2xl font-bold text-white">{t("live.title")}</h2>
+              <h2 className="text-2xl font-semibold text-white">{t("live.title")}</h2>
             </div>
-            <Link href={`/${locale}/live`} className="text-sm text-gray-400 hover:text-white transition-colors">
+            <Link href={`/${locale}/live`} className="text-sm text-[var(--accent-link-dark)] hover:underline transition-all duration-200">
               {t("live.view_more")}
             </Link>
           </div>
@@ -180,7 +180,7 @@ export default async function HomePage({
               <Link
                 key={ch.id}
                 href={`/${locale}/live`}
-                className="group relative overflow-hidden rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+                className="group relative overflow-hidden rounded-[var(--radius-md)] border border-[var(--border-dark)] hover:border-white/20 transition-all duration-200"
               >
                 <div className="relative aspect-video bg-slate-800">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -195,8 +195,8 @@ export default async function HomePage({
                     LIVE
                   </span>
                 </div>
-                <div className="bg-slate-800 px-2 py-1.5 text-center">
-                  <span className="text-xs font-medium text-gray-200">
+                <div className="bg-[var(--background-dark-surface)] px-2 py-1.5 text-center">
+                  <span className="text-xs font-normal text-white/70">
                     {t(`live.ch_${ch.id}` as Parameters<typeof t>[0])}
                   </span>
                 </div>

@@ -20,15 +20,15 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   dot?: boolean; // 왼쪽 상태 점 표시 여부
 }
 
-// 변형별 배경색·텍스트 색상 스타일 맵
+// Apple 스타일 변형별 배경색·텍스트 색상 스타일 맵
 const variantStyles: Record<BadgeVariant, string> = {
-  default: "bg-gray-100 text-gray-700",
-  primary: "bg-blue-100 text-slate-700",
-  secondary: "bg-pink-100 text-pink-700",
-  success: "bg-green-100 text-green-700",
-  warning: "bg-yellow-100 text-yellow-700",
-  danger: "bg-red-100 text-red-700",
-  outline: "border border-gray-300 text-gray-600 bg-transparent",
+  default: "bg-[var(--background-secondary)] text-[var(--foreground-secondary)]",
+  primary: "bg-blue-50 text-[var(--accent)]",
+  secondary: "bg-pink-50 text-pink-600",
+  success: "bg-green-50 text-[var(--success)]",
+  warning: "bg-yellow-50 text-amber-600",
+  danger: "bg-red-50 text-[var(--danger)]",
+  outline: "border border-[var(--border)] text-[var(--foreground-secondary)] bg-transparent",
 };
 
 // 점 색상은 배경색 계열과 맞춤

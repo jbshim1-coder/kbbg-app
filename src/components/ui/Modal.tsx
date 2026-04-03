@@ -76,25 +76,25 @@ export default function Modal({
       {/* 모달 패널 */}
       <div
         className={[
-          "relative z-10 w-full bg-white rounded-2xl shadow-xl",
+          "relative z-10 w-full bg-white rounded-[var(--radius-lg)] apple-shadow",
           "flex flex-col max-h-[90vh]",
           sizeStyles[size],
         ].join(" ")}
       >
         {/* 헤더 */}
         {(title || true) && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)]">
             {title && (
               <h2
                 id="modal-title"
-                className="text-lg font-semibold text-gray-900"
+                className="text-lg font-semibold text-[var(--foreground)]"
               >
                 {title}
               </h2>
             )}
             <button
               onClick={onClose}
-              className="ml-auto p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+              className="ml-auto p-1.5 rounded-[var(--radius-sm)] text-[var(--foreground-tertiary)] hover:text-[var(--foreground)] hover:bg-[var(--background-secondary)] transition-all duration-200"
               aria-label="모달 닫기"
             >
               <X size={18} />
@@ -107,7 +107,7 @@ export default function Modal({
 
         {/* 푸터 (선택) */}
         {footer && (
-          <div className="px-6 py-4 border-t border-gray-100">{footer}</div>
+          <div className="px-6 py-4 border-t border-[var(--border)]">{footer}</div>
         )}
       </div>
     </div>

@@ -52,8 +52,8 @@ export default async function Footer({ locale }: { locale: string }) {
   ];
 
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[var(--background-dark)] border-t border-[var(--border-dark)] text-white">
+      <div className="max-w-[980px] mx-auto px-4 sm:px-6">
 
         {/* ── 상단: 브랜드 + 네비 섹션 ── */}
         <div className="py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -64,12 +64,12 @@ export default async function Footer({ locale }: { locale: string }) {
               <Image src="/logo.png" alt="K-Beauty Buyers Guide" width={140} height={48} className="h-10 w-auto" />
             </Link>
 
-            <div className="mt-5 space-y-1 text-xs text-gray-400">
-              <p className="font-medium text-gray-500">{t("footer.company_name")}</p>
+            <div className="mt-5 space-y-1 text-xs text-white/40">
+              <p className="font-medium text-white/70">{t("footer.company_name")}</p>
               <p>{t("footer.company_info")}</p>
               <a
                 href="mailto:help@2bstory.com"
-                className="inline-flex items-center gap-1 hover:text-slate-700 transition-colors"
+                className="inline-flex items-center gap-1 hover:text-[var(--accent-link-dark)] transition-all duration-200"
               >
                 <Mail size={12} />
                 help@2bstory.com
@@ -80,7 +80,7 @@ export default async function Footer({ locale }: { locale: string }) {
           {/* 네비게이션 섹션 3개 */}
           {FOOTER_SECTIONS.map((section) => (
             <div key={section.titleKey}>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">
+              <h3 className="text-sm font-semibold text-white/80 mb-4">
                 {t(section.titleKey as Parameters<typeof t>[0])}
               </h3>
               <ul className="space-y-1">
@@ -88,12 +88,12 @@ export default async function Footer({ locale }: { locale: string }) {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-500 hover:text-slate-700 transition-colors min-h-[44px] flex items-center"
+                      className="text-sm text-white/50 hover:text-[var(--accent-link-dark)] transition-all duration-200 min-h-[44px] flex items-center"
                     >
                       {t(link.labelKey as Parameters<typeof t>[0])}
                     </Link>
                     {"sub" in link && link.sub && (
-                      <p className="text-[10px] text-rose-400 -mt-2 ml-0.5">{t(link.sub as Parameters<typeof t>[0])}</p>
+                      <p className="text-[10px] text-[var(--accent-link-dark)] -mt-2 ml-0.5">{t(link.sub as Parameters<typeof t>[0])}</p>
                     )}
                   </li>
                 ))}
@@ -103,10 +103,10 @@ export default async function Footer({ locale }: { locale: string }) {
         </div>
 
         {/* ── 하단: 저작권 + 법률 링크 ── */}
-        <div className="py-6 border-t border-gray-200 flex flex-col sm:flex-row
+        <div className="py-6 border-t border-[var(--border-dark)] flex flex-col sm:flex-row
           items-center justify-between gap-4">
 
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-white/30">
             {t("footer.copyright", { year: currentYear })}
           </p>
 
@@ -117,11 +117,11 @@ export default async function Footer({ locale }: { locale: string }) {
             {LEGAL_LINKS.map((link, idx) => (
               <span key={link.href} className="flex items-center gap-4">
                 {idx > 0 && (
-                  <span className="text-gray-200" aria-hidden="true">|</span>
+                  <span className="text-white/20" aria-hidden="true">|</span>
                 )}
                 <Link
                   href={link.href}
-                  className="text-xs text-gray-400 hover:text-slate-700 transition-colors"
+                  className="text-xs text-white/30 hover:text-[var(--accent-link-dark)] transition-all duration-200"
                 >
                   {t(link.labelKey as Parameters<typeof t>[0])}
                 </Link>

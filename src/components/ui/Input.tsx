@@ -39,7 +39,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-[var(--foreground)] mb-1"
           >
             {label}
           </label>
@@ -57,13 +57,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={[
-              "w-full rounded-lg border bg-white text-gray-900 placeholder-gray-400",
-              "text-sm transition-colors duration-150",
-              "focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent",
-              "disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "w-full rounded-[var(--radius-md)] border bg-white text-[var(--foreground)] placeholder-[var(--foreground-tertiary)]",
+              "text-sm transition-all duration-200",
+              "focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent",
+              "disabled:bg-[var(--background-secondary)] disabled:text-[var(--foreground-tertiary)] disabled:cursor-not-allowed",
               error
-                ? "border-red-400 focus:ring-red-400"
-                : "border-gray-300 hover:border-gray-400",
+                ? "border-[var(--danger)] focus:ring-[var(--danger)]"
+                : "border-[var(--border)] hover:border-gray-400",
               startSlot ? "pl-9" : "pl-3",
               endSlot ? "pr-9" : "pr-3",
               "py-2",
