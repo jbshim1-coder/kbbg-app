@@ -12,3 +12,8 @@
 
 - 코드 변경 후 항상 커밋 + push까지 진행할 것 (사용자가 Vercel 웹에서 확인함)
 - UI 수정 요청 시 바탕화면 img 폴더(`/mnt/c/Users/jbshi/Desktop/img/`)의 최신 스크린샷을 먼저 확인할 것
+
+## 디자인 규칙
+- UI 작업 시 반드시 ./DESIGN.md를 참조할 것
+- DESIGN.md에 정의된 색상, 타이포그래피, 컴포넌트 스타일을 우선 적용
+- 디자인 토큰을 Tailwind CSS 클래스 또는 CSS 변수로 변환해서 사용

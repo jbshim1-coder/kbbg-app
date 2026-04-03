@@ -14,11 +14,11 @@ interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {}
 interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {}
 
-// 변형별 스타일 맵 — flat(그림자 없음), raised(그림자 있음), bordered(테두리)
+// Apple 스타일 변형별 스타일 맵
 const variantStyles: Record<CardVariant, string> = {
   flat: "bg-white",
-  raised: "bg-white shadow-sm",
-  bordered: "bg-white border border-gray-200",
+  raised: "bg-white apple-shadow-sm",
+  bordered: "bg-white border border-[var(--border)]",
 };
 
 // 패딩 크기별 스타일 맵
@@ -46,7 +46,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     <div
       ref={ref}
       className={[
-        "rounded-xl overflow-hidden",
+        "rounded-[var(--radius-md)] overflow-hidden",
         variantStyles[variant],
         paddingStyles[padding],
         hoverable
@@ -70,7 +70,7 @@ const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className = "", children, ...props }, ref) => (
     <div
       ref={ref}
-      className={["border-b border-gray-100 pb-4 mb-4", className]
+      className={["border-b border-[var(--border)] pb-4 mb-4", className]
         .filter(Boolean)
         .join(" ")}
       {...props}
@@ -97,7 +97,7 @@ const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className = "", children, ...props }, ref) => (
     <div
       ref={ref}
-      className={["border-t border-gray-100 pt-4 mt-4", className]
+      className={["border-t border-[var(--border)] pt-4 mt-4", className]
         .filter(Boolean)
         .join(" ")}
       {...props}

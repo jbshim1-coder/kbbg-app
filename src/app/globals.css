@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════
+   Apple Design System — Design Tokens (DESIGN.md)
+   kbbg-app 의료관광 플랫폼 커스터마이징
+   ═══════════════════════════════════════════════ */
+
 :root {
+  /* ── 배경 ── */
   --background: #ffffff;
-  --foreground: #171717;
+  --background-secondary: #f5f5f7;
+  --background-dark: #1d1d1f;
+  --background-dark-surface: #272729;
+
+  /* ── 텍스트 ── */
+  --foreground: #1d1d1f;
+  --foreground-secondary: rgba(0, 0, 0, 0.8);
+  --foreground-tertiary: rgba(0, 0, 0, 0.48);
+  --foreground-on-dark: #ffffff;
+  --foreground-on-dark-secondary: rgba(255, 255, 255, 0.8);
+
+  /* ── 액센트 (Apple Blue — 단일 액센트) ── */
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --accent-link: #0066cc;
+  --accent-link-dark: #2997ff;
+
+  /* ── 보더/디바이더 ── */
+  --border: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.12);
+
+  /* ── 쉐도우 ── */
+  --shadow-card: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+  --shadow-sm: rgba(0, 0, 0, 0.08) 0px 1px 4px 0px;
+
+  /* ── radius ── */
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 980px;
+
+  /* ── 네비게이션 글래스 ── */
+  --nav-bg: rgba(0, 0, 0, 0.8);
+  --nav-blur: saturate(180%) blur(20px);
+
+  /* ── 시맨틱 컬러 ── */
+  --success: #34c759;
+  --warning: #ff9f0a;
+  --danger: #ff3b30;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-dark: var(--background-dark);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-tertiary: var(--foreground-tertiary);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-link: var(--accent-link);
+  --color-accent-link-dark: var(--accent-link-dark);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans Thai", sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Inter", "Noto Sans", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Apple 타이포 유틸리티 ── */
+.apple-display {
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.28px;
+}
+
+.apple-heading {
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -0.02em;
+}
+
+.apple-body {
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+}
+
+.apple-caption {
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+  font-size: 14px;
+}
+
+/* ── 글래스 네비게이션 ── */
+.glass-nav {
+  background: var(--nav-bg);
+  backdrop-filter: var(--nav-blur);
+  -webkit-backdrop-filter: var(--nav-blur);
+}
+
+/* ── 섹션 교차 배경 ── */
+.section-light {
+  background: var(--background-secondary);
+  color: var(--foreground);
+}
+
+.section-dark {
+  background: var(--background-dark);
+  color: var(--foreground-on-dark);
+}
+
+/* ── Apple Pill 링크 ── */
+.apple-pill {
+  border-radius: var(--radius-pill);
+  padding: 8px 20px;
+  font-size: 17px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+
+.apple-pill-filled {
+  background: var(--accent);
+  color: white;
+}
+
+.apple-pill-filled:hover {
+  background: var(--accent-hover);
+}
+
+.apple-pill-outline {
+  background: transparent;
+  border: 1px solid var(--accent-link);
+  color: var(--accent-link);
+}
+
+.apple-pill-outline:hover {
+  background: var(--accent-link);
+  color: white;
+}
+
+/* ── Apple 카드 쉐도우 ── */
+.apple-shadow {
+  box-shadow: var(--shadow-card);
+}
+
+.apple-shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── 스크롤바 미니멀 ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35);
 }

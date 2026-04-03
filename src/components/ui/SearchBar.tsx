@@ -80,10 +80,10 @@ export default function SearchBar({
           autoFocus={autoFocus}
           aria-label="검색"
           className={[
-            "w-full pl-9 pr-9 rounded-xl border border-gray-200 bg-gray-50",
-            "text-gray-900 placeholder-gray-400",
-            "focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent focus:bg-white",
-            "transition-colors duration-150",
+            "w-full pl-9 pr-9 rounded-[var(--radius-md)] border-[3px] border-[rgba(0,0,0,0.04)] bg-[#fafafc]",
+            "text-[var(--foreground)] placeholder-[var(--foreground-tertiary)]",
+            "focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent focus:bg-white",
+            "transition-all duration-200",
             inputSize,
           ].join(" ")}
         />

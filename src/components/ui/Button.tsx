@@ -13,18 +13,18 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
 }
 
-// 변형별 스타일 맵
+// Apple 스타일 변형별 스타일 맵
 const variantStyles: Record<Variant, string> = {
   primary:
-    "bg-slate-800 text-white hover:bg-slate-900 active:bg-blue-800 disabled:bg-blue-300",
+    "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:brightness-90 disabled:opacity-40",
   secondary:
-    "bg-slate-700 text-white hover:bg-slate-800 active:bg-slate-900 disabled:bg-slate-300",
+    "bg-[var(--background-dark)] text-white hover:bg-[#2d2d2f] active:bg-[#3d3d3f] disabled:opacity-40",
   outline:
-    "border border-slate-600 text-slate-700 hover:bg-slate-50 active:bg-blue-100 disabled:border-slate-300 disabled:text-blue-200",
+    "border border-[var(--accent-link)] text-[var(--accent-link)] hover:bg-[var(--accent-link)] hover:text-white active:brightness-90 disabled:opacity-40",
   ghost:
-    "text-gray-700 hover:bg-gray-100 active:bg-gray-200 disabled:text-gray-300",
+    "text-[var(--foreground-secondary)] hover:bg-[var(--background-secondary)] active:bg-gray-200 disabled:opacity-40",
   danger:
-    "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 disabled:bg-red-300",
+    "bg-[var(--danger)] text-white hover:brightness-90 active:brightness-80 disabled:opacity-40",
 };
 
 // 크기별 스타일 맵
@@ -58,9 +58,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={isDisabled}
         className={[
-          "inline-flex items-center justify-center gap-2 rounded-lg font-medium",
-          "transition-colors duration-150 cursor-pointer",
-          "focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2",
+          "inline-flex items-center justify-center gap-2 rounded-[var(--radius-md)] font-normal",
+          "transition-all duration-200 cursor-pointer",
+          "focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2",
           "disabled:cursor-not-allowed",
           variantStyles[variant],
           sizeStyles[size],
