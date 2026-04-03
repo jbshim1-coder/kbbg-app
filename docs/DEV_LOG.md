@@ -4,6 +4,16 @@
 
 ---
 
+[2026-04-03 05:00] 네이버 블로그 평판 분석 기능 추가
+
+병원별 네이버 블로그 언급 수 + 감성 분석 기능을 추가했습니다.
+- DB 컬럼 5개 추가 SQL 작성 (naver_blog_mentions, naver_positive_ratio 등)
+- 수집 스크립트 (collect-naver-blog.mjs): 광고 필터링 + 키워드 감성 분석
+- AI 검색에 네이버 블로그 데이터 연동 (추천 근거에 "블로그 N건 언급" 표시)
+- DB SQL 실행 필요 (supabase/migrations/20260403_add_naver_blog.sql)
+
+---
+
 [2026-04-03 03:00] Apple 디자인 시스템 적용 (feature/apple-redesign 브랜치)
 
 사이트 전체를 Apple 스타일로 리디자인했습니다.

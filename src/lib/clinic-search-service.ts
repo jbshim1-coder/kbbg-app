@@ -35,6 +35,9 @@ export interface ClinicResult {
   relevance_score: number | null;
   anesthesia_sdr_count: number;
   safe_anesthesia_badge: boolean;
+  naver_blog_mentions: number;
+  naver_positive_ratio: number | null;
+  naver_reputation_score: number | null;
 }
 
 // ─── 1단계: 자연어 → 검색조건 추출 (GPT-4o-mini) ───
@@ -523,6 +526,9 @@ function mapClinicData(data: Record<string, unknown>[]): ClinicResult[] {
     relevance_score: (c.relevance_score as number) || null,
     anesthesia_sdr_count: Number(c.anesthesia_sdr_count) || 0,
     safe_anesthesia_badge: Boolean(c.safe_anesthesia_badge) || false,
+    naver_blog_mentions: (c.naver_blog_mentions as number) || 0,
+    naver_positive_ratio: (c.naver_positive_ratio as number) || null,
+    naver_reputation_score: (c.naver_reputation_score as number) || null,
   }));
 }
 
@@ -541,6 +547,7 @@ function formatClinicsForNarrative(clinics: ClinicResult[]): string {
         c.sdr_cnt > 0 ? `전문의 ${c.sdr_cnt}명` : null,
         c.safe_anesthesia_badge ? `마취과 전문의 ${c.anesthesia_sdr_count}명 상주` : null,
         c.google_rating ? `구글 ${c.google_rating}점 (${c.google_review_count || 0}건 리뷰)` : null,
+        c.naver_blog_mentions > 0 ? `네이버 블로그 ${c.naver_blog_mentions}건 언급${c.naver_positive_ratio ? ` (긍정 ${c.naver_positive_ratio}%)` : ""}` : null,
         c.dgsbjt_cd_nm || null,
         c.website ? `홈페이지: ${c.website}` : null,
         c.phone ? `전화: ${c.phone}` : null,
@@ -570,6 +577,7 @@ export async function composeNarrative(
 - 각 병원을 추천하는 **구체적 근거**를 반드시 명시하세요. 예시:
   · "전문의 N명이 상주하며" (심평원 데이터 기반)
   · "구글 평점 N.N점, 리뷰 N건" (구글 데이터 기반)
+  · "네이버 블로그 N건 언급, 긍정률 N%" (네이버 블로그 데이터)
   · "마취과 전문의 상주로 안전성 확보" (심평원 마취과 데이터)
   · "XX구에 위치하여 접근성 우수" (위치 데이터)
 - 각 병원의 홈페이지 주소와 전화번호를 반드시 포함하세요.
@@ -583,6 +591,7 @@ Rules:
 - Always state **specific reasons** for recommending each hospital. Examples:
   · "With N board-certified specialists" (HIRA data)
   · "Google rating N.N with N reviews" (Google data)
+  · "Mentioned in N Naver blog posts, N% positive" (Naver blog data)
   · "Anesthesiologist on staff for safety" (HIRA anesthesia data)
   · "Conveniently located in XX district" (location data)
 - Always include the hospital's website URL and phone number.
