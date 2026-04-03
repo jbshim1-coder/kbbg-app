@@ -144,8 +144,8 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-30 w-full glass-nav">
-      <div className="max-w-[980px] mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-12 gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-12 gap-2">
 
           {/* ── 로고 ── */}
           <Link
@@ -172,15 +172,15 @@ export default function Header() {
 
           {/* ── PC 네비게이션 ── */}
           <nav
-            className="hidden lg:flex items-center gap-1"
+            className="hidden lg:flex items-center gap-0.5 flex-nowrap"
             aria-label={t("nav.home")}
           >
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={localePath(link.href)}
-                className="px-3 py-1.5 rounded-[var(--radius-sm)] text-xs font-normal text-white/80
-                  hover:text-white hover:bg-white/10 transition-all duration-200"
+                className="px-2.5 py-1.5 rounded-[var(--radius-sm)] text-xs font-normal text-white/80
+                  hover:text-white hover:bg-white/10 transition-all duration-200 whitespace-nowrap"
               >
                 {t(link.labelKey as Parameters<typeof t>[0])}
               </Link>
@@ -336,7 +336,7 @@ export default function Header() {
 
       {/* ── 커뮤니티 카테고리 서브메뉴 ── */}
       <div className="hidden lg:block border-t border-[var(--border-dark)]">
-        <div className="max-w-[980px] mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-wrap items-center gap-1 py-1.5">
             {[
               "plastic_surgery", "dermatology", "internal_medicine", "dental",
