@@ -95,16 +95,26 @@ async function searchBlog(clinicName) {
 async function main() {
   console.log(`\n=== 네이버 블로그 평판 수집 시작 (최대 ${LIMIT}개) ===\n`);
 
-  // 활성 병원 조회 (분석 안 된 순 또는 14일 경과)
+  // 활성 병원 조회 (분석 안 된 순 또는 14일 경과) — 페이징으로 전체 조회
   const twoWeeksAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
-  const { data: clinics } = await supabase
-    .from("clinics")
-    .select("id, yadm_nm")
-    .eq("is_active", true)
-    .or(`naver_analyzed_at.is.null,naver_analyzed_at.lt.${twoWeeksAgo}`)
-    .limit(LIMIT);
+  let clinics = [];
+  let offset = 0;
+  const PAGE = 1000;
+  while (clinics.length < LIMIT) {
+    const { data } = await supabase
+      .from("clinics")
+      .select("id, name")
+      .eq("is_active", true)
+      .or(`naver_analyzed_at.is.null,naver_analyzed_at.lt.${twoWeeksAgo}`)
+      .range(offset, offset + PAGE - 1);
+    if (!data || data.length === 0) break;
+    clinics.push(...data);
+    offset += PAGE;
+    if (data.length < PAGE) break;
+  }
+  clinics = clinics.slice(0, LIMIT);
 
-  if (!clinics || clinics.length === 0) {
+  if (clinics.length === 0) {
     console.log("분석 대상 병원 없음");
     return;
   }
@@ -115,7 +125,7 @@ async function main() {
 
   for (const clinic of clinics) {
     try {
-      const result = await searchBlog(clinic.yadm_nm);
+      const result = await searchBlog(clinic.name);
       if (!result) {
         errors++;
         continue;
@@ -138,19 +148,19 @@ async function main() {
         .eq("id", clinic.id);
 
       if (error) {
-        console.error(`  실패 [${clinic.yadm_nm}]: ${error.message}`);
+        console.error(`  실패 [${clinic.name}]: ${error.message}`);
         errors++;
       } else {
         processed++;
-        if (processed % 50 === 0 || processed <= 5) {
-          console.log(`  ✓ [${processed}] ${clinic.yadm_nm}: ${result.total}건, 긍정 ${result.positiveRatio}%, 점수 ${reputationScore}`);
+        if (processed % 50 === 0 || processed <= 10) {
+          console.log(`  ✓ [${processed}] ${clinic.name}: ${result.total}건, 긍정 ${result.positiveRatio}%, 점수 ${reputationScore}`);
         }
       }
 
       // API rate limit (120ms — 일 25,000회 한도 고려)
       await new Promise((r) => setTimeout(r, 120));
     } catch (err) {
-      console.error(`  에러 [${clinic.yadm_nm}]: ${err.message}`);
+      console.error(`  에러 [${clinic.name}]: ${err.message}`);
       errors++;
     }
   }
