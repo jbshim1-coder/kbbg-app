@@ -76,10 +76,10 @@ export const metadata: Metadata = {
   },
   // 매니페스트
   manifest: "/manifest.json",
-  // Google Search Console 인증
-  verification: {
-    google: "VERIFICATION_CODE_HERE",
-  },
+  // Google Search Console 인증 — 실제 코드 발급 후 환경변수로 설정
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 // 정적 생성 시 지원 locale 목록 제공

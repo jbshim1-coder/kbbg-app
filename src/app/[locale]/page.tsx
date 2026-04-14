@@ -11,19 +11,39 @@ import DailyCheckIn from "@/components/DailyCheckIn";
 import FaceAnalysis from "@/components/FaceAnalysis";
 import TopDepartments from "@/components/TopDepartments";
 import ConsultationForm from "@/components/ConsultationForm";
+import { createServiceRoleClient } from "@/lib/supabase";
 
-// 최신 커뮤니티 글 더미 데이터 — 번역 키 사용
-const RECENT_POSTS = [
-  { id: 1, titleKey: "community_preview.post1_title", categoryKey: "community_preview.post1_category", author: "user_kr", comments: 24, upvotes: 87 },
-  { id: 2, titleKey: "community_preview.post2_title", categoryKey: "community_preview.post2_category", author: "sarah_jp", comments: 15, upvotes: 42 },
-  { id: 3, titleKey: "community_preview.post3_title", categoryKey: "community_preview.post3_category", author: "mike_us", comments: 31, upvotes: 63 },
-  { id: 4, titleKey: "community_preview.post4_title", categoryKey: "community_preview.post4_category", author: "tom_vn", comments: 27, upvotes: 54 },
-  { id: 5, titleKey: "community_preview.post5_title", categoryKey: "community_preview.post5_category", author: "lisa_th", comments: 19, upvotes: 48 },
-  { id: 6, titleKey: "community_preview.post6_title", categoryKey: "community_preview.post6_category", author: "chen_cn", comments: 12, upvotes: 35 },
-  { id: 7, titleKey: "community_preview.post7_title", categoryKey: "community_preview.post7_category", author: "kim_kr", comments: 22, upvotes: 61 },
-  { id: 8, titleKey: "community_preview.post8_title", categoryKey: "community_preview.post8_category", author: "yuki_jp", comments: 8, upvotes: 29 },
-  { id: 9, titleKey: "community_preview.post9_title", categoryKey: "community_preview.post9_category", author: "david_uk", comments: 33, upvotes: 72 },
-  { id: 10, titleKey: "community_preview.post10_title", categoryKey: "community_preview.post10_category", author: "mai_vn", comments: 11, upvotes: 38 },
+// Supabase에서 최신 커뮤니티 글 10개 조회
+async function getRecentPosts() {
+  try {
+    const supabase = createServiceRoleClient();
+    const { data } = await supabase
+      .from("posts")
+      .select("id, title, author_id, upvotes, comment_count, created_at, board_id")
+      .order("created_at", { ascending: false })
+      .limit(10);
+
+    if (!data || data.length === 0) return null;
+
+    return data.map((post: { id: string; title: string; author_id: string; upvotes: number | null; comment_count: number | null }) => ({
+      id: post.id,
+      title: post.title,
+      author: post.author_id?.slice(0, 8) || "user",
+      upvotes: post.upvotes || 0,
+      comments: post.comment_count || 0,
+    }));
+  } catch {
+    return null;
+  }
+}
+
+// DB 조회 실패 시 폴백 더미 데이터
+const FALLBACK_POSTS = [
+  { id: "1", titleKey: "community_preview.post1_title", categoryKey: "community_preview.post1_category", author: "user_kr", comments: 24, upvotes: 87 },
+  { id: "2", titleKey: "community_preview.post2_title", categoryKey: "community_preview.post2_category", author: "sarah_jp", comments: 15, upvotes: 42 },
+  { id: "3", titleKey: "community_preview.post3_title", categoryKey: "community_preview.post3_category", author: "mike_us", comments: 31, upvotes: 63 },
+  { id: "4", titleKey: "community_preview.post4_title", categoryKey: "community_preview.post4_category", author: "tom_vn", comments: 27, upvotes: 54 },
+  { id: "5", titleKey: "community_preview.post5_title", categoryKey: "community_preview.post5_category", author: "lisa_th", comments: 19, upvotes: 48 },
 ];
 
 
@@ -35,6 +55,7 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations();
+  const recentPosts = await getRecentPosts();
 
   return (
     <main className="min-h-screen bg-[var(--background)]">
@@ -111,25 +132,44 @@ export default async function HomePage({
                 </Link>
               </div>
               <div className="flex flex-col gap-2">
-                {RECENT_POSTS.map((post) => (
-                  <Link
-                    key={post.id}
-                    href={`/${locale}/community/${post.id}`}
-                    className="flex items-start justify-between rounded-[var(--radius-md)] bg-white px-4 py-4 apple-shadow-sm transition-all duration-200 hover:shadow-md gap-3"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <span className="mr-2 rounded-[var(--radius-sm)] bg-[var(--background-secondary)] px-2 py-0.5 text-xs font-medium text-[var(--foreground-secondary)] whitespace-nowrap">
-                        {t(post.categoryKey as Parameters<typeof t>[0])}
-                      </span>
-                      <span className="text-sm font-normal text-[var(--foreground)] break-words">{t(post.titleKey as Parameters<typeof t>[0])}</span>
-                      <p className="mt-0.5 text-xs text-[var(--foreground-tertiary)]">by {post.author}</p>
-                    </div>
-                    <div className="flex shrink-0 gap-3 text-xs text-[var(--foreground-tertiary)] pt-0.5">
-                      <span>{post.upvotes}</span>
-                      <span>{post.comments}</span>
-                    </div>
-                  </Link>
-                ))}
+                {recentPosts ? (
+                  recentPosts.map((post) => (
+                    <Link
+                      key={post.id}
+                      href={`/${locale}/community/${post.id}`}
+                      className="flex items-start justify-between rounded-[var(--radius-md)] bg-white px-4 py-4 apple-shadow-sm transition-all duration-200 hover:shadow-md gap-3"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <span className="text-sm font-normal text-[var(--foreground)] break-words">{post.title}</span>
+                        <p className="mt-0.5 text-xs text-[var(--foreground-tertiary)]">by {post.author}</p>
+                      </div>
+                      <div className="flex shrink-0 gap-3 text-xs text-[var(--foreground-tertiary)] pt-0.5">
+                        <span>{post.upvotes}</span>
+                        <span>{post.comments}</span>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  FALLBACK_POSTS.map((post) => (
+                    <Link
+                      key={post.id}
+                      href={`/${locale}/community/${post.id}`}
+                      className="flex items-start justify-between rounded-[var(--radius-md)] bg-white px-4 py-4 apple-shadow-sm transition-all duration-200 hover:shadow-md gap-3"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <span className="mr-2 rounded-[var(--radius-sm)] bg-[var(--background-secondary)] px-2 py-0.5 text-xs font-medium text-[var(--foreground-secondary)] whitespace-nowrap">
+                          {t(post.categoryKey as Parameters<typeof t>[0])}
+                        </span>
+                        <span className="text-sm font-normal text-[var(--foreground)] break-words">{t(post.titleKey as Parameters<typeof t>[0])}</span>
+                        <p className="mt-0.5 text-xs text-[var(--foreground-tertiary)]">by {post.author}</p>
+                      </div>
+                      <div className="flex shrink-0 gap-3 text-xs text-[var(--foreground-tertiary)] pt-0.5">
+                        <span>{post.upvotes}</span>
+                        <span>{post.comments}</span>
+                      </div>
+                    </Link>
+                  ))
+                )}
               </div>
             </div>
           </div>

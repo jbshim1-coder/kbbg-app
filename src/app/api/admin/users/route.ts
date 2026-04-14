@@ -1,10 +1,17 @@
 // 관리자 회원 목록 API — Supabase auth.users 조회 (service role key 필요)
-// GET /api/admin/users — 전체 회원 목록 반환
+// GET /api/admin/users — 관리자 인증 후 전체 회원 목록 반환
 
 import { NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
+import { verifyAdminFromRequest } from "@/lib/admin-auth";
 
 export async function GET() {
+  // 관리자 인증 체크
+  const adminEmail = await verifyAdminFromRequest();
+  if (!adminEmail) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const supabase = createServiceRoleClient();
 
@@ -26,7 +33,6 @@ export async function GET() {
 
     return NextResponse.json({ users });
   } catch (err) {
-    // SUPABASE_SERVICE_ROLE_KEY 미설정 등의 경우
     const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json({ error: message }, { status: 500 });
   }

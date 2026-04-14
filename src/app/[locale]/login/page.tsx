@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase";
 
@@ -10,14 +10,38 @@ import { createClient } from "@/lib/supabase";
 export default function LoginPage() {
   const t = useTranslations();
   const pathname = usePathname();
+  const router = useRouter();
   const locale = pathname.split("/")[1] || "en";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // 로그인 핸들러 (TODO: Supabase Auth 연동)
-  const handleLogin = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // 이메일 로그인 핸들러 — Supabase Auth signInWithPassword
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("login:", email);
+    setError("");
+    setLoading(true);
+
+    const supabase = createClient();
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (authError) {
+      setError(
+        locale === "ko"
+          ? "이메일 또는 비밀번호가 올바르지 않습니다."
+          : "Invalid email or password."
+      );
+      setLoading(false);
+      return;
+    }
+
+    // 로그인 성공 → 홈으로 이동
+    router.push(`/${locale}`);
   };
 
   // Google OAuth 로그인 — Supabase가 Google 인증 페이지로 리다이렉트
@@ -79,11 +103,13 @@ export default function LoginPage() {
               required
             />
           </div>
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
           <button
             type="submit"
-            className="w-full py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 transition"
+            disabled={loading}
+            className="w-full py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 disabled:bg-slate-300 transition"
           >
-            {t("auth.login_btn")}
+            {loading ? (locale === "ko" ? "로그인 중..." : "Signing in...") : t("auth.login_btn")}
           </button>
         </form>
 

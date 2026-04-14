@@ -25,10 +25,41 @@ export default function InfluencerPage() {
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Supabase에 저장
-    setSubmitted(true);
+    if (!name.trim() || !email.trim()) return;
+    setLoading(true);
+    setError("");
+
+    try {
+      const { createClient } = await import("@/lib/supabase");
+      const supabase = createClient();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: dbError } = await (supabase as any)
+        .from("influencer_applications")
+        .insert({
+          name,
+          email,
+          sns_url: sns,
+          followers,
+          message,
+          status: "pending",
+        });
+
+      if (dbError) throw dbError;
+      setSubmitted(true);
+    } catch {
+      setError(
+        isKo
+          ? "신청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+          : "An error occurred. Please try again later."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -143,9 +174,12 @@ export default function InfluencerPage() {
               <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={3}
                 className="w-full px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
             </div>
-            <button type="submit"
-              className="w-full py-3 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-900 transition">
-              {isKo ? "제휴 신청하기" : "Submit Application"}
+            {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+            <button type="submit" disabled={loading}
+              className="w-full py-3 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-900 disabled:bg-slate-300 transition">
+              {loading
+                ? (isKo ? "신청 중..." : "Submitting...")
+                : (isKo ? "제휴 신청하기" : "Submit Application")}
             </button>
           </form>
         </div>
