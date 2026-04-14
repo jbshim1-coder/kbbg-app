@@ -12,6 +12,7 @@ import FaceAnalysis from "@/components/FaceAnalysis";
 import TopDepartments from "@/components/TopDepartments";
 import ConsultationForm from "@/components/ConsultationForm";
 import { createServiceRoleClient } from "@/lib/supabase";
+import { detectLanguage } from "@/lib/detect-language";
 
 // Supabase에서 최신 커뮤니티 글 10개 조회
 async function getRecentPosts() {
@@ -133,14 +134,16 @@ export default async function HomePage({
               </div>
               <div className="flex flex-col gap-2">
                 {recentPosts ? (
-                  recentPosts.map((post) => (
+                  recentPosts.map((post) => {
+                    const { flag } = detectLanguage(post.title);
+                    return (
                     <Link
                       key={post.id}
                       href={`/${locale}/community/${post.id}`}
                       className="flex items-start justify-between rounded-[var(--radius-md)] bg-white px-4 py-4 apple-shadow-sm transition-all duration-200 hover:shadow-md gap-3"
                     >
                       <div className="min-w-0 flex-1">
-                        <span className="text-sm font-normal text-[var(--foreground)] break-words">{post.title}</span>
+                        <span className="text-sm font-normal text-[var(--foreground)] break-words">{flag} {post.title}</span>
                         <p className="mt-0.5 text-xs text-[var(--foreground-tertiary)]">by {post.author}</p>
                       </div>
                       <div className="flex shrink-0 gap-3 text-xs text-[var(--foreground-tertiary)] pt-0.5">
@@ -148,7 +151,8 @@ export default async function HomePage({
                         <span>{post.comments}</span>
                       </div>
                     </Link>
-                  ))
+                    );
+                  })
                 ) : (
                   FALLBACK_POSTS.map((post) => (
                     <Link
