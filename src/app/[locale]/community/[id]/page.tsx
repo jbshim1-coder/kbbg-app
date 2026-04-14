@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase";
 import { isMaster } from "@/lib/level-system";
 import { checkCommentSpam, markPosted } from "@/lib/spam-guard";
 import { getDummyPost, type DummyComment, type FlairType } from "../data/posts";
+import { detectLanguage, getLangName } from "@/lib/detect-language";
 
 // flair 색상 맵
 const FLAIR_STYLE: Record<FlairType, { bg: string; text: string; label: string; labelEn: string }> = {
@@ -82,9 +83,12 @@ export default function PostDetailPage({
   // 북마크
   const [bookmarked, setBookmarked] = useState(false);
 
-  // 번역 (제목)
+  // 번역 (제목 + 본문)
   const [titleTranslation, setTitleTranslation] = useState("");
+  const [contentTranslation, setContentTranslation] = useState("");
   const [translating, setTranslating] = useState(false);
+  // 원문 보기 토글
+  const [showOriginal, setShowOriginal] = useState(false);
 
   // before_after 이미지 블러 해제
   const [imageBlurRevealed, setImageBlurRevealed] = useState(false);
@@ -162,6 +166,43 @@ export default function PostDetailPage({
     }
   }, [id]);
 
+  // 게시글 언어 감지 — post가 있을 때만
+  const detectedLang = post ? detectLanguage(post.title) : { lang: locale, flag: "" };
+  const postLang = detectedLang.lang;
+  const postFlag = detectedLang.flag;
+  const needsTranslation = postLang !== locale;
+
+  // 언어가 다르면 자동 번역 실행 (제목 + 본문)
+  useEffect(() => {
+    if (!post || !needsTranslation || titleTranslation || translating) return;
+
+    setTranslating(true);
+    const titleText = isKo ? post.title : post.titleEn;
+    const contentText = isKo ? post.content : post.contentEn;
+
+    Promise.all([
+      fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: titleText, targetLocale: locale }),
+      }).then((r) => r.json()),
+      fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: contentText, targetLocale: locale }),
+      }).then((r) => r.json()),
+    ])
+      .then(([titleData, contentData]) => {
+        setTitleTranslation(titleData.translated || titleText);
+        setContentTranslation(contentData.translated || contentText);
+      })
+      .catch(() => {
+        // 번역 실패 시 원문 유지
+      })
+      .finally(() => setTranslating(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, locale]);
+
   if (!post || postDeleted) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-4">
@@ -173,8 +214,11 @@ export default function PostDetailPage({
     );
   }
 
-  const title = isKo ? post.title : post.titleEn;
-  const content = isKo ? post.content : post.contentEn;
+  const originalTitle = isKo ? post.title : post.titleEn;
+  const originalContent = isKo ? post.content : post.contentEn;
+  // 번역 결과가 있고 원문 보기가 아니면 번역문 사용
+  const title = (titleTranslation && !showOriginal) ? titleTranslation : originalTitle;
+  const content = (contentTranslation && !showOriginal) ? contentTranslation : originalContent;
 
   // 투표 처리
   function handleVote(type: "up" | "down") {
@@ -215,23 +259,33 @@ export default function PostDetailPage({
     }
   }
 
-  // 제목 번역
+  // 수동 번역 토글 (자동 번역이 없을 때만 사용)
   async function handleTranslate() {
     if (titleTranslation) {
+      // 번역 숨기기
       setTitleTranslation("");
+      setContentTranslation("");
+      setShowOriginal(false);
       return;
     }
     setTranslating(true);
     try {
-      const res = await fetch("/api/translate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: title, targetLocale: locale }),
-      });
-      const data = await res.json();
-      setTitleTranslation(data.translated || title);
+      const [titleData, contentData] = await Promise.all([
+        fetch("/api/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: originalTitle, targetLocale: locale }),
+        }).then((r) => r.json()),
+        fetch("/api/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: originalContent, targetLocale: locale }),
+        }).then((r) => r.json()),
+      ]);
+      setTitleTranslation(titleData.translated || originalTitle);
+      setContentTranslation(contentData.translated || originalContent);
     } catch {
-      setTitleTranslation(title);
+      setTitleTranslation(originalTitle);
     } finally {
       setTranslating(false);
     }
@@ -359,21 +413,39 @@ export default function PostDetailPage({
             </div>
           )}
 
+          {/* 언어 표시 — 작성 언어가 다를 때 */}
+          {needsTranslation && (
+            <div className="mt-2 flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-gray-500 bg-stone-50 rounded-full px-2.5 py-1 border border-stone-100">
+                {postFlag} {getLangName(postLang, isKo)}{isKo ? "로 작성됨" : " post"}
+              </span>
+              {/* 번역 완료 시 원문 보기 토글 */}
+              {titleTranslation && !translating && (
+                <button
+                  onClick={() => setShowOriginal((v) => !v)}
+                  className="text-xs text-blue-500 hover:text-blue-700 transition-colors underline"
+                >
+                  {showOriginal
+                    ? (isKo ? "번역문 보기" : "Show translation")
+                    : (isKo ? "원문 보기" : "Show original")}
+                </button>
+              )}
+            </div>
+          )}
+
           {/* 제목 */}
           <h1 className="mt-3 text-xl font-bold text-gray-900 sm:text-2xl leading-snug">
             {title}
           </h1>
 
-          {/* 번역된 제목 */}
+          {/* 자동 번역 중 표시 */}
           {translating && (
-            <p className="mt-1 text-sm text-gray-400 italic">
-              {isKo ? "번역 중..." : "Translating..."}
-            </p>
-          )}
-          {titleTranslation && !translating && (
-            <p className="mt-1 text-sm text-blue-600 bg-blue-50 rounded-lg px-3 py-1.5">
-              {titleTranslation}
-            </p>
+            <div className="mt-1 flex items-center gap-1.5">
+              <div className="h-3 w-3 animate-spin rounded-full border border-blue-300 border-t-transparent" />
+              <p className="text-sm text-gray-400 italic">
+                {isKo ? "번역 중..." : "Translating..."}
+              </p>
+            </div>
           )}
 
           {/* 작성자 정보 */}

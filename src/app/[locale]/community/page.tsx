@@ -8,6 +8,7 @@ import LevelBadge from "@/components/LevelBadge";
 import { createClient } from "@/lib/supabase";
 import { isMaster } from "@/lib/level-system";
 import { DUMMY_POSTS, type FlairType } from "./data/posts";
+import { detectLanguage } from "@/lib/detect-language";
 
 // 카테고리 키 목록
 const CATEGORY_KEYS = [
@@ -179,6 +180,11 @@ function CommunityContent() {
   // 번역 상태 — Map<postId, {text, loading}>
   const [translations, setTranslations] = useState<Record<number, { text: string; loading: boolean }>>({});
 
+  // 자동 번역 결과 — Map<postId, string> (locale이 다른 게시글만)
+  const [autoTranslations, setAutoTranslations] = useState<Record<number, string>>({});
+  // 자동 번역 중인 postId 집합
+  const [autoTranslating, setAutoTranslating] = useState<Set<number>>(new Set());
+
   // before_after 블러 해제 상태 — Set<postId>
   const [blurRevealed, setBlurRevealed] = useState<Set<number>>(new Set());
 
@@ -319,6 +325,48 @@ function CommunityContent() {
   // 무한 스크롤: 현재 page까지만 표시
   const visiblePosts = allSorted.slice(0, page * PAGE_SIZE);
   const hasMore = visiblePosts.length < allSorted.length;
+
+  // 현재 화면에 보이는 게시글 중 locale과 다른 언어 게시글을 자동 번역
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const postsToTranslate = visiblePosts.filter((post) => {
+      const { lang } = detectLanguage(post.title);
+      if (autoTranslations[post.id] || autoTranslating.has(post.id)) return false;
+      // 더미 게시글(id 1~39)은 한/영 제공 — 자동 번역 불필요
+      if (post.id <= 39) return false;
+      return lang !== locale;
+    });
+
+    if (postsToTranslate.length === 0) return;
+
+    setAutoTranslating((prev) => {
+      const next = new Set(prev);
+      postsToTranslate.forEach((p) => next.add(p.id));
+      return next;
+    });
+
+    postsToTranslate.forEach(async (post) => {
+      try {
+        const res = await fetch("/api/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: post.title, targetLocale: locale }),
+        });
+        const data = await res.json();
+        setAutoTranslations((prev) => ({ ...prev, [post.id]: data.translated || post.title }));
+      } catch {
+        // 번역 실패 시 원문 유지
+      } finally {
+        setAutoTranslating((prev) => {
+          const next = new Set(prev);
+          next.delete(post.id);
+          return next;
+        });
+      }
+    });
+  // visiblePosts id 목록이 바뀔 때만 실행
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visiblePosts.map((p) => p.id).join(","), locale]);
 
   // IntersectionObserver로 하단 sentinel 감지
   const loadMore = useCallback(() => {
@@ -501,12 +549,40 @@ function CommunityContent() {
                             {postType === "link" && <span className="text-xs text-gray-400">🔗</span>}
                           </div>
 
-                          {/* 제목 — 클릭 시 상세 페이지 이동 */}
-                          <Link href={`/${locale}/community/${post.id}`}>
-                            <h3 className="mt-1 font-semibold text-gray-800 hover:text-rose-500 transition-colors cursor-pointer">
-                              {post.title}
-                            </h3>
-                          </Link>
+                          {/* 제목 — 국기 + 클릭 시 상세 페이지 이동 */}
+                          {(() => {
+                            const { flag, lang } = detectLanguage(post.title);
+                            const autoTr = autoTranslations[post.id];
+                            const isAutoTranslating = autoTranslating.has(post.id);
+                            // 더미 게시글은 국기 표시하되 원문 그대로
+                            const isDummy = post.id <= 39;
+                            return (
+                              <>
+                                <Link href={`/${locale}/community/${post.id}`}>
+                                  <h3 className="mt-1 font-semibold text-gray-800 hover:text-rose-500 transition-colors cursor-pointer flex items-start gap-1.5">
+                                    <span className="shrink-0 text-base leading-tight">{flag}</span>
+                                    <span>
+                                      {/* 자동 번역 결과가 있으면 번역문 표시, 없으면 원문 */}
+                                      {!isDummy && autoTr ? autoTr : post.title}
+                                    </span>
+                                  </h3>
+                                </Link>
+                                {/* 자동 번역 중 스피너 */}
+                                {!isDummy && isAutoTranslating && (
+                                  <div className="mt-1 flex items-center gap-1">
+                                    <div className="h-3 w-3 animate-spin rounded-full border border-blue-300 border-t-transparent" />
+                                    <span className="text-xs text-gray-400">{isKo ? "번역 중..." : "Translating..."}</span>
+                                  </div>
+                                )}
+                                {/* 번역된 경우 원문을 작은 글씨로 표시 */}
+                                {!isDummy && autoTr && lang !== locale && (
+                                  <p className="mt-0.5 text-xs text-gray-400 truncate">
+                                    {post.title}
+                                  </p>
+                                )}
+                              </>
+                            );
+                          })()}
 
                           {/* 본문 미리보기 2줄 — id 1~10만 표시 */}
                           {preview && (
@@ -515,7 +591,7 @@ function CommunityContent() {
                             </p>
                           )}
 
-                          {/* 번역 결과 표시 */}
+                          {/* 수동 번역 결과 표시 */}
                           {translation?.loading && (
                             <p className="mt-1 text-xs text-gray-400 italic">
                               {isKo ? "번역 중..." : "Translating..."}
