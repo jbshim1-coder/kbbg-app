@@ -139,6 +139,7 @@ export interface Post {
   board_id: string        // 소속 게시판 ID
   author_id: string       // 작성자 ID (users.id 외래키)
   title: string
+  title_en: string | null // 영문 번역 제목 (자동 번역)
   content: string         // 본문 (마크다운 또는 HTML)
   images: string[] | null // 첨부 이미지 URL 배열
   upvotes: number         // 추천 수

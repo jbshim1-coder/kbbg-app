@@ -135,12 +135,33 @@ export default function NewPostPage() {
       return;
     }
 
+    // 영문 제목 자동 번역 (영어가 아닌 경우만)
+    let titleEn: string | null = null;
+    try {
+      const { detectLanguage } = await import("@/lib/detect-language");
+      const { lang } = detectLanguage(title);
+      if (lang !== "en") {
+        const trRes = await fetch("/api/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: title, targetLocale: "en" }),
+        });
+        const trData = await trRes.json();
+        if (trData.translated) titleEn = trData.translated;
+      } else {
+        titleEn = title;
+      }
+    } catch {
+      // 번역 실패 시 null 유지
+    }
+
     const { data: insertedPost, error } = await supabase
       .from("posts")
       .insert({
         board_id: boardId,
         author_id: user.id,
         title,
+        title_en: titleEn,
         content: body,
         images: imageUrls.length > 0 ? imageUrls : null,
       } as never)

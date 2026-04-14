@@ -20,15 +20,16 @@ async function getRecentPosts() {
     const supabase = createServiceRoleClient();
     const { data } = await supabase
       .from("posts")
-      .select("id, title, author_id, upvotes, comment_count, created_at, board_id")
+      .select("id, title, title_en, author_id, upvotes, comment_count, created_at, board_id")
       .order("created_at", { ascending: false })
       .limit(10);
 
     if (!data || data.length === 0) return null;
 
-    return data.map((post: { id: string; title: string; author_id: string; upvotes: number | null; comment_count: number | null }) => ({
+    return data.map((post: { id: string; title: string; title_en: string | null; author_id: string; upvotes: number | null; comment_count: number | null }) => ({
       id: post.id,
       title: post.title,
+      titleEn: post.title_en,
       author: post.author_id?.slice(0, 8) || "user",
       upvotes: post.upvotes || 0,
       comments: post.comment_count || 0,
@@ -136,6 +137,7 @@ export default async function HomePage({
                 {recentPosts ? (
                   recentPosts.map((post) => {
                     const { flag } = detectLanguage(post.title);
+                    const displayTitle = locale !== "ko" && post.titleEn ? post.titleEn : post.title;
                     return (
                     <Link
                       key={post.id}
@@ -143,7 +145,7 @@ export default async function HomePage({
                       className="flex items-start justify-between rounded-[var(--radius-md)] bg-white px-4 py-4 apple-shadow-sm transition-all duration-200 hover:shadow-md gap-3"
                     >
                       <div className="min-w-0 flex-1">
-                        <span className="text-sm font-normal text-[var(--foreground)] break-words">{flag} {post.title}</span>
+                        <span className="text-sm font-normal text-[var(--foreground)] break-words">{flag} {displayTitle}</span>
                         <p className="mt-0.5 text-xs text-[var(--foreground-tertiary)]">by {post.author}</p>
                       </div>
                       <div className="flex shrink-0 gap-3 text-xs text-[var(--foreground-tertiary)] pt-0.5">
