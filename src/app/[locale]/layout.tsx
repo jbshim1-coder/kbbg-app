@@ -34,8 +34,7 @@ export const metadata: Metadata = {
   keywords: [
     "Korean beauty clinic", "K-Beauty", "Korea plastic surgery", "Korea dermatology",
     "Gangnam clinic", "medical tourism Korea", "Korean cosmetic surgery",
-    "Korea LASIK", "Korea dental", "beauty guide", "피부과", "성형외과", "미용 클리닉",
-    "한국 의료관광", "강남 병원", "AI 병원 추천",
+    "Korea LASIK", "Korea dental", "beauty guide", "AI clinic recommendation",
   ],
   // Open Graph 설정 - 소셜 미디어 공유 시 표시되는 정보
   openGraph: {
