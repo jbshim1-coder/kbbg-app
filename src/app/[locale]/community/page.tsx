@@ -62,6 +62,18 @@ function hotScore(upvotes: number, time: string): number {
   return upvotes / Math.max(hours, 1);
 }
 
+// DB 게시글 시간 표시용
+function formatRelativeTime(isoString: string): string {
+  const diff = Date.now() - new Date(isoString).getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
+
 // 16개 카테고리 전체 가상 게시글 — 다양한 국적의 가상 회원
 const INITIAL_POSTS = [
   // 성형외과
@@ -128,7 +140,7 @@ type Reply = { author: string; text: string; time: string };
 const PAGE_SIZE = 10;
 
 // DUMMY_POSTS에서 id에 해당하는 미리보기 텍스트 추출 (isKo에 따라 한/영 선택)
-function getPreview(postId: number, isKo: boolean): string {
+function getPreview(postId: number | string, isKo: boolean): string {
   const dummy = DUMMY_POSTS.find((p) => p.id === postId);
   if (!dummy) return "";
   return isKo ? dummy.preview : dummy.previewEn;
@@ -157,7 +169,22 @@ function CommunityContent() {
   const [activeCategoryKey, setActiveCategoryKey] = useState(initialCat);
   const [sort, setSort] = useState<SortType>("hot");
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("all");
-  const [allPosts, setAllPosts] = useState(INITIAL_POSTS);
+  type CommunityPost = {
+    id: number | string;
+    title: string;
+    categoryKey: string;
+    author: string;
+    level: number;
+    upvotes: number;
+    comments: number;
+    time: string;
+    flair: FlairType;
+    postType: "text" | "image" | "link";
+    isPinned?: boolean;
+    imageUrl?: string;
+    linkUrl?: string;
+  };
+  const [allPosts, setAllPosts] = useState<CommunityPost[]>(INITIAL_POSTS);
   const [master, setMaster] = useState(false);
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -169,24 +196,24 @@ function CommunityContent() {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   // 대댓글 상태 — Map<postId, Reply[]>
-  const [replies, setReplies] = useState<Record<number, Reply[]>>({});
+  const [replies, setReplies] = useState<Record<string | number, Reply[]>>({});
   // 답글 입력창 열려있는 postId
-  const [replyOpenId, setReplyOpenId] = useState<number | null>(null);
+  const [replyOpenId, setReplyOpenId] = useState<number | string | null>(null);
   const [replyText, setReplyText] = useState("");
 
   // 북마크 상태 — Set<postId>
-  const [bookmarks, setBookmarks] = useState<Set<number>>(new Set());
+  const [bookmarks, setBookmarks] = useState<Set<number | string>>(new Set());
 
   // 번역 상태 — Map<postId, {text, loading}>
-  const [translations, setTranslations] = useState<Record<number, { text: string; loading: boolean }>>({});
+  const [translations, setTranslations] = useState<Record<string | number, { text: string; loading: boolean }>>({});
 
   // 자동 번역 결과 — Map<postId, string> (locale이 다른 게시글만)
-  const [autoTranslations, setAutoTranslations] = useState<Record<number, string>>({});
+  const [autoTranslations, setAutoTranslations] = useState<Record<string | number, string>>({});
   // 자동 번역 중인 postId 집합
-  const [autoTranslating, setAutoTranslating] = useState<Set<number>>(new Set());
+  const [autoTranslating, setAutoTranslating] = useState<Set<string | number>>(new Set());
 
   // before_after 블러 해제 상태 — Set<postId>
-  const [blurRevealed, setBlurRevealed] = useState<Set<number>>(new Set());
+  const [blurRevealed, setBlurRevealed] = useState<Set<number | string>>(new Set());
 
   void CATEGORY_KEYS; void setActiveCategoryKey;
 
@@ -215,6 +242,34 @@ function CommunityContent() {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Supabase에서 DB 게시글 로드 → 더미 데이터와 병합
+  useEffect(() => {
+    const supabase = createClient();
+    supabase
+      .from("posts")
+      .select("id, title, content, author_id, upvotes, comment_count, created_at, board_id")
+      .eq("is_deleted", false)
+      .order("created_at", { ascending: false })
+      .limit(50)
+      .then(({ data }) => {
+        if (!data || data.length === 0) return;
+        const dbPosts = data.map((p: { id: string; title: string; author_id: string; upvotes: number; comment_count: number; created_at: string }) => ({
+          id: p.id,
+          title: p.title,
+          categoryKey: "community.plastic_surgery",
+          author: p.author_id?.slice(0, 8) || "user",
+          level: 1,
+          upvotes: p.upvotes || 0,
+          comments: p.comment_count || 0,
+          time: formatRelativeTime(p.created_at),
+          flair: "review" as FlairType,
+          postType: "text" as const,
+        }));
+        setAllPosts((prev) => [...prev, ...dbPosts]);
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // localStorage에서 북마크/답글 로드
   useEffect(() => {
     try {
@@ -227,12 +282,12 @@ function CommunityContent() {
     }
   }, []);
 
-  const handleDeletePost = (postId: number) => {
+  const handleDeletePost = (postId: number | string) => {
     setAllPosts((prev) => prev.filter((p) => p.id !== postId));
   };
 
   // 북마크 토글
-  const handleBookmark = (postId: number) => {
+  const handleBookmark = (postId: number | string) => {
     setBookmarks((prev) => {
       const next = new Set(prev);
       if (next.has(postId)) {
@@ -246,7 +301,7 @@ function CommunityContent() {
   };
 
   // 답글 제출
-  const handleReplySubmit = (postId: number) => {
+  const handleReplySubmit = (postId: number | string) => {
     if (!replyText.trim()) return;
     const newReply: Reply = {
       author: isKo ? "나" : "me",
@@ -263,7 +318,7 @@ function CommunityContent() {
   };
 
   // 번역 요청
-  const handleTranslate = async (postId: number, title: string) => {
+  const handleTranslate = async (postId: number | string, title: string) => {
     if (translations[postId]?.text) {
       setTranslations((prev) => {
         const { [postId]: _, ...rest } = prev;
@@ -317,7 +372,7 @@ function CommunityContent() {
   const sortedNormal = [...normalPosts].sort((a, b) => {
     if (sort === "hot") return hotScore(b.upvotes, b.time) - hotScore(a.upvotes, a.time);
     if (sort === "top") return b.upvotes - a.upvotes;
-    return b.id - a.id; // new
+    return String(b.id).localeCompare(String(a.id)); // new
   });
 
   const allSorted = [...pinnedPosts, ...sortedNormal];
@@ -333,7 +388,7 @@ function CommunityContent() {
       const { lang } = detectLanguage(post.title);
       if (autoTranslations[post.id] || autoTranslating.has(post.id)) return false;
       // 더미 게시글(id 1~39)은 한/영 제공 — 자동 번역 불필요
-      if (post.id <= 39) return false;
+      if (typeof post.id === "number") return false;
       return lang !== locale;
     });
 
@@ -555,7 +610,7 @@ function CommunityContent() {
                             const autoTr = autoTranslations[post.id];
                             const isAutoTranslating = autoTranslating.has(post.id);
                             // 더미 게시글은 국기 표시하되 원문 그대로
-                            const isDummy = post.id <= 39;
+                            const isDummy = typeof post.id === "number";
                             return (
                               <>
                                 <Link href={`/${locale}/community/${post.id}`}>
