@@ -12,8 +12,9 @@ export default function middleware(request: NextRequest) {
   // /ko/ 경로 접근 시 로그인 여부 확인
   if (pathname === '/ko' || pathname.startsWith('/ko/')) {
     // Supabase auth 쿠키로 로그인 상태 판별
+    // 최신 @supabase/ssr 은 토큰이 크면 쿠키를 쪼개 저장함 → `.0`, `.1` 청크도 인증으로 인정
     const hasAuthToken = request.cookies.getAll().some(
-      (c) => c.name.startsWith('sb-') && c.name.endsWith('-auth-token')
+      (c) => c.name.startsWith('sb-') && c.name.includes('-auth-token')
     );
 
     if (!hasAuthToken) {

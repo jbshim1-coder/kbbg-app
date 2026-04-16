@@ -69,10 +69,9 @@ export default function Header() {
     { id: 3, text: currentLocaleCode === "ko" ? "mike_us님이 내 댓글에 답글을 달았습니다." : "mike_us replied to your comment.", time: "3h ago", read: true },
     { id: 4, text: currentLocaleCode === "ko" ? "새 공지사항: 커뮤니티 가이드라인 업데이트" : "Notice: Community guidelines updated.", time: "1d ago", read: true },
   ];
-  // 현재 선택된 언어 (URL 기반으로 초기화)
-  const [currentLocale, setCurrentLocale] = useState<(typeof LOCALES)[number]>(
-    LOCALES.find((l) => l.code === currentLocaleCode) || LOCALES[0]
-  );
+  // 현재 선택된 언어 — URL이 바뀌면(middleware redirect 포함) 항상 pathname과 동기화
+  const currentLocale =
+    LOCALES.find((l) => l.code === currentLocaleCode) || LOCALES[0];
 
   // 어제 방문자 수
   const [yesterdayVisitors, setYesterdayVisitors] = useState(0);
@@ -131,9 +130,8 @@ export default function Header() {
     router.push(`/${currentLocaleCode}/search?q=${encodeURIComponent(query.trim())}`);
   };
 
-  // 언어 선택 핸들러 — 선택한 언어로 URL 변경
+  // 언어 선택 핸들러 — 선택한 언어로 URL 변경 (currentLocale은 pathname에서 자동 동기화됨)
   const handleSelectLocale = (locale: (typeof LOCALES)[number]) => {
-    setCurrentLocale(locale);
     setLangOpen(false);
     // 현재 경로에서 locale 부분만 교체하여 이동
     const restPath = pathname.split("/").slice(2).join("/");
