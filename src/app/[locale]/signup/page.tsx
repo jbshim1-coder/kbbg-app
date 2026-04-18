@@ -12,7 +12,6 @@ export default function SignupPage() {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "en";
-  const isKo = locale === "ko";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +37,7 @@ export default function SignupPage() {
 
     const isHuman = await verifyRecaptcha("signup");
     if (!isHuman) {
-      setErrors({ captcha: isKo ? "보안 검증에 실패했습니다. 다시 시도해주세요." : "Security verification failed. Please try again." });
+      setErrors({ captcha: t("auth.captcha_failed") });
       return;
     }
 

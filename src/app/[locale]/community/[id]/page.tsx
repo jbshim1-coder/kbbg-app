@@ -42,15 +42,15 @@ type DisplayComment = {
   isDb?: boolean; // Supabase에서 온 댓글 여부
 };
 
-function formatRelativeTime(isoString: string, isKo: boolean): string {
+function formatRelativeTime(isoString: string, tFn: (key: string, values?: Record<string, string | number>) => string): string {
   const diff = Date.now() - new Date(isoString).getTime();
   const minutes = Math.floor(diff / 60000);
-  if (minutes < 1) return isKo ? "방금" : "just now";
-  if (minutes < 60) return isKo ? `${minutes}분 전` : `${minutes}m ago`;
+  if (minutes < 1) return tFn("ui.just_now");
+  if (minutes < 60) return tFn("ui.min_ago", { count: minutes });
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return isKo ? `${hours}시간 전` : `${hours}h ago`;
+  if (hours < 24) return tFn("ui.hours_ago", { count: hours });
   const days = Math.floor(hours / 24);
-  return isKo ? `${days}일 전` : `${days}d ago`;
+  return tFn("ui.days_ago", { count: days });
 }
 
 export default function PostDetailPage({
@@ -144,7 +144,7 @@ export default function PostDetailPage({
           author: c.author_id.slice(0, 8), // uuid 앞 8자리로 표시
           level: 1,
           body: c.content,
-          createdAt: formatRelativeTime(c.created_at, isKo),
+          createdAt: formatRelativeTime(c.created_at, t),
           parentId: c.parent_id,
           isDb: true,
         }));
@@ -255,7 +255,7 @@ export default function PostDetailPage({
       navigator.share({ title, url: window.location.href }).catch(() => {});
     } else {
       navigator.clipboard.writeText(window.location.href).catch(() => {});
-      alert(isKo ? "링크가 복사되었습니다" : "Link copied to clipboard");
+      alert(t("ui.link_copied"));
     }
   }
 
@@ -326,7 +326,7 @@ export default function PostDetailPage({
             author: currentUserId.slice(0, 8),
             level: 1,
             body: newComment,
-            createdAt: isKo ? "방금" : "just now",
+            createdAt: t("ui.just_now"),
             isDb: true,
           },
         ]);
@@ -342,10 +342,10 @@ export default function PostDetailPage({
       ...prev,
       {
         id: Date.now(),
-        author: isKo ? "나" : "me",
+        author: t("ui.me"),
         level: 0,
         body: newComment,
-        createdAt: isKo ? "방금" : "just now",
+        createdAt: t("ui.just_now"),
       },
     ]);
     markPosted("comment");
@@ -406,7 +406,7 @@ export default function PostDetailPage({
                   className="absolute inset-0 flex items-center justify-center bg-black/20"
                 >
                   <span className="bg-white/90 text-gray-700 text-sm font-semibold px-6 py-3 rounded-full shadow-lg">
-                    {isKo ? "클릭하여 보기" : "Click to view"}
+                    {t("ui.click_to_view")}
                   </span>
                 </button>
               )}
@@ -426,8 +426,8 @@ export default function PostDetailPage({
                   className="text-xs text-blue-500 hover:text-blue-700 transition-colors underline"
                 >
                   {showOriginal
-                    ? (isKo ? "번역문 보기" : "Show translation")
-                    : (isKo ? "원문 보기" : "Show original")}
+                    ? t("ui.show_translation")
+                    : t("ui.show_original")}
                 </button>
               )}
             </div>
@@ -443,7 +443,7 @@ export default function PostDetailPage({
             <div className="mt-1 flex items-center gap-1.5">
               <div className="h-3 w-3 animate-spin rounded-full border border-blue-300 border-t-transparent" />
               <p className="text-sm text-gray-400 italic">
-                {isKo ? "번역 중..." : "Translating..."}
+                {t("ui.translating")}
               </p>
             </div>
           )}
@@ -498,10 +498,10 @@ export default function PostDetailPage({
               className={`flex items-center gap-1 rounded-xl px-3 min-h-[44px] text-sm transition ${
                 bookmarked ? "text-rose-500" : "text-gray-400 hover:text-rose-400"
               }`}
-              title={isKo ? (bookmarked ? "저장 취소" : "저장") : (bookmarked ? "Unsave" : "Save")}
+              title={bookmarked ? t("ui.unsave") : t("ui.save")}
             >
               {bookmarked ? "🔖" : "📌"}
-              <span className="text-xs">{isKo ? "저장" : "Save"}</span>
+              <span className="text-xs">{bookmarked ? t("ui.unsave") : t("ui.save")}</span>
             </button>
 
             {/* 공유 */}
@@ -509,7 +509,7 @@ export default function PostDetailPage({
               onClick={handleShare}
               className="flex items-center gap-1 rounded-xl px-3 min-h-[44px] text-sm text-gray-400 hover:text-gray-600 transition"
             >
-              🔗 <span className="text-xs">{isKo ? "공유" : "Share"}</span>
+              🔗 <span className="text-xs">{t("ui.share")}</span>
             </button>
 
             {/* 번역 */}
@@ -519,8 +519,8 @@ export default function PostDetailPage({
             >
               🌐 <span className="text-xs">
                 {titleTranslation
-                  ? (isKo ? "번역 숨기기" : "Hide")
-                  : (isKo ? "번역" : "Translate")}
+                  ? t("ui.hide_translation")
+                  : t("ui.translate")}
               </span>
             </button>
           </div>
@@ -551,13 +551,13 @@ export default function PostDetailPage({
           {loggedIn === false ? (
             <div className="mb-5 text-center py-4 bg-white rounded-xl border border-stone-100 shadow-sm">
               <p className="text-sm text-gray-500 mb-2">
-                {isKo ? "댓글을 작성하려면 로그인이 필요합니다" : "Login required to write comments"}
+                {t("ui.login_required_comment")}
               </p>
               <Link
                 href={`/${locale}/signup`}
                 className="inline-flex items-center justify-center px-4 py-2 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-900 transition min-h-[44px] mx-auto"
               >
-                {isKo ? "로그인 / 회원가입" : "Login / Sign Up"}
+                {t("ui.login_signup")}
               </Link>
             </div>
           ) : loggedIn === true ? (
@@ -578,7 +578,7 @@ export default function PostDetailPage({
                 className="mt-2 rounded-xl bg-slate-800 px-6 min-h-[44px] text-sm font-semibold text-white hover:bg-slate-900 disabled:bg-slate-300 disabled:cursor-not-allowed transition"
               >
                 {submittingComment
-                  ? (isKo ? "등록 중..." : "Posting...")
+                  ? t("ui.posting")
                   : t("community.comment_submit")}
               </button>
             </form>
@@ -588,7 +588,7 @@ export default function PostDetailPage({
           <div className="flex flex-col gap-3">
             {topComments.length === 0 && (
               <p className="text-center text-sm text-gray-400 py-8">
-                {isKo ? "아직 댓글이 없습니다. 첫 댓글을 남겨보세요!" : "No comments yet. Be the first to comment!"}
+                {t("ui.no_comments")}
               </p>
             )}
 

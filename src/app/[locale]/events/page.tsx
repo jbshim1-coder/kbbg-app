@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 // 실제 이벤트 데이터 — 매주 갱신 (강남/서초 피부과·성형외과)
 // 최종 업데이트: 2026-03-29
@@ -215,6 +216,7 @@ const EVENTS = [
 type FilterType = "all" | "피부과" | "성형외과" | "안과";
 
 export default function EventsPage() {
+  const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "en";
   const isKo = locale === "ko";
@@ -230,12 +232,10 @@ export default function EventsPage() {
             {t("ui.events_title")}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            {isKo
-              ? "강남·서초 피부과·성형외과 이벤트 단가 (매주 갱신)"
-              : "Gangnam & Seocho dermatology & plastic surgery promotions (updated weekly)"}
+            {t("ui.events_description")}
           </p>
           <p className="text-xs text-gray-400 mt-1">
-            {isKo ? `최종 업데이트: ${EVENTS[0]?.updatedAt}` : `Last updated: ${EVENTS[0]?.updatedAt}`}
+            {t("ui.last_updated", { date: EVENTS[0]?.updatedAt ?? "" })}
           </p>
         </div>
       </div>
@@ -254,7 +254,7 @@ export default function EventsPage() {
                   : "bg-white border border-stone-200 text-gray-600 hover:bg-stone-50"
               }`}
             >
-              {f === "all" ? (isKo ? "전체" : "All") : f}
+              {f === "all" ? t("ui.all") : f}
             </button>
           ))}
         </div>
@@ -306,18 +306,8 @@ export default function EventsPage() {
 
         {/* 안내 */}
         <div className="mt-8 text-center text-xs text-gray-400">
-          <p>{isKo
-            ? "※ 본 정보는 각 병원 홈페이지 공지 기준이며, 실제 가격은 병원에 직접 문의해 주세요."
-            : "※ Prices are based on clinic website listings. Please contact clinics directly for confirmation."}</p>
-          <p className="mt-1">{isKo
-            ? "광고 게재 문의: help@kbeautybuyersguide.com"
-            : locale === "zh" ? "广告咨询: help@kbeautybuyersguide.com"
-            : locale === "ja" ? "広告掲載のお問い合わせ: help@kbeautybuyersguide.com"
-            : locale === "ru" ? "Вопросы по рекламе: help@kbeautybuyersguide.com"
-            : locale === "vi" ? "Hỏi về quảng cáo: help@kbeautybuyersguide.com"
-            : locale === "th" ? "สอบถามเรื่องโฆษณา: help@kbeautybuyersguide.com"
-            : locale === "mn" ? "Зар сурталчилгааны асуулга: help@kbeautybuyersguide.com"
-            : "Advertising inquiries: help@kbeautybuyersguide.com"}</p>
+          <p>{t("ui.events_disclaimer")}</p>
+          <p className="mt-1">{t("ui.events_ad_inquiry")}</p>
         </div>
       </div>
     </main>

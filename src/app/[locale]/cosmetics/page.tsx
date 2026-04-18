@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import type { CosmeticsRankingItem } from "@/app/api/cosmetics/route";
 import { oliveyoungTop20 } from "@/data/cosmetics-oliveyoung";
@@ -64,6 +65,7 @@ function formatPrice(lprice: string): string {
 }
 
 export default function CosmeticsPage() {
+  const t = useTranslations();
   const params = useParams();
   const locale = (params?.locale as string) || "ko";
   const isKo = locale === "ko";
@@ -100,10 +102,10 @@ export default function CosmeticsPage() {
       <section className="bg-gradient-to-br from-slate-50 to-orange-50 px-4 py-12 text-center">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-slate-700">
-            {isKo ? "화장품 랭킹" : "Cosmetics Ranking"}
+            {t("ui.cosmetics_ranking")}
           </p>
           <h1 className="mt-2 text-3xl font-bold text-gray-900">
-            {isKo ? "인기 화장품 TOP 20" : "Popular Cosmetics TOP 20"}
+            {t("ui.popular_cosmetics_top20")}
           </h1>
           {/* 기준일 표시 — 매주 월요일 기준 1주일 */}
           {(() => {
@@ -119,16 +121,12 @@ export default function CosmeticsPage() {
             const fmt = (d: Date) => `${d.getMonth()+1}.${d.getDate()}`;
             return (
               <p className="mt-2 text-xs text-slate-700 font-medium">
-                {isKo
-                  ? `📅 ${year}년 ${month}월 ${week}주차 기준 (${fmt(monday)} ~ ${fmt(sunday)})`
-                  : `📅 ${year} Week ${week} of ${month} (${fmt(monday)} ~ ${fmt(sunday)})`}
+                {t("ui.weekly_range", { year, month, week, start: fmt(monday), end: fmt(sunday) })}
               </p>
             );
           })()}
           <p className="mt-1 text-sm text-gray-500">
-            {isKo
-              ? "매주 월요일 기준 1주일 데이터 집계"
-              : "Weekly data aggregated every Monday"}
+            {t("ui.weekly_data")}
           </p>
         </div>
       </section>
@@ -236,7 +234,7 @@ export default function CosmeticsPage() {
 
               {!loading && !error && items.length === 0 && (
                 <p className="py-10 text-center text-sm text-gray-400">
-                  {isKo ? "결과가 없습니다." : "No results found."}
+                  {t("ui.no_results")}
                 </p>
               )}
             </>
@@ -276,9 +274,7 @@ export default function CosmeticsPage() {
           {/* 출처 표시 */}
           {(source !== "naver" || (!loading && !error && items.length > 0)) && (
             <p className="mt-8 text-center text-xs text-gray-400">
-              {isKo
-                ? `${meta.sourceKo} | ${meta.updateKo}`
-                : `${meta.sourceEn} | ${meta.updateEn}`}
+              {isKo ? `${meta.sourceKo} | ${meta.updateKo}` : `${meta.sourceEn} | ${meta.updateEn}`}
             </p>
           )}
         </div>

@@ -37,6 +37,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "shopping-phinf.pstatic.net",
       },
+      {
+        // YouTube 썸네일 이미지 허용
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
     ],
   },
 };

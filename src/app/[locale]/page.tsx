@@ -1,6 +1,7 @@
 // locale별 홈페이지 — 3대 서비스 중심 레이아웃
 // 1. AI 추천  2. AI 얼굴 분석  3. 병원 찾기
 import Link from "next/link";
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ClinicFilter from "@/components/ClinicFilter";
 import TrendingSidebar from "@/components/TrendingSidebar";
@@ -229,12 +230,12 @@ export default async function HomePage({
                 className="group relative overflow-hidden rounded-[var(--radius-md)] border border-[var(--border-dark)] hover:border-white/20 transition-all duration-200"
               >
                 <div className="relative aspect-video bg-slate-800">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`https://img.youtube.com/vi/${ch.videoId}/mqdefault.jpg`}
+                  <Image
+                    src={`https://i.ytimg.com/vi/${ch.videoId}/mqdefault.jpg`}
                     alt={ch.id}
+                    width={320}
+                    height={180}
                     className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
                   />
                   <span className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded bg-red-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
                     <span className="h-1 w-1 rounded-full bg-white animate-pulse" />

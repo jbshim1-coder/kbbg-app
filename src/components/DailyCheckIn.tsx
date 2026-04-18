@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 // 출석 체크 컴포넌트 — 매일 1회, +1 포인트
-export default function DailyCheckIn({ locale }: { locale: string }) {
+export default function DailyCheckIn({ locale: _locale }: { locale: string }) {
+  const t = useTranslations();
   const [checked, setChecked] = useState(false);
   const [streak, setStreak] = useState(0);
   const [showAnim, setShowAnim] = useState(false);

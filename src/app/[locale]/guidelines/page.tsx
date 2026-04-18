@@ -15,9 +15,7 @@ export default async function GuidelinesPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const isKo = locale === "ko";
-
-  if (isKo) {
+  if (locale === "ko") {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">커뮤니티 가이드라인</h1>

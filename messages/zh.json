@@ -259,7 +259,25 @@
     "sending": "发送中...",
     "success_title": "您的咨询已收到",
     "success_desc": "我们将在1-2个工作日内通过help@kbeautybuyersguide.com回复您。",
-    "error": "提交失败，请直接联系help@kbeautybuyersguide.com。"
+    "error": "提交失败，请直接联系help@kbeautybuyersguide.com。",
+    "inquiry_note": "您的咨询内容也将转发至help@kbeautybuyersguide.com"
+  },
+  "bug_report": {
+    "title": "错误报告",
+    "subtitle": "请告诉我们您在使用网站时发现的错误或不便之处。确认后将给予100P。",
+    "points_banner": "采纳的报告可获得100P",
+    "pc_only_title": "仅可在PC上使用",
+    "pc_only_desc": "此功能仅可在PC上使用，请通过桌面浏览器访问。",
+    "login_title": "需要登录",
+    "login_desc": "错误报告仅限会员使用，请登录或注册后使用。",
+    "success_title": "报告已受理",
+    "success_desc": "管理员确认后将给予100P。",
+    "desc_label": "报告内容",
+    "desc_placeholder": "请详细描述发生的错误。（在哪个页面，执行了什么操作，发生了什么问题）",
+    "submitting": "提交中...",
+    "submit_btn": "提交报告",
+    "go_home": "返回首页",
+    "error_msg": "提交时发生错误，请重试。"
   },
   "auth": {
     "login": "登录",
@@ -290,7 +308,8 @@
     "and": "和",
     "privacy": "隐私政策",
     "social_login": "使用 {provider} 继续",
-    "logout": "退出登录"
+    "logout": "退出登录",
+    "captcha_failed": "安全验证失败，请重试。"
   },
   "footer": {
     "disclaimer": "免责声明",
@@ -657,7 +676,26 @@
     "benefit3_title": "数据面板",
     "benefit3_desc": "实时分析追踪您的表现",
     "benefit4_title": "全球曝光",
-    "benefit4_desc": "通过平台向8个国家的用户展示内容"
+    "benefit4_desc": "通过平台向8个国家的用户展示内容",
+    "partnership_label": "网红合作",
+    "hero_title": "与K-Beauty Buyers Guide合作",
+    "hero_desc": "招募美妆和医疗领域网红。共同成长，向全球粉丝传播韩国美丽。",
+    "benefits_title": "合作福利",
+    "who_can_apply": "申请资格",
+    "qualify1": "SNS粉丝1,000人以上",
+    "qualify2": "美妆/医疗相关内容",
+    "qualify3": "韩语或其他语言均可",
+    "apply_title": "申请合作",
+    "form_name": "姓名 / 活动名",
+    "form_email": "邮箱",
+    "form_sns": "SNS频道URL",
+    "form_followers": "粉丝数",
+    "form_message": "留言",
+    "submitting": "申请中...",
+    "submit_btn": "提交申请",
+    "success_title": "申请已受理！",
+    "success_desc": "审核后将通过邮件与您联系。",
+    "error_msg": "发生错误，请稍后再试。"
   },
   "trending": {
     "popular_posts": "实时热门帖子",
@@ -756,6 +794,11 @@
     "doctors_count": "{count}位医生",
     "specialists_count": "{count}位专家",
     "reviews_count": "{count}条评价",
+    "loading_step_0": "正在分析您的请求...",
+    "loading_step_1": "正在搜索验证过的诊所...",
+    "loading_step_2": "正在准备个性化推荐...",
+    "region_prompt": "选择地区以获得更准确的结果",
+    "search_error": "搜索\"{query}\"时出错。",
     "ai_search_members_only": "AI搜索仅限会员使用。\n免费注册即可体验！",
     "beauty_title_1": "韩国美容整形",
     "beauty_title_2": "买家指南",
@@ -841,6 +884,16 @@
     "posting": "发布中...",
     "no_comments": "还没有评论，快来抢沙发！",
     "show_translation": "显示翻译",
-    "show_original": "显示原文"
+    "show_original": "显示原文",
+    "min_ago": "{count}分钟前",
+    "hours_ago": "{count}小时前",
+    "days_ago": "{count}天前",
+    "cosmetics_ranking": "化妆品排行",
+    "popular_cosmetics_top20": "人气化妆品 TOP 20",
+    "weekly_range": "📅 {year}年 {month}月 第{week}周 ({start} ~ {end})",
+    "weekly_data": "每周一基准的一周数据汇总",
+    "events_description": "江南·瑞草皮肤科·整形外科优惠活动 (每周更新)",
+    "events_disclaimer": "※ 本信息基于各医院官网公告，实际价格请直接联系医院确认。",
+    "events_ad_inquiry": "广告咨询: help@kbeautybuyersguide.com"
   }
 }

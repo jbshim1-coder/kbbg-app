@@ -259,7 +259,25 @@
     "sending": "送信中...",
     "success_title": "お問い合わせを受け付けました",
     "success_desc": "help@kbeautybuyersguide.comより1〜2営業日以内にご返信いたします。",
-    "error": "送信に失敗しました。直接help@kbeautybuyersguide.comまでご連絡ください。"
+    "error": "送信に失敗しました。直接help@kbeautybuyersguide.comまでご連絡ください。",
+    "inquiry_note": "お問い合わせ内容はhelp@kbeautybuyersguide.comにも転送されます"
+  },
+  "bug_report": {
+    "title": "バグ報告",
+    "subtitle": "サイト利用中に見つけたエラーや不便な点をお知らせください。確認後100Pを進呈します。",
+    "points_banner": "採用された報告には100Pを進呈",
+    "pc_only_title": "PCでのみご利用いただけます",
+    "pc_only_desc": "この機能はPCでのみご利用いただけます。デスクトップブラウザからアクセスしてください。",
+    "login_title": "ログインが必要です",
+    "login_desc": "バグ報告は会員のみ可能です。ログインまたは会員登録後にご利用ください。",
+    "success_title": "報告を受け付けました",
+    "success_desc": "管理者確認後、100Pが付与されます。",
+    "desc_label": "報告内容",
+    "desc_placeholder": "どのようなエラーが発生したか詳しく説明してください。（どのページで、何をしたときに、何が起きたか）",
+    "submitting": "送信中...",
+    "submit_btn": "報告を送信",
+    "go_home": "ホームへ",
+    "error_msg": "送信中にエラーが発生しました。もう一度お試しください。"
   },
   "auth": {
     "login": "ログイン",
@@ -290,7 +308,8 @@
     "and": "および",
     "privacy": "プライバシーポリシー",
     "social_login": "{provider}で続ける",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "captcha_failed": "セキュリティ認証に失敗しました。もう一度お試しください。"
   },
   "footer": {
     "disclaimer": "免責事項",
@@ -657,7 +676,26 @@
     "benefit3_title": "分析ダッシュボード",
     "benefit3_desc": "リアルタイム分析で成果を追跡",
     "benefit4_title": "グローバル露出",
-    "benefit4_desc": "8カ国のユーザーにコンテンツを配信"
+    "benefit4_desc": "8カ国のユーザーにコンテンツを配信",
+    "partnership_label": "インフルエンサー提携",
+    "hero_title": "K-Beauty Buyers Guideと一緒に",
+    "hero_desc": "ビューティー・医療分野のインフルエンサーを募集中。一緒に成長し、韓国の美をグローバルなファンへ届けましょう。",
+    "benefits_title": "提携メリット",
+    "who_can_apply": "応募資格",
+    "qualify1": "SNSフォロワー1,000人以上",
+    "qualify2": "ビューティー・医療関連コンテンツ",
+    "qualify3": "日本語または他言語対応可",
+    "apply_title": "提携申し込み",
+    "form_name": "名前 / 活動名",
+    "form_email": "メール",
+    "form_sns": "SNSチャンネルURL",
+    "form_followers": "フォロワー数",
+    "form_message": "メッセージ",
+    "submitting": "申し込み中...",
+    "submit_btn": "提携を申し込む",
+    "success_title": "申し込みを受け付けました！",
+    "success_desc": "審査後、メールにてご連絡いたします。",
+    "error_msg": "エラーが発生しました。しばらくしてからもう一度お試しください。"
   },
   "trending": {
     "popular_posts": "リアルタイム人気投稿",
@@ -756,6 +794,11 @@
     "doctors_count": "医師{count}名",
     "specialists_count": "専門医{count}名",
     "reviews_count": "レビュー{count}件",
+    "loading_step_0": "リクエストを分析中...",
+    "loading_step_1": "認定クリニックを検索中...",
+    "loading_step_2": "パーソナライズされた推薦を準備中...",
+    "region_prompt": "地域を選択するとより正確な結果が得られます",
+    "search_error": "「{query}」の検索中にエラーが発生しました。",
     "ai_search_members_only": "AI検索は会員限定です。\n無料で登録してご利用ください！",
     "beauty_title_1": "韓国ビューティー整形",
     "beauty_title_2": "バイヤーズガイド",
@@ -841,6 +884,16 @@
     "posting": "投稿中...",
     "no_comments": "まだコメントがありません。最初のコメントを投稿しましょう！",
     "show_translation": "翻訳を表示",
-    "show_original": "原文を表示"
+    "show_original": "原文を表示",
+    "min_ago": "{count}分前",
+    "hours_ago": "{count}時間前",
+    "days_ago": "{count}日前",
+    "cosmetics_ranking": "コスメランキング",
+    "popular_cosmetics_top20": "人気コスメ TOP 20",
+    "weekly_range": "📅 {year}年 {month}月 第{week}週 ({start} ~ {end})",
+    "weekly_data": "毎週月曜日基準の1週間データ集計",
+    "events_description": "カンナム・ソチョ皮膚科・整形外科イベント (毎週更新)",
+    "events_disclaimer": "※ 本情報は各病院のウェブサイト掲載基準です。実際の価格は病院に直接お問い合わせください。",
+    "events_ad_inquiry": "広告掲載のお問い合わせ: help@kbeautybuyersguide.com"
   }
 }

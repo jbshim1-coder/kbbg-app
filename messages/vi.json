@@ -259,7 +259,25 @@
     "sending": "Đang gửi...",
     "success_title": "Yêu cầu của bạn đã được nhận",
     "success_desc": "Chúng tôi sẽ phản hồi trong vòng 1-2 ngày làm việc từ help@kbeautybuyersguide.com.",
-    "error": "Gửi thất bại. Vui lòng liên hệ trực tiếp qua help@kbeautybuyersguide.com."
+    "error": "Gửi thất bại. Vui lòng liên hệ trực tiếp qua help@kbeautybuyersguide.com.",
+    "inquiry_note": "Yêu cầu của bạn cũng sẽ được chuyển tiếp đến help@kbeautybuyersguide.com"
+  },
+  "bug_report": {
+    "title": "Báo cáo lỗi",
+    "subtitle": "Hãy cho chúng tôi biết về lỗi hoặc sự cố bạn gặp phải. Chúng tôi sẽ thưởng cho bạn 100P sau khi xem xét.",
+    "points_banner": "Báo cáo được chấp nhận sẽ nhận 100P",
+    "pc_only_title": "Chỉ khả dụng trên PC",
+    "pc_only_desc": "Tính năng này chỉ khả dụng trên PC. Vui lòng truy cập qua trình duyệt máy tính.",
+    "login_title": "Yêu cầu đăng nhập",
+    "login_desc": "Báo cáo lỗi chỉ dành cho thành viên. Vui lòng đăng nhập hoặc đăng ký.",
+    "success_title": "Báo cáo đã được tiếp nhận",
+    "success_desc": "Sau khi quản trị viên xem xét, 100P sẽ được ghi vào tài khoản của bạn.",
+    "desc_label": "Mô tả",
+    "desc_placeholder": "Vui lòng mô tả chi tiết lỗi. (Trang nào, thao tác gì, điều gì xảy ra)",
+    "submitting": "Đang gửi...",
+    "submit_btn": "Gửi báo cáo",
+    "go_home": "Về trang chủ",
+    "error_msg": "Đã xảy ra lỗi khi gửi. Vui lòng thử lại."
   },
   "auth": {
     "login": "Đăng nhập",
@@ -290,7 +308,8 @@
     "and": "và",
     "privacy": "Chính sách bảo mật",
     "social_login": "Tiếp tục với {provider}",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "captcha_failed": "Xác minh bảo mật thất bại. Vui lòng thử lại."
   },
   "footer": {
     "disclaimer": "Tuyên bố miễn trách nhiệm",
@@ -657,7 +676,26 @@
     "benefit3_title": "Bảng phân tích",
     "benefit3_desc": "Theo dõi hiệu suất với phân tích thời gian thực",
     "benefit4_title": "Tiếp cận toàn cầu",
-    "benefit4_desc": "Tiếp cận người dùng ở 8 quốc gia"
+    "benefit4_desc": "Tiếp cận người dùng ở 8 quốc gia",
+    "partnership_label": "Hợp tác Influencer",
+    "hero_title": "Hợp tác với K-Beauty Buyers Guide",
+    "hero_desc": "Chúng tôi đang tuyển dụng influencer trong lĩnh vực làm đẹp và y tế. Cùng phát triển và giới thiệu vẻ đẹp Hàn Quốc đến người hâm mộ toàn cầu.",
+    "benefits_title": "Quyền lợi đối tác",
+    "who_can_apply": "Điều kiện ứng tuyển",
+    "qualify1": "1.000+ người theo dõi SNS",
+    "qualify2": "Nội dung làm đẹp/y tế",
+    "qualify3": "Tiếng Hàn hoặc ngôn ngữ khác",
+    "apply_title": "Đăng ký hợp tác",
+    "form_name": "Tên / Tên hoạt động",
+    "form_email": "Email",
+    "form_sns": "URL kênh SNS",
+    "form_followers": "Số người theo dõi",
+    "form_message": "Lời nhắn",
+    "submitting": "Đang gửi...",
+    "submit_btn": "Gửi đơn đăng ký",
+    "success_title": "Đơn đăng ký đã được tiếp nhận!",
+    "success_desc": "Chúng tôi sẽ liên hệ qua email sau khi xem xét.",
+    "error_msg": "Đã xảy ra lỗi. Vui lòng thử lại sau."
   },
   "trending": {
     "popular_posts": "Bài Viết Nổi Bật",
@@ -756,6 +794,11 @@
     "doctors_count": "{count} bác sĩ",
     "specialists_count": "{count} chuyên gia",
     "reviews_count": "{count} đánh giá",
+    "loading_step_0": "Đang phân tích yêu cầu của bạn...",
+    "loading_step_1": "Đang tìm kiếm phòng khám được xác minh...",
+    "loading_step_2": "Đang chuẩn bị gợi ý cá nhân hóa...",
+    "region_prompt": "Chọn khu vực để có kết quả chính xác hơn",
+    "search_error": "Lỗi khi tìm kiếm \"{query}\".",
     "ai_search_members_only": "Tìm kiếm AI chỉ dành cho thành viên.\nĐăng ký miễn phí ngay!",
     "beauty_title_1": "Phẫu thuật thẩm mỹ Hàn",
     "beauty_title_2": "Hướng dẫn mua",
@@ -841,6 +884,16 @@
     "posting": "Đang đăng...",
     "no_comments": "Chưa có bình luận. Hãy là người đầu tiên!",
     "show_translation": "Hiện bản dịch",
-    "show_original": "Hiện bản gốc"
+    "show_original": "Hiện bản gốc",
+    "min_ago": "{count} phút trước",
+    "hours_ago": "{count} giờ trước",
+    "days_ago": "{count} ngày trước",
+    "cosmetics_ranking": "Bảng xếp hạng mỹ phẩm",
+    "popular_cosmetics_top20": "Mỹ phẩm phổ biến TOP 20",
+    "weekly_range": "📅 Năm {year}, tháng {month}, tuần {week} ({start} ~ {end})",
+    "weekly_data": "Dữ liệu hàng tuần tính từ thứ Hai",
+    "events_description": "Ưu đãi phòng khám da liễu & thẩm mỹ Gangnam-Seocho (cập nhật hàng tuần)",
+    "events_disclaimer": "※ Thông tin dựa trên trang web của các phòng khám. Vui lòng liên hệ trực tiếp để xác nhận giá.",
+    "events_ad_inquiry": "Hỏi về quảng cáo: help@kbeautybuyersguide.com"
   }
 }

@@ -33,12 +33,12 @@ const REGION_CHIPS = [
   { label: "제주", region: "제주" },
 ];
 
-// 로딩 단계별 메시지
-const LOADING_STEPS = [
-  { ko: "질문을 분석하고 있습니다...", en: "Analyzing your request..." },
-  { ko: "조건에 맞는 병원을 검색하고 있습니다...", en: "Searching verified clinics..." },
-  { ko: "맞춤 추천을 작성하고 있습니다...", en: "Preparing personalized recommendations..." },
-];
+// 로딩 단계별 키 (i18n)
+const LOADING_STEP_KEYS = [
+  "ui.loading_step_0",
+  "ui.loading_step_1",
+  "ui.loading_step_2",
+] as const;
 
 export default function AiSearchPageWrapper() {
   return (
@@ -106,7 +106,7 @@ function AiSearchContent() {
 
     // 단계별 로딩 메시지 전환 (2초 간격)
     stepTimerRef.current = setInterval(() => {
-      setLoadingStep((prev) => Math.min(prev + 1, LOADING_STEPS.length - 1));
+      setLoadingStep((prev) => Math.min(prev + 1, LOADING_STEP_KEYS.length - 1));
     }, 2000);
 
     // AI 검색 API 호출
@@ -130,7 +130,7 @@ function AiSearchContent() {
         if ((err as Error).name === "AbortError") return;
         setResults([]);
         setTotalCount(0);
-        setNarrative(locale === "ko" ? `"${rawQuery}" 검색 중 오류가 발생했습니다.` : `Error searching for "${rawQuery}".`);
+        setNarrative(t("ui.search_error").replace("{query}", rawQuery));
       } finally {
         setIsThinking(false);
         if (stepTimerRef.current) clearInterval(stepTimerRef.current);
@@ -185,8 +185,6 @@ function AiSearchContent() {
     return `/${locale}/hospitals${qs ? `?${qs}` : ""}`;
   };
 
-  const isKo = locale === "ko";
-
   return (
     <main className="min-h-screen bg-stone-50 py-10 px-4">
       <div className="mx-auto max-w-2xl">
@@ -202,7 +200,7 @@ function AiSearchContent() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={isKo ? "강남 성형외과, 피부과 등..." : "Gangnam plastic surgery, dermatology..."}
+              placeholder={t("ui.search_placeholder")}
               className="flex-1 text-sm text-gray-800 placeholder-gray-400 outline-none bg-transparent min-w-0"
             />
             <button
@@ -220,7 +218,7 @@ function AiSearchContent() {
             <div className="bg-white rounded-2xl p-8 shadow-sm flex flex-col items-center gap-4">
               <div className="h-10 w-10 animate-spin rounded-full border-4 border-pink-500 border-t-transparent" />
               <p className="text-sm text-gray-600 animate-pulse">
-                {isKo ? LOADING_STEPS[loadingStep].ko : LOADING_STEPS[loadingStep].en}
+                {t(LOADING_STEP_KEYS[loadingStep])}
               </p>
             </div>
             {/* 스켈레톤 카드 3개 */}
@@ -262,9 +260,7 @@ function AiSearchContent() {
             {needsRegion && results.length > 0 && (
               <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
                 <p className="text-xs text-amber-700 mb-2">
-                  {isKo
-                    ? "지역을 선택하면 더 정확한 결과를 볼 수 있습니다"
-                    : "Select a region for more accurate results"}
+                  {t("ui.region_prompt")}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {REGION_CHIPS.map((chip) => (
@@ -330,14 +326,14 @@ function AiSearchContent() {
                     )}
                     <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-500">
                       {clinic.telno && <span>📞 {clinic.telno}</span>}
-                      {clinic.drTotCnt > 0 && <span>👨‍⚕️ {isKo ? `의사 ${clinic.drTotCnt}명` : `${clinic.drTotCnt} doctors`}</span>}
+                      {clinic.drTotCnt > 0 && <span>👨‍⚕️ {t("ui.doctors_count").replace("{count}", String(clinic.drTotCnt))}</span>}
                       {(clinic.mdeptSdrCnt || clinic.sdrCnt) > 0 && (
-                        <span>🏅 {isKo ? `전문의 ${clinic.mdeptSdrCnt || clinic.sdrCnt}명` : `${clinic.mdeptSdrCnt || clinic.sdrCnt} specialists`}</span>
+                        <span>🏅 {t("ui.specialists_count").replace("{count}", String(clinic.mdeptSdrCnt || clinic.sdrCnt))}</span>
                       )}
                       {clinic.googleRating && clinic.googleRating > 0 && (
                         <span className="text-yellow-600 font-medium">
                           ⭐ {clinic.googleRating.toFixed(1)}
-                          {clinic.googleReviewCount ? ` · ${isKo ? `리뷰 ${clinic.googleReviewCount.toLocaleString()}건` : `${clinic.googleReviewCount.toLocaleString()} reviews`}` : ""}
+                          {clinic.googleReviewCount ? ` · ${t("ui.reviews_count").replace("{count}", clinic.googleReviewCount.toLocaleString())}` : ""}
                         </span>
                       )}
                     </div>
@@ -345,9 +341,7 @@ function AiSearchContent() {
                     {clinic.safeAnesthesiaBadge && (
                       <div className="mt-2">
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-xs font-medium">
-                          🛡️ {isKo
-                            ? t("badge.safe_anesthesia" as Parameters<typeof t>[0])
-                            : t("badge.safe_anesthesia" as Parameters<typeof t>[0])}
+                          🛡️ {t("badge.safe_anesthesia" as Parameters<typeof t>[0])}
                           {clinic.anesthesiaSdrCount > 1 && "+"}
                         </span>
                       </div>
@@ -380,7 +374,7 @@ function AiSearchContent() {
                   <div className="flex items-start gap-3">
                     <span className="text-slate-500 text-lg mt-0.5">✦</span>
                     <div>
-                      <p className="text-xs text-gray-400 mb-2">AI {isKo ? "추천 분석" : "Recommendation"}</p>
+                      <p className="text-xs text-gray-400 mb-2">AI {t("ui.ai_recommendation")}</p>
                       <p className="text-sm text-gray-800 whitespace-pre-line leading-relaxed">
                         {narrative}
                       </p>
@@ -407,7 +401,7 @@ function AiSearchContent() {
                 {t("ai_search.more_filter" as Parameters<typeof t>[0])}
                 {totalCount > 10 && (
                   <span className="ml-1 text-xs opacity-75">
-                    ({totalCount.toLocaleString()}{isKo ? "개 병원" : " clinics"})
+                    ({totalCount.toLocaleString()}{t("ui.clinics_count")})
                   </span>
                 )}
               </Link>

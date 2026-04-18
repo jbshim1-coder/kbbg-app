@@ -258,7 +258,25 @@
     "sending": "Sending...",
     "success_title": "Your inquiry has been received",
     "success_desc": "We will respond within 1-2 business days from help@kbeautybuyersguide.com.",
-    "error": "Failed to submit. Please contact help@kbeautybuyersguide.com directly."
+    "error": "Failed to submit. Please contact help@kbeautybuyersguide.com directly.",
+    "inquiry_note": "Your inquiry will also be forwarded to help@kbeautybuyersguide.com"
+  },
+  "bug_report": {
+    "title": "Report a Bug",
+    "subtitle": "Let us know about any bugs or issues you've encountered. We'll reward you with 100 points after review.",
+    "points_banner": "Earn 100P for accepted bug reports",
+    "pc_only_title": "Available on PC Only",
+    "pc_only_desc": "This feature is only available on PC. Please access via a desktop browser.",
+    "login_title": "Login Required",
+    "login_desc": "Bug reports are available to members only. Please log in or sign up.",
+    "success_title": "Report Submitted",
+    "success_desc": "After admin review, 100 points will be credited to your account.",
+    "desc_label": "Description",
+    "desc_placeholder": "Please describe the bug in detail. (Which page, what action, what happened)",
+    "submitting": "Submitting...",
+    "submit_btn": "Submit Report",
+    "go_home": "Go Home",
+    "error_msg": "An error occurred. Please try again."
   },
   "auth": {
     "login": "Login",
@@ -289,7 +307,8 @@
     "and": "and",
     "privacy": "Privacy Policy",
     "social_login": "Continue with {provider}",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "captcha_failed": "Security verification failed. Please try again."
   },
   "footer": {
     "disclaimer": "Disclaimer",
@@ -656,7 +675,26 @@
     "benefit3_title": "Analytics Dashboard",
     "benefit3_desc": "Track your performance with real-time analytics",
     "benefit4_title": "Global Exposure",
-    "benefit4_desc": "Reach audiences in 8 countries through our platform"
+    "benefit4_desc": "Reach audiences in 8 countries through our platform",
+    "partnership_label": "Influencer Partnership",
+    "hero_title": "Partner with K-Beauty Buyers Guide",
+    "hero_desc": "We are recruiting beauty & medical influencers. Grow together and introduce Korean beauty to global fans.",
+    "benefits_title": "Partnership Benefits",
+    "who_can_apply": "Who Can Apply",
+    "qualify1": "1,000+ SNS Followers",
+    "qualify2": "Beauty/Medical Content",
+    "qualify3": "Korean or Other Languages",
+    "apply_title": "Apply Now",
+    "form_name": "Name",
+    "form_email": "Email",
+    "form_sns": "SNS Channel URL",
+    "form_followers": "Followers",
+    "form_message": "Message",
+    "submitting": "Submitting...",
+    "submit_btn": "Submit Application",
+    "success_title": "Application Received!",
+    "success_desc": "We will contact you via email after review.",
+    "error_msg": "An error occurred. Please try again later."
   },
   "trending": {
     "popular_posts": "Trending Posts",
@@ -755,6 +793,11 @@
     "doctors_count": "{count} doctors",
     "specialists_count": "{count} specialists",
     "reviews_count": "{count} reviews",
+    "loading_step_0": "Analyzing your request...",
+    "loading_step_1": "Searching verified clinics...",
+    "loading_step_2": "Preparing personalized recommendations...",
+    "region_prompt": "Select a region for more accurate results",
+    "search_error": "Error searching for \"{query}\".",
     "ai_search_members_only": "AI search is available for members only.\nSign up for free!",
     "beauty_title_1": "Korean Beauty Surgery",
     "beauty_title_2": "Buyers Guide",
@@ -840,6 +883,16 @@
     "posting": "Posting...",
     "no_comments": "No comments yet. Be the first to comment!",
     "show_translation": "Show translation",
-    "show_original": "Show original"
+    "show_original": "Show original",
+    "min_ago": "{count}m ago",
+    "hours_ago": "{count}h ago",
+    "days_ago": "{count}d ago",
+    "cosmetics_ranking": "Cosmetics Ranking",
+    "popular_cosmetics_top20": "Popular Cosmetics TOP 20",
+    "weekly_range": "📅 {year} Week {week} of {month} ({start} ~ {end})",
+    "weekly_data": "Weekly data aggregated every Monday",
+    "events_description": "Gangnam & Seocho dermatology & plastic surgery promotions (updated weekly)",
+    "events_disclaimer": "※ Prices are based on clinic website listings. Please contact clinics directly for confirmation.",
+    "events_ad_inquiry": "Advertising inquiries: help@kbeautybuyersguide.com"
   }
 }

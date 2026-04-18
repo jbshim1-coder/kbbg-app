@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 // 공유 버튼 — SNS 공유 시 +2P, 하루 최대 3회
-export default function ShareButton({ locale }: { locale: string }) {
+export default function ShareButton({ locale: _locale }: { locale: string }) {
+  const t = useTranslations();
   const [showToast, setShowToast] = useState(false);
   const [copied, setCopied] = useState(false);
 
