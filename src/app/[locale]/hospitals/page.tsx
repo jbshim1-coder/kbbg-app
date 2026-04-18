@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import type { HiraClinic } from "@/lib/hira-api";
 import { SIDO_CODES, SUBJECT_CODES } from "@/lib/hira-api";
 import type { Ad } from "@/app/api/admin/ads/route";
+import { safeUrl } from "@/lib/safe-url";
 
 function HospitalsContent() {
   const t = useTranslations();
@@ -130,7 +131,7 @@ function HospitalsContent() {
                 <p className="font-semibold text-gray-800">{topAd.title}</p>
                 {topAd.description && <p className="text-sm text-gray-600 mt-1">{topAd.description}</p>}
                 {topAd.linkUrl && (
-                  <a href={topAd.linkUrl} target="_blank" rel="noopener noreferrer sponsored"
+                  <a href={safeUrl(topAd.linkUrl)} target="_blank" rel="noopener noreferrer sponsored"
                     className="inline-block mt-2 text-xs text-gray-500 hover:underline">
                     {t("hospitals.learn_more")}
                   </a>
@@ -153,7 +154,7 @@ function HospitalsContent() {
                         <p className="text-xs text-gray-400 mt-0.5">{clinic.clCdNm} · {clinic.dgsbjtCdNm}</p>
                       </div>
                       {clinic.hospUrl && (
-                        <a href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
+                        <a href={safeUrl(clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`)}
                           target="_blank" rel="noopener noreferrer"
                           className="text-xs text-gray-500 hover:underline shrink-0 min-h-[44px] flex items-start pt-1">
                           {t("hospitals.website")}

@@ -32,7 +32,13 @@ export async function GET() {
 }
 
 // POST: 오늘 방문자 +1
-export async function POST() {
+export async function POST(req: Request) {
+  const origin = req.headers.get("origin") || "";
+  const allowed = ["https://kbeautybuyersguide.com", "https://kbbg-app.vercel.app", "http://localhost:3000"];
+  if (!allowed.some(a => origin.startsWith(a))) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   try {
     const supabase = createServiceRoleClient();
     const today = getKSTDate(0);

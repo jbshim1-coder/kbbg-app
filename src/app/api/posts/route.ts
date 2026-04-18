@@ -1,6 +1,7 @@
 // 게시글 CRUD API — 목록 조회(GET), 새 게시글 작성(POST)
 
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { createServerSupabaseClient } from "@/lib/supabase";
 
 // 게시글 데이터 구조
 interface Post {
@@ -93,6 +94,13 @@ export async function GET(request: NextRequest) {
 // POST /api/posts — 새 게시글 생성
 // 요청 바디: { title, content, author, country?, category? }
 export async function POST(request: NextRequest) {
+  // 로그인 사용자만 게시글 작성 가능
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
 

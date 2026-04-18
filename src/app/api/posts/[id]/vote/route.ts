@@ -1,6 +1,7 @@
 // 게시글 투표 API — 추천(up)/비추천(down) 등록(POST), 투표 취소(DELETE)
 
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { createServerSupabaseClient } from "@/lib/supabase";
 
 // 투표 방향 유형 — "up"(추천) 또는 "down"(비추천)
 type VoteType = "up" | "down";
@@ -17,6 +18,13 @@ export async function POST(
   request: NextRequest,
   ctx: RouteContext<"/api/posts/[id]/vote">
 ) {
+  // 로그인 사용자만 투표 가능
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     // 동적 라우트 파라미터에서 게시글 ID 추출 (Next.js App Router: params는 Promise)
     const { id } = await ctx.params;

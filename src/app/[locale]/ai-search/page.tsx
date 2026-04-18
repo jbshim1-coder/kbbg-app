@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type { HiraClinic } from "@/lib/hira-api";
 import type { Ad } from "@/app/api/admin/ads/route";
+import { safeUrl } from "@/lib/safe-url";
 
 function useLocale() {
   if (typeof window !== "undefined") {
@@ -294,7 +295,7 @@ function AiSearchContent() {
                 )}
                 {topAd.linkUrl && (
                   <a
-                    href={topAd.linkUrl}
+                    href={safeUrl(topAd.linkUrl)}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
                     className="inline-block mt-2 text-xs text-slate-600 hover:underline"
@@ -353,7 +354,7 @@ function AiSearchContent() {
                     )}
                     {clinic.hospUrl && (
                       <a
-                        href={clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`}
+                        href={safeUrl(clinic.hospUrl.startsWith("http") ? clinic.hospUrl : `http://${clinic.hospUrl}`)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block mt-2 text-xs text-slate-600 hover:underline"

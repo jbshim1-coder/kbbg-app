@@ -1,7 +1,10 @@
 // 문의 API — 추천 문의 접수(POST), 문의 상태 조회(GET)
 
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { sendNotificationEmail } from "@/lib/email";
+import { rateLimit } from "@/lib/rate-limit";
+
+const checkLimit = rateLimit("contact", 3);
 
 // 문의 접수 요청 바디 타입
 interface ContactRequest {
@@ -25,6 +28,11 @@ interface ContactResponse {
 // POST /api/contact — 추천 문의 신규 접수
 // 필수 필드 검증 및 이메일 형식 검사 후 접수 처리
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") ?? "unknown";
+  if (!checkLimit(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     // 요청 바디를 ContactRequest 타입으로 파싱
     const body: ContactRequest = await request.json();

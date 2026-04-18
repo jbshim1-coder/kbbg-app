@@ -50,7 +50,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
             className="flex-1 text-sm text-gray-800 placeholder-gray-400 outline-none bg-transparent focus:ring-0 py-3"
           />
           <span className="ml-3 text-gray-400 text-xs font-medium flex items-center gap-1">
-            ✦ AI
+            <span aria-hidden="true">✦</span> <span className="sr-only">AI</span>AI
           </span>
         </div>
 

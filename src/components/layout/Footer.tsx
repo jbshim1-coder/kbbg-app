@@ -106,7 +106,7 @@ export default async function Footer({ locale }: { locale: string }) {
         <div className="py-6 border-t border-[var(--border-dark)] flex flex-col sm:flex-row
           items-center justify-between gap-4">
 
-          <p className="text-xs text-white/30">
+          <p className="text-xs text-white/50">
             {t("footer.copyright", { year: currentYear })}
           </p>
 
@@ -121,7 +121,7 @@ export default async function Footer({ locale }: { locale: string }) {
                 )}
                 <Link
                   href={link.href}
-                  className="text-xs text-white/30 hover:text-[var(--accent-link-dark)] transition-all duration-200"
+                  className="text-xs text-white/50 hover:text-[var(--accent-link-dark)] transition-all duration-200"
                 >
                   {t(link.labelKey as Parameters<typeof t>[0])}
                 </Link>

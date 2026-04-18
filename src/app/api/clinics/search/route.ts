@@ -48,7 +48,10 @@ export async function GET(request: NextRequest) {
         .select("*", { count: "exact" })
         .eq("is_active", true);
 
-      if (keyword) query = query.or(`name.ilike.%${keyword}%,address.ilike.%${keyword}%`);
+      if (keyword) {
+        const sanitized = keyword.replace(/[%_\\]/g, '\\$&');
+        query = query.or(`name.ilike.%${sanitized}%,address.ilike.%${sanitized}%`);
+      }
       if (region) query = query.eq("sido_cd", region);
       if (subject) query = query.eq("dgsbjt_cd", subject);
       if (type === "korean_medicine") query = query.in("cl_cd", ["91", "92"]);

@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { rateLimit } from "@/lib/rate-limit";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const checkLimit = rateLimit("face-analysis", 5);
 
 // Claude 거부 감지 키워드
 const REFUSAL_KEYWORDS = [
@@ -145,6 +147,11 @@ function extractSubjectCodes(text: string): string[] {
 }
 
 export async function POST(req: Request) {
+  const ip = (req as import("next/server").NextRequest).headers.get("x-forwarded-for") ?? "unknown";
+  if (!checkLimit(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const { image, locale } = await req.json();
     if (!image) return NextResponse.json({ error: "No image" }, { status: 400 });

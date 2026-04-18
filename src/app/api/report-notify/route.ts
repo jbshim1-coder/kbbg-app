@@ -1,8 +1,16 @@
 // 신고 이메일 알림 API
 import { NextRequest, NextResponse } from "next/server";
 import { sendNotificationEmail } from "@/lib/email";
+import { rateLimit } from "@/lib/rate-limit";
+
+const checkLimit = rateLimit("report-notify", 3);
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") ?? "unknown";
+  if (!checkLimit(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const { name, email, type, clinicName, description } = await request.json();
 

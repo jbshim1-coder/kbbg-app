@@ -13,7 +13,12 @@ const TARGET_SUBJECTS = ["08", "14", "49", "12"];
 // 수집 대상 지역 코드 (서울, 부산, 대구, 인천, 제주)
 const TARGET_REGIONS = ["110000", "210000", "220000", "230000", "500000"];
 
-export async function POST() {
+export async function POST(req: Request) {
+  const secret = req.headers.get("authorization");
+  if (secret !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const supabase = createServiceRoleClient();
     let totalSynced = 0;

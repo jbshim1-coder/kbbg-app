@@ -1,6 +1,7 @@
 // 댓글 CRUD API — 게시글별 댓글 목록 조회(GET), 댓글 작성(POST), 댓글 삭제(DELETE)
 
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { createServerSupabaseClient } from "@/lib/supabase";
 
 // 댓글 데이터 구조
 interface Comment {
@@ -75,6 +76,13 @@ export async function GET(request: NextRequest) {
 // POST /api/comments — 새 댓글 작성
 // 요청 바디: { postId, author, content, country? }
 export async function POST(request: NextRequest) {
+  // 로그인 사용자만 댓글 작성 가능
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
 
@@ -108,6 +116,13 @@ export async function POST(request: NextRequest) {
 // DELETE /api/comments?id=N — 댓글 삭제
 // id 쿼리 파라미터로 삭제할 댓글 ID 전달
 export async function DELETE(request: NextRequest) {
+  // 로그인 사용자만 댓글 삭제 가능
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   // URL에서 댓글 ID 추출
   const { searchParams } = new URL(request.url);
   const commentId = searchParams.get("id");

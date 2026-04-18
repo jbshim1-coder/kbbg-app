@@ -2,8 +2,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
 import { sendNotificationEmail } from "@/lib/email";
+import { rateLimit } from "@/lib/rate-limit";
+
+const checkLimit = rateLimit("consultation", 3);
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") ?? "unknown";
+  if (!checkLimit(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const body = await request.json();
     const { name, email, age, region, nationality, gender, procedure, message, website_url } = body;

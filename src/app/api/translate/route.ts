@@ -1,7 +1,9 @@
 // 텍스트 번역 API — GPT-4o-mini (비용 절약)
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+const checkLimit = rateLimit("translate", 10);
 
 const LOCALE_NAMES: Record<string, string> = {
   en: "English",
@@ -15,6 +17,11 @@ const LOCALE_NAMES: Record<string, string> = {
 };
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for") ?? "unknown";
+  if (!checkLimit(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const { text, targetLocale } = await req.json();
     if (!text || !targetLocale) {

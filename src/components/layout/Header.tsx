@@ -345,7 +345,7 @@ export default function Header() {
               <Link
                 key={key}
                 href={localePath(`/community?cat=${key}`)}
-                className="px-3 py-1 rounded-[var(--radius-pill)] text-[10px] font-normal text-white/50 hover:text-white hover:bg-white/10 transition-all duration-200 whitespace-nowrap"
+                className="px-3 py-1 rounded-[var(--radius-pill)] text-xs font-normal text-white/50 hover:text-white hover:bg-white/10 transition-all duration-200 whitespace-nowrap"
               >
                 {t(`community.${key}` as Parameters<typeof t>[0])}
               </Link>

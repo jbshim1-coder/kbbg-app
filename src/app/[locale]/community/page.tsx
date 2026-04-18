@@ -494,7 +494,7 @@ function CommunityContent() {
             </button>
           </div>
           {searchQuery && (
-            <p className="mt-2 text-xs text-gray-400">
+            <p className="mt-2 text-xs text-gray-500">
               {isKo
                 ? `"${searchQuery}" 검색 결과: ${allSorted.length}건 ${isSearchAll ? "(전체)" : `(${t(activeCategoryKey as Parameters<typeof t>[0])})`}`
                 : `"${searchQuery}" results: ${allSorted.length} ${isSearchAll ? "(all)" : "(current category)"}`}
@@ -511,7 +511,7 @@ function CommunityContent() {
                 key={s}
                 onClick={() => setSort(s)}
                 className={`min-h-[44px] px-3 font-medium transition-colors rounded-lg ${
-                  sort === s ? "text-rose-500 bg-rose-50" : "text-gray-400 hover:text-gray-600"
+                  sort === s ? "text-rose-500 bg-rose-50" : "text-gray-500 hover:text-gray-600"
                 }`}
               >
                 {s === "hot" ? (isKo ? "🔥 인기" : "🔥 Hot") :
@@ -535,7 +535,7 @@ function CommunityContent() {
 
         {/* 게시글 목록 */}
         {allSorted.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">
+          <div className="text-center py-20 text-gray-500">
             {t("community.title")} — {isKo ? "아직 글이 없습니다" : "No posts yet"}
           </div>
         ) : (
@@ -600,8 +600,8 @@ function CommunityContent() {
                             </span>
                             {flair && <FlairBadge flair={flair} isKo={isKo} />}
                             {/* postType 아이콘 */}
-                            {postType === "image" && <span className="text-xs text-gray-400">🖼️</span>}
-                            {postType === "link" && <span className="text-xs text-gray-400">🔗</span>}
+                            {postType === "image" && <span className="text-xs text-gray-500">🖼️</span>}
+                            {postType === "link" && <span className="text-xs text-gray-500">🔗</span>}
                           </div>
 
                           {/* 제목 — 국기 + 클릭 시 상세 페이지 이동 */}
@@ -627,12 +627,12 @@ function CommunityContent() {
                                 {!isDummy && isAutoTranslating && (
                                   <div className="mt-1 flex items-center gap-1">
                                     <div className="h-3 w-3 animate-spin rounded-full border border-blue-300 border-t-transparent" />
-                                    <span className="text-xs text-gray-400">{isKo ? "번역 중..." : "Translating..."}</span>
+                                    <span className="text-xs text-gray-500">{isKo ? "번역 중..." : "Translating..."}</span>
                                   </div>
                                 )}
                                 {/* 번역된 경우 원문을 작은 글씨로 표시 */}
                                 {!isDummy && autoTr && lang !== locale && (
-                                  <p className="mt-0.5 text-xs text-gray-400 truncate">
+                                  <p className="mt-0.5 text-xs text-gray-500 truncate">
                                     {post.title}
                                   </p>
                                 )}
@@ -649,7 +649,7 @@ function CommunityContent() {
 
                           {/* 수동 번역 결과 표시 */}
                           {translation?.loading && (
-                            <p className="mt-1 text-xs text-gray-400 italic">
+                            <p className="mt-1 text-xs text-gray-500 italic">
                               {isKo ? "번역 중..." : "Translating..."}
                             </p>
                           )}
@@ -659,7 +659,7 @@ function CommunityContent() {
                             </p>
                           )}
 
-                          <div className="mt-1.5 flex items-center gap-2 text-xs text-gray-400">
+                          <div className="mt-1.5 flex items-center gap-2 text-xs text-gray-500">
                             <LevelBadge level={post.level} size="sm" />
                             <span>{post.author}</span>
                             <span>· {post.time}</span>
@@ -667,13 +667,13 @@ function CommunityContent() {
                         </div>
 
                         {/* 우측: 통계 + 북마크 */}
-                        <div className="text-right text-xs text-gray-400 shrink-0 ml-4 flex flex-col items-end gap-1">
+                        <div className="text-right text-xs text-gray-500 shrink-0 ml-4 flex flex-col items-end gap-1">
                           <div>↑ {post.upvotes}</div>
                           <div>💬 {post.comments}</div>
                           {/* 북마크 버튼 — 터치 영역 최소 44px */}
                           <button
                             onClick={() => handleBookmark(post.id)}
-                            className={`text-base transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${isBookmarked ? "text-rose-500" : "text-gray-300 hover:text-gray-400"}`}
+                            className={`text-base transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${isBookmarked ? "text-rose-500" : "text-gray-500 hover:text-gray-600"}`}
                             title={isKo ? (isBookmarked ? "저장 취소" : "저장") : (isBookmarked ? "Unsave" : "Save")}
                           >
                             {isBookmarked ? "🔖" : "📌"}
@@ -697,13 +697,13 @@ function CommunityContent() {
                             setReplyOpenId(isReplyOpen ? null : post.id);
                             setReplyText("");
                           }}
-                          className="text-xs text-gray-400 hover:text-rose-500 transition-colors min-h-[44px] px-3 flex items-center"
+                          className="text-xs text-gray-500 hover:text-rose-500 transition-colors min-h-[44px] px-3 flex items-center"
                         >
                           💬 {isKo ? "답글" : "Reply"}
                         </button>
                         <button
                           onClick={() => handleTranslate(post.id, post.title)}
-                          className="text-xs text-gray-400 hover:text-blue-500 transition-colors min-h-[44px] px-3 flex items-center"
+                          className="text-xs text-gray-500 hover:text-blue-500 transition-colors min-h-[44px] px-3 flex items-center"
                         >
                           🌐 {translation?.text ? (isKo ? "번역 숨기기" : "Hide") : (isKo ? "번역" : "Translate")}
                         </button>
@@ -754,7 +754,7 @@ function CommunityContent() {
                 <div className="h-6 w-6 animate-spin rounded-full border-2 border-rose-300 border-t-transparent" />
               )}
               {!hasMore && allSorted.length > PAGE_SIZE && (
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray-500">
                   {isKo ? "모든 게시글을 불러왔습니다" : "All posts loaded"}
                 </p>
               )}
@@ -768,7 +768,7 @@ function CommunityContent() {
 
 export default function CommunityPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-stone-50 flex items-center justify-center"><p className="text-sm text-gray-400">Loading...</p></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-stone-50 flex items-center justify-center"><p className="text-sm text-gray-500">Loading...</p></div>}>
       <CommunityContent />
     </Suspense>
   );
