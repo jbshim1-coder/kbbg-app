@@ -111,5 +111,5 @@ kbbg-app/
 
 ## 문의
 
-- 이메일: help@2bstory.com
+- 이메일: help@kbeautybuyersguide.com
 - 사이트: [kbeautybuyersguide.com](https://kbeautybuyersguide.com)

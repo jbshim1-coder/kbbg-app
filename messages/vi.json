@@ -261,8 +261,8 @@
     "submit": "Gửi yêu cầu",
     "sending": "Đang gửi...",
     "success_title": "Yêu cầu của bạn đã được nhận",
-    "success_desc": "Chúng tôi sẽ phản hồi trong vòng 1-2 ngày làm việc từ help@2bstory.com.",
-    "error": "Gửi thất bại. Vui lòng liên hệ trực tiếp qua help@2bstory.com."
+    "success_desc": "Chúng tôi sẽ phản hồi trong vòng 1-2 ngày làm việc từ help@kbeautybuyersguide.com.",
+    "error": "Gửi thất bại. Vui lòng liên hệ trực tiếp qua help@kbeautybuyersguide.com."
   },
   "auth": {
     "login": "Đăng nhập",
@@ -299,9 +299,9 @@
     "disclaimer": "Tuyên bố miễn trách nhiệm",
     "privacy": "Chính sách bảo mật",
     "terms": "Điều khoản dịch vụ",
-    "copyright": "© {year} 2bStory. Tất cả quyền được bảo lưu.",
+    "copyright": "© {year} KBBG (kbeautybuyersguide.com). Tất cả quyền được bảo lưu.",
     "company_desc": "Hướng dẫn thẩm mỹ y tế Hàn Quốc đáng tin cậy. Đề xuất cá nhân hóa bằng AI để tìm phòng khám và dịch vụ tốt nhất.",
-    "company_name": "2bStory Co., Ltd.",
+    "company_name": "KBBG (kbeautybuyersguide.com)",
     "company_info": "Thành lập 2008 · 500+ đối tác phòng khám",
     "inquiry": "Liên hệ:",
     "ai_disclaimer": "Đề xuất AI chỉ là thông tin tham khảo, không phải lời khuyên y tế.",
@@ -340,7 +340,7 @@
     "title": "Chính sách bảo mật",
     "last_updated": "Cập nhật lần cuối: 1 tháng 1 năm 2025",
     "s1_title": "1. Mục đích thu thập và sử dụng thông tin cá nhân",
-    "s1_intro": "2bStory (sau đây gọi là \"Công ty\") thu thập và sử dụng thông tin cá nhân cho các mục đích sau:",
+    "s1_intro": "KBBG (kbeautybuyersguide.com) (sau đây gọi là \"Công ty\") thu thập và sử dụng thông tin cá nhân cho các mục đích sau:",
     "s1_item1": "Cung cấp dịch vụ đề xuất phòng khám cá nhân hóa bằng AI",
     "s1_item2": "Vận hành dịch vụ cộng đồng",
     "s1_item3": "Hỗ trợ khách hàng và xử lý yêu cầu",
@@ -369,13 +369,13 @@
     "s6_title": "6. Cán bộ bảo vệ thông tin cá nhân",
     "s6_name": "Họ tên: Kim Minjun",
     "s6_role": "Chức vụ: Cán bộ bảo vệ thông tin cá nhân",
-    "s6_email": "Email: privacy@2bstory.com"
+    "s6_email": "Email: privacy@kbeautybuyersguide.com"
   },
   "terms": {
     "title": "Điều khoản dịch vụ",
     "last_updated": "Cập nhật lần cuối: 1 tháng 1 năm 2025",
     "s1_title": "Điều 1 (Mục đích)",
-    "s1_body": "Các điều khoản này quy định các điều kiện và thủ tục sử dụng dịch vụ KBBG (sau đây gọi là \"Dịch vụ\") do 2bStory (sau đây gọi là \"Công ty\") vận hành, đồng thời xác định quyền, nghĩa vụ và trách nhiệm của Công ty và người dùng.",
+    "s1_body": "Các điều khoản này quy định các điều kiện và thủ tục sử dụng dịch vụ KBBG (sau đây gọi là \"Dịch vụ\") do KBBG (kbeautybuyersguide.com) (sau đây gọi là \"Công ty\") vận hành, đồng thời xác định quyền, nghĩa vụ và trách nhiệm của Công ty và người dùng.",
     "s2_title": "Điều 2 (Định nghĩa)",
     "s2_item1": "\"Dịch vụ\" là dịch vụ cung cấp thông tin phòng khám thẩm mỹ Hàn Quốc và đề xuất AI do Công ty cung cấp.",
     "s2_item2": "\"Người dùng\" là bất kỳ người nào sử dụng Dịch vụ do Công ty cung cấp theo các điều khoản này.",
@@ -540,7 +540,7 @@
     "submitting": "Đang gửi...",
     "success_title": "Đã nhận báo cáo",
     "success_desc": "Cảm ơn bạn đã giúp giữ an toàn cho cộng đồng. Chúng tôi sẽ xem xét báo cáo và thực hiện hành động phù hợp.",
-    "error": "Gửi báo cáo thất bại. Vui lòng thử lại hoặc gửi email đến help@2bstory.com.",
+    "error": "Gửi báo cáo thất bại. Vui lòng thử lại hoặc gửi email đến help@kbeautybuyersguide.com.",
     "clinic_placeholder": "Ví dụ: Phòng khám phẫu thuật thẩm mỹ ABC",
     "type1": "Thông tin phòng khám giả mạo hoặc gây hiểu nhầm",
     "type2": "Đánh giá gian lận",
@@ -722,7 +722,7 @@
     "looking_for_advertiser": "Tìm kiếm nhà quảng cáo",
     "ad_description": "Đặt quảng cáo bệnh viện/thương hiệu tại đây — tiếp cận 1 triệu+ bệnh nhân nước ngoài mỗi tháng",
     "contact": "Liên hệ",
-    "ad_inquiry": "Hỏi về quảng cáo: help@2bstory.com"
+    "ad_inquiry": "Hỏi về quảng cáo: help@kbeautybuyersguide.com"
   },
   "ai_start": {
     "button": "Bắt đầu AI"

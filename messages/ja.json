@@ -261,8 +261,8 @@
     "submit": "お問い合わせを送信",
     "sending": "送信中...",
     "success_title": "お問い合わせを受け付けました",
-    "success_desc": "help@2bstory.comより1〜2営業日以内にご返信いたします。",
-    "error": "送信に失敗しました。直接help@2bstory.comまでご連絡ください。"
+    "success_desc": "help@kbeautybuyersguide.comより1〜2営業日以内にご返信いたします。",
+    "error": "送信に失敗しました。直接help@kbeautybuyersguide.comまでご連絡ください。"
   },
   "auth": {
     "login": "ログイン",
@@ -299,9 +299,9 @@
     "disclaimer": "免責事項",
     "privacy": "プライバシーポリシー",
     "terms": "利用規約",
-    "copyright": "© {year} 2bStory. All rights reserved.",
+    "copyright": "© {year} KBBG (kbeautybuyersguide.com). All rights reserved.",
     "company_desc": "韓国医療美容の信頼できるガイド。AIによるパーソナライズされたおすすめで最適なクリニックと施術を見つけましょう。",
-    "company_name": "2bStory株式会社",
+    "company_name": "KBBG (kbeautybuyersguide.com)",
     "company_info": "2008年設立 · 500以上のクリニックパートナー",
     "inquiry": "お問い合わせ：",
     "ai_disclaimer": "AIのおすすめは参考情報であり、医療アドバイスではありません。",
@@ -340,7 +340,7 @@
     "title": "プライバシーポリシー",
     "last_updated": "最終更新：2025年1月1日",
     "s1_title": "1. 個人情報の収集・利用目的",
-    "s1_intro": "2bStory（以下「当社」）は、以下の目的で個人情報を収集・利用します：",
+    "s1_intro": "KBBG (kbeautybuyersguide.com)（以下「当社」）は、以下の目的で個人情報を収集・利用します：",
     "s1_item1": "AIパーソナライズクリニック推薦サービスの提供",
     "s1_item2": "コミュニティサービスの運営",
     "s1_item3": "お問い合わせおよびカスタマーサポート",
@@ -369,13 +369,13 @@
     "s6_title": "6. 個人情報保護責任者",
     "s6_name": "氏名：金ミンジュン",
     "s6_role": "職位：個人情報保護責任者",
-    "s6_email": "メール：privacy@2bstory.com"
+    "s6_email": "メール：privacy@kbeautybuyersguide.com"
   },
   "terms": {
     "title": "利用規約",
     "last_updated": "最終更新：2025年1月1日",
     "s1_title": "第1条（目的）",
-    "s1_body": "この規約は、2bStory（以下「当社」）が運営するKBBGサービス（以下「サービス」）の利用条件および手続き、当社と利用者の権利・義務および責任事項を定めることを目的とします。",
+    "s1_body": "この規約は、KBBG (kbeautybuyersguide.com)（以下「当社」）が運営するKBBGサービス（以下「サービス」）の利用条件および手続き、当社と利用者の権利・義務および責任事項を定めることを目的とします。",
     "s2_title": "第2条（定義）",
     "s2_item1": "「サービス」とは、当社が提供する韓国ビューティークリニック情報提供およびAI推薦サービスを指します。",
     "s2_item2": "「利用者」とは、この規約に従って当社が提供するサービスを利用するすべての者を指します。",
@@ -540,7 +540,7 @@
     "submitting": "送信中...",
     "success_title": "通報を受け付けました",
     "success_desc": "コミュニティの安全維持にご協力いただきありがとうございます。通報内容を確認して適切な措置を取ります。",
-    "error": "通報の送信に失敗しました。再試行するか help@2bstory.com にメールでお問い合わせください。",
+    "error": "通報の送信に失敗しました。再試行するか help@kbeautybuyersguide.com にメールでお問い合わせください。",
     "clinic_placeholder": "例：ABC整形外科クリニック",
     "type1": "虚偽または誤解を招くクリニック情報",
     "type2": "不正な口コミ",
@@ -722,7 +722,7 @@
     "looking_for_advertiser": "広告主を募集しています",
     "ad_description": "この場所に病院/ブランド広告を掲載しましょう — 月間100万人以上の外国人患者にリーチ",
     "contact": "お問い合わせ",
-    "ad_inquiry": "広告掲載のお問い合わせ: help@2bstory.com"
+    "ad_inquiry": "広告掲載のお問い合わせ: help@kbeautybuyersguide.com"
   },
   "ai_start": {
     "button": "AIレコメンド開始"

@@ -261,8 +261,8 @@
     "submit": "发送咨询",
     "sending": "发送中...",
     "success_title": "您的咨询已收到",
-    "success_desc": "我们将在1-2个工作日内通过help@2bstory.com回复您。",
-    "error": "提交失败，请直接联系help@2bstory.com。"
+    "success_desc": "我们将在1-2个工作日内通过help@kbeautybuyersguide.com回复您。",
+    "error": "提交失败，请直接联系help@kbeautybuyersguide.com。"
   },
   "auth": {
     "login": "登录",
@@ -299,9 +299,9 @@
     "disclaimer": "免责声明",
     "privacy": "隐私政策",
     "terms": "服务条款",
-    "copyright": "© {year} 2bStory. 保留所有权利。",
+    "copyright": "© {year} KBBG (kbeautybuyersguide.com). 保留所有权利。",
     "company_desc": "您信赖的韩国医美导航。AI个性化推荐，助您找到最优秀的诊所和项目。",
-    "company_name": "2bStory株式会社",
+    "company_name": "KBBG (kbeautybuyersguide.com)",
     "company_info": "成立于2008年 · 500+诊所合作伙伴",
     "inquiry": "咨询：",
     "ai_disclaimer": "AI推荐仅供参考，不构成医疗建议。",
@@ -369,7 +369,7 @@
     "s6_title": "6. 个人信息保护负责人",
     "s6_name": "姓名：金民俊",
     "s6_role": "职位：个人信息保护负责人",
-    "s6_email": "电子邮件：privacy@2bstory.com"
+    "s6_email": "电子邮件：privacy@kbeautybuyersguide.com"
   },
   "terms": {
     "title": "服务条款",
@@ -540,7 +540,7 @@
     "submitting": "提交中...",
     "success_title": "举报已收到",
     "success_desc": "感谢您帮助维护社区安全，我们将审核您的举报并采取适当措施。",
-    "error": "举报提交失败，请重试或发送邮件至 help@2bstory.com。",
+    "error": "举报提交失败，请重试或发送邮件至 help@kbeautybuyersguide.com。",
     "clinic_placeholder": "例：ABC整形外科诊所",
     "type1": "虚假或误导性诊所信息",
     "type2": "虚假评价",
@@ -722,7 +722,7 @@
     "looking_for_advertiser": "寻找广告商",
     "ad_description": "在此刊登医院/品牌广告 — 每月触达100万+外国患者",
     "contact": "联系我们",
-    "ad_inquiry": "广告咨询: help@2bstory.com"
+    "ad_inquiry": "广告咨询: help@kbeautybuyersguide.com"
   },
   "ai_start": {
     "button": "开始AI推荐"

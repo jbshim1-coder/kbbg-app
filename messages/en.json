@@ -260,8 +260,8 @@
     "submit": "Send Inquiry",
     "sending": "Sending...",
     "success_title": "Your inquiry has been received",
-    "success_desc": "We will respond within 1-2 business days from help@2bstory.com.",
-    "error": "Failed to submit. Please contact help@2bstory.com directly."
+    "success_desc": "We will respond within 1-2 business days from help@kbeautybuyersguide.com.",
+    "error": "Failed to submit. Please contact help@kbeautybuyersguide.com directly."
   },
   "auth": {
     "login": "Login",
@@ -298,9 +298,9 @@
     "disclaimer": "Disclaimer",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "copyright": "© {year} 2bStory. All rights reserved.",
+    "copyright": "© {year} KBBG (kbeautybuyersguide.com). All rights reserved.",
     "company_desc": "Your trusted guide to Korean medical beauty. AI-powered personalized recommendations to find the best clinics and procedures.",
-    "company_name": "2bStory Co., Ltd.",
+    "company_name": "KBBG (kbeautybuyersguide.com)",
     "company_info": "Founded 2008 · 500+ clinic partners",
     "inquiry": "Inquiry:",
     "ai_disclaimer": "AI recommendations are reference information, not medical advice.",
@@ -339,7 +339,7 @@
     "title": "Privacy Policy",
     "last_updated": "Last updated: January 1, 2025",
     "s1_title": "1. Purpose of Collection and Use of Personal Information",
-    "s1_intro": "2bStory (hereinafter \"Company\") collects and uses personal information for the following purposes:",
+    "s1_intro": "KBBG (kbeautybuyersguide.com) (hereinafter \"Company\") collects and uses personal information for the following purposes:",
     "s1_item1": "Providing AI-powered personalized clinic recommendation services",
     "s1_item2": "Operating community services",
     "s1_item3": "Inquiry and customer support",
@@ -368,13 +368,13 @@
     "s6_title": "6. Privacy Officer",
     "s6_name": "Name: Kim Minjun",
     "s6_role": "Position: Privacy Officer",
-    "s6_email": "Email: privacy@2bstory.com"
+    "s6_email": "Email: privacy@kbeautybuyersguide.com"
   },
   "terms": {
     "title": "Terms of Service",
     "last_updated": "Last updated: January 1, 2025",
     "s1_title": "Article 1 (Purpose)",
-    "s1_body": "These terms govern the conditions and procedures for using the KBBG service (hereinafter \"Service\") operated by 2bStory (hereinafter \"Company\"), and define the rights, obligations, and responsibilities of the Company and users.",
+    "s1_body": "These terms govern the conditions and procedures for using the KBBG service (hereinafter \"Service\") operated by KBBG (kbeautybuyersguide.com) (hereinafter \"Company\"), and define the rights, obligations, and responsibilities of the Company and users.",
     "s2_title": "Article 2 (Definitions)",
     "s2_item1": "\"Service\" refers to the Korean beauty clinic information and AI recommendation service provided by the Company.",
     "s2_item2": "\"User\" refers to any person who uses the Service provided by the Company under these terms.",
@@ -539,7 +539,7 @@
     "submitting": "Submitting...",
     "success_title": "Report Received",
     "success_desc": "Thank you for helping keep our community safe. We will review your report and take appropriate action.",
-    "error": "Failed to submit report. Please try again or email us at help@2bstory.com.",
+    "error": "Failed to submit report. Please try again or email us at help@kbeautybuyersguide.com.",
     "clinic_placeholder": "e.g. ABC Plastic Surgery Clinic",
     "type1": "Fake or misleading clinic information",
     "type2": "Fraudulent reviews",
@@ -721,7 +721,7 @@
     "looking_for_advertiser": "Advertise With Us",
     "ad_description": "Reach 1M+ international patients monthly — place your hospital or brand ad here",
     "contact": "Contact Us",
-    "ad_inquiry": "Advertising inquiries: help@2bstory.com"
+    "ad_inquiry": "Advertising inquiries: help@kbeautybuyersguide.com"
   },
   "ai_start": {
     "button": "Start AI Search"

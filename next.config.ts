@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_SITE_NAME: process.env.NEXT_PUBLIC_SITE_NAME ?? "K-Beauty Buyers Guide",
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? "https://kbeautybuyersguide.com",
-    NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "help@2bstory.com",
+    NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "help@kbeautybuyersguide.com",
   },
   // 외부 이미지 도메인 허용 설정
   images: {
