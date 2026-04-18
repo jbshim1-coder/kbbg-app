@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@2bstory.com"
+              placeholder="admin@kbeautybuyersguide.com"
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
               autoComplete="username"

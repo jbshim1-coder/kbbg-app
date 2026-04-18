@@ -113,16 +113,16 @@ function ContactContent() {
           {t("contact.subtitle")}
           <br />
           {t("contact.email_label")}{" "}
-          <a href="mailto:help@2bstory.com" className="text-slate-700 hover:underline">
-            help@2bstory.com
+          <a href="mailto:help@kbeautybuyersguide.com" className="text-slate-700 hover:underline">
+            help@kbeautybuyersguide.com
           </a>
         </p>
 
         {/* 안내 문구 — 문의 내용 전달 경로 안내 */}
         <p className="mt-4 text-xs text-gray-400 bg-gray-50 rounded-lg px-4 py-2.5 border border-gray-100">
           {isKo
-            ? "문의 내용은 help@2bstory.com 으로도 전달됩니다"
-            : "Your inquiry will also be forwarded to help@2bstory.com"}
+            ? "문의 내용은 help@kbeautybuyersguide.com 으로도 전달됩니다"
+            : "Your inquiry will also be forwarded to help@kbeautybuyersguide.com"}
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">

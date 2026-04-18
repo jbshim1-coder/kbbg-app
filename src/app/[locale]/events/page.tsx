@@ -310,14 +310,14 @@ export default function EventsPage() {
             ? "※ 본 정보는 각 병원 홈페이지 공지 기준이며, 실제 가격은 병원에 직접 문의해 주세요."
             : "※ Prices are based on clinic website listings. Please contact clinics directly for confirmation."}</p>
           <p className="mt-1">{isKo
-            ? "광고 게재 문의: help@2bstory.com"
-            : locale === "zh" ? "广告咨询: help@2bstory.com"
-            : locale === "ja" ? "広告掲載のお問い合わせ: help@2bstory.com"
-            : locale === "ru" ? "Вопросы по рекламе: help@2bstory.com"
-            : locale === "vi" ? "Hỏi về quảng cáo: help@2bstory.com"
-            : locale === "th" ? "สอบถามเรื่องโฆษณา: help@2bstory.com"
-            : locale === "mn" ? "Зар сурталчилгааны асуулга: help@2bstory.com"
-            : "Advertising inquiries: help@2bstory.com"}</p>
+            ? "광고 게재 문의: help@kbeautybuyersguide.com"
+            : locale === "zh" ? "广告咨询: help@kbeautybuyersguide.com"
+            : locale === "ja" ? "広告掲載のお問い合わせ: help@kbeautybuyersguide.com"
+            : locale === "ru" ? "Вопросы по рекламе: help@kbeautybuyersguide.com"
+            : locale === "vi" ? "Hỏi về quảng cáo: help@kbeautybuyersguide.com"
+            : locale === "th" ? "สอบถามเรื่องโฆษณา: help@kbeautybuyersguide.com"
+            : locale === "mn" ? "Зар сурталчилгааны асуулга: help@kbeautybuyersguide.com"
+            : "Advertising inquiries: help@kbeautybuyersguide.com"}</p>
         </div>
       </div>
     </main>

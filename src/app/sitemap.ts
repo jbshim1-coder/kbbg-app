@@ -3,7 +3,7 @@
 import type { MetadataRoute } from "next";
 
 // 프로덕션 도메인
-const BASE_URL = "https://kbbg.2bstory.com";
+const BASE_URL = "https://kbeautybuyersguide.com";
 
 // 지원 locale 목록 (routing.ts와 동기화)
 const LOCALES = ["en", "zh", "ja", "ru", "vi", "th", "mn"] as const;

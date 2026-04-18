@@ -105,8 +105,8 @@ export default function ReportPage() {
           {t("report.subtitle")}
           <br />
           {t("report.email_hint")}{" "}
-          <a href="mailto:help@2bstory.com" className="text-slate-700 hover:underline">
-            help@2bstory.com
+          <a href="mailto:help@kbeautybuyersguide.com" className="text-slate-700 hover:underline">
+            help@kbeautybuyersguide.com
           </a>
         </p>
 

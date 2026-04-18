@@ -20,8 +20,8 @@ export default function AdBanner() {
         <div className="flex items-center gap-3 text-sm text-gray-600 shrink-0">
           <span>010-8718-5000</span>
           <span className="hidden sm:inline text-gray-300">|</span>
-          <span className="hidden sm:inline">help@2bstory.com</span>
-          <a href="mailto:help@2bstory.com" className="px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 transition">
+          <span className="hidden sm:inline">help@kbeautybuyersguide.com</span>
+          <a href="mailto:help@kbeautybuyersguide.com" className="px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 transition">
             {t("ad.contact" as Parameters<typeof t>[0])}
           </a>
         </div>

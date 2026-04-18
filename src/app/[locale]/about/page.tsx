@@ -4,7 +4,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 
 // SEO 메타데이터 — E-E-A-T 강화를 위해 구체적 설명 작성
 export const metadata: Metadata = {
-  title: "About Us — KBBG by 2bStory",
+  title: "About Us — KBBG",
   description: "2008년부터 500여개 병원과 함께한 한국 뷰티 마케팅 전문기업 투비스토리를 소개합니다.",
 };
 

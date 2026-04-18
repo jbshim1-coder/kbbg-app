@@ -2,7 +2,7 @@
 // /robots.txt 경로로 자동 서빙됨
 import type { MetadataRoute } from "next";
 
-const BASE_URL = "https://kbbg.2bstory.com";
+const BASE_URL = "https://kbeautybuyersguide.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
