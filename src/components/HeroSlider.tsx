@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import AiSearchBox from "@/components/AiSearchBox";
 
 const SLIDES = [
@@ -13,7 +14,7 @@ const SLIDES = [
 
 export default function HeroSlider({ locale }: { locale: string }) {
   const [current, setCurrent] = useState(0);
-  const isKo = locale === "ko";
+  const t = useTranslations("ui");
 
   useEffect(() => {
     const timer = setInterval(() => setCurrent((c) => (c + 1) % SLIDES.length), 6000);
@@ -47,12 +48,10 @@ export default function HeroSlider({ locale }: { locale: string }) {
       {/* 콘텐츠 — Apple 타이포 */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center max-w-[980px] mx-auto">
         <h1 className="apple-display text-4xl sm:text-5xl lg:text-[56px] text-white">
-          {isKo ? "한국에서 나만의 뷰티를 찾다" : "Find Your Beauty in Korea"}
+          {t("hero_title")}
         </h1>
         <p className="mt-4 text-lg sm:text-xl text-white/80 max-w-2xl apple-body">
-          {isKo
-            ? "AI가 심평원·구글·네이버 데이터를 종합 분석하여 최적의 병원을 추천합니다"
-            : "AI analyzes HIRA, Google & Naver data to recommend the best clinics for you"}
+          {t("hero_sub")}
         </p>
 
         {/* AI 검색 바 — 글래스 효과 */}
@@ -64,9 +63,9 @@ export default function HeroSlider({ locale }: { locale: string }) {
 
         {/* 하단 지표 — Apple 캡션 스타일 */}
         <div className="mt-6 flex flex-wrap justify-center gap-x-8 gap-y-2 apple-caption text-white/60">
-          <span>✓ {isKo ? "무료 AI 분석" : "Free AI Analysis"}</span>
-          <span>✓ {isKo ? "36,000+ 병원" : "36,000+ Clinics"}</span>
-          <span>✓ {isKo ? "8개국 언어" : "8 Languages"}</span>
+          <span>✓ {t("hero_ai")}</span>
+          <span>✓ {t("hero_clinics")}</span>
+          <span>✓ {t("hero_langs")}</span>
         </div>
 
         {/* 슬라이드 인디케이터 — 미니멀 */}

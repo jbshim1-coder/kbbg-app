@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const DEPARTMENTS = [
   { id: 1, code: "08", nameKo: "성형외과", nameEn: "Plastic Surgery", descKo: "쌍꺼풀·코성형·안면윤곽", descEn: "Eyelid · Nose · Face Contouring", isType: false },
@@ -17,11 +18,12 @@ const DEPARTMENTS = [
 
 export default function TopDepartments({ locale }: { locale: string }) {
   const isKo = locale === "ko";
+  const t = useTranslations("ui");
 
   return (
     <div>
       <h2 className="text-lg font-bold text-gray-900 mb-4">
-        {isKo ? "외국인 환자 인기 진료과 TOP 10" : "TOP 10 Departments for International Patients"}
+        {t("top_dept_title")}
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-0 border border-gray-200 rounded-lg overflow-hidden">
         {DEPARTMENTS.map((dept) => (

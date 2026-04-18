@@ -2,9 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function FaceAnalysis({ locale }: { locale: string }) {
-  const isKo = locale === "ko";
+  const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = pathname.split("/")[1] || "en";
@@ -45,7 +46,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
-      setError(isKo ? "파일 크기는 5MB 이하만 가능합니다" : "File size must be under 5MB");
+      setError(t("ui.face_err_size"));
       return;
     }
     const reader = new FileReader();
@@ -73,10 +74,10 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
         setSubjectCodes(data.subjectCodes || ["08"]);
         setFullscreen(true); // 분석 완료 시 전체 화면으로
       } else {
-        setError(data.error || (isKo ? "분석에 실패했습니다" : "Analysis failed"));
+        setError(data.error || t("ui.face_err_fail"));
       }
     } catch {
-      setError(isKo ? "서버 연결에 실패했습니다" : "Server connection failed");
+      setError(t("ui.face_err_server"));
     } finally {
       setLoading(false);
     }
@@ -109,17 +110,15 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
       {/* 헤더 — 시술 시뮬레이션 컨셉 */}
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">
-          {isKo ? "시술하면 어떻게 달라질까?" : "What Would You Look Like After?"}
+          {t("ui.face_title")}
         </h2>
         <p className="text-base text-gray-600 mt-2">
-          {isKo
-            ? "셀카 한 장이면 AI가 맞춤 시술을 분석해드립니다"
-            : "One selfie — AI analyzes the best procedures for you"}
+          {t("ui.face_sub")}
         </p>
         <div className="flex justify-center gap-4 mt-3 text-xs text-gray-400">
-          <span>✓ {isKo ? "무료" : "Free"}</span>
-          <span>✓ {isKo ? "30초 분석" : "30 sec"}</span>
-          <span>✓ {isKo ? "맞춤 병원 연결" : "Hospital match"}</span>
+          <span>✓ {t("ui.face_free")}</span>
+          <span>✓ {t("ui.face_30sec")}</span>
+          <span>✓ {t("ui.face_match")}</span>
         </div>
       </div>
 
@@ -133,9 +132,9 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
           <div className="flex flex-col items-center gap-3">
             <span className="text-5xl group-hover:scale-110 transition-transform">📸</span>
             <span className="text-base font-bold text-gray-800">
-              {isKo ? "내 얼굴에 맞는 시술 확인하기" : "Find the Best Procedure for Your Face"}
+              {t("ui.face_cta")}
             </span>
-            <span className="text-xs text-gray-400">JPG, PNG · 5MB {isKo ? "이하" : "max"}</span>
+            <span className="text-xs text-gray-400">JPG, PNG · 5MB {t("ui.face_max5mb")}</span>
           </div>
         </button>
       ) : !analysis ? (
@@ -150,16 +149,14 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
               onClick={handleReset}
               className="px-6 min-h-[44px] text-sm rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 transition"
             >
-              {isKo ? "다시 선택" : "Re-select"}
+              {t("ui.face_reselect")}
             </button>
             <button
               onClick={handleAnalyze}
               disabled={loading}
               className="px-8 min-h-[44px] text-sm rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-900 transition disabled:opacity-50"
             >
-              {loading
-                ? (isKo ? "AI 분석 중..." : "Analyzing...")
-                : (isKo ? "AI 분석 시작" : "Start Analysis")}
+              {loading ? t("ui.face_analyzing") : t("ui.face_start")}
             </button>
           </div>
           {loading && (
@@ -168,7 +165,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
                 <span className="absolute inset-0 flex items-center justify-center text-3xl animate-spin" style={{ animationDuration: "2s" }}>⏳</span>
               </div>
               <p className="text-sm text-slate-700 font-medium animate-pulse">
-                {isKo ? "AI가 분석하고 있습니다. 잠시만 기다려주세요..." : "AI is analyzing your photo. Please wait..."}
+                {t("ui.face_wait")}
               </p>
             </div>
           )}
@@ -177,20 +174,20 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
         /* 분석 완료 → 결과 보기 유도 */
         <div className="flex flex-col items-center gap-4">
           <p className="text-base text-green-600 font-semibold">
-            {isKo ? "✅ 분석 완료! 결과를 확인하세요" : "✅ Done! Check your results"}
+            {t("ui.face_done")}
           </p>
           <div className="flex gap-3">
             <button
               onClick={handleReset}
               className="px-6 py-2.5 text-sm rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 transition"
             >
-              {isKo ? "다시 분석" : "Analyze Again"}
+              {t("ui.face_again")}
             </button>
             <button
               onClick={() => setFullscreen(true)}
               className="px-8 py-3 text-sm rounded-xl bg-slate-800 text-white font-bold hover:bg-slate-900 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
-              {isKo ? "🪞 분석 결과 & 맞춤 병원 보기" : "🪞 View Results & Hospital Match"}
+              {t("ui.face_results")}
             </button>
           </div>
         </div>
@@ -217,7 +214,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
           <div className="flex items-center gap-3">
             <span className="text-2xl">🪞</span>
             <h2 className="text-lg font-bold text-white">
-              {isKo ? "AI 얼굴 분석 결과" : "AI Face Analysis Results"}
+              {t("ui.face_result_title")}
             </h2>
           </div>
           <button
@@ -258,7 +255,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
               {topAd.linkUrl && (
                 <a href={topAd.linkUrl} target="_blank" rel="noopener noreferrer sponsored"
                   className="inline-block mt-2 text-xs text-gray-500 hover:underline">
-                  {isKo ? "자세히 보기 →" : "Learn more →"}
+                  {t("ui.learn_more")}
                 </a>
               )}
             </div>
@@ -266,7 +263,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
 
           {/* 면책 조항 */}
           <p className="text-[11px] text-gray-400 text-center mb-6">
-            {isKo
+            {locale === "ko"
               ? "※ 이 분석은 AI 참고 정보이며 의료 진단이 아닙니다. 실제 상담은 전문의와 진행하세요."
               : "※ This is AI reference information, not medical diagnosis. Please consult a specialist."}
           </p>
@@ -274,27 +271,27 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
           {/* 맞춤 병원 추천 — 강남/서초 피부과·성형외과 */}
           <div className="text-center space-y-3">
             <p className="text-sm text-gray-500 mb-4">
-              {isKo ? "강남·서초 지역 전문 클리닉을 추천합니다" : "Recommending clinics in Gangnam & Seocho"}
+              {t("ui.face_recommend")}
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <button
                 onClick={() => router.push(`/${currentLocale}/hospitals?dept=14&region=110000`)}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900 transition min-h-[44px]"
               >
-                🏥 {isKo ? "강남·서초 피부과 보기" : "Gangnam Dermatology"}
+                🏥 {t("ui.face_derm")}
               </button>
               <button
                 onClick={() => router.push(`/${currentLocale}/hospitals?dept=08&region=110000`)}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900 transition min-h-[44px]"
               >
-                🏥 {isKo ? "강남·서초 성형외과 보기" : "Gangnam Plastic Surgery"}
+                🏥 {t("ui.face_plastic")}
               </button>
             </div>
             <button
               onClick={() => router.push(`/${currentLocale}`)}
               className="text-xs text-gray-400 hover:text-gray-600 mt-2"
             >
-              {isKo ? "← 홈으로 돌아가기" : "← Back to Home"}
+              {t("ui.face_home")}
             </button>
           </div>
 
@@ -304,13 +301,13 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
               onClick={handleReset}
               className="px-6 min-h-[44px] text-sm rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 transition"
             >
-              {isKo ? "새로 분석하기" : "New Analysis"}
+              {t("ui.face_new")}
             </button>
             <button
               onClick={() => setFullscreen(false)}
               className="px-6 min-h-[44px] text-sm rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-900 transition"
             >
-              {isKo ? "닫기" : "Close"}
+              {t("ui.close")}
             </button>
           </div>
         </div>

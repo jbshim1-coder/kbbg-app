@@ -304,9 +304,9 @@ function CommunityContent() {
   const handleReplySubmit = (postId: number | string) => {
     if (!replyText.trim()) return;
     const newReply: Reply = {
-      author: isKo ? "나" : "me",
+      author: t("ui.me"),
       text: replyText,
-      time: isKo ? "방금" : "just now",
+      time: t("ui.just_now"),
     };
     setReplies((prev) => {
       const next = { ...prev, [postId]: [...(prev[postId] || []), newReply] };
@@ -448,10 +448,10 @@ function CommunityContent() {
   }, [loadMore]);
 
   const timeFilterLabels: Record<TimeFilter, string> = {
-    all:   isKo ? "전체" : "All time",
-    today: isKo ? "오늘" : "Today",
-    week:  isKo ? "이번주" : "This week",
-    month: isKo ? "이번달" : "This month",
+    all:   t("ui.all_time"),
+    today: t("ui.today"),
+    week:  t("ui.this_week"),
+    month: t("ui.this_month"),
   };
 
   return (
@@ -477,7 +477,7 @@ function CommunityContent() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={isKo ? "제목, 작성자 검색..." : "Search by title, author..."}
+              placeholder={t("ui.search_placeholder_community")}
               className="flex-1 px-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 min-h-[44px]"
             />
             <button
@@ -514,9 +514,9 @@ function CommunityContent() {
                   sort === s ? "text-rose-500 bg-rose-50" : "text-gray-500 hover:text-gray-600"
                 }`}
               >
-                {s === "hot" ? (isKo ? "🔥 인기" : "🔥 Hot") :
-                 s === "top" ? (isKo ? "⬆ Top" : "⬆ Top") :
-                               (isKo ? "🆕 최신" : "🆕 New")}
+                {s === "hot" ? t("ui.hot") :
+                 s === "top" ? "⬆ Top" :
+                               t("ui.newest")}
               </button>
             ))}
           </div>
@@ -536,7 +536,7 @@ function CommunityContent() {
         {/* 게시글 목록 */}
         {allSorted.length === 0 ? (
           <div className="text-center py-20 text-gray-500">
-            {t("community.title")} — {isKo ? "아직 글이 없습니다" : "No posts yet"}
+            {t("community.title")} — {t("ui.no_posts")}
           </div>
         ) : (
           <>
@@ -580,7 +580,7 @@ function CommunityContent() {
                             className="absolute inset-0 flex items-center justify-center bg-black/20"
                           >
                             <span className="bg-white/90 text-gray-700 text-xs font-semibold px-4 py-2 rounded-full shadow">
-                              {isKo ? "클릭하여 보기" : "Click to view"}
+                              {t("ui.click_to_view")}
                             </span>
                           </button>
                         )}
@@ -593,7 +593,7 @@ function CommunityContent() {
                           {/* 카테고리 + flair 뱃지 */}
                           <div className="flex items-center gap-1.5 flex-wrap">
                             {isPinned && (
-                              <span className="text-xs text-rose-500 font-medium">📌 {isKo ? "고정" : "Pinned"}</span>
+                              <span className="text-xs text-rose-500 font-medium">📌 {t("ui.pinned")}</span>
                             )}
                             <span className="text-xs text-rose-500 font-medium">
                               {t(post.categoryKey as Parameters<typeof t>[0])}
@@ -627,7 +627,7 @@ function CommunityContent() {
                                 {!isDummy && isAutoTranslating && (
                                   <div className="mt-1 flex items-center gap-1">
                                     <div className="h-3 w-3 animate-spin rounded-full border border-blue-300 border-t-transparent" />
-                                    <span className="text-xs text-gray-500">{isKo ? "번역 중..." : "Translating..."}</span>
+                                    <span className="text-xs text-gray-500">{t("ui.translating")}</span>
                                   </div>
                                 )}
                                 {/* 번역된 경우 원문을 작은 글씨로 표시 */}
@@ -650,7 +650,7 @@ function CommunityContent() {
                           {/* 수동 번역 결과 표시 */}
                           {translation?.loading && (
                             <p className="mt-1 text-xs text-gray-500 italic">
-                              {isKo ? "번역 중..." : "Translating..."}
+                              {t("ui.translating")}
                             </p>
                           )}
                           {translation?.text && !translation.loading && (
@@ -674,7 +674,7 @@ function CommunityContent() {
                           <button
                             onClick={() => handleBookmark(post.id)}
                             className={`text-base transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${isBookmarked ? "text-rose-500" : "text-gray-500 hover:text-gray-600"}`}
-                            title={isKo ? (isBookmarked ? "저장 취소" : "저장") : (isBookmarked ? "Unsave" : "Save")}
+                            title={isBookmarked ? t("ui.unsave") : t("ui.save")}
                           >
                             {isBookmarked ? "🔖" : "📌"}
                           </button>
@@ -699,13 +699,13 @@ function CommunityContent() {
                           }}
                           className="text-xs text-gray-500 hover:text-rose-500 transition-colors min-h-[44px] px-3 flex items-center"
                         >
-                          💬 {isKo ? "답글" : "Reply"}
+                          💬 {t("ui.reply")}
                         </button>
                         <button
                           onClick={() => handleTranslate(post.id, post.title)}
                           className="text-xs text-gray-500 hover:text-blue-500 transition-colors min-h-[44px] px-3 flex items-center"
                         >
-                          🌐 {translation?.text ? (isKo ? "번역 숨기기" : "Hide") : (isKo ? "번역" : "Translate")}
+                          🌐 {translation?.text ? t("ui.hide_translation") : t("ui.translate")}
                         </button>
                       </div>
 
@@ -716,7 +716,7 @@ function CommunityContent() {
                             type="text"
                             value={replyText}
                             onChange={(e) => setReplyText(e.target.value)}
-                            placeholder={isKo ? "답글 입력..." : "Write a reply..."}
+                            placeholder={t("ui.write_reply")}
                             className="flex-1 text-xs px-3 py-2.5 border border-stone-200 rounded-xl outline-none focus:border-rose-300 min-h-[44px]"
                             onKeyDown={(e) => { if (e.key === "Enter") handleReplySubmit(post.id); }}
                           />
@@ -724,7 +724,7 @@ function CommunityContent() {
                             onClick={() => handleReplySubmit(post.id)}
                             className="text-xs px-4 min-h-[44px] bg-rose-400 text-white rounded-xl hover:bg-rose-500 shrink-0"
                           >
-                            {isKo ? "등록" : "Post"}
+                            {t("ui.post")}
                           </button>
                         </div>
                       )}
@@ -755,7 +755,7 @@ function CommunityContent() {
               )}
               {!hasMore && allSorted.length > PAGE_SIZE && (
                 <p className="text-xs text-gray-500">
-                  {isKo ? "모든 게시글을 불러왔습니다" : "All posts loaded"}
+                  {t("ui.all_loaded")}
                 </p>
               )}
             </div>
