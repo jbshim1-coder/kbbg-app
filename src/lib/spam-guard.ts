@@ -56,41 +56,41 @@ export function hasTooManyUrls(text: string, maxUrls: number = 3): boolean {
   return (matches?.length ?? 0) >= maxUrls;
 }
 
+const MSG: Record<string, Record<string, string>> = {
+  prohibited: { ko: "금지된 내용이 포함되어 있습니다", en: "Prohibited content detected", zh: "检测到违禁内容", ja: "禁止コンテンツが検出されました", vi: "Phát hiện nội dung bị cấm", th: "ตรวจพบเนื้อหาต้องห้าม", ru: "Обнаружен запрещённый контент", mn: "Хориотой агуулга илэрсэн" },
+  too_many_urls: { ko: "URL이 너무 많이 포함되어 있습니다", en: "Too many URLs detected", zh: "URL过多", ja: "URLが多すぎます", vi: "Quá nhiều URL", th: "มี URL มากเกินไป", ru: "Слишком много URL", mn: "URL хэт олон" },
+  duplicate: { ko: "동일한 내용을 반복 게시할 수 없습니다", en: "Duplicate content is not allowed", zh: "不允许重复内容", ja: "重複コンテンツは投稿できません", vi: "Không được đăng nội dung trùng lặp", th: "ไม่อนุญาตเนื้อหาซ้ำ", ru: "Дублирование контента запрещено", mn: "Давхардсан агуулга зөвшөөрөхгүй" },
+  rate_limit_post: { ko: "글 작성 간격이 너무 짧습니다. 2분 후 다시 시도해주세요", en: "Please wait 2 minutes between posts", zh: "请等待2分钟再发帖", ja: "2分後に再度お試しください", vi: "Vui lòng đợi 2 phút", th: "กรุณารอ 2 นาที", ru: "Подождите 2 минуты", mn: "2 минут хүлээнэ үү" },
+  duplicate_comment: { ko: "동일한 댓글을 반복 작성할 수 없습니다", en: "Duplicate comments are not allowed", zh: "不允许重复评论", ja: "重複コメントは投稿できません", vi: "Không được bình luận trùng lặp", th: "ไม่อนุญาตความคิดเห็นซ้ำ", ru: "Дублирование комментариев запрещено", mn: "Давхардсан сэтгэгдэл зөвшөөрөхгүй" },
+  rate_limit_comment: { ko: "댓글 간격이 너무 짧습니다. 30초 후 다시 시도해주세요", en: "Please wait 30 seconds between comments", zh: "请等待30秒再评论", ja: "30秒後に再度お試しください", vi: "Vui lòng đợi 30 giây", th: "กรุณารอ 30 วินาที", ru: "Подождите 30 секунд", mn: "30 секунд хүлээнэ үү" },
+};
+
+function msg(key: string, locale: string): string {
+  return MSG[key]?.[locale] || MSG[key]?.en || key;
+}
+
 // 종합 스팸 체크
 export function checkSpam(
   title: string,
   body: string,
   locale: string
 ): { isSpam: boolean; reason: string } {
-  const isKo = locale === "ko";
   const fullText = `${title} ${body}`;
 
   if (containsSpamKeywords(fullText)) {
-    return {
-      isSpam: true,
-      reason: isKo ? "금지된 내용이 포함되어 있습니다" : "Prohibited content detected",
-    };
+    return { isSpam: true, reason: msg("prohibited", locale) };
   }
 
   if (hasTooManyUrls(fullText)) {
-    return {
-      isSpam: true,
-      reason: isKo ? "URL이 너무 많이 포함되어 있습니다" : "Too many URLs detected",
-    };
+    return { isSpam: true, reason: msg("too_many_urls", locale) };
   }
 
   if (isDuplicateContent(fullText, "post")) {
-    return {
-      isSpam: true,
-      reason: isKo ? "동일한 내용을 반복 게시할 수 없습니다" : "Duplicate content is not allowed",
-    };
+    return { isSpam: true, reason: msg("duplicate", locale) };
   }
 
   if (!canPost("post", 2)) {
-    return {
-      isSpam: true,
-      reason: isKo ? "글 작성 간격이 너무 짧습니다. 2분 후 다시 시도해주세요" : "Please wait 2 minutes between posts",
-    };
+    return { isSpam: true, reason: msg("rate_limit_post", locale) };
   }
 
   return { isSpam: false, reason: "" };
@@ -101,34 +101,20 @@ export function checkCommentSpam(
   comment: string,
   locale: string
 ): { isSpam: boolean; reason: string } {
-  const isKo = locale === "ko";
-
   if (containsSpamKeywords(comment)) {
-    return {
-      isSpam: true,
-      reason: isKo ? "금지된 내용이 포함되어 있습니다" : "Prohibited content detected",
-    };
+    return { isSpam: true, reason: msg("prohibited", locale) };
   }
 
   if (hasTooManyUrls(comment)) {
-    return {
-      isSpam: true,
-      reason: isKo ? "URL이 너무 많이 포함되어 있습니다" : "Too many URLs detected",
-    };
+    return { isSpam: true, reason: msg("too_many_urls", locale) };
   }
 
   if (isDuplicateContent(comment, "comment")) {
-    return {
-      isSpam: true,
-      reason: isKo ? "동일한 댓글을 반복 작성할 수 없습니다" : "Duplicate comments are not allowed",
-    };
+    return { isSpam: true, reason: msg("duplicate_comment", locale) };
   }
 
   if (!canPost("comment", 0.5)) {
-    return {
-      isSpam: true,
-      reason: isKo ? "댓글 간격이 너무 짧습니다. 30초 후 다시 시도해주세요" : "Please wait 30 seconds between comments",
-    };
+    return { isSpam: true, reason: msg("rate_limit_comment", locale) };
   }
 
   return { isSpam: false, reason: "" };

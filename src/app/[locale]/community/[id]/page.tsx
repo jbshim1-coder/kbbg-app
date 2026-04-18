@@ -417,7 +417,7 @@ export default function PostDetailPage({
           {needsTranslation && (
             <div className="mt-2 flex items-center gap-2 flex-wrap">
               <span className="text-xs text-gray-500 bg-stone-50 rounded-full px-2.5 py-1 border border-stone-100">
-                {postFlag} {getLangName(postLang, isKo)}{isKo ? "로 작성됨" : " post"}
+                {postFlag} {getLangName(postLang, locale)}{locale === "ko" ? "로 작성됨" : " post"}
               </span>
               {/* 번역 완료 시 원문 보기 토글 */}
               {titleTranslation && !translating && (

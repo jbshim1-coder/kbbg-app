@@ -7,101 +7,68 @@ import { useTranslations } from "next-intl";
 import { SGGU_CODES } from "@/data/sggu-codes";
 import { createClient } from "@/lib/supabase";
 
-// 진료과목 (다국어)
+// 진료과목
 const SPECIALTIES = [
-  { value: "", ko: "진료과 선택", en: "Select Specialty", d: false },
-  { value: "08", ko: "성형외과", en: "Plastic Surgery", d: false },
-  { value: "14", ko: "피부과", en: "Dermatology", d: false },
-  { value: "49", ko: "치과", en: "Dentistry", d: false },
-  { value: "12", ko: "안과", en: "Ophthalmology", d: false },
-  { value: "01", ko: "내과", en: "Internal Medicine", d: false },
-  { value: "02", ko: "신경과", en: "Neurology", d: false },
-  { value: "03", ko: "정신건강의학과", en: "Psychiatry", d: false },
-  { value: "04", ko: "외과", en: "General Surgery", d: false },
-  { value: "05", ko: "정형외과", en: "Orthopedics", d: false },
-  { value: "06", ko: "신경외과", en: "Neurosurgery", d: false },
-  { value: "09", ko: "마취통증의학과", en: "Anesthesiology", d: false },
-  { value: "10", ko: "산부인과", en: "OB/GYN", d: false },
-  { value: "13", ko: "이비인후과", en: "ENT", d: false },
-  { value: "15", ko: "비뇨의학과", en: "Urology", d: false },
-  { value: "21", ko: "재활의학과", en: "Rehabilitation", d: false },
-  { value: "_sep1", ko: "── 한방 ──", en: "── Korean Medicine ──", d: true },
-  { value: "80", ko: "한방내과", en: "Korean Internal Med.", d: false },
-  { value: "81", ko: "한방부인과", en: "Korean OB/GYN", d: false },
-  { value: "82", ko: "한방소아과", en: "Korean Pediatrics", d: false },
-  { value: "83", ko: "한방안이비인후피부과", en: "Korean ENT/Derma", d: false },
-  { value: "84", ko: "한방신경정신과", en: "Korean Neuropsych.", d: false },
-  { value: "85", ko: "한방재활의학과", en: "Korean Rehab.", d: false },
-  { value: "86", ko: "사상체질과", en: "Sasang Medicine", d: false },
-  { value: "87", ko: "침구과", en: "Acupuncture", d: false },
+  { value: "", key: "select_specialty", d: false },
+  { value: "08", key: "plastic_surgery", d: false },
+  { value: "14", key: "dermatology", d: false },
+  { value: "20", key: "internal_med", d: false },
+  { value: "49", key: "dental", d: false },
+  { value: "12", key: "ophthalmology", d: false },
+  { value: "11", key: "obgyn", d: false },
+  { value: "21", key: "orthopedics", d: false },
+  { value: "80", key: "oriental", d: false },
+  { value: "44", key: "urology", d: false },
+  { value: "13", key: "ent", d: false },
 ];
 
-// 시도 (심평원 실제 코드, 다국어)
+// 시도 (심평원 실제 코드)
 const REGIONS = [
-  { value: "", ko: "시/도 선택", en: "Select Region" },
-  { value: "110000", ko: "서울", en: "Seoul" },
-  { value: "210000", ko: "부산", en: "Busan" },
-  { value: "220000", ko: "대구", en: "Daegu" },
-  { value: "230000", ko: "인천", en: "Incheon" },
-  { value: "240000", ko: "광주", en: "Gwangju" },
-  { value: "250000", ko: "대전", en: "Daejeon" },
-  { value: "260000", ko: "울산", en: "Ulsan" },
-  { value: "310000", ko: "경기", en: "Gyeonggi" },
-  { value: "320000", ko: "강원", en: "Gangwon" },
-  { value: "330000", ko: "충북", en: "Chungbuk" },
-  { value: "340000", ko: "충남", en: "Chungnam" },
-  { value: "350000", ko: "전북", en: "Jeonbuk" },
-  { value: "360000", ko: "전남", en: "Jeonnam" },
-  { value: "370000", ko: "경북", en: "Gyeongbuk" },
-  { value: "380000", ko: "경남", en: "Gyeongnam" },
-  { value: "390000", ko: "제주", en: "Jeju" },
-  { value: "410000", ko: "세종", en: "Sejong" },
+  { value: "", key: "select_region" },
+  { value: "110000", key: "seoul" },
+  { value: "210000", key: "busan" },
 ];
 
-// 병원 유형 (다국어)
+// 병원 유형
 const CLINIC_TYPES = [
-  { value: "", ko: "병원 유형 (모두)", en: "Hospital Type (All)" },
-  { value: "01", ko: "상급종합병원", en: "Tertiary Hospital" },
-  { value: "11", ko: "종합병원", en: "General Hospital" },
-  { value: "21", ko: "병원", en: "Hospital" },
-  { value: "28", ko: "요양병원", en: "Long-term Care" },
-  { value: "31", ko: "의원", en: "Clinic" },
+  { value: "", key: "hospital_type_all" },
+  { value: "01", key: "tertiary" },
+  { value: "11", key: "general" },
+  { value: "21", key: "hospital" },
+  { value: "31", key: "clinic" },
 ];
 
-// 전문의/일반의 (다국어)
+// 전문의/일반의
 const DOCTOR_TYPE = [
-  { value: "", ko: "전문의/일반의 (모두)", en: "Specialist/General (All)" },
-  { value: "specialist", ko: "전문의", en: "Specialist" },
-  { value: "general", ko: "일반의", en: "General" },
+  { value: "", key: "spec_gen_all" },
+  { value: "specialist", key: "specialist" },
+  { value: "general", key: "general_doc" },
 ];
 
-// 의사 수 (다국어)
+// 의사 수
 const DOCTOR_COUNT = [
-  { value: "", ko: "의사 수 (모두)", en: "Doctors (All)" },
-  { value: "1", ko: "1명", en: "1" },
-  { value: "2", ko: "2~3명", en: "2~3" },
-  { value: "5", ko: "5명 이상", en: "5+" },
-  { value: "10", ko: "10명 이상", en: "10+" },
+  { value: "", key: "doctors_all" },
+  { value: "1", key: "doc_1" },
+  { value: "2", key: "doc_2_3" },
+  { value: "4", key: "doc_4_plus" },
 ];
 
-// 구글 평점 (다국어)
+// 구글 평점
 const RATING = [
-  { value: "", ko: "구글 평점 (모두)", en: "Google Rating (All)" },
-  { value: "4.5", ko: "4.5점 이상", en: "4.5+" },
-  { value: "4", ko: "4점 이상", en: "4.0+" },
-  { value: "3.5", ko: "3.5점 이상", en: "3.5+" },
-  { value: "3", ko: "3점 이상", en: "3.0+" },
+  { value: "", key: "rating_all" },
+  { value: "4.5", key: "rating_45" },
+  { value: "4", key: "rating_40" },
+  { value: "3.5", key: "rating_35" },
 ];
 
-// 홈페이지 (다국어)
+// 홈페이지
 const WEBSITE = [
-  { value: "", ko: "홈페이지 (모두)", en: "Website (All)" },
-  { value: "yes", ko: "홈페이지 있음", en: "Has Website" },
-  { value: "no", ko: "홈페이지 없음", en: "No Website" },
+  { value: "", key: "website_all" },
+  { value: "yes", key: "has_website" },
+  { value: "no", key: "no_website" },
 ];
 
-export default function ClinicFilter({ locale }: { locale: string }) {
-  const isKo = locale === "ko";
+export default function ClinicFilter({ locale: _locale }: { locale: string }) {
   const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
@@ -171,7 +138,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
           type="text"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder={t("ui.search_clinics")}
+          placeholder={t("cf.search_hospital_placeholder")}
           className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 min-h-[44px]"
         />
       </div>
@@ -179,10 +146,10 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       {/* 필터 그리드 */}
       <div className="grid grid-cols-2 gap-2 mb-2">
         <select value={specialty} onChange={(e) => setSpecialty(e.target.value)} className={sc}>
-          {SPECIALTIES.map((s, i) => <option key={s.value || `s${i}`} value={s.value} disabled={s.d}>{isKo ? s.ko : s.en}</option>)}
+          {SPECIALTIES.map((s, i) => <option key={s.value || `s${i}`} value={s.value} disabled={s.d}>{t(`cf.${s.key}`)}</option>)}
         </select>
         <select value={region} onChange={(e) => handleRegionChange(e.target.value)} className={sc}>
-          {REGIONS.map((r) => <option key={r.value} value={r.value}>{isKo ? r.ko : r.en}</option>)}
+          {REGIONS.map((r) => <option key={r.value} value={r.value}>{t(`cf.${r.key}`)}</option>)}
         </select>
       </div>
       {sgguOptions.length > 0 && (
@@ -194,21 +161,21 @@ export default function ClinicFilter({ locale }: { locale: string }) {
       )}
       <div className="grid grid-cols-2 gap-2 mb-2">
         <select value={clinicType} onChange={(e) => setClinicType(e.target.value)} className={sc}>
-          {CLINIC_TYPES.map((t) => <option key={t.value} value={t.value}>{isKo ? t.ko : t.en}</option>)}
+          {CLINIC_TYPES.map((ct) => <option key={ct.value} value={ct.value}>{t(`cf.${ct.key}`)}</option>)}
         </select>
         <select value={doctorType} onChange={(e) => setDoctorType(e.target.value)} className={sc}>
-          {DOCTOR_TYPE.map((d) => <option key={d.value} value={d.value}>{isKo ? d.ko : d.en}</option>)}
+          {DOCTOR_TYPE.map((dt) => <option key={dt.value} value={dt.value}>{t(`cf.${dt.key}`)}</option>)}
         </select>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
         <select value={doctorCount} onChange={(e) => setDoctorCount(e.target.value)} className={sc}>
-          {DOCTOR_COUNT.map((d) => <option key={d.value} value={d.value}>{isKo ? d.ko : d.en}</option>)}
+          {DOCTOR_COUNT.map((dc) => <option key={dc.value} value={dc.value}>{t(`cf.${dc.key}`)}</option>)}
         </select>
         <select value={rating} onChange={(e) => setRating(e.target.value)} className={sc}>
-          {RATING.map((r) => <option key={r.value} value={r.value}>{isKo ? r.ko : r.en}</option>)}
+          {RATING.map((r) => <option key={r.value} value={r.value}>{t(`cf.${r.key}`)}</option>)}
         </select>
         <select value={website} onChange={(e) => setWebsite(e.target.value)} className={sc}>
-          {WEBSITE.map((w) => <option key={w.value} value={w.value}>{isKo ? w.ko : w.en}</option>)}
+          {WEBSITE.map((w) => <option key={w.value} value={w.value}>{t(`cf.${w.key}`)}</option>)}
         </select>
       </div>
 
@@ -228,7 +195,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
               {t("ui.members_only")}
             </h3>
             <p className="text-sm text-gray-500 mt-2">
-              {t("ui.ai_search_members_only")}
+              {t("cf.clinic_search_members_only")}
             </p>
             <div className="flex gap-3 mt-6">
               <button onClick={() => setShowPopup(false)}
