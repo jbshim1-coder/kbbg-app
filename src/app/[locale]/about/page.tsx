@@ -25,7 +25,7 @@ export default async function AboutPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* 히어로 섹션 */}
-      <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-16 text-center">
+      <section className="bg-gradient-to-br from-blue-50 to-pink-50 px-4 py-8 sm:py-12 lg:py-16 text-center">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-slate-700">{t("badge")}</p>
           <h1 className="mt-2 text-4xl font-bold text-gray-900">

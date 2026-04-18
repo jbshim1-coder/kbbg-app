@@ -281,7 +281,7 @@ export default function Header() {
                 <>
                   <Link
                     href={localePath("/mypage")}
-                    className="flex items-center gap-1.5 text-xs text-white/70 truncate max-w-[120px] hover:text-white transition-all duration-200"
+                    className="flex items-center gap-1.5 text-xs text-white/70 truncate max-w-[80px] sm:max-w-[120px] hover:text-white transition-all duration-200"
                   >
                     {user.user_metadata?.full_name || user.email?.split("@")[0]}
                     <LevelBadge

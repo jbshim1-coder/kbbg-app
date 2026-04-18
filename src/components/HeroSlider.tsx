@@ -21,7 +21,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
   }, []);
 
   return (
-    <section className="relative w-full h-[580px] sm:h-[640px] overflow-hidden bg-black">
+    <section className="relative w-full h-[380px] sm:h-[480px] lg:h-[580px] overflow-hidden bg-black">
       {/* 배경 이미지 — 크로스페이드 */}
       {SLIDES.map((slide, idx) => (
         <div

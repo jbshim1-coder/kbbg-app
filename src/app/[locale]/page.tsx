@@ -66,7 +66,7 @@ export default async function HomePage({
       <HeroSlider locale={locale} />
 
       {/* ━━━ AI 얼굴 분석 + 병원 찾기 — 2분할 ━━━ */}
-      <section className="section-light px-4 py-16">
+      <section className="section-light px-4 py-8 sm:py-12 lg:py-16">
         <div className="mx-auto max-w-[980px] grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* 서비스 2: AI 얼굴 분석 */}
@@ -100,7 +100,7 @@ export default async function HomePage({
       />
 
       {/* ━━━ 운영자에게 병원 추천 받기 ━━━ */}
-      <section className="px-4 py-16 bg-[var(--background)]">
+      <section className="px-4 py-8 sm:py-12 lg:py-16 bg-[var(--background)]">
         <div className="mx-auto max-w-[980px]">
           <div className="bg-white rounded-[var(--radius-lg)] apple-shadow-sm p-6 sm:p-10">
             <div className="flex items-center gap-3 mb-6">
@@ -115,7 +115,7 @@ export default async function HomePage({
       </section>
 
       {/* ━━━ 인기 진료과 + 사이드바 ━━━ */}
-      <section className="px-4 py-16 section-light">
+      <section className="px-4 py-8 sm:py-12 lg:py-16 section-light">
         <div className="mx-auto max-w-[980px] grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           {/* 왼쪽: 인기 진료과 + 커뮤니티 */}
@@ -201,7 +201,7 @@ export default async function HomePage({
       <BeautyBanner />
 
       {/* 한국의 거리 라이브 — 5개 그리드 */}
-      <section className="section-dark px-4 py-16">
+      <section className="section-dark px-4 py-8 sm:py-12 lg:py-16">
         <div className="mx-auto max-w-[980px]">
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
