@@ -20,68 +20,107 @@ const inter = Inter({
   display: "swap",
 });
 
-// 사이트 기본 URL - 환경 변수 없을 경우 프로덕션 URL 사용
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kbbg-app.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kbeautybuyersguide.com";
 
-export const metadata: Metadata = {
-  // 기본 타이틀 및 템플릿 - 페이지별 타이틀 뒤에 사이트명 자동 추가
-  title: {
-    default: "K-Beauty Buyers Guide",
-    template: "%s | K-Beauty Buyers Guide",
+// 언어별 메타데이터
+const META: Record<string, { title: string; description: string; ogDesc: string; twitterDesc: string }> = {
+  en: {
+    title: "KBBG - Korea Beauty Buyers Guide",
+    description: "Compare Korean plastic surgery, dermatology & dental clinics. Get AI-powered recommendations and verified reviews for medical tourism in Seoul Gangnam.",
+    ogDesc: "Compare Korean beauty clinics with AI-powered recommendations. Trusted reviews for plastic surgery, dermatology, dental, and LASIK.",
+    twitterDesc: "Find your perfect Korean beauty clinic — AI recommendations for plastic surgery, dermatology, and more.",
   },
-  description: "Find your perfect Korean beauty clinic with AI-powered recommendations. Trusted reviews for plastic surgery, dermatology, dental, and LASIK in Seoul Gangnam — costs, recovery guides, and multilingual support.",
-  // 메타 키워드
-  keywords: [
-    "Korean beauty clinic", "K-Beauty", "Korea plastic surgery", "Korea dermatology",
-    "Gangnam clinic", "medical tourism Korea", "Korean cosmetic surgery",
-    "Korea LASIK", "Korea dental", "beauty guide", "AI clinic recommendation",
-  ],
-  // Open Graph 설정 - 소셜 미디어 공유 시 표시되는 정보
-  openGraph: {
-    type: "website",
-    url: siteUrl,
-    siteName: "K-Beauty Buyers Guide",
-    title: "K-Beauty Buyers Guide",
-    description: "Find your perfect Korean beauty clinic with AI-powered recommendations. Trusted reviews for plastic surgery, dermatology, dental, and LASIK in Seoul Gangnam.",
-    images: [
-      {
-        url: `${siteUrl}/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: "K-Beauty Buyers Guide",
-      },
-    ],
+  ko: {
+    title: "KBBG - 한국 뷰티 의료관광 가이드",
+    description: "한국 성형외과, 피부과, 치과 정보를 비교하고 AI 추천을 받으세요. 검증된 병원 정보와 실제 후기를 제공합니다.",
+    ogDesc: "한국 성형외과, 피부과, 치과 병원을 AI로 비교 추천. 검증된 후기와 비용 가이드.",
+    twitterDesc: "한국 뷰티 의료관광 가이드 — AI 추천으로 나에게 맞는 병원을 찾으세요.",
   },
-  // Twitter 카드 설정
-  twitter: {
-    card: "summary_large_image",
-    title: "K-Beauty Buyers Guide",
-    description: "Find your perfect Korean beauty clinic — AI recommendations for plastic surgery, dermatology, and more.",
-    images: [`${siteUrl}/og-image.png`],
+  zh: {
+    title: "KBBG - 韩国美容医疗指南",
+    description: "比较韩国整形外科、皮肤科和牙科诊所。获取AI智能推荐和经过验证的评价，了解首尔江南医疗旅游信息。",
+    ogDesc: "AI智能推荐韩国美容诊所。整形、皮肤科、牙科的可信评价与费用指南。",
+    twitterDesc: "韩国美容医疗指南 — 用AI找到最适合您的诊所。",
   },
-  // 검색 엔진 크롤링 설정
-  robots: {
-    index: true,
-    follow: true,
+  ja: {
+    title: "KBBG - 韓国ビューティー医療ガイド",
+    description: "韓国の整形外科、皮膚科、歯科クリニックを比較。AIによるおすすめと信頼できるレビューで、ソウル江南の医療観光情報をご案内します。",
+    ogDesc: "AIで韓国ビューティークリニックを比較推薦。整形、皮膚科、歯科の信頼できるレビューと費用ガイド。",
+    twitterDesc: "韓国ビューティー医療ガイド — AIであなたにぴったりのクリニックを。",
   },
-  // 정규 URL 설정
-  alternates: {
-    canonical: siteUrl,
+  vi: {
+    title: "KBBG - Hướng Dẫn Làm Đẹp Hàn Quốc",
+    description: "So sánh các phòng khám phẫu thuật thẩm mỹ, da liễu và nha khoa Hàn Quốc. Nhận đề xuất AI và đánh giá đã xác minh cho du lịch y tế tại Seoul Gangnam.",
+    ogDesc: "So sánh phòng khám làm đẹp Hàn Quốc với AI. Đánh giá đáng tin cậy về phẫu thuật thẩm mỹ, da liễu, nha khoa.",
+    twitterDesc: "Hướng dẫn làm đẹp y tế Hàn Quốc — Tìm phòng khám phù hợp nhất với bạn.",
   },
-  // 파비콘/아이콘
-  icons: {
-    icon: "/favicon.png",
-    apple: "/apple-touch-icon.png",
+  th: {
+    title: "KBBG - คู่มือความงามเกาหลี",
+    description: "เปรียบเทียบคลินิกศัลยกรรม ผิวหนัง และทันตกรรมเกาหลี รับคำแนะนำจาก AI และรีวิวที่ผ่านการตรวจสอบสำหรับการท่องเที่ยวเชิงการแพทย์ในโซล กังนัม",
+    ogDesc: "เปรียบเทียบคลินิกความงามเกาหลีด้วย AI รีวิวที่เชื่อถือได้สำหรับศัลยกรรม ผิวหนัง ทันตกรรม",
+    twitterDesc: "คู่มือความงามเชิงการแพทย์เกาหลี — ค้นหาคลินิกที่เหมาะกับคุณด้วย AI",
   },
-  // 매니페스트
-  manifest: "/manifest.json",
-  // Google Search Console 인증 — 실제 코드 발급 후 환경변수로 설정
-  ...(process.env.GOOGLE_SITE_VERIFICATION
-    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
-    : {}),
+  ru: {
+    title: "KBBG - Гид по Красоте Кореи",
+    description: "Сравнивайте клиники пластической хирургии, дерматологии и стоматологии Кореи. Получите AI-рекомендации и проверенные отзывы о медицинском туризме в Сеуле Каннам.",
+    ogDesc: "Сравнивайте корейские клиники красоты с AI. Проверенные отзывы о пластической хирургии, дерматологии, стоматологии.",
+    twitterDesc: "Гид по медицинской красоте Кореи — найдите идеальную клинику с помощью AI.",
+  },
+  mn: {
+    title: "KBBG - Солонгосын Гоо Сайхны Гарын Авлага",
+    description: "Солонгосын мэс заслын, арьс судлалын болон шүдний эмнэлгүүдийг харьцуулна уу. AI зөвлөмж болон баталгаажсан сэтгэгдлүүдийг аваарай.",
+    ogDesc: "AI-аар Солонгосын гоо сайхны эмнэлгүүдийг харьцуулна. Мэс засал, арьс судлал, шүдний найдвартай сэтгэгдэл.",
+    twitterDesc: "Солонгосын гоо сайхны эмнэлгийн гарын авлага — AI-аар таны эмнэлгийг олно.",
+  },
 };
 
-// 정적 생성 시 지원 locale 목록 제공
+// locale별 동적 메타데이터 생성
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = META[locale] || META.en;
+  const isKo = locale === "ko";
+
+  return {
+    title: { default: meta.title, template: `%s | ${meta.title}` },
+    description: meta.description,
+    keywords: [
+      "Korean beauty clinic", "K-Beauty", "Korea plastic surgery", "Korea dermatology",
+      "Gangnam clinic", "medical tourism Korea", "Korean cosmetic surgery",
+      "Korea LASIK", "Korea dental", "beauty guide", "AI clinic recommendation",
+    ],
+    openGraph: {
+      type: "website",
+      url: `${siteUrl}/${locale}`,
+      siteName: "KBBG",
+      title: meta.title,
+      description: meta.ogDesc,
+      locale: locale,
+      images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: meta.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.twitterDesc,
+      images: [`${siteUrl}/og-image.png`],
+    },
+    robots: isKo ? { index: false, follow: false } : { index: true, follow: true },
+    alternates: {
+      canonical: `${siteUrl}/${locale}`,
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [l, `${siteUrl}/${l}`])
+      ),
+    },
+    icons: {
+      icon: "/favicon.png",
+      apple: "/apple-touch-icon.png",
+    },
+    manifest: "/manifest.json",
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+      : {}),
+  };
+}
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -95,27 +134,22 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  // 유효하지 않은 locale은 404 처리
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
   }
 
-  // 정적 렌더링 활성화를 위한 locale 캐시 설정
   setRequestLocale(locale);
-
-  // 서버에서 메시지 로드 후 클라이언트에 전달
   const messages = await getMessages();
 
-  // Organization 구조화 데이터 - 검색 엔진이 사이트를 조직으로 인식하도록 지원
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "K-Beauty Buyers Guide",
+    name: "KBBG",
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
     contactPoint: {
       "@type": "ContactPoint",
-      email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "help@2bstory.com",
+      email: "help@kbeautybuyersguide.com",
       contactType: "customer support",
     },
     sameAs: [],
@@ -126,11 +160,7 @@ export default async function LocaleLayout({
       lang={locale}
       className={`${inter.variable} h-full antialiased`}
     >
-      <head>
-        {locale === "ko" && <meta name="robots" content="noindex, nofollow" />}
-      </head>
       <body className="min-h-full flex flex-col">
-        {/* JSON-LD 구조화 데이터 - 검색 엔진 최적화(SEO)용 */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
