@@ -93,7 +93,7 @@ export default async function Footer({ locale }: { locale: string }) {
                       {t(link.labelKey as Parameters<typeof t>[0])}
                     </Link>
                     {"sub" in link && link.sub && (
-                      <p className="text-[10px] text-[var(--accent-link-dark)] -mt-2 ml-0.5">{t(link.sub as Parameters<typeof t>[0])}</p>
+                      <p className="text-[11px] text-[var(--accent-link-dark)] -mt-2 ml-0.5">{t(link.sub as Parameters<typeof t>[0])}</p>
                     )}
                   </li>
                 ))}

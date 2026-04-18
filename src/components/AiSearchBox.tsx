@@ -12,7 +12,6 @@ export default function AiSearchBox({ locale }: { locale: string }) {
   const [query, setQuery] = useState("");
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
   const [showPopup, setShowPopup] = useState(false);
-  const isKo = locale === "ko";
 
   useEffect(() => {
     const supabase = createClient();
