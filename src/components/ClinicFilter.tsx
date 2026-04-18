@@ -156,7 +156,7 @@ export default function ClinicFilter({ locale }: { locale: string }) {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold text-gray-900">
-          {isKo ? "병원 찾기" : "Find Clinics"}
+          {t("ui.find_clinics")}
         </h3>
         <button onClick={handleReset} className="min-h-[44px] px-3 text-xs text-gray-400 hover:text-gray-600">
           {isKo ? "초기화" : "Reset"}

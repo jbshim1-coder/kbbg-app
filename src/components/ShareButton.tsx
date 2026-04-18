@@ -4,7 +4,6 @@ import { useState } from "react";
 
 // 공유 버튼 — SNS 공유 시 +2P, 하루 최대 3회
 export default function ShareButton({ locale }: { locale: string }) {
-  const isKo = locale === "ko";
   const [showToast, setShowToast] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -49,7 +48,7 @@ export default function ShareButton({ locale }: { locale: string }) {
     <div className="relative inline-flex items-center gap-1.5">
       <button onClick={handleCopyLink}
         className="text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition">
-        {copied ? (isKo ? "✅ 복사됨" : "✅ Copied") : (isKo ? "🔗 링크복사" : "🔗 Copy")}
+        {copied ? t("ui.copied") : t("ui.copy_link")}
       </button>
       <button onClick={handleShareTwitter}
         className="text-xs px-2 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition">

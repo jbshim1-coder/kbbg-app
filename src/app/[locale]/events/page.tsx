@@ -227,7 +227,7 @@ export default function EventsPage() {
       <div className="bg-white border-b border-stone-100 px-4 py-8">
         <div className="mx-auto max-w-4xl">
           <h1 className="text-2xl font-bold text-gray-900">
-            {isKo ? "이벤트 · 시술 특가" : "Events & Special Offers"}
+            {t("ui.events_title")}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
             {isKo
@@ -281,7 +281,7 @@ export default function EventsPage() {
                     rel="noopener noreferrer"
                     className="text-xs text-stone-600 hover:underline shrink-0 min-h-[44px] flex items-start pt-1"
                   >
-                    {isKo ? "홈페이지 →" : "Website →"}
+                    {t("ui.website")}
                   </a>
                 )}
               </div>
@@ -299,7 +299,7 @@ export default function EventsPage() {
                 ))}
               </div>
 
-              <p className="text-xs text-gray-400 mt-3">{isKo ? "기간" : "Period"}: {event.period}</p>
+              <p className="text-xs text-gray-400 mt-3">{t("ui.period")}: {event.period}</p>
             </div>
           ))}
         </div>

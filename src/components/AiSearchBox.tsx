@@ -68,32 +68,30 @@ export default function AiSearchBox({ locale }: { locale: string }) {
           <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl">
             <p className="text-4xl mb-4">🔒</p>
             <h3 className="text-lg font-bold text-gray-900">
-              {isKo ? "회원 전용 서비스" : "Members Only"}
+              {t("ui.members_only")}
             </h3>
             <p className="text-sm text-gray-500 mt-2">
-              {isKo
-                ? "AI 검색은 회원만 이용할 수 있습니다.\n무료로 가입하고 이용해보세요!"
-                : "AI search is available for members only.\nSign up for free!"}
+              {t("ui.ai_search_members_only")}
             </p>
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setShowPopup(false)}
                 className="flex-1 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50"
               >
-                {isKo ? "닫기" : "Close"}
+                {t("ui.close")}
               </button>
               <button
                 onClick={() => router.push(`/${locale}/signup`)}
                 className="flex-1 py-2.5 bg-slate-800 text-white rounded-lg text-sm font-semibold hover:bg-slate-900"
               >
-                {isKo ? "무료 회원가입" : "Sign Up Free"}
+                {t("ui.signup_free")}
               </button>
             </div>
             <button
               onClick={() => router.push(`/${locale}/login`)}
               className="mt-3 text-xs text-gray-400 hover:text-gray-600"
             >
-              {isKo ? "이미 회원이신가요? 로그인" : "Already a member? Login"}
+              {t("ui.already_member")}
             </button>
           </div>
         </div>

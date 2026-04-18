@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 // 출석 체크 컴포넌트 — 매일 1회, +1 포인트
 export default function DailyCheckIn({ locale }: { locale: string }) {
-  const isKo = locale === "ko";
   const [checked, setChecked] = useState(false);
   const [streak, setStreak] = useState(0);
   const [showAnim, setShowAnim] = useState(false);
@@ -47,7 +46,7 @@ export default function DailyCheckIn({ locale }: { locale: string }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm p-4">
       <h3 className="text-sm font-semibold text-gray-800 mb-3">
-        📅 {isKo ? "출석 체크" : "Daily Check-in"}
+        📅 {t("ui.daily_checkin")}
       </h3>
       <button
         onClick={handleCheckIn}
@@ -59,19 +58,19 @@ export default function DailyCheckIn({ locale }: { locale: string }) {
         }`}
       >
         {checked
-          ? `✅ ${isKo ? "오늘 출석 완료! +1P" : "Checked in today! +1P"}`
-          : `🎯 ${isKo ? "출석 체크 (+1P)" : "Check in (+1P)"}`}
+          ? `✅ ${t("ui.checked_in")}`
+          : `🎯 ${t("ui.checkin_btn")}`}
       </button>
       {showAnim && (
         <div className="mt-2 text-center animate-bounce">
           <p className="text-slate-700 text-sm font-bold">
-            🎉 {isKo ? "축하합니다! 출석 체크 완료!" : "Congratulations! Checked in!"}
+            🎉 {t("ui.congrats_checkin")}
           </p>
           <p className="text-slate-700 text-xs font-semibold mt-0.5">+1P 획득!</p>
         </div>
       )}
       <p className="mt-2 text-center text-xs text-gray-400">
-        🔥 {isKo ? `연속 ${streak}일째` : `${streak} day streak`}
+        🔥 {t("ui.streak_days").replace("{count}", String(streak))}
       </p>
     </div>
   );

@@ -300,7 +300,7 @@ function AiSearchContent() {
                     rel="noopener noreferrer sponsored"
                     className="inline-block mt-2 text-xs text-slate-600 hover:underline"
                   >
-                    {isKo ? "자세히 보기 →" : "Learn more →"}
+                    {t("ui.learn_more")}
                   </a>
                 )}
               </div>
@@ -359,7 +359,7 @@ function AiSearchContent() {
                         rel="noopener noreferrer"
                         className="inline-block mt-2 text-xs text-slate-600 hover:underline"
                       >
-                        {isKo ? "홈페이지 →" : "Website →"}
+                        {t("ui.website")}
                       </a>
                     )}
                   </div>
@@ -372,7 +372,7 @@ function AiSearchContent() {
               <div className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
                 {searchBasis && (
                   <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <p className="text-xs font-medium text-slate-500 mb-1">{isKo ? "검색 기준" : "Search Criteria"}</p>
+                    <p className="text-xs font-medium text-slate-500 mb-1">{t("ui.search_criteria")}</p>
                     <p className="text-sm text-slate-700 whitespace-pre-line leading-relaxed">{searchBasis}</p>
                   </div>
                 )}
