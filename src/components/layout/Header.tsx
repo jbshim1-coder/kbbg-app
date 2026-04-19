@@ -163,6 +163,19 @@ export default function Header() {
             />
           </Link>
 
+          {/* ── 모바일 퀵메뉴 (로고 옆) ── */}
+          <nav className="flex sm:hidden items-center gap-1 ml-1">
+            <Link href={localePath("/hospitals")} className="px-2 py-1 text-[11px] font-medium text-white/80 hover:text-white rounded-md hover:bg-white/10 transition">
+              🏥 Clinics
+            </Link>
+            <Link href={localePath("/cosmetics")} className="px-2 py-1 text-[11px] font-medium text-white/80 hover:text-white rounded-md hover:bg-white/10 transition">
+              💄 Rankings
+            </Link>
+            <Link href={localePath("/community")} className="px-2 py-1 text-[11px] font-medium text-white/80 hover:text-white rounded-md hover:bg-white/10 transition">
+              💬 Community
+            </Link>
+          </nav>
+
           {/* ── 어제 방문자 수 ── */}
           {yesterdayVisitors > 0 && (
             <span className="hidden md:inline text-[11px] text-white/60 whitespace-nowrap">
