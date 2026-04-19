@@ -221,7 +221,9 @@
     "comment1_time": "1h ago",
     "comment2_body": "Could you share swelling photos too!",
     "comment2_time": "30m ago",
-    "delete": "Delete"
+    "delete": "Delete",
+    "captcha_failed": "Security verification failed. Please try again.",
+    "post_failed": "Failed to publish post. Please try again."
   },
   "about": {
     "title": "About Us",
@@ -315,7 +317,8 @@
     "captcha_failed": "Security verification failed. Please try again.",
     "check_email_title": "Check your email",
     "check_email_desc": "We sent a confirmation link to your email. Please verify to complete signup.",
-    "signing_up": "Signing up..."
+    "signing_up": "Signing up...",
+    "signing_in": "Signing in..."
   },
   "footer": {
     "disclaimer": "Disclaimer",

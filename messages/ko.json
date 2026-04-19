@@ -219,7 +219,9 @@
     "comment1_time": "1시간 전",
     "comment2_body": "붓기 사진도 공유해주실 수 있나요!",
     "comment2_time": "30분 전",
-    "delete": "삭제"
+    "delete": "삭제",
+    "captcha_failed": "보안 검증에 실패했습니다. 다시 시도해주세요.",
+    "post_failed": "게시글 등록에 실패했습니다. 다시 시도해주세요."
   },
   "about": {
     "badge": "소개",
@@ -313,7 +315,8 @@
     "captcha_failed": "보안 검증에 실패했습니다. 다시 시도해주세요.",
     "check_email_title": "이메일을 확인해주세요",
     "check_email_desc": "확인 링크를 이메일로 보냈습니다. 가입을 완료하려면 이메일을 확인해주세요.",
-    "signing_up": "가입 중..."
+    "signing_up": "가입 중...",
+    "signing_in": "로그인 중..."
   },
   "footer": {
     "disclaimer": "면책조항",

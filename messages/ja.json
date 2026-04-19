@@ -219,7 +219,9 @@
     "comment1_time": "1時間前",
     "comment2_body": "腫れの写真も共有してもらえますか！",
     "comment2_time": "30分前",
-    "delete": "削除"
+    "delete": "削除",
+    "captcha_failed": "セキュリティ検証に失敗しました。もう一度お試しください。",
+    "post_failed": "投稿に失敗しました。もう一度お試しください。"
   },
   "about": {
     "title": "私たちについて",
@@ -313,7 +315,8 @@
     "captcha_failed": "セキュリティ認証に失敗しました。もう一度お試しください。",
     "check_email_title": "メールを確認してください",
     "check_email_desc": "確認リンクをメールに送信しました。登録を完了するにはメールをご確認ください。",
-    "signing_up": "登録中..."
+    "signing_up": "登録中...",
+    "signing_in": "ログイン中..."
   },
   "footer": {
     "disclaimer": "免責事項",

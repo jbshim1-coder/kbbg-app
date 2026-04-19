@@ -219,7 +219,9 @@
     "comment1_time": "1小时前",
     "comment2_body": "可以分享消肿照片吗！",
     "comment2_time": "30分钟前",
-    "delete": "删除"
+    "delete": "删除",
+    "captcha_failed": "安全验证失败，请重试。",
+    "post_failed": "发布失败，请重试。"
   },
   "about": {
     "title": "关于我们",
@@ -313,7 +315,8 @@
     "captcha_failed": "安全验证失败，请重试。",
     "check_email_title": "请查看您的邮箱",
     "check_email_desc": "我们已发送确认链接到您的邮箱，请验证以完成注册。",
-    "signing_up": "注册中..."
+    "signing_up": "注册中...",
+    "signing_in": "登录中..."
   },
   "footer": {
     "disclaimer": "免责声明",

@@ -109,7 +109,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 disabled:bg-slate-300 transition"
           >
-            {loading ? (locale === "ko" ? "로그인 중..." : "Signing in...") : t("auth.login_btn")}
+            {loading ? t("auth.signing_in") : t("auth.login_btn")}
           </button>
         </form>
 

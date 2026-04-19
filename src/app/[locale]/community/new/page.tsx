@@ -96,7 +96,7 @@ export default function NewPostPage() {
 
     const isHuman = await verifyRecaptcha("community_post");
     if (!isHuman) {
-      setRecaptchaError(locale === "ko" ? "보안 검증에 실패했습니다. 다시 시도해주세요." : "Security verification failed. Please try again.");
+      setRecaptchaError(t("community.captcha_failed"));
       return;
     }
 
@@ -169,11 +169,7 @@ export default function NewPostPage() {
       .single();
 
     if (error) {
-      setSubmitError(
-        locale === "ko"
-          ? `게시글 등록에 실패했습니다: ${error.message}`
-          : `Failed to publish post: ${error.message}`
-      );
+      setSubmitError(t("community.post_failed"));
       setSubmitting(false);
       return;
     }

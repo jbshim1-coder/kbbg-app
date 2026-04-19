@@ -59,7 +59,7 @@ export default function LivePage() {
                 onClick={() => setActiveChannel(null)}
                 className="text-xs text-gray-400 hover:text-white px-3 py-1 border border-gray-700 rounded-lg"
               >
-                ✕ {locale === "ko" ? "닫기" : "Close"}
+                ✕ {t("ui.close")}
               </button>
             </div>
             <div className="relative w-full overflow-hidden rounded-2xl bg-black shadow-2xl" style={{ paddingBottom: "56.25%" }}>

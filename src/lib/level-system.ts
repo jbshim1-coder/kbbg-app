@@ -44,12 +44,14 @@ export const POINT_ACTIONS = {
   REVIEW_WITH_PHOTO: 10,
 };
 
-// 마스터 관리자 이메일 — 이 이메일은 항상 "M" 레벨로 표시
-const MASTER_EMAILS = ["admin@kbeautybuyersguide.com", "jbshim1@gmail.com"];
+// 마스터 관리자 이메일 — 환경변수 우선, 폴백으로 하드코딩
+const MASTER_EMAILS_FALLBACK = ["admin@kbeautybuyersguide.com", "jbshim1@gmail.com"];
 
 // 마스터 여부 확인
 export function isMaster(email: string): boolean {
-  return MASTER_EMAILS.includes(email);
+  const envEmails = typeof process !== "undefined" && process.env?.ADMIN_EMAILS;
+  const adminList = envEmails ? envEmails.split(",").map(e => e.trim()) : MASTER_EMAILS_FALLBACK;
+  return adminList.includes(email);
 }
 
 // 포인트 → 레벨 변환 (1~30, 마스터는 "M")

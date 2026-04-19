@@ -79,10 +79,12 @@ export default function Header() {
     // 방문자 수 조회
     fetch("/api/visitors").then(r => r.json()).then(d => setYesterdayVisitors(d.count)).catch(() => {});
     // 오늘 방문자 +1 (세션당 1회)
-    if (!sessionStorage.getItem("kbbg_visited")) {
-      fetch("/api/visitors", { method: "POST" }).catch(() => {});
-      sessionStorage.setItem("kbbg_visited", "1");
-    }
+    try {
+      if (!sessionStorage.getItem("kbbg_visited")) {
+        fetch("/api/visitors", { method: "POST" }).catch(() => {});
+        sessionStorage.setItem("kbbg_visited", "1");
+      }
+    } catch { /* 프라이빗 브라우징 등에서 sessionStorage 접근 실패 무시 */ }
   }, []);
 
   // 네비게이션 링크 목록 — 번역 키 사용
