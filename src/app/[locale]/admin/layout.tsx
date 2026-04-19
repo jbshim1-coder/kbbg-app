@@ -78,16 +78,27 @@ export default function AdminLayout({
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.path}
-              href={`/${locale}${item.path}`}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-            >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const fullPath = `/${locale}${item.path}`;
+            // 대시보드는 정확 일치, 하위 메뉴는 prefix 일치로 활성 판단
+            const isActive = item.path === "/admin"
+              ? pathname === fullPath
+              : pathname.startsWith(fullPath);
+            return (
+              <Link
+                key={item.path}
+                href={fullPath}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                  isActive
+                    ? "bg-gray-700 text-white font-semibold"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                }`}
+              >
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="px-4 py-4 border-t border-gray-700">

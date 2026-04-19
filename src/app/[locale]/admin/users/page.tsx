@@ -30,6 +30,11 @@ export default function AdminUsersPage() {
   // 정지 기간 선택 드롭다운이 열린 사용자 ID
   const [suspendMenuOpen, setSuspendMenuOpen] = useState<string | null>(null);
 
+  // 검색/필터 상태
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "banned">("all");
+  const [providerFilter, setProviderFilter] = useState<"all" | "google" | "email">("all");
+
   const fetchUsers = () => {
     setLoading(true);
     fetch("/api/admin/users")
@@ -107,15 +112,71 @@ export default function AdminUsersPage() {
     }
   };
 
+  // 클라이언트 사이드 필터 적용
+  const filteredUsers = users.filter((user) => {
+    // 이메일/이름 검색
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      if (!user.email.toLowerCase().includes(q) && !user.name.toLowerCase().includes(q)) {
+        return false;
+      }
+    }
+    // 상태 필터
+    if (statusFilter === "active" && user.banned) return false;
+    if (statusFilter === "banned" && !user.banned) return false;
+    // 로그인 방식 필터
+    if (providerFilter !== "all" && user.provider !== providerFilter) return false;
+    return true;
+  });
+
   return (
     <div className="space-y-6">
       {/* 페이지 헤더 */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">회원관리</h2>
         {!loading && (
-          <span className="text-sm text-gray-500">총 {users.length}명</span>
+          <span className="text-sm text-gray-500">
+            {filteredUsers.length !== users.length
+              ? `${filteredUsers.length} / ${users.length}명`
+              : `총 ${users.length}명`}
+          </span>
         )}
       </div>
+
+      {/* 검색/필터 영역 */}
+      {!loading && !error && (
+        <div className="flex gap-3 items-center flex-wrap">
+          <input
+            type="text"
+            placeholder="이메일 또는 이름 검색..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 w-56 focus:outline-none focus:ring-1 focus:ring-slate-400"
+          />
+          <div className="flex gap-1.5">
+            {(["all", "active", "banned"] as const).map((f) => (
+              <button
+                key={f}
+                onClick={() => setStatusFilter(f)}
+                className={`text-xs px-3 py-1.5 rounded-full transition-colors ${statusFilter === f ? "bg-slate-800 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+              >
+                {f === "all" ? "전체" : f === "active" ? "활성" : "차단됨"}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-1.5">
+            {(["all", "google", "email"] as const).map((f) => (
+              <button
+                key={f}
+                onClick={() => setProviderFilter(f)}
+                className={`text-xs px-3 py-1.5 rounded-full transition-colors ${providerFilter === f ? "bg-slate-800 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+              >
+                {f === "all" ? "전체" : f === "google" ? "Google" : "이메일"}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 로딩 상태 */}
       {loading && (
@@ -137,9 +198,9 @@ export default function AdminUsersPage() {
       {/* 회원 목록 테이블 */}
       {!loading && !error && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          {users.length === 0 ? (
+          {filteredUsers.length === 0 ? (
             <div className="p-10 text-center text-sm text-gray-400">
-              등록된 회원이 없습니다.
+              {users.length === 0 ? "등록된 회원이 없습니다." : "검색 결과가 없습니다."}
             </div>
           ) : (
             <table className="w-full text-sm">
@@ -155,7 +216,7 @@ export default function AdminUsersPage() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                   <tr key={user.id} className="border-b border-gray-50 hover:bg-gray-50">
                     <td className="px-6 py-3 text-gray-800">{user.email}</td>
                     <td className="px-6 py-3 text-gray-600">{user.name || "-"}</td>
