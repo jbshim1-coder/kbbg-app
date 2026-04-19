@@ -257,11 +257,11 @@
     "submit": "문의 보내기",
     "sending": "전송 중...",
     "success_title": "문의가 접수되었습니다",
-    "success_desc": "영업일 기준 1~2일 내로 help@kbeautybuyersguide.com에서 답변드립니다.",
-    "error": "문의 접수에 실패했습니다. help@kbeautybuyersguide.com으로 직접 문의해주세요.",
+    "success_desc": "영업일 기준 1~2일 내로 jbshim1@gmail.com에서 답변드립니다.",
+    "error": "문의 접수에 실패했습니다. jbshim1@gmail.com으로 직접 문의해주세요.",
     "message_label": "메시지",
     "send": "보내기",
-    "inquiry_note": "문의 내용은 help@kbeautybuyersguide.com 으로도 전달됩니다"
+    "inquiry_note": "문의 내용은 jbshim1@gmail.com 으로도 전달됩니다"
   },
   "bug_report": {
     "title": "기능오류 신고",
@@ -560,7 +560,7 @@
     "submitting": "제출 중...",
     "success_title": "신고가 접수되었습니다",
     "success_desc": "커뮤니티 안전 유지에 도움을 주셔서 감사합니다. 신고 내용을 검토하고 적절한 조치를 취하겠습니다.",
-    "error": "신고 제출에 실패했습니다. 다시 시도하거나 help@kbeautybuyersguide.com으로 문의해 주세요.",
+    "error": "신고 제출에 실패했습니다. 다시 시도하거나 jbshim1@gmail.com으로 문의해 주세요.",
     "clinic_placeholder": "예: ABC 성형외과",
     "type1": "허위 또는 오해의 소지가 있는 클리닉 정보",
     "type2": "허위 후기",
@@ -825,7 +825,7 @@
     "looking_for_advertiser": "광고주를 찾습니다",
     "ad_description": "이 자리에 병원/브랜드 광고를 게재하세요 — 월 100만+ 외국인 환자에게 노출",
     "contact": "문의하기",
-    "ad_inquiry": "광고 게재 문의: help@kbeautybuyersguide.com"
+    "ad_inquiry": "광고 게재 문의: jbshim1@gmail.com"
   },
   "ai_start": {
     "button": "AI 추천 시작"
@@ -962,7 +962,7 @@
     "weekly_data": "매주 월요일 기준 1주일 데이터 집계",
     "events_description": "강남·서초 피부과·성형외과 이벤트 단가 (매주 갱신)",
     "events_disclaimer": "※ 본 정보는 각 병원 홈페이지 공지 기준이며, 실제 가격은 병원에 직접 문의해 주세요.",
-    "events_ad_inquiry": "광고 게재 문의: help@kbeautybuyersguide.com"
+    "events_ad_inquiry": "광고 게재 문의: jbshim1@gmail.com"
   },
   "cf": {
     "select_specialty": "진료과 선택",

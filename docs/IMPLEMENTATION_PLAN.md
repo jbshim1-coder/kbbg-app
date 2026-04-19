@@ -15,7 +15,7 @@
 | 사이트 URL | https://kbbg-app.vercel.app |
 | 도메인(예정) | kbeautybuyersguide.com |
 | GitHub | jbshim1-coder/kbbg-app |
-| 운영사 | 투비스토리 (2008~, help@2bstory.com, 010-8718-5000) |
+| 운영사 | 투비스토리 (2008~, jbshim1@gmail.com, 010-8718-5000) |
 | 관리자 | admin@2bstory.com / kbbg2026!admin |
 | 개발방식 | Claude Code (AI) — 비개발자(마케터) 운영 |
 

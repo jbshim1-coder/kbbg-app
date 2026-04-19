@@ -259,9 +259,9 @@
     "submit": "发送咨询",
     "sending": "发送中...",
     "success_title": "您的咨询已收到",
-    "success_desc": "我们将在1-2个工作日内通过help@kbeautybuyersguide.com回复您。",
-    "error": "提交失败，请直接联系help@kbeautybuyersguide.com。",
-    "inquiry_note": "您的咨询内容也将转发至help@kbeautybuyersguide.com"
+    "success_desc": "我们将在1-2个工作日内通过jbshim1@gmail.com回复您。",
+    "error": "提交失败，请直接联系jbshim1@gmail.com。",
+    "inquiry_note": "您的咨询内容也将转发至jbshim1@gmail.com"
   },
   "bug_report": {
     "title": "错误报告",
@@ -560,7 +560,7 @@
     "submitting": "提交中...",
     "success_title": "举报已收到",
     "success_desc": "感谢您帮助维护社区安全，我们将审核您的举报并采取适当措施。",
-    "error": "举报提交失败，请重试或发送邮件至 help@kbeautybuyersguide.com。",
+    "error": "举报提交失败，请重试或发送邮件至 jbshim1@gmail.com。",
     "clinic_placeholder": "例：ABC整形外科诊所",
     "type1": "虚假或误导性诊所信息",
     "type2": "虚假评价",
@@ -773,7 +773,7 @@
     "looking_for_advertiser": "寻找广告商",
     "ad_description": "在此刊登医院/品牌广告 — 每月触达100万+外国患者",
     "contact": "联系我们",
-    "ad_inquiry": "广告咨询: help@kbeautybuyersguide.com"
+    "ad_inquiry": "广告咨询: jbshim1@gmail.com"
   },
   "ai_start": {
     "button": "开始AI推荐"
@@ -910,7 +910,7 @@
     "weekly_data": "每周一基准的一周数据汇总",
     "events_description": "江南·瑞草皮肤科·整形外科优惠活动 (每周更新)",
     "events_disclaimer": "※ 本信息基于各医院官网公告，实际价格请直接联系医院确认。",
-    "events_ad_inquiry": "广告咨询: help@kbeautybuyersguide.com"
+    "events_ad_inquiry": "广告咨询: jbshim1@gmail.com"
   },
   "cf": {
     "select_specialty": "选择科室",

@@ -84,8 +84,8 @@ export default async function GuidelinesPage({
             </li>
             <li>
               문의:{" "}
-              <a href="mailto:help@kbeautybuyersguide.com" className="text-slate-700 underline">
-                help@kbeautybuyersguide.com
+              <a href="mailto:jbshim1@gmail.com" className="text-slate-700 underline">
+                jbshim1@gmail.com
               </a>
             </li>
           </ul>
@@ -163,8 +163,8 @@ export default async function GuidelinesPage({
           </li>
           <li>
             Contact us:{" "}
-            <a href="mailto:help@kbeautybuyersguide.com" className="text-slate-700 underline">
-              help@kbeautybuyersguide.com
+            <a href="mailto:jbshim1@gmail.com" className="text-slate-700 underline">
+              jbshim1@gmail.com
             </a>
           </li>
         </ul>

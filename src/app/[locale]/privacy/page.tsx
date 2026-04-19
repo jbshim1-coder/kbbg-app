@@ -88,8 +88,8 @@ export default async function PrivacyPage() {
             {/* 권리 행사 연락처 */}
             <p className="mt-3">
               {t("s5_contact_prefix")}{" "}
-              <a href="mailto:help@kbeautybuyersguide.com" className="text-slate-700 hover:underline">
-                help@kbeautybuyersguide.com
+              <a href="mailto:jbshim1@gmail.com" className="text-slate-700 hover:underline">
+                jbshim1@gmail.com
               </a>
               {t("s5_contact_suffix")}
             </p>

@@ -259,9 +259,9 @@
     "submit": "ส่งคำถาม",
     "sending": "กำลังส่ง...",
     "success_title": "ได้รับคำถามของคุณแล้ว",
-    "success_desc": "เราจะตอบกลับภายใน 1-2 วันทำการจาก help@kbeautybuyersguide.com",
-    "error": "ส่งไม่สำเร็จ กรุณาติดต่อ help@kbeautybuyersguide.com โดยตรง",
-    "inquiry_note": "คำถามของคุณจะถูกส่งไปยัง help@kbeautybuyersguide.com ด้วย"
+    "success_desc": "เราจะตอบกลับภายใน 1-2 วันทำการจาก jbshim1@gmail.com",
+    "error": "ส่งไม่สำเร็จ กรุณาติดต่อ jbshim1@gmail.com โดยตรง",
+    "inquiry_note": "คำถามของคุณจะถูกส่งไปยัง jbshim1@gmail.com ด้วย"
   },
   "bug_report": {
     "title": "รายงานข้อผิดพลาด",
@@ -560,7 +560,7 @@
     "submitting": "กำลังส่ง...",
     "success_title": "ได้รับรายงานแล้ว",
     "success_desc": "ขอบคุณที่ช่วยรักษาความปลอดภัยของชุมชน เราจะตรวจสอบรายงานของคุณและดำเนินการที่เหมาะสม",
-    "error": "ส่งรายงานไม่สำเร็จ กรุณาลองอีกครั้งหรือส่งอีเมลถึง help@kbeautybuyersguide.com",
+    "error": "ส่งรายงานไม่สำเร็จ กรุณาลองอีกครั้งหรือส่งอีเมลถึง jbshim1@gmail.com",
     "clinic_placeholder": "เช่น คลินิกศัลยกรรม ABC",
     "type1": "ข้อมูลคลินิกปลอมหรือทำให้เข้าใจผิด",
     "type2": "รีวิวหลอกลวง",
@@ -773,7 +773,7 @@
     "looking_for_advertiser": "กำลังหาผู้ลงโฆษณา",
     "ad_description": "ลงโฆษณาโรงพยาบาล/แบรนด์ของคุณที่นี่ — เข้าถึงผู้ป่วยต่างชาติกว่า 1 ล้านคนต่อเดือน",
     "contact": "ติดต่อเรา",
-    "ad_inquiry": "สอบถามเรื่องโฆษณา: help@kbeautybuyersguide.com"
+    "ad_inquiry": "สอบถามเรื่องโฆษณา: jbshim1@gmail.com"
   },
   "ai_start": {
     "button": "เริ่ม AI แนะนำ"
@@ -910,7 +910,7 @@
     "weekly_data": "ข้อมูลรายสัปดาห์อ้างอิงจากวันจันทร์",
     "events_description": "โปรโมชั่นคลินิกผิวหนังและศัลยกรรม กังนัม-ซอโช (อัปเดตทุกสัปดาห์)",
     "events_disclaimer": "※ ข้อมูลนี้อ้างอิงจากเว็บไซต์ของแต่ละคลินิก กรุณาติดต่อคลินิกโดยตรงเพื่อยืนยันราคา",
-    "events_ad_inquiry": "สอบถามเรื่องโฆษณา: help@kbeautybuyersguide.com"
+    "events_ad_inquiry": "สอบถามเรื่องโฆษณา: jbshim1@gmail.com"
   },
   "cf": {
     "select_specialty": "เลือกแผนก",

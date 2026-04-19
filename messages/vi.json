@@ -259,9 +259,9 @@
     "submit": "Gửi yêu cầu",
     "sending": "Đang gửi...",
     "success_title": "Yêu cầu của bạn đã được nhận",
-    "success_desc": "Chúng tôi sẽ phản hồi trong vòng 1-2 ngày làm việc từ help@kbeautybuyersguide.com.",
-    "error": "Gửi thất bại. Vui lòng liên hệ trực tiếp qua help@kbeautybuyersguide.com.",
-    "inquiry_note": "Yêu cầu của bạn cũng sẽ được chuyển tiếp đến help@kbeautybuyersguide.com"
+    "success_desc": "Chúng tôi sẽ phản hồi trong vòng 1-2 ngày làm việc từ jbshim1@gmail.com.",
+    "error": "Gửi thất bại. Vui lòng liên hệ trực tiếp qua jbshim1@gmail.com.",
+    "inquiry_note": "Yêu cầu của bạn cũng sẽ được chuyển tiếp đến jbshim1@gmail.com"
   },
   "bug_report": {
     "title": "Báo cáo lỗi",
@@ -560,7 +560,7 @@
     "submitting": "Đang gửi...",
     "success_title": "Đã nhận báo cáo",
     "success_desc": "Cảm ơn bạn đã giúp giữ an toàn cho cộng đồng. Chúng tôi sẽ xem xét báo cáo và thực hiện hành động phù hợp.",
-    "error": "Gửi báo cáo thất bại. Vui lòng thử lại hoặc gửi email đến help@kbeautybuyersguide.com.",
+    "error": "Gửi báo cáo thất bại. Vui lòng thử lại hoặc gửi email đến jbshim1@gmail.com.",
     "clinic_placeholder": "Ví dụ: Phòng khám phẫu thuật thẩm mỹ ABC",
     "type1": "Thông tin phòng khám giả mạo hoặc gây hiểu nhầm",
     "type2": "Đánh giá gian lận",
@@ -773,7 +773,7 @@
     "looking_for_advertiser": "Tìm kiếm nhà quảng cáo",
     "ad_description": "Đặt quảng cáo bệnh viện/thương hiệu tại đây — tiếp cận 1 triệu+ bệnh nhân nước ngoài mỗi tháng",
     "contact": "Liên hệ",
-    "ad_inquiry": "Hỏi về quảng cáo: help@kbeautybuyersguide.com"
+    "ad_inquiry": "Hỏi về quảng cáo: jbshim1@gmail.com"
   },
   "ai_start": {
     "button": "Bắt đầu AI"
@@ -910,7 +910,7 @@
     "weekly_data": "Dữ liệu hàng tuần tính từ thứ Hai",
     "events_description": "Ưu đãi phòng khám da liễu & thẩm mỹ Gangnam-Seocho (cập nhật hàng tuần)",
     "events_disclaimer": "※ Thông tin dựa trên trang web của các phòng khám. Vui lòng liên hệ trực tiếp để xác nhận giá.",
-    "events_ad_inquiry": "Hỏi về quảng cáo: help@kbeautybuyersguide.com"
+    "events_ad_inquiry": "Hỏi về quảng cáo: jbshim1@gmail.com"
   },
   "cf": {
     "select_specialty": "Chọn chuyên khoa",

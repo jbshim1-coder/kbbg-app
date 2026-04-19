@@ -110,8 +110,8 @@ function ContactContent() {
           {t("contact.subtitle")}
           <br />
           {t("contact.email_label")}{" "}
-          <a href="mailto:help@kbeautybuyersguide.com" className="text-slate-700 hover:underline">
-            help@kbeautybuyersguide.com
+          <a href="mailto:jbshim1@gmail.com" className="text-slate-700 hover:underline">
+            jbshim1@gmail.com
           </a>
         </p>
 

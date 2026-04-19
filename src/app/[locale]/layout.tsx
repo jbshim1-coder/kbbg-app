@@ -150,7 +150,7 @@ export default async function LocaleLayout({
     description: "AI-powered Korean beauty and medical tourism guide supporting 8 languages. Find the best plastic surgery, dermatology, dental clinics in Seoul, Gangnam.",
     contactPoint: {
       "@type": "ContactPoint",
-      email: "help@kbeautybuyersguide.com",
+      email: "jbshim1@gmail.com",
       contactType: "customer support",
       availableLanguage: ["English", "Korean", "Japanese", "Chinese", "Vietnamese", "Thai", "Russian", "Mongolian"],
     },

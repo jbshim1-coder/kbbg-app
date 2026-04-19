@@ -259,9 +259,9 @@
     "submit": "お問い合わせを送信",
     "sending": "送信中...",
     "success_title": "お問い合わせを受け付けました",
-    "success_desc": "help@kbeautybuyersguide.comより1〜2営業日以内にご返信いたします。",
-    "error": "送信に失敗しました。直接help@kbeautybuyersguide.comまでご連絡ください。",
-    "inquiry_note": "お問い合わせ内容はhelp@kbeautybuyersguide.comにも転送されます"
+    "success_desc": "jbshim1@gmail.comより1〜2営業日以内にご返信いたします。",
+    "error": "送信に失敗しました。直接jbshim1@gmail.comまでご連絡ください。",
+    "inquiry_note": "お問い合わせ内容はjbshim1@gmail.comにも転送されます"
   },
   "bug_report": {
     "title": "バグ報告",
@@ -560,7 +560,7 @@
     "submitting": "送信中...",
     "success_title": "通報を受け付けました",
     "success_desc": "コミュニティの安全維持にご協力いただきありがとうございます。通報内容を確認して適切な措置を取ります。",
-    "error": "通報の送信に失敗しました。再試行するか help@kbeautybuyersguide.com にメールでお問い合わせください。",
+    "error": "通報の送信に失敗しました。再試行するか jbshim1@gmail.com にメールでお問い合わせください。",
     "clinic_placeholder": "例：ABC整形外科クリニック",
     "type1": "虚偽または誤解を招くクリニック情報",
     "type2": "不正な口コミ",
@@ -773,7 +773,7 @@
     "looking_for_advertiser": "広告主を募集しています",
     "ad_description": "この場所に病院/ブランド広告を掲載しましょう — 月間100万人以上の外国人患者にリーチ",
     "contact": "お問い合わせ",
-    "ad_inquiry": "広告掲載のお問い合わせ: help@kbeautybuyersguide.com"
+    "ad_inquiry": "広告掲載のお問い合わせ: jbshim1@gmail.com"
   },
   "ai_start": {
     "button": "AIレコメンド開始"
@@ -910,7 +910,7 @@
     "weekly_data": "毎週月曜日基準の1週間データ集計",
     "events_description": "カンナム・ソチョ皮膚科・整形外科イベント (毎週更新)",
     "events_disclaimer": "※ 本情報は各病院のウェブサイト掲載基準です。実際の価格は病院に直接お問い合わせください。",
-    "events_ad_inquiry": "広告掲載のお問い合わせ: help@kbeautybuyersguide.com"
+    "events_ad_inquiry": "広告掲載のお問い合わせ: jbshim1@gmail.com"
   },
   "cf": {
     "select_specialty": "診療科を選択",

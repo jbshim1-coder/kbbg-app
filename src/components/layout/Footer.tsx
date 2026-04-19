@@ -68,11 +68,11 @@ export default async function Footer({ locale }: { locale: string }) {
               <p className="font-medium text-white/70">{t("footer.company_name")}</p>
               <p>{t("footer.company_info")}</p>
               <a
-                href="mailto:help@kbeautybuyersguide.com"
+                href="mailto:jbshim1@gmail.com"
                 className="inline-flex items-center gap-1 hover:text-[var(--accent-link-dark)] transition-all duration-200"
               >
                 <Mail size={12} />
-                help@kbeautybuyersguide.com
+                jbshim1@gmail.com
               </a>
             </div>
           </div>

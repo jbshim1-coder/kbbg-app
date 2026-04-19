@@ -261,9 +261,9 @@
     "submit": "Send Inquiry",
     "sending": "Sending...",
     "success_title": "Your inquiry has been received",
-    "success_desc": "We will respond within 1-2 business days from help@kbeautybuyersguide.com.",
-    "error": "Failed to submit. Please contact help@kbeautybuyersguide.com directly.",
-    "inquiry_note": "Your inquiry will also be forwarded to help@kbeautybuyersguide.com"
+    "success_desc": "We will respond within 1-2 business days from jbshim1@gmail.com.",
+    "error": "Failed to submit. Please contact jbshim1@gmail.com directly.",
+    "inquiry_note": "Your inquiry will also be forwarded to jbshim1@gmail.com"
   },
   "bug_report": {
     "title": "Report a Bug",
@@ -562,7 +562,7 @@
     "submitting": "Submitting...",
     "success_title": "Report Received",
     "success_desc": "Thank you for helping keep our community safe. We will review your report and take appropriate action.",
-    "error": "Failed to submit report. Please try again or email us at help@kbeautybuyersguide.com.",
+    "error": "Failed to submit report. Please try again or email us at jbshim1@gmail.com.",
     "clinic_placeholder": "e.g. ABC Plastic Surgery Clinic",
     "type1": "Fake or misleading clinic information",
     "type2": "Fraudulent reviews",
@@ -775,7 +775,7 @@
     "looking_for_advertiser": "Advertise With Us",
     "ad_description": "Reach 1M+ international patients monthly — place your hospital or brand ad here",
     "contact": "Contact Us",
-    "ad_inquiry": "Advertising inquiries: help@kbeautybuyersguide.com"
+    "ad_inquiry": "Advertising inquiries: jbshim1@gmail.com"
   },
   "ai_start": {
     "button": "Start AI Search"
@@ -912,7 +912,7 @@
     "weekly_data": "Weekly data aggregated every Monday",
     "events_description": "Gangnam & Seocho dermatology & plastic surgery promotions (updated weekly)",
     "events_disclaimer": "※ Prices are based on clinic website listings. Please contact clinics directly for confirmation.",
-    "events_ad_inquiry": "Advertising inquiries: help@kbeautybuyersguide.com"
+    "events_ad_inquiry": "Advertising inquiries: jbshim1@gmail.com"
   },
   "cf": {
     "select_specialty": "Select Specialty",
