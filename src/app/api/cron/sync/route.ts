@@ -1,6 +1,7 @@
 // 일일 자동 동기화 Cron API
 // Vercel Cron에서 매일 03:00 UTC에 GET으로 호출
 // CRON_SECRET 환경변수로 무단 호출 차단
+// 전체 페이지 수집(페이지네이션) + 폐업 병원 자동 비활성화
 
 import { NextRequest, NextResponse } from "next/server";
 import { fetchHiraClinics, SUBJECT_CODES, SIDO_CODES } from "@/lib/hira-api";
@@ -15,6 +16,8 @@ const TARGET_REGIONS = Object.keys(SIDO_CODES);
 
 // 한의원/한방병원 종별코드 — dgsbjtCd 없이 clCd로 수집
 const KOREAN_MEDICINE_CL_CDS = ["91", "92"]; // 91: 한방병원, 92: 한의원
+
+const ROWS_PER_PAGE = 100;
 
 export async function GET(request: NextRequest) {
   // CRON_SECRET 검증
@@ -34,107 +37,177 @@ export async function GET(request: NextRequest) {
     const supabase = createServiceRoleClient();
     let totalSynced = 0;
     const syncedAt = new Date().toISOString();
+    const syncedYkihos = new Set<string>();
 
-    // 1) 진료과목별 수집
+    // 1) 진료과목별 수집 — 전체 페이지 순회
     for (const subjectCd of TARGET_SUBJECTS) {
       for (const sidoCd of regions) {
-        try {
-          const result = await fetchHiraClinics({
-            dgsbjtCd: subjectCd,
-            sidoCd: sidoCd,
-            clCd: "31", // 의원만 수집 (종합병원/대학병원 제외)
-            numOfRows: 100,
-            pageNo: 1,
-          });
+        let pageNo = 1;
+        let hasMore = true;
 
-          if (result.clinics.length === 0) continue;
+        while (hasMore) {
+          try {
+            const result = await fetchHiraClinics({
+              dgsbjtCd: subjectCd,
+              sidoCd: sidoCd,
+              clCd: "31",
+              numOfRows: ROWS_PER_PAGE,
+              pageNo,
+            });
 
-          const rows = result.clinics.map((c) => ({
-            ykiho: c.ykiho,
-            name: c.yadmNm,
-            name_en: c.yadmNm,
-            description: `${c.clCdNm} · ${c.dgsbjtCdNm}`,
-            address: c.addr,
-            city: c.sidoCdNm,
-            phone: c.telno || null,
-            website: c.hospUrl || null,
-            cl_cd: null as string | null,
-            cl_cd_nm: c.clCdNm,
-            dgsbjt_cd: subjectCd,
-            dgsbjt_cd_nm: c.dgsbjtCdNm,
-            dr_tot_cnt: c.drTotCnt || 0,
-            sdr_cnt: (c.mdeptSdrCnt || c.sdrCnt || 0) as number,
-            sido_cd: sidoCd,
-            sido_cd_nm: c.sidoCdNm,
-            sggu_cd_nm: c.sgguCdNm,
-            latitude: c.YPos ? parseFloat(c.YPos) : null,
-            longitude: c.XPos ? parseFloat(c.XPos) : null,
-            is_verified: true,
-            is_active: true,
-            synced_at: syncedAt,
-          }));
+            if (result.clinics.length === 0) {
+              hasMore = false;
+              break;
+            }
 
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          await (supabase as any).from("clinics").upsert(rows, { onConflict: "ykiho" });
-          totalSynced += rows.length;
-        } catch (err) {
-          console.error(`[sync] subject=${subjectCd} region=${sidoCd} failed:`, err);
+            const rows = result.clinics.map((c) => {
+              syncedYkihos.add(c.ykiho);
+              return {
+                ykiho: c.ykiho,
+                name: c.yadmNm,
+                name_en: c.yadmNm,
+                description: `${c.clCdNm} · ${c.dgsbjtCdNm}`,
+                address: c.addr,
+                city: c.sidoCdNm,
+                phone: c.telno || null,
+                website: c.hospUrl || null,
+                cl_cd: null as string | null,
+                cl_cd_nm: c.clCdNm,
+                dgsbjt_cd: subjectCd,
+                dgsbjt_cd_nm: c.dgsbjtCdNm,
+                dr_tot_cnt: c.drTotCnt || 0,
+                sdr_cnt: (c.mdeptSdrCnt || c.sdrCnt || 0) as number,
+                sido_cd: sidoCd,
+                sido_cd_nm: c.sidoCdNm,
+                sggu_cd_nm: c.sgguCdNm,
+                latitude: c.YPos ? parseFloat(c.YPos) : null,
+                longitude: c.XPos ? parseFloat(c.XPos) : null,
+                is_verified: true,
+                is_active: true,
+                synced_at: syncedAt,
+              };
+            });
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            await (supabase as any).from("clinics").upsert(rows, { onConflict: "ykiho" });
+            totalSynced += rows.length;
+
+            // 다음 페이지 확인
+            if (pageNo * ROWS_PER_PAGE >= result.totalCount) {
+              hasMore = false;
+            } else {
+              pageNo++;
+            }
+          } catch (err) {
+            console.error(`[sync] subject=${subjectCd} region=${sidoCd} page=${pageNo} failed:`, err);
+            hasMore = false;
+          }
+
+          await new Promise((r) => setTimeout(r, 300));
         }
-
-        await new Promise((r) => setTimeout(r, 300));
       }
     }
 
-    // 2) 한의원/한방병원 — 종별코드(clCd)로 수집
+    // 2) 한의원/한방병원 — 종별코드(clCd)로 수집, 전체 페이지 순회
     for (const clCd of KOREAN_MEDICINE_CL_CDS) {
       for (const sidoCd of regions) {
-        try {
-          const result = await fetchHiraClinics({
-            clCd: clCd,
-            sidoCd: sidoCd,
-            numOfRows: 100,
-            pageNo: 1,
-          });
+        let pageNo = 1;
+        let hasMore = true;
 
-          if (result.clinics.length === 0) continue;
+        while (hasMore) {
+          try {
+            const result = await fetchHiraClinics({
+              clCd: clCd,
+              sidoCd: sidoCd,
+              numOfRows: ROWS_PER_PAGE,
+              pageNo,
+            });
 
-          const rows = result.clinics.map((c) => ({
-            ykiho: c.ykiho,
-            name: c.yadmNm,
-            name_en: c.yadmNm,
-            description: `${c.clCdNm} · ${c.dgsbjtCdNm || "한방"}`,
-            address: c.addr,
-            city: c.sidoCdNm,
-            phone: c.telno || null,
-            website: c.hospUrl || null,
-            cl_cd: clCd,
-            cl_cd_nm: c.clCdNm,
-            dgsbjt_cd: null as string | null,
-            dgsbjt_cd_nm: c.dgsbjtCdNm || null,
-            dr_tot_cnt: c.drTotCnt || 0,
-            sdr_cnt: (c.mdeptSdrCnt || c.sdrCnt || 0) as number,
-            sido_cd: sidoCd,
-            sido_cd_nm: c.sidoCdNm,
-            sggu_cd_nm: c.sgguCdNm,
-            latitude: c.YPos ? parseFloat(c.YPos) : null,
-            longitude: c.XPos ? parseFloat(c.XPos) : null,
-            is_verified: true,
-            is_active: true,
-            synced_at: syncedAt,
-          }));
+            if (result.clinics.length === 0) {
+              hasMore = false;
+              break;
+            }
 
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          await (supabase as any).from("clinics").upsert(rows, { onConflict: "ykiho" });
-          totalSynced += rows.length;
-        } catch (err) {
-          console.error(`[sync] clCd=${clCd} region=${sidoCd} failed:`, err);
+            const rows = result.clinics.map((c) => {
+              syncedYkihos.add(c.ykiho);
+              return {
+                ykiho: c.ykiho,
+                name: c.yadmNm,
+                name_en: c.yadmNm,
+                description: `${c.clCdNm} · ${c.dgsbjtCdNm || "한방"}`,
+                address: c.addr,
+                city: c.sidoCdNm,
+                phone: c.telno || null,
+                website: c.hospUrl || null,
+                cl_cd: clCd,
+                cl_cd_nm: c.clCdNm,
+                dgsbjt_cd: null as string | null,
+                dgsbjt_cd_nm: c.dgsbjtCdNm || null,
+                dr_tot_cnt: c.drTotCnt || 0,
+                sdr_cnt: (c.mdeptSdrCnt || c.sdrCnt || 0) as number,
+                sido_cd: sidoCd,
+                sido_cd_nm: c.sidoCdNm,
+                sggu_cd_nm: c.sgguCdNm,
+                latitude: c.YPos ? parseFloat(c.YPos) : null,
+                longitude: c.XPos ? parseFloat(c.XPos) : null,
+                is_verified: true,
+                is_active: true,
+                synced_at: syncedAt,
+              };
+            });
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            await (supabase as any).from("clinics").upsert(rows, { onConflict: "ykiho" });
+            totalSynced += rows.length;
+
+            if (pageNo * ROWS_PER_PAGE >= result.totalCount) {
+              hasMore = false;
+            } else {
+              pageNo++;
+            }
+          } catch (err) {
+            console.error(`[sync] clCd=${clCd} region=${sidoCd} page=${pageNo} failed:`, err);
+            hasMore = false;
+          }
+
+          await new Promise((r) => setTimeout(r, 300));
         }
-
-        await new Promise((r) => setTimeout(r, 300));
       }
     }
 
-    // 3) 구글 별점 조회 — 별점 없는 전문의 많은 병원 상위 50개
+    // 3) 폐업 병원 비활성화 — 심평원에서 더이상 조회되지 않는 병원
+    let deactivatedCount = 0;
+    if (syncedYkihos.size > 0) {
+      try {
+        // 현재 활성+검증 상태인 병원 중, 이번 동기화에서 조회되지 않은 병원
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: activeClinics } = await (supabase as any)
+          .from("clinics")
+          .select("ykiho")
+          .eq("is_active", true)
+          .eq("is_verified", true);
+
+        if (activeClinics) {
+          const toDeactivate = activeClinics
+            .filter((c: { ykiho: string }) => !syncedYkihos.has(c.ykiho))
+            .map((c: { ykiho: string }) => c.ykiho);
+
+          if (toDeactivate.length > 0) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            await (supabase as any)
+              .from("clinics")
+              .update({ is_active: false, synced_at: syncedAt })
+              .in("ykiho", toDeactivate);
+
+            deactivatedCount = toDeactivate.length;
+          }
+        }
+      } catch (err) {
+        console.error("[sync] Deactivation failed:", err);
+      }
+    }
+
+    // 4) 구글 별점 조회 — 별점 없는 전문의 많은 병원 상위 50개
     let ratingsSynced = 0;
     if (process.env.GOOGLE_PLACES_API_KEY) {
       try {
@@ -143,6 +216,7 @@ export async function GET(request: NextRequest) {
           .from("clinics")
           .select("ykiho, name, address")
           .is("google_rating", null)
+          .eq("is_active", true)
           .order("sdr_cnt", { ascending: false })
           .limit(50);
 
@@ -170,11 +244,14 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    console.log(`[cron/sync] ${totalSynced} clinics + ${ratingsSynced} ratings synced at ${syncedAt}`);
+    console.log(`[cron/sync] ${totalSynced} synced, ${deactivatedCount} deactivated, ${ratingsSynced} ratings at ${syncedAt}`);
 
     return NextResponse.json({
       success: true,
-      message: `${totalSynced} clinics + ${ratingsSynced} ratings synced`,
+      message: `${totalSynced} clinics synced, ${deactivatedCount} deactivated, ${ratingsSynced} ratings`,
+      totalSynced,
+      deactivatedCount,
+      ratingsSynced,
       syncedAt,
     });
   } catch (error) {
