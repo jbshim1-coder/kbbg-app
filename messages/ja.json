@@ -597,7 +597,9 @@
     "rec1_name": "アルムダウン整形外科",
     "rec1_specialty": "整形外科",
     "rec2_name": "ラオン皮膚科",
-    "rec2_specialty": "皮膚科"
+    "rec2_specialty": "皮膚科",
+    "next_level_info": "次のレベルまで {remaining} P (Lv. {nextLevel} · {nextPoints} P)",
+    "max_level": "最高レベルに到達しました。"
   },
   "live": {
     "title": "韓国のストリートライブ",
@@ -1009,5 +1011,10 @@
       "a": "二重手術、鼻の整形、輪郭手術、皮膚治療（レーザー、ボトックス）、歯科施術（ベニア、ホワイトニング）が人気です。",
       "category": "general"
     }
-  ]
+  ],
+  "error": {
+    "title": "問題が発生しました",
+    "description": "予期しないエラーが発生しました。もう一度お試しください。",
+    "retry": "もう一度試す"
+  }
 }

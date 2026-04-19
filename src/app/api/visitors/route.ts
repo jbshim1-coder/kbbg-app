@@ -34,8 +34,8 @@ export async function GET() {
 // POST: 오늘 방문자 +1
 export async function POST(req: Request) {
   const origin = req.headers.get("origin") || "";
-  const allowed = ["https://kbeautybuyersguide.com", "https://kbbg-app.vercel.app", "http://localhost:3000"];
-  if (!allowed.some(a => origin.startsWith(a))) {
+  const allowed = new Set(["https://kbeautybuyersguide.com", "https://kbbg-app.vercel.app", "http://localhost:3000"]);
+  if (!allowed.has(origin)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

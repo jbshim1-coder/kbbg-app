@@ -185,7 +185,7 @@ function ContactContent() {
           {/* 제출 버튼 — 유효성 검사 통과 전 비활성화 */}
           <button
             type="submit"
-            disabled={!isValid}
+            disabled={!isValid || loading}
             className="w-full rounded-xl bg-slate-800 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300 hover:bg-slate-900"
           >
             {loading ? t("contact.sending") : t("contact.submit")}

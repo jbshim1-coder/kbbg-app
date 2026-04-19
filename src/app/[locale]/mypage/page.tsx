@@ -119,13 +119,11 @@ export default function MyPage() {
                     />
                   </div>
                   <p className="text-xs text-gray-400">
-                    다음 레벨까지{" "}
-                    <span className="font-semibold text-gray-600">{progressInfo.remaining.toLocaleString()} P</span>{" "}
-                    남음 (Lv. {(userLevel as number) + 1} · {progressInfo.next.toLocaleString()} P)
+                    {t("mypage.next_level_info", { remaining: progressInfo.remaining.toLocaleString(), nextLevel: (userLevel as number) + 1, nextPoints: progressInfo.next.toLocaleString() })}
                   </p>
                 </>
               ) : (
-                <p className="text-xs text-gray-500">최고 레벨에 도달했습니다.</p>
+                <p className="text-xs text-gray-500">{t("mypage.max_level")}</p>
               )}
             </div>
           )}

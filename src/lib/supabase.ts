@@ -5,6 +5,7 @@
 // ============================================================
 
 import { createBrowserClient, createServerClient } from '@supabase/ssr'
+import { createClient as createRawClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database'
 
 // ============================================================
@@ -66,10 +67,11 @@ export function createServiceRoleClient() {
     throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set')
   }
 
-  return createBrowserClient<Database>(supabaseUrl, serviceRoleKey, {
+  // 서버 전용 클라이언트 — createBrowserClient 대신 supabase-js 직접 사용
+  return createRawClient<Database>(supabaseUrl, serviceRoleKey, {
     auth: {
-      autoRefreshToken: false,  // 서버 사이드에서는 토큰 자동 갱신 불필요
-      persistSession: false,    // 세션 저장 불필요 (단발성 관리자 작업용)
+      autoRefreshToken: false,
+      persistSession: false,
     },
   })
 }

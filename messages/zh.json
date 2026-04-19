@@ -597,7 +597,9 @@
     "rec1_name": "美丽整形外科",
     "rec1_specialty": "整形外科",
     "rec2_name": "Raon皮肤科",
-    "rec2_specialty": "皮肤科"
+    "rec2_specialty": "皮肤科",
+    "next_level_info": "距下一级还差 {remaining} P (Lv. {nextLevel} · {nextPoints} P)",
+    "max_level": "已达到最高等级。"
   },
   "live": {
     "title": "韩国街头实时直播",
@@ -1009,5 +1011,10 @@
       "a": "最受欢迎的手术包括双眼皮、隆鼻、面部轮廓、皮肤治疗（激光、肉毒素）和牙科项目（贴面、美白）。",
       "category": "general"
     }
-  ]
+  ],
+  "error": {
+    "title": "出现问题",
+    "description": "发生意外错误，请重试。",
+    "retry": "重试"
+  }
 }

@@ -19,7 +19,8 @@ export async function GET() {
     const { data, error } = await supabase.auth.admin.listUsers();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("[admin/users]", error.message);
+      return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
     // 클라이언트에 필요한 필드만 추출하여 반환

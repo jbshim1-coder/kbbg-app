@@ -597,7 +597,9 @@
     "rec1_name": "아름다운 성형외과",
     "rec1_specialty": "성형외과",
     "rec2_name": "라온 피부과",
-    "rec2_specialty": "피부과"
+    "rec2_specialty": "피부과",
+    "next_level_info": "다음 레벨까지 {remaining} P 남음 (Lv. {nextLevel} · {nextPoints} P)",
+    "max_level": "최고 레벨에 도달했습니다."
   },
   "live": {
     "title": "한국의 거리 라이브",
@@ -1009,5 +1011,10 @@
     "banner2_sub": "성형·피부·치과·안과 최고의 전문의를 만나보세요",
     "banner3_title": "아름다움을 위한 첫걸음",
     "banner3_sub": "AI가 분석하고 전문의가 상담하는 맞춤 의료관광"
+  },
+  "error": {
+    "title": "문제가 발생했습니다",
+    "description": "예기치 않은 오류가 발생했습니다. 다시 시도해주세요.",
+    "retry": "다시 시도"
   }
 }

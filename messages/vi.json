@@ -597,7 +597,9 @@
     "rec1_name": "Aeumdaun Phẫu thuật Thẩm mỹ",
     "rec1_specialty": "Phẫu thuật thẩm mỹ",
     "rec2_name": "Raon Da liễu",
-    "rec2_specialty": "Da liễu"
+    "rec2_specialty": "Da liễu",
+    "next_level_info": "Còn {remaining} P đến cấp tiếp theo (Lv. {nextLevel} · {nextPoints} P)",
+    "max_level": "Bạn đã đạt cấp cao nhất."
   },
   "live": {
     "title": "Phố Hàn Quốc Trực Tiếp",
@@ -1009,5 +1011,10 @@
       "a": "Phổ biến nhất là cắt mí mắt, nâng mũi, tạo hình khuôn mặt, điều trị da (laser, Botox) và nha khoa (veneer, tẩy trắng).",
       "category": "general"
     }
-  ]
+  ],
+  "error": {
+    "title": "Đã xảy ra lỗi",
+    "description": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.",
+    "retry": "Thử lại"
+  }
 }

@@ -42,19 +42,19 @@ export default async function NotFoundPage() {
         {/* 유용한 링크 목록 */}
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
-            href="/"
+            href="/en"
             className="rounded-xl bg-pink-500 px-6 py-3 font-semibold text-white hover:bg-pink-600"
           >
             {homeLabel}
           </Link>
           <Link
-            href="/recommend"
+            href="/en/recommend"
             className="rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50"
           >
             {recommendLabel}
           </Link>
           <Link
-            href="/community"
+            href="/en/community"
             className="rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50"
           >
             {communityLabel}
@@ -64,7 +64,7 @@ export default async function NotFoundPage() {
         {/* 추가 도움말 */}
         <p className="mt-8 text-sm text-gray-400">
           {contactHint}{" "}
-          <Link href="/contact" className="text-pink-500 hover:underline">
+          <Link href="/en/contact" className="text-pink-500 hover:underline">
             {contactLink}
           </Link>
           .

@@ -28,6 +28,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing text or targetLocale" }, { status: 400 });
     }
 
+    // 텍스트 길이 제한 — API 비용 방지
+    if (text.length > 5000) {
+      return NextResponse.json({ error: "Text too long (max 5000 chars)" }, { status: 400 });
+    }
+
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: "API key not set" }, { status: 500 });

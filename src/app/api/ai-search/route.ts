@@ -110,6 +110,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "query is required" }, { status: 400 });
     }
 
+    // 쿼리 길이 제한 — 프롬프트 인젝션 + API 비용 방지
+    if (query.length > 200) {
+      return NextResponse.json({ error: "Query too long (max 200 chars)" }, { status: 400 });
+    }
+
     // ── 1단계: 자연어 → 검색조건 추출 ──
     let intent: SearchIntent;
     try {

@@ -7,10 +7,10 @@ export default function manifest(): MetadataRoute.Manifest {
     // 앱 기본 정보
     name: "KBBG - Korean Beauty Buyers Guide",
     short_name: "KBBG",
-    description: "AI 기반 한국 뷰티 클리닉 추천 서비스. 7개국 언어 지원.",
+    description: "AI-powered Korean beauty clinic recommendation service. Supporting 8 languages.",
 
     // PWA 시작 URL 및 표시 모드
-    start_url: "/en",
+    start_url: "/",
     display: "standalone",
     orientation: "portrait",
 

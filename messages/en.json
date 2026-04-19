@@ -599,7 +599,9 @@
     "rec1_name": "Aeumdaun Plastic Surgery",
     "rec1_specialty": "Plastic Surgery",
     "rec2_name": "Raon Dermatology",
-    "rec2_specialty": "Dermatology"
+    "rec2_specialty": "Dermatology",
+    "next_level_info": "{remaining} P to next level (Lv. {nextLevel} · {nextPoints} P)",
+    "max_level": "You reached the highest level."
   },
   "live": {
     "title": "Live Streets of Korea",
@@ -1011,5 +1013,10 @@
       "a": "The most popular procedures include double eyelid surgery, rhinoplasty, facial contouring, skin treatments (laser, Botox), and dental procedures like veneers and whitening.",
       "category": "general"
     }
-  ]
+  ],
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again.",
+    "retry": "Try again"
+  }
 }

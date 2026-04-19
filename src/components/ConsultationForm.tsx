@@ -28,13 +28,14 @@ export default function ConsultationForm({ locale }: { locale: string }) {
     if (!form.name || !form.email) return;
     setLoading(true);
     try {
-      await fetch("/api/consultation", {
+      const res = await fetch("/api/consultation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+      if (!res.ok) throw new Error("Server error");
       setSubmitted(true);
-    } catch { /* 실패해도 UI 표시 */ }
+    } catch { setSubmitted(false); }
     finally { setLoading(false); }
   };
 

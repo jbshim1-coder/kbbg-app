@@ -156,13 +156,21 @@ export async function POST(req: Request) {
     const { image, locale } = await req.json();
     if (!image) return NextResponse.json({ error: "No image" }, { status: 400 });
 
+    // 이미지 크기 제한 (5MB) — 서버 메모리 보호 + API 과금 방지
+    const base64Data = image.split(",")[1] || image;
+    if (base64Data.length > 5 * 1024 * 1024 * 1.37) {
+      return NextResponse.json({ error: "Image too large (max 5MB)" }, { status: 413 });
+    }
+
+    // 이미지 형식 검증
+    const mediaTypeMatch = image.match(/^data:(image\/(jpeg|png|gif|webp));base64,/);
+    if (!mediaTypeMatch) {
+      return NextResponse.json({ error: "Invalid image format" }, { status: 400 });
+    }
+    const mediaType = mediaTypeMatch[1];
+
     const isKo = locale === "ko";
     const prompt = getPrompt(isKo);
-
-    // data URL에서 미디어 타입 추출
-    const mediaTypeMatch = image.match(/^data:(image\/\w+);base64,/);
-    const mediaType = mediaTypeMatch?.[1] || "image/jpeg";
-    const base64Data = image.split(",")[1] || image;
 
     // 1차: Claude 시도
     let text = await tryClaude(base64Data, mediaType, prompt);
