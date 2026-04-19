@@ -1,0 +1,32 @@
+# KBBG - Korean Beauty Buyers Guide
+> AI-powered Korean beauty and medical tourism guide supporting 8 languages.
+
+## About
+KBBG (Korean Beauty Buyers Guide) helps international visitors find the best beauty clinics, cosmetic procedures, and skincare products in South Korea. We provide AI-powered clinic recommendations, face analysis, real-time cosmetics rankings, and a multilingual community forum.
+
+## Key Features
+- AI Clinic Search: Natural language search for Korean beauty clinics by specialty, location, and procedure type
+- AI Face Analysis: Upload a selfie to get personalized K-beauty style recommendations
+- Clinic Database: Verified Korean medical clinics with ratings, reviews, and multilingual support info
+- Cosmetics Rankings: Weekly top 20 from Olive Young, Glowpick, Hwahae, and Naver Shopping
+- Community Forum: Multilingual discussion board for sharing medical tourism experiences
+- Expert Consultation: Direct consultation request to clinic recommendation specialists
+
+## Supported Languages
+English, Korean, Japanese, Chinese (Simplified), Vietnamese, Thai, Russian, Mongolian
+
+## Main Pages
+- /en/ - Homepage with AI search, face analysis, clinic finder
+- /en/recommend - AI-powered clinic recommendation
+- /en/hospitals - Clinic search with filters
+- /en/community - Community forum
+- /en/cosmetics - K-beauty product rankings
+- /en/guides - Medical procedure guides (38 procedures across 10 specialties)
+- /en/safety - Safety information for medical tourists
+- /en/procedures - Common procedures guide
+- /en/faq - Frequently asked questions
+- /en/live - Live Korea street cameras
+- /en/contact - Contact and consultation
+
+## Contact
+Website: https://kbeautybuyersguide.com

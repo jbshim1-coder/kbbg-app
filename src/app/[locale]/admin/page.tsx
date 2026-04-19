@@ -111,6 +111,13 @@ export default function AdminDashboard() {
       color: "bg-purple-50 border-purple-100",
     },
     {
+      href: `/${locale}/admin/comments`,
+      label: "댓글관리",
+      description: "커뮤니티 댓글 조회 및 삭제 관리",
+      icon: "🗨️",
+      color: "bg-cyan-50 border-cyan-100",
+    },
+    {
       href: `/${locale}/admin/bug-reports`,
       label: "기능오류 신고",
       description: "사용자 기능오류 신고 확인 및 100P 지급 처리",
@@ -162,6 +169,9 @@ export default function AdminDashboard() {
         ))}
       </div>
 
+      {/* 최근 활동 로그 */}
+      <RecentActivity locale={locale} />
+
       {/* 기타 관리 메뉴 */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
         <h3 className="font-semibold text-gray-700 mb-4">기타 관리</h3>
@@ -175,6 +185,79 @@ export default function AdminDashboard() {
             💬 추천 문의
           </Link>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// 최근 활동 로그 — 최근 게시글/문의 표시
+function RecentActivity({ locale }: { locale: string }) {
+  const [recentPosts, setRecentPosts] = useState<{ id: string; title: string; created_at: string }[]>([]);
+  const [recentInquiries, setRecentInquiries] = useState<{ id: string; name: string; created_at: string }[]>([]);
+  const [loadingActivity, setLoadingActivity] = useState(true);
+
+  useEffect(() => {
+    Promise.all([
+      fetch("/api/admin/posts?page=1&limit=5").then(r => r.json()).catch(() => ({ posts: [] })),
+      fetch("/api/admin/inquiries?page=1&limit=5").then(r => r.json()).catch(() => ({ inquiries: [] })),
+    ]).then(([postsData, inquiriesData]) => {
+      setRecentPosts((postsData.posts || []).slice(0, 5));
+      setRecentInquiries((inquiriesData.inquiries || []).slice(0, 5));
+    }).finally(() => setLoadingActivity(false));
+  }, []);
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      {/* 최근 게시글 */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="font-semibold text-gray-700">최근 게시글</h3>
+          <Link href={`/${locale}/admin/posts`} className="text-xs text-slate-600 hover:underline">
+            전체 보기
+          </Link>
+        </div>
+        {loadingActivity ? (
+          <p className="text-sm text-gray-400">로딩 중...</p>
+        ) : recentPosts.length === 0 ? (
+          <p className="text-sm text-gray-400">게시글이 없습니다.</p>
+        ) : (
+          <ul className="space-y-2">
+            {recentPosts.map((post) => (
+              <li key={post.id} className="flex justify-between items-center text-sm">
+                <span className="text-gray-800 truncate max-w-[200px]">{post.title}</span>
+                <span className="text-xs text-gray-400 shrink-0 ml-2">
+                  {new Date(post.created_at).toLocaleDateString("ko-KR")}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* 최근 문의 */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="font-semibold text-gray-700">최근 문의</h3>
+          <Link href={`/${locale}/admin/inquiries`} className="text-xs text-slate-600 hover:underline">
+            전체 보기
+          </Link>
+        </div>
+        {loadingActivity ? (
+          <p className="text-sm text-gray-400">로딩 중...</p>
+        ) : recentInquiries.length === 0 ? (
+          <p className="text-sm text-gray-400">문의가 없습니다.</p>
+        ) : (
+          <ul className="space-y-2">
+            {recentInquiries.map((inq) => (
+              <li key={inq.id} className="flex justify-between items-center text-sm">
+                <span className="text-gray-800 truncate max-w-[200px]">{inq.name || "익명"}</span>
+                <span className="text-xs text-gray-400 shrink-0 ml-2">
+                  {new Date(inq.created_at).toLocaleDateString("ko-KR")}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

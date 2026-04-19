@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { path: "/admin/users", label: "회원관리", icon: "👥" },
   { path: "/admin/ads", label: "광고관리", icon: "📢" },
   { path: "/admin/posts", label: "게시글관리", icon: "📝" },
+  { path: "/admin/comments", label: "댓글관리", icon: "🗨️" },
   { path: "/admin/clinics", label: "병원 데이터", icon: "🏥" },
   { path: "/admin/inquiries", label: "추천 문의", icon: "💬" },
   { path: "/admin/bug-reports", label: "기능오류 신고", icon: "🐛" },

@@ -29,6 +29,12 @@ export default function AdBanner() {
           // 여러 광고가 있으면 랜덤 1개 선택
           const randomAd = ads[Math.floor(Math.random() * ads.length)];
           setAd(randomAd);
+          // 광고 노출 추적
+          fetch("/api/admin/ads/track", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ adId: randomAd.id, type: "impression" }),
+          }).catch(() => {});
         }
       })
       .catch(() => {})
@@ -52,6 +58,14 @@ export default function AdBanner() {
           href={ad.link_url || "#"}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => {
+            // 광고 클릭 추적
+            fetch("/api/admin/ads/track", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ adId: ad.id, type: "click" }),
+            }).catch(() => {});
+          }}
           className="block mx-auto max-w-6xl bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 sm:py-5 hover:bg-gray-100 transition-colors"
         >
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">

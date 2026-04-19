@@ -144,15 +144,34 @@ export default async function LocaleLayout({
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "KBBG",
+    name: "KBBG - Korean Beauty Buyers Guide",
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
+    description: "AI-powered Korean beauty and medical tourism guide supporting 8 languages. Find the best plastic surgery, dermatology, dental clinics in Seoul, Gangnam.",
     contactPoint: {
       "@type": "ContactPoint",
       email: "help@kbeautybuyersguide.com",
       contactType: "customer support",
+      availableLanguage: ["English", "Korean", "Japanese", "Chinese", "Vietnamese", "Thai", "Russian", "Mongolian"],
     },
     sameAs: [],
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "KBBG - Korean Beauty Buyers Guide",
+    url: siteUrl,
+    description: "AI-powered Korean beauty clinic recommendation and medical tourism guide.",
+    inLanguage: ["en", "ko", "ja", "zh", "vi", "th", "ru", "mn"],
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/${locale}/hospitals?keyword={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (
@@ -164,6 +183,10 @@ export default async function LocaleLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         <NextIntlClientProvider messages={messages}>
           <div className="mx-auto bg-[var(--background)] min-h-screen">

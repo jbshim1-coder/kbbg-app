@@ -235,6 +235,9 @@ export default function AdminAdsPage() {
                 <th className="px-5 py-3 font-medium">병원명</th>
                 <th className="px-5 py-3 font-medium">설명</th>
                 <th className="px-5 py-3 font-medium">상태</th>
+                <th className="px-5 py-3 font-medium">노출수</th>
+                <th className="px-5 py-3 font-medium">클릭수</th>
+                <th className="px-5 py-3 font-medium">CTR</th>
                 <th className="px-5 py-3 font-medium">등록일</th>
                 <th className="px-5 py-3 font-medium">액션</th>
               </tr>
@@ -256,6 +259,19 @@ export default function AdminAdsPage() {
                     }`}>
                       {ad.active ? "활성" : "비활성"}
                     </span>
+                  </td>
+                  <td className="px-5 py-3 text-gray-600">
+                    {(ad as any).impressions ?? 0}
+                  </td>
+                  <td className="px-5 py-3 text-gray-600">
+                    {(ad as any).clicks ?? 0}
+                  </td>
+                  <td className="px-5 py-3 text-gray-600">
+                    {(() => {
+                      const imp = (ad as any).impressions || 0;
+                      const clk = (ad as any).clicks || 0;
+                      return imp > 0 ? ((clk / imp) * 100).toFixed(1) + "%" : "-";
+                    })()}
                   </td>
                   <td className="px-5 py-3 text-gray-500">
                     {ad.created_at ? new Date(ad.created_at).toLocaleDateString("ko-KR") : "-"}

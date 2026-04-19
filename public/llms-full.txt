@@ -1,0 +1,157 @@
+# KBBG - Korean Beauty Buyers Guide (Full Site Documentation)
+> AI-powered Korean beauty and medical tourism guide supporting 8 languages.
+> Website: https://kbeautybuyersguide.com
+
+## About KBBG
+KBBG (Korean Beauty Buyers Guide) is a comprehensive platform for international visitors seeking beauty clinics, cosmetic procedures, and skincare products in South Korea. The site provides AI-powered clinic recommendations, face analysis tools, real-time cosmetics rankings, multilingual community forums, and detailed procedure guides.
+
+## Supported Languages
+English, Korean, Japanese, Chinese (Simplified), Vietnamese, Thai, Russian, Mongolian
+
+---
+
+## Page Descriptions
+
+### Homepage (/en/)
+The main landing page with:
+- AI-powered natural language clinic search (ask in plain English about procedures)
+- AI Face Analysis tool (upload a selfie for personalized K-beauty recommendations)
+- Clinic finder with filters by specialty and region
+- Expert consultation request form
+- Top medical departments overview
+- Community preview with latest forum posts
+- Live Korea street cameras
+
+### AI Clinic Recommendation (/en/recommend)
+Interactive quiz-style recommendation engine. Users answer questions about:
+- Desired procedure type (plastic surgery, dermatology, dental, ophthalmology)
+- Budget range
+- Preferred location in Korea
+- Specific concerns and priorities
+The AI generates personalized clinic recommendations based on responses.
+
+### Clinic Search (/en/hospitals)
+Database of Korean medical clinics searchable by:
+- Medical specialty (plastic surgery, dermatology, dental, ophthalmology, etc.)
+- Region (Seoul, Gangnam, Incheon, Busan, etc.)
+- Clinic type
+- Keyword search
+
+### Community Forum (/en/community)
+Multilingual discussion board with categories:
+- Medical: Plastic Surgery, Dermatology, Internal Medicine, Dental, Ophthalmology, Gynecology, Orthopedics, Korean Medicine, Urology, ENT
+- Culture: K-Pop, K-Food, K-Drama, K-Fashion, Travel, Korean Language Learning
+
+### K-Beauty Cosmetics Rankings (/en/cosmetics)
+Weekly updated top 20 product rankings from major Korean beauty platforms:
+- Naver Shopping (real-time API)
+- Olive Young
+- Glowpick
+- Hwahae
+Categories: Skincare, Makeup, Suncare, Cleansing
+
+### Medical Procedure Guides (/en/guides)
+Authoritative guides to 38 medical procedures across 10 specialties:
+
+#### Plastic Surgery
+- Double Eyelid Surgery ($800-$1,500, 14 days recovery)
+- Rhinoplasty / Nose Job ($2,000-$5,000, 14 days recovery)
+- V-Line Jaw Contouring ($5,000-$12,000, 90 days recovery)
+- Breast Augmentation ($3,000-$6,000, 30 days recovery)
+- Facelift ($4,000-$8,000, 21 days recovery)
+- Cheekbone Reduction ($4,000-$8,000, 60 days recovery)
+- Fat Grafting ($1,500-$3,500, 14 days recovery)
+- Liposuction ($2,000-$5,000, 14 days recovery)
+
+#### Dermatology
+- Ultherapy / HIFU ($800-$1,500, 0 days recovery)
+- Thermage FLX ($700-$1,200, 0 days recovery)
+- Pico Laser Toning ($150-$300/session, 1 day recovery)
+- Skin Booster Injection ($300-$600, 1 day recovery)
+- Thread Lift ($800-$2,000, 3 days recovery)
+
+#### Dental
+- Dental Implant ($900-$1,800, 7 days recovery)
+- Porcelain Veneer ($280-$450/tooth, 3 days recovery)
+- Invisalign ($2,500-$4,000, 0 days recovery)
+- Teeth Whitening ($120-$250, 0 days recovery)
+
+#### Ophthalmology
+- LASIK ($1,500-$2,200 both eyes, 3 days recovery)
+- LASEK ($1,200-$1,800 both eyes, 5 days recovery)
+- ICL Implantable Lens ($3,000-$4,500, 3 days recovery)
+
+#### Other Specialties
+- Internal Medicine: Health checkup packages, IV therapy
+- OBGYN: Gynecological examinations
+- Orthopedics: Joint treatments, stem cell therapy
+- Korean Medicine: Acupuncture, herbal treatments
+- Urology: Men's health treatments
+- ENT: Rhinitis treatment, sleep apnea
+
+### FAQ (/en/faq)
+30 detailed Q&A entries covering 6 categories:
+
+#### General
+- Why travel to South Korea for medical procedures
+- Safety for medical tourists
+- How far in advance to book
+- Most popular procedure types
+- Finding reputable clinics
+
+#### Visa
+- Visa requirements for medical tourism
+- C-3-M Medical Tourism Visa
+- Extending stay for recovery
+- Companion visas
+
+#### Cost
+- Price comparisons (Korea vs US/UK/Australia)
+- What procedure costs include
+- Dental trip budgeting
+- Payment methods at Korean clinics
+- Insurance coverage
+
+#### Procedure
+- Double eyelid surgery details
+- Korean rhinoplasty approach
+- V-line jaw surgery and recovery
+- Popular non-surgical skin treatments
+- LASIK process and timeline
+- What to bring to consultations
+
+#### Recovery
+- Minimum stay duration by procedure
+- Flying safety after surgery
+- Best recovery accommodations in Seoul
+- Post-surgery diet in Korea
+- Managing swelling and bruising
+
+#### Language
+- English support at Korean clinics
+- Languages supported beyond English
+- Best translation apps (Papago, etc.)
+- Post-op care communication
+- Medical interpreter availability
+
+---
+
+## Key Regions Covered
+- Seoul: Gangnam, Apgujeong, Sinsa-dong, Myeongdong, Hongdae
+- Incheon: Airport area clinics
+- Busan: Seomyeon medical district
+- Jeju: Medical tourism packages
+
+## Medical Specialties
+Plastic Surgery, Dermatology, Dental, Ophthalmology, Internal Medicine, OBGYN, Orthopedics, Korean Medicine (Traditional), Urology, ENT
+
+## How to Use KBBG
+1. Search for clinics using AI natural language search or filters
+2. Upload a selfie for AI face analysis and personalized recommendations
+3. Browse procedure guides for detailed information on costs and recovery
+4. Read community forum posts for real patient experiences
+5. Request expert consultation for personalized clinic matching
+6. Check cosmetics rankings for trending K-beauty products
+
+## Contact
+Website: https://kbeautybuyersguide.com

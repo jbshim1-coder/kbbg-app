@@ -105,7 +105,35 @@ export default function AdminPostsPage() {
       {/* 페이지 헤더 */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">게시글 관리</h2>
-        <span className="text-sm text-gray-500">총 {total}개</span>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-500">총 {total}개</span>
+          {!loading && posts.length > 0 && (
+            <button
+              onClick={() => {
+                const headers = ["제목", "조회수", "댓글수", "추천", "상태", "작성일"];
+                const rows = posts.map(p => [
+                  `"${p.title.replace(/"/g, '""')}"`,
+                  String(p.view_count),
+                  String(p.comment_count),
+                  String(p.upvotes),
+                  p.is_deleted ? "삭제됨" : p.is_pinned ? "고정" : "게시중",
+                  new Date(p.created_at).toLocaleDateString("ko-KR"),
+                ]);
+                const csv = [headers, ...rows].map(r => r.join(",")).join("\n");
+                const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `kbbg-posts-${new Date().toISOString().slice(0, 10)}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+              className="text-sm px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors"
+            >
+              CSV 다운로드
+            </button>
+          )}
+        </div>
       </div>
 
       {/* 검색 + 필터 */}

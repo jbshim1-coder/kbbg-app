@@ -134,13 +134,39 @@ export default function AdminUsersPage() {
       {/* 페이지 헤더 */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">회원관리</h2>
-        {!loading && (
-          <span className="text-sm text-gray-500">
-            {filteredUsers.length !== users.length
-              ? `${filteredUsers.length} / ${users.length}명`
-              : `총 ${users.length}명`}
-          </span>
-        )}
+        <div className="flex items-center gap-3">
+          {!loading && (
+            <span className="text-sm text-gray-500">
+              {filteredUsers.length !== users.length
+                ? `${filteredUsers.length} / ${users.length}명`
+                : `총 ${users.length}명`}
+            </span>
+          )}
+          {!loading && users.length > 0 && (
+            <button
+              onClick={() => {
+                const headers = ["이메일", "이름", "가입방식", "가입일", "마지막 로그인", "상태"];
+                const rows = filteredUsers.map(u => [
+                  u.email, u.name, u.provider,
+                  new Date(u.createdAt).toLocaleDateString("ko-KR"),
+                  u.lastSignInAt ? new Date(u.lastSignInAt).toLocaleDateString("ko-KR") : "-",
+                  u.banned ? "차단" : "활성",
+                ]);
+                const csv = [headers, ...rows].map(r => r.join(",")).join("\n");
+                const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `kbbg-users-${new Date().toISOString().slice(0, 10)}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+              className="text-sm px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors"
+            >
+              CSV 다운로드
+            </button>
+          )}
+        </div>
       </div>
 
       {/* 검색/필터 영역 */}
