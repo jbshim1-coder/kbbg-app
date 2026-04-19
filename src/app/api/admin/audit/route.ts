@@ -30,9 +30,16 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  // 관리자 인증 필수 — 위조 방지
+  const adminEmail = await verifyAdminFromRequest();
+  if (!adminEmail) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
-    const { admin_email, action, target_type, target_id, details } = await req.json();
-    if (!admin_email || !action) {
+    const { action, target_type, target_id, details } = await req.json();
+    const admin_email = adminEmail; // 세션에서 추출 (요청 body가 아닌)
+    if (!action) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 

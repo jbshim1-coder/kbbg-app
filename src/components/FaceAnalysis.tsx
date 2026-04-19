@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { safeUrl } from "@/lib/safe-url";
 
 export default function FaceAnalysis({ locale }: { locale: string }) {
   const t = useTranslations();
@@ -253,7 +254,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
               <p className="font-semibold text-gray-800">{topAd.title}</p>
               {topAd.description && <p className="text-sm text-gray-600 mt-1">{topAd.description}</p>}
               {topAd.link_url && (
-                <a href={topAd.link_url} target="_blank" rel="noopener noreferrer sponsored"
+                <a href={safeUrl(topAd.link_url)} target="_blank" rel="noopener noreferrer sponsored"
                   className="inline-block mt-2 text-xs text-gray-500 hover:underline">
                   {t("ui.learn_more")}
                 </a>

@@ -149,7 +149,9 @@
     "ad_reason": "Ưu đãi đặc biệt tháng này, tư vấn miễn phí",
     "specialty_plastic": "Phẫu thuật thẩm mỹ",
     "specialty_derma": "Da liễu",
-    "specialty_dental": "Nha khoa"
+    "specialty_dental": "Nha khoa",
+    "specialty_eye": "Nhãn khoa",
+    "specialty_other": "Khác"
   },
   "community": {
     "title": "Cộng đồng",
@@ -913,7 +915,8 @@
     "weekly_data": "Dữ liệu hàng tuần tính từ thứ Hai",
     "events_description": "Ưu đãi phòng khám da liễu & thẩm mỹ Gangnam-Seocho (cập nhật hàng tuần)",
     "events_disclaimer": "※ Thông tin dựa trên trang web của các phòng khám. Vui lòng liên hệ trực tiếp để xác nhận giá.",
-    "events_ad_inquiry": "Hỏi về quảng cáo: jbshim1@gmail.com"
+    "events_ad_inquiry": "Hỏi về quảng cáo: jbshim1@gmail.com",
+    "consult_error": "Gửi thất bại. Vui lòng thử lại."
   },
   "cf": {
     "select_specialty": "Chọn chuyên khoa",

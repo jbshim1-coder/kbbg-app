@@ -18,6 +18,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,6 +28,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
     e.preventDefault();
     if (!form.name || !form.email) return;
     setLoading(true);
+    setError("");
     try {
       const res = await fetch("/api/consultation", {
         method: "POST",
@@ -35,7 +37,10 @@ export default function ConsultationForm({ locale }: { locale: string }) {
       });
       if (!res.ok) throw new Error("Server error");
       setSubmitted(true);
-    } catch { setSubmitted(false); }
+    } catch {
+      setSubmitted(false);
+      setError(t("ui.consult_error"));
+    }
     finally { setLoading(false); }
   };
 
@@ -135,6 +140,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
           className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 resize-none"
           placeholder="Feel free to ask anything" />
       </div>
+      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
       <button type="submit" disabled={loading}
         className="w-full py-3 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900 disabled:bg-slate-400 transition">
         {loading ? t("ui.consult_submitting") : t("ui.consult_submit")}

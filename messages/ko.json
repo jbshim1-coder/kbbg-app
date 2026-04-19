@@ -149,7 +149,9 @@
     "specialty_derma": "피부과",
     "step4_yes": "네, 필수입니다",
     "step4_prefer": "있으면 좋겠어요",
-    "specialty_dental": "치과"
+    "specialty_dental": "치과",
+    "specialty_eye": "안과",
+    "specialty_other": "기타"
   },
   "community": {
     "title": "커뮤니티",
@@ -965,7 +967,8 @@
     "weekly_data": "매주 월요일 기준 1주일 데이터 집계",
     "events_description": "강남·서초 피부과·성형외과 이벤트 단가 (매주 갱신)",
     "events_disclaimer": "※ 본 정보는 각 병원 홈페이지 공지 기준이며, 실제 가격은 병원에 직접 문의해 주세요.",
-    "events_ad_inquiry": "광고 게재 문의: jbshim1@gmail.com"
+    "events_ad_inquiry": "광고 게재 문의: jbshim1@gmail.com",
+    "consult_error": "전송에 실패했습니다. 다시 시도해주세요."
   },
   "cf": {
     "select_specialty": "진료과 선택",

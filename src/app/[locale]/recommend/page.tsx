@@ -154,7 +154,15 @@ export default function RecommendPage() {
           <h1 className="text-2xl font-bold text-gray-900">{t("recommend.results_title")}</h1>
           <p className="mt-1 text-gray-500">{t("recommend.results_subtitle", { conditions: answers.join(" · ") })}</p>
 
-          <div className="mt-6 flex flex-col gap-4">
+          <div className="mb-6 mt-4 rounded-xl bg-amber-50 border border-amber-200 p-4 text-center">
+            <p className="text-sm text-amber-700">
+              {locale === "ko"
+                ? "\uD83D\uDD27 AI 맞춤 추천 서비스는 현재 준비 중입니다. 아래는 인기 병원 예시입니다."
+                : "\uD83D\uDD27 AI personalized recommendations are coming soon. Below are popular clinic examples."}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4">
             {allClinics.map((clinic) => (
               <div
                 key={clinic.id}

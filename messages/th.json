@@ -149,7 +149,9 @@
     "ad_reason": "ส่วนลดพิเศษเดือนนี้ ปรึกษาฟรี",
     "specialty_plastic": "ศัลยกรรมตกแต่ง",
     "specialty_derma": "ผิวหนัง",
-    "specialty_dental": "ทันตกรรม"
+    "specialty_dental": "ทันตกรรม",
+    "specialty_eye": "จักษุ",
+    "specialty_other": "อื่นๆ"
   },
   "community": {
     "title": "ชุมชน",
@@ -913,7 +915,8 @@
     "weekly_data": "ข้อมูลรายสัปดาห์อ้างอิงจากวันจันทร์",
     "events_description": "โปรโมชั่นคลินิกผิวหนังและศัลยกรรม กังนัม-ซอโช (อัปเดตทุกสัปดาห์)",
     "events_disclaimer": "※ ข้อมูลนี้อ้างอิงจากเว็บไซต์ของแต่ละคลินิก กรุณาติดต่อคลินิกโดยตรงเพื่อยืนยันราคา",
-    "events_ad_inquiry": "สอบถามเรื่องโฆษณา: jbshim1@gmail.com"
+    "events_ad_inquiry": "สอบถามเรื่องโฆษณา: jbshim1@gmail.com",
+    "consult_error": "ส่งไม่สำเร็จ กรุณาลองใหม่"
   },
   "cf": {
     "select_specialty": "เลือกแผนก",

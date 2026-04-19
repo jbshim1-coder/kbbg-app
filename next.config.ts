@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
         { key: "X-Content-Type-Options", value: "nosniff" },
         { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
+        { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://shopping-phinf.pstatic.net https://i.ytimg.com https://lh3.googleusercontent.com; connect-src 'self' https://*.supabase.co https://api.openai.com https://api.anthropic.com https://www.google.com https://openapi.naver.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com; font-src 'self' data:;" },
       ],
     }];
   },

@@ -915,7 +915,8 @@
     "weekly_data": "Weekly data aggregated every Monday",
     "events_description": "Gangnam & Seocho dermatology & plastic surgery promotions (updated weekly)",
     "events_disclaimer": "※ Prices are based on clinic website listings. Please contact clinics directly for confirmation.",
-    "events_ad_inquiry": "Advertising inquiries: jbshim1@gmail.com"
+    "events_ad_inquiry": "Advertising inquiries: jbshim1@gmail.com",
+    "consult_error": "Failed to submit. Please try again."
   },
   "cf": {
     "select_specialty": "Select Specialty",

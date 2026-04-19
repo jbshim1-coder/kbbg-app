@@ -66,8 +66,52 @@ export default function PostDetailPage({
 
   const post = getDummyPost(id);
 
-  const [upvotes, setUpvotes] = useState(post?.upvotes ?? 0);
-  const [downvotes, setDownvotes] = useState(post?.downvotes ?? 0);
+  // DB 게시글 조회 — 더미에서 못 찾으면 Supabase에서 로드
+  const [dbPost, setDbPost] = useState<{
+    id: string; title: string; titleEn: string; content: string; contentEn: string;
+    author: string; level: number; time: string; upvotes: number; downvotes: number;
+    categoryKey: string; flair: FlairType | null; comments: DummyComment[];
+    imageUrl?: string;
+  } | null>(null);
+  const [dbLoading, setDbLoading] = useState(!post);
+
+  useEffect(() => {
+    if (post) return;
+    async function fetchPost() {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase.from("posts").select("*").eq("id", id).single() as { data: Record<string, any> | null };
+        if (data) {
+          setDbPost({
+            id: data.id,
+            title: data.title || "",
+            titleEn: data.title_en || data.title || "",
+            content: data.content || "",
+            contentEn: data.content_en || data.content || "",
+            author: (data.author_id || "").slice(0, 8),
+            level: 1,
+            time: new Date(data.created_at).toLocaleDateString(),
+            upvotes: data.upvotes || 0,
+            downvotes: data.downvotes || 0,
+            categoryKey: "community.general",
+            flair: null,
+            comments: [],
+          });
+        }
+      } catch {
+        // DB 조회 실패 시 무시
+      } finally {
+        setDbLoading(false);
+      }
+    }
+    fetchPost();
+  }, [id, post]);
+
+  // 더미 또는 DB 게시글 통합
+  const displayPost = post || dbPost;
+
+  const [upvotes, setUpvotes] = useState(displayPost?.upvotes ?? 0);
+  const [downvotes, setDownvotes] = useState(displayPost?.downvotes ?? 0);
   const [voted, setVoted] = useState<"up" | "down" | null>(null);
   const [postDeleted, setPostDeleted] = useState(false);
   const [master, setMaster] = useState(false);
@@ -112,12 +156,19 @@ export default function PostDetailPage({
     return () => subscription.unsubscribe();
   }, []);
 
+  // displayPost가 로드되면 upvotes/downvotes 동기화
+  useEffect(() => {
+    if (!displayPost) return;
+    setUpvotes(displayPost.upvotes);
+    setDownvotes(displayPost.downvotes);
+  }, [displayPost]);
+
   // 더미 댓글 초기화 + Supabase 댓글 로드
   useEffect(() => {
-    if (!post) return;
+    if (!displayPost) return;
 
     // 더미 댓글 변환
-    const dummyDisplayComments: DisplayComment[] = post.comments.map((c: DummyComment) => ({
+    const dummyDisplayComments: DisplayComment[] = displayPost.comments.map((c: DummyComment) => ({
       id: c.id,
       author: c.author,
       level: c.level,
@@ -151,7 +202,7 @@ export default function PostDetailPage({
         setComments((prev) => [...prev, ...dbComments]);
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, post]);
+  }, [id, displayPost]);
 
   // 북마크 로드
   useEffect(() => {
@@ -166,19 +217,19 @@ export default function PostDetailPage({
     }
   }, [id]);
 
-  // 게시글 언어 감지 — post가 있을 때만
-  const detectedLang = post ? detectLanguage(post.title) : { lang: locale, flag: "" };
+  // 게시글 언어 감지 — displayPost가 있을 때만
+  const detectedLang = displayPost ? detectLanguage(displayPost.title) : { lang: locale, flag: "" };
   const postLang = detectedLang.lang;
   const postFlag = detectedLang.flag;
   const needsTranslation = postLang !== locale;
 
   // 언어가 다르면 자동 번역 실행 (제목 + 본문)
   useEffect(() => {
-    if (!post || !needsTranslation || titleTranslation || translating) return;
+    if (!displayPost || !needsTranslation || titleTranslation || translating) return;
 
     setTranslating(true);
-    const titleText = isKo ? post.title : post.titleEn;
-    const contentText = isKo ? post.content : post.contentEn;
+    const titleText = isKo ? displayPost.title : displayPost.titleEn;
+    const contentText = isKo ? displayPost.content : displayPost.contentEn;
 
     Promise.all([
       fetch("/api/translate", {
@@ -203,7 +254,15 @@ export default function PostDetailPage({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, locale]);
 
-  if (!post || postDeleted) {
+  if (dbLoading) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center px-4">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-slate-700" />
+      </main>
+    );
+  }
+
+  if (!displayPost || postDeleted) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-4">
         <p className="text-gray-500">{t("community.post_not_found")}</p>
@@ -214,8 +273,8 @@ export default function PostDetailPage({
     );
   }
 
-  const originalTitle = isKo ? post.title : post.titleEn;
-  const originalContent = isKo ? post.content : post.contentEn;
+  const originalTitle = isKo ? displayPost.title : displayPost.titleEn;
+  const originalContent = isKo ? displayPost.content : displayPost.contentEn;
   // 번역 결과가 있고 원문 보기가 아니면 번역문 사용
   const title = (titleTranslation && !showOriginal) ? titleTranslation : originalTitle;
   const content = (contentTranslation && !showOriginal) ? contentTranslation : originalContent;
@@ -379,10 +438,10 @@ export default function PostDetailPage({
           {/* 카테고리 + flair 뱃지 */}
           <div className="flex items-center gap-2 flex-wrap">
             <span className="inline-block rounded-full bg-slate-50 px-2.5 py-0.5 text-xs font-medium text-slate-700">
-              {t(post.categoryKey as Parameters<typeof t>[0])}
+              {t(displayPost.categoryKey as Parameters<typeof t>[0])}
             </span>
-            {post.flair && (() => {
-              const style = FLAIR_STYLE[post.flair];
+            {displayPost.flair && (() => {
+              const style = FLAIR_STYLE[displayPost.flair];
               return (
                 <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${style.bg} ${style.text}`}>
                   {isKo ? style.label : style.labelEn}
@@ -392,11 +451,11 @@ export default function PostDetailPage({
           </div>
 
           {/* before_after 이미지 블러 처리 */}
-          {post.flair === "before_after" && post.imageUrl && (
+          {displayPost.flair === "before_after" && displayPost.imageUrl && (
             <div className="mt-4 relative overflow-hidden rounded-xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={post.imageUrl}
+                src={displayPost.imageUrl}
                 alt={title}
                 className={`w-full object-cover transition-all duration-300 ${imageBlurRevealed ? "" : "blur-xl"}`}
               />
@@ -450,10 +509,10 @@ export default function PostDetailPage({
 
           {/* 작성자 정보 */}
           <div className="mt-2 flex items-center gap-2 text-xs text-gray-400">
-            <LevelBadge level={post.level} size="sm" />
-            <span className="font-medium text-gray-600">{post.author}</span>
+            <LevelBadge level={displayPost.level} size="sm" />
+            <span className="font-medium text-gray-600">{displayPost.author}</span>
             <span>·</span>
-            <span>{post.time}</span>
+            <span>{displayPost.time}</span>
           </div>
 
           {/* 본문 */}
