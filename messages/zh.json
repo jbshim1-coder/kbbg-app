@@ -310,7 +310,10 @@
     "privacy": "隐私政策",
     "social_login": "使用 {provider} 继续",
     "logout": "退出登录",
-    "captcha_failed": "安全验证失败，请重试。"
+    "captcha_failed": "安全验证失败，请重试。",
+    "check_email_title": "请查看您的邮箱",
+    "check_email_desc": "我们已发送确认链接到您的邮箱，请验证以完成注册。",
+    "signing_up": "注册中..."
   },
   "footer": {
     "disclaimer": "免责声明",
@@ -753,14 +756,14 @@
     "yesterday_visitors": "昨日访问:",
     "visitors_unit": "人",
     "notifications": {
-      "comment": "{name} commented on your post.",
-      "trending": "Your post was featured as trending! 🎉",
-      "reply": "{name} replied to your comment.",
-      "notice": "Notice: Community guidelines updated.",
-      "title": "Notifications",
-      "time_m": "{n}m ago",
-      "time_h": "{n}h ago",
-      "time_d": "{n}d ago"
+      "comment": "{name}评论了你的帖子。",
+      "trending": "你的帖子被选为热门帖子！🎉",
+      "reply": "{name}回复了你的评论。",
+      "notice": "公告：社区指南已更新。",
+      "title": "通知",
+      "time_m": "{n}分钟前",
+      "time_h": "{n}小时前",
+      "time_d": "{n}天前"
     }
   },
   "ad": {
@@ -943,5 +946,68 @@
     "no_website": "无网站",
     "search_hospital_placeholder": "医院名或区域（如：驿三洞）",
     "clinic_search_members_only": "搜索仅限会员使用。\n免费注册即可体验！"
-  }
+  },
+  "home": {
+    "hospital_search": "条件筛选医院",
+    "hospital_search_desc": "按科室、地区、类型搜索",
+    "expert_recommendation": "获取专家推荐",
+    "banner1_title": "体验肌肤蜕变",
+    "banner1_sub": "韩国皮肤科专家推荐的定制治疗",
+    "banner2_title": "江南·明洞，世界美容圣地",
+    "banner2_sub": "遇见整形、皮肤、牙科、眼科最顶尖的专家",
+    "banner3_title": "迈向美丽的第一步",
+    "banner3_sub": "AI分析与专家咨询的定制医疗旅游"
+  },
+  "faq_items": [
+    {
+      "q": "韩国整形手术费用是多少？",
+      "a": "因手术而异。双眼皮手术约3000-10000元，隆鼻约15000-35000元，面部轮廓约35000-70000元。比美国和欧洲便宜30-50%。",
+      "category": "cost"
+    },
+    {
+      "q": "外国人可以在韩国医院接受治疗吗？",
+      "a": "是的，外国人可以自由使用韩国医院。许多医院提供英语、中文、日语等外语咨询服务。",
+      "category": "general"
+    },
+    {
+      "q": "手术后恢复需要多长时间？",
+      "a": "因手术而异。肉毒素等小手术1-2天，面部轮廓等大手术需要2-4周。",
+      "category": "recovery"
+    },
+    {
+      "q": "如何选择好的医院？",
+      "a": "确认医院是否获得韩国保健福利部认证。同时参考患者评价、医生资质和术前术后照片。",
+      "category": "general"
+    },
+    {
+      "q": "医院提供翻译服务吗？",
+      "a": "大多数大型医院和诊所提供英语、中文、日语等翻译服务，通常不收取额外费用。",
+      "category": "general"
+    },
+    {
+      "q": "在韩国做美容手术安全吗？",
+      "a": "韩国拥有世界上最严格的医疗法规之一。所有美容手术必须由持证专家执行，医院定期接受检查。",
+      "category": "safety"
+    },
+    {
+      "q": "去韩国前可以在线咨询吗？",
+      "a": "是的，许多医院提供在线视频咨询。您可以在前往韩国之前讨论您的需求并获得初步建议。",
+      "category": "general"
+    },
+    {
+      "q": "医疗旅游前需要准备什么？",
+      "a": "准备好您的病历、护照、旅行保险和给医生的问题清单。提前了解手术和医院也很有帮助。",
+      "category": "preparation"
+    },
+    {
+      "q": "有医疗旅游套餐吗？",
+      "a": "许多机构和医院提供包括机场接送、住宿、翻译和术后护理在内的套餐服务。",
+      "category": "cost"
+    },
+    {
+      "q": "外国人最受欢迎的手术是什么？",
+      "a": "最受欢迎的手术包括双眼皮、隆鼻、面部轮廓、皮肤治疗（激光、肉毒素）和牙科项目（贴面、美白）。",
+      "category": "general"
+    }
+  ]
 }

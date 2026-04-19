@@ -135,7 +135,27 @@ export async function DELETE(request: NextRequest) {
     );
   }
 
-  // 더미 삭제 응답 — 실제 구현 시 DB에서 해당 댓글 레코드 삭제 후 204 반환 고려
+  // 댓글 소유자 확인 — 본인 댓글만 삭제 가능
+  const { data: comment } = await supabase
+    .from("comments")
+    .select("user_id")
+    .eq("id", commentId)
+    .single() as { data: { user_id: string } | null };
+
+  if (!comment || comment.user_id !== user.id) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  // 소유자 확인 후 삭제 진행
+  const { error: deleteError } = await supabase
+    .from("comments")
+    .delete()
+    .eq("id", commentId);
+
+  if (deleteError) {
+    return NextResponse.json({ error: "Failed to delete comment" }, { status: 500 });
+  }
+
   return Response.json({
     success: true,
     message: `Comment ${commentId} deleted`,

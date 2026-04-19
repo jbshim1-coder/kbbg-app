@@ -9,6 +9,13 @@ const intlMiddleware = createIntlMiddleware(routing);
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // /admin 직접 접근 차단 → locale 기반 관리자 페이지로 리다이렉트
+  if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/en/admin${pathname.replace(/^\/admin/, '')}`;
+    return NextResponse.redirect(url);
+  }
+
   // /ko/ 경로 접근 시 로그인 여부 확인
   if (pathname === '/ko' || pathname.startsWith('/ko/')) {
     // Supabase auth 쿠키로 로그인 상태 판별

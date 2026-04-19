@@ -9,9 +9,14 @@ export async function GET(request: Request) {
   const error = searchParams.get('error')
   const errorDescription = searchParams.get('error_description')
 
+  // 쿠키에서 사용자의 마지막 locale 감지 (기본값: en)
+  const cookieHeader = request.headers.get('cookie') || '';
+  const localeMatch = cookieHeader.match(/NEXT_LOCALE=(\w+)/);
+  const locale = localeMatch?.[1] || 'en';
+
   // OAuth 에러가 있으면 로그인 페이지로
   if (error) {
-    return NextResponse.redirect(`${origin}/en/login?error=${encodeURIComponent(errorDescription || error)}`)
+    return NextResponse.redirect(`${origin}/${locale}/login?error=${encodeURIComponent(errorDescription || error)}`)
   }
 
   if (code) {
@@ -37,13 +42,13 @@ export async function GET(request: Request) {
     const { error: authError } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!authError) {
-      return NextResponse.redirect(`${origin}/en`)
+      return NextResponse.redirect(`${origin}/${locale}`)
     }
 
     // 에러 메시지를 로그인 페이지에 전달
-    return NextResponse.redirect(`${origin}/en/login?error=${encodeURIComponent(authError.message)}`)
+    return NextResponse.redirect(`${origin}/${locale}/login?error=${encodeURIComponent(authError.message)}`)
   }
 
   // code 없으면 로그인으로
-  return NextResponse.redirect(`${origin}/en/login?error=no_code`)
+  return NextResponse.redirect(`${origin}/${locale}/login?error=no_code`)
 }

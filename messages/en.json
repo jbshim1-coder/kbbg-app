@@ -312,7 +312,10 @@
     "privacy": "Privacy Policy",
     "social_login": "Continue with {provider}",
     "logout": "Log Out",
-    "captcha_failed": "Security verification failed. Please try again."
+    "captcha_failed": "Security verification failed. Please try again.",
+    "check_email_title": "Check your email",
+    "check_email_desc": "We sent a confirmation link to your email. Please verify to complete signup.",
+    "signing_up": "Signing up..."
   },
   "footer": {
     "disclaimer": "Disclaimer",
@@ -945,5 +948,68 @@
     "no_website": "No Website",
     "search_hospital_placeholder": "Hospital name or dong (e.g. Yeoksam)",
     "clinic_search_members_only": "Search is available for members only.\nSign up for free!"
-  }
+  },
+  "home": {
+    "hospital_search": "Hospital Search",
+    "hospital_search_desc": "Search by specialty, region & type",
+    "expert_recommendation": "Get Expert Recommendation",
+    "banner1_title": "Experience the Difference",
+    "banner1_sub": "Personalized treatments by Korean dermatologists",
+    "banner2_title": "Gangnam & Myeongdong — The World's Beauty Capital",
+    "banner2_sub": "Meet the best specialists in plastic surgery, dermatology, dental & ophthalmology",
+    "banner3_title": "Your First Step to Beauty",
+    "banner3_sub": "AI analysis & specialist consultation for your medical tourism"
+  },
+  "faq_items": [
+    {
+      "q": "How much does plastic surgery cost in Korea?",
+      "a": "It varies by procedure. Double eyelid surgery costs $500-1,500, rhinoplasty $2,000-5,000, and facial contouring $5,000-10,000. This is 30-50% cheaper than the US or Europe.",
+      "category": "cost"
+    },
+    {
+      "q": "Can foreigners receive treatment at Korean hospitals?",
+      "a": "Yes, foreigners can freely use Korean hospitals. Many hospitals offer consultations in English, Chinese, Japanese, and other languages.",
+      "category": "general"
+    },
+    {
+      "q": "How long is the recovery after surgery?",
+      "a": "Recovery varies by procedure. Minor procedures like Botox take 1-2 days, while major surgeries like facial contouring may require 2-4 weeks.",
+      "category": "recovery"
+    },
+    {
+      "q": "How do I choose a good hospital?",
+      "a": "Check if the hospital is accredited by the Korean Ministry of Health. Also review patient testimonials, doctor credentials, and before/after photos.",
+      "category": "general"
+    },
+    {
+      "q": "Do Korean hospitals provide interpreter services?",
+      "a": "Most major hospitals and clinics in tourist areas offer interpreter services in English, Chinese, Japanese, and other languages, often at no additional cost.",
+      "category": "general"
+    },
+    {
+      "q": "Is it safe to get cosmetic procedures in Korea?",
+      "a": "Korea has some of the strictest medical regulations in the world. All cosmetic procedures must be performed by licensed specialists, and hospitals are regularly inspected.",
+      "category": "safety"
+    },
+    {
+      "q": "Can I get a consultation online before visiting?",
+      "a": "Yes, many hospitals offer online video consultations. You can discuss your concerns and get preliminary recommendations before traveling to Korea.",
+      "category": "general"
+    },
+    {
+      "q": "What should I prepare before traveling for medical tourism?",
+      "a": "Prepare your medical records, passport, travel insurance, and a list of questions for your doctor. It is also helpful to research the procedure and hospital in advance.",
+      "category": "preparation"
+    },
+    {
+      "q": "Are there package deals for medical tourism?",
+      "a": "Many agencies and hospitals offer package deals that include airport pickup, accommodation, interpreter services, and follow-up care.",
+      "category": "cost"
+    },
+    {
+      "q": "What are the most popular procedures for foreigners?",
+      "a": "The most popular procedures include double eyelid surgery, rhinoplasty, facial contouring, skin treatments (laser, Botox), and dental procedures like veneers and whitening.",
+      "category": "general"
+    }
+  ]
 }

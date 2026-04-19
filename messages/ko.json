@@ -310,7 +310,10 @@
     "privacy": "개인정보보호정책",
     "social_login": "{provider}(으)로 계속하기",
     "logout": "로그아웃",
-    "captcha_failed": "보안 검증에 실패했습니다. 다시 시도해주세요."
+    "captcha_failed": "보안 검증에 실패했습니다. 다시 시도해주세요.",
+    "check_email_title": "이메일을 확인해주세요",
+    "check_email_desc": "확인 링크를 이메일로 보냈습니다. 가입을 완료하려면 이메일을 확인해주세요.",
+    "signing_up": "가입 중..."
   },
   "footer": {
     "disclaimer": "면책조항",
@@ -995,5 +998,16 @@
     "no_website": "홈페이지 없음",
     "search_hospital_placeholder": "병원명 또는 동 이름 (예: 역삼동)",
     "clinic_search_members_only": "병원 검색은 회원만 이용할 수 있습니다.\n무료로 가입하고 이용해보세요!"
+  },
+  "home": {
+    "hospital_search": "조건별 병원검색",
+    "hospital_search_desc": "진료과·지역·유형으로 실시간 검색",
+    "expert_recommendation": "운영자에게 병원 추천 받기",
+    "banner1_title": "피부가 달라지는 경험",
+    "banner1_sub": "한국 피부과 전문의가 추천하는 맞춤 시술",
+    "banner2_title": "강남·명동, 세계가 찾는 뷰티 성지",
+    "banner2_sub": "성형·피부·치과·안과 최고의 전문의를 만나보세요",
+    "banner3_title": "아름다움을 위한 첫걸음",
+    "banner3_sub": "AI가 분석하고 전문의가 상담하는 맞춤 의료관광"
   }
 }

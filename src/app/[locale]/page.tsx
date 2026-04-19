@@ -79,8 +79,8 @@ export default async function HomePage({
           <div className="rounded-[var(--radius-lg)] bg-white apple-shadow-sm overflow-hidden">
             <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-[var(--border)]">
               <div>
-                <h2 className="text-base font-semibold text-[var(--foreground)]">{locale === "ko" ? "조건별 병원검색" : "Hospital Search"}</h2>
-                <p className="apple-caption text-[var(--foreground-tertiary)]">{locale === "ko" ? "진료과·지역·유형으로 실시간 검색" : "Search by specialty, region & type"}</p>
+                <h2 className="text-base font-semibold text-[var(--foreground)]">{t("home.hospital_search")}</h2>
+                <p className="apple-caption text-[var(--foreground-tertiary)]">{t("home.hospital_search_desc")}</p>
               </div>
             </div>
             <div className="p-6 pt-4">
@@ -94,10 +94,8 @@ export default async function HomePage({
       {/* ━━━ 뷰티 무드 배너 1 ━━━ */}
       <BeautyMoodBanner
         image="/hero/model2.jpg"
-        titleKo="피부가 달라지는 경험"
-        titleEn="Experience the Difference"
-        subKo="한국 피부과 전문의가 추천하는 맞춤 시술"
-        subEn="Personalized treatments by Korean dermatologists"
+        titleKey="home.banner1_title"
+        subKey="home.banner1_sub"
       />
 
       {/* ━━━ 운영자에게 병원 추천 받기 ━━━ */}
@@ -107,7 +105,7 @@ export default async function HomePage({
             <div className="flex items-center gap-3 mb-6">
               <span className="text-3xl">💬</span>
               <h2 className="text-lg font-semibold text-[var(--foreground)]">
-                {locale === "ko" ? "운영자에게 병원 추천 받기" : "Get Expert Recommendation"}
+                {t("home.expert_recommendation")}
               </h2>
             </div>
             <ConsultationForm locale={locale} />
@@ -192,10 +190,8 @@ export default async function HomePage({
       {/* ━━━ 뷰티 무드 배너 2 ━━━ */}
       <BeautyMoodBanner
         image="/hero/model3.jpg"
-        titleKo="강남·명동, 세계가 찾는 뷰티 성지"
-        titleEn="Gangnam & Myeongdong — The World's Beauty Capital"
-        subKo="성형·피부·치과·안과 최고의 전문의를 만나보세요"
-        subEn="Meet the best specialists in plastic surgery, dermatology, dental & ophthalmology"
+        titleKey="home.banner2_title"
+        subKey="home.banner2_sub"
       />
 
       {/* ━━━ 뷰티 배너 — 여성 모델 + CTA ━━━ */}
@@ -256,10 +252,8 @@ export default async function HomePage({
       {/* ━━━ 뷰티 무드 배너 3 ━━━ */}
       <BeautyMoodBanner
         image="/hero/model4.jpg"
-        titleKo="아름다움을 위한 첫걸음"
-        titleEn="Your First Step to Beauty"
-        subKo="AI가 분석하고 전문의가 상담하는 맞춤 의료관광"
-        subEn="AI analysis & specialist consultation for your medical tourism"
+        titleKey="home.banner3_title"
+        subKey="home.banner3_sub"
       />
 
     </main>

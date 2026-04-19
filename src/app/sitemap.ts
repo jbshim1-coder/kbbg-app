@@ -6,15 +6,31 @@ import type { MetadataRoute } from "next";
 const BASE_URL = "https://kbeautybuyersguide.com";
 
 // 지원 locale 목록 (routing.ts와 동기화)
-const LOCALES = ["en", "zh", "ja", "ru", "vi", "th", "mn"] as const;
+const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"] as const;
 
 // locale prefix가 붙는 정적 페이지 경로
 const LOCALE_PAGES = [
   { path: "", priority: 1.0, changeFrequency: "daily" as const },
   { path: "/recommend", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/community", priority: 0.8, changeFrequency: "daily" as const },
+  { path: "/hospitals", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/guide", priority: 0.7, changeFrequency: "weekly" as const },
+  { path: "/guides", priority: 0.7, changeFrequency: "weekly" as const },
+  { path: "/safety", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/procedures", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/cosmetics", priority: 0.7, changeFrequency: "weekly" as const },
+  { path: "/guidelines", priority: 0.6, changeFrequency: "monthly" as const },
+  { path: "/faq", priority: 0.6, changeFrequency: "monthly" as const },
+  { path: "/events", priority: 0.6, changeFrequency: "weekly" as const },
+  { path: "/live", priority: 0.6, changeFrequency: "daily" as const },
+  { path: "/influencer", priority: 0.5, changeFrequency: "monthly" as const },
+  { path: "/ai-search", priority: 0.5, changeFrequency: "weekly" as const },
+  { path: "/search", priority: 0.5, changeFrequency: "weekly" as const },
   { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
   { path: "/contact", priority: 0.5, changeFrequency: "monthly" as const },
+  { path: "/login", priority: 0.3, changeFrequency: "monthly" as const },
+  { path: "/signup", priority: 0.3, changeFrequency: "monthly" as const },
+  { path: "/bug-report", priority: 0.3, changeFrequency: "monthly" as const },
 ];
 
 // locale prefix 없이 제공되는 공통 정책 페이지

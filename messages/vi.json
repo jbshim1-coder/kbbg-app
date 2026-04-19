@@ -310,7 +310,10 @@
     "privacy": "Chính sách bảo mật",
     "social_login": "Tiếp tục với {provider}",
     "logout": "Đăng xuất",
-    "captcha_failed": "Xác minh bảo mật thất bại. Vui lòng thử lại."
+    "captcha_failed": "Xác minh bảo mật thất bại. Vui lòng thử lại.",
+    "check_email_title": "Kiểm tra email của bạn",
+    "check_email_desc": "Chúng tôi đã gửi liên kết xác nhận đến email của bạn. Vui lòng xác minh để hoàn tất đăng ký.",
+    "signing_up": "Đang đăng ký..."
   },
   "footer": {
     "disclaimer": "Tuyên bố miễn trách nhiệm",
@@ -753,14 +756,14 @@
     "yesterday_visitors": "Hôm qua:",
     "visitors_unit": "",
     "notifications": {
-      "comment": "{name} commented on your post.",
-      "trending": "Your post was featured as trending! 🎉",
-      "reply": "{name} replied to your comment.",
-      "notice": "Notice: Community guidelines updated.",
-      "title": "Notifications",
-      "time_m": "{n}m ago",
-      "time_h": "{n}h ago",
-      "time_d": "{n}d ago"
+      "comment": "{name} đã bình luận bài viết của bạn.",
+      "trending": "Bài viết của bạn đã được chọn là bài viết nổi bật! 🎉",
+      "reply": "{name} đã trả lời bình luận của bạn.",
+      "notice": "Thông báo: Quy tắc cộng đồng đã được cập nhật.",
+      "title": "Thông báo",
+      "time_m": "{n} phút trước",
+      "time_h": "{n} giờ trước",
+      "time_d": "{n} ngày trước"
     }
   },
   "ad": {
@@ -943,5 +946,68 @@
     "no_website": "Không có website",
     "search_hospital_placeholder": "Tên bệnh viện hoặc khu vực",
     "clinic_search_members_only": "Tìm kiếm chỉ dành cho thành viên.\nĐăng ký miễn phí!"
-  }
+  },
+  "home": {
+    "hospital_search": "Tìm bệnh viện theo điều kiện",
+    "hospital_search_desc": "Tìm theo chuyên khoa, khu vực & loại hình",
+    "expert_recommendation": "Nhận tư vấn từ chuyên gia",
+    "banner1_title": "Trải nghiệm sự khác biệt cho làn da",
+    "banner1_sub": "Phương pháp điều trị cá nhân hóa từ bác sĩ da liễu Hàn Quốc",
+    "banner2_title": "Gangnam & Myeongdong — Thánh địa làm đẹp thế giới",
+    "banner2_sub": "Gặp gỡ các chuyên gia hàng đầu về phẫu thuật thẩm mỹ, da liễu, nha khoa & nhãn khoa",
+    "banner3_title": "Bước đầu tiên đến vẻ đẹp",
+    "banner3_sub": "AI phân tích và chuyên gia tư vấn cho du lịch y tế của bạn"
+  },
+  "faq_items": [
+    {
+      "q": "Chi phí phẫu thuật thẩm mỹ ở Hàn Quốc là bao nhiêu?",
+      "a": "Tùy theo loại phẫu thuật. Cắt mí mắt khoảng 500-1.500 USD, nâng mũi 2.000-5.000 USD, tạo hình khuôn mặt 5.000-10.000 USD. Rẻ hơn 30-50% so với Mỹ hoặc châu Âu.",
+      "category": "cost"
+    },
+    {
+      "q": "Người nước ngoài có thể khám chữa bệnh tại bệnh viện Hàn Quốc không?",
+      "a": "Có, người nước ngoài có thể tự do sử dụng bệnh viện Hàn Quốc. Nhiều bệnh viện cung cấp tư vấn bằng tiếng Anh, tiếng Trung, tiếng Nhật và các ngôn ngữ khác.",
+      "category": "general"
+    },
+    {
+      "q": "Thời gian hồi phục sau phẫu thuật là bao lâu?",
+      "a": "Tùy theo loại phẫu thuật. Các thủ thuật nhỏ như Botox mất 1-2 ngày, phẫu thuật lớn như tạo hình khuôn mặt cần 2-4 tuần.",
+      "category": "recovery"
+    },
+    {
+      "q": "Làm thế nào để chọn bệnh viện tốt?",
+      "a": "Kiểm tra xem bệnh viện có được Bộ Y tế Hàn Quốc chứng nhận không. Cũng nên xem đánh giá của bệnh nhân, chứng chỉ bác sĩ và ảnh trước/sau.",
+      "category": "general"
+    },
+    {
+      "q": "Bệnh viện có cung cấp dịch vụ phiên dịch không?",
+      "a": "Hầu hết các bệnh viện lớn đều cung cấp dịch vụ phiên dịch tiếng Anh, tiếng Trung, tiếng Nhật miễn phí.",
+      "category": "general"
+    },
+    {
+      "q": "Phẫu thuật thẩm mỹ ở Hàn Quốc có an toàn không?",
+      "a": "Hàn Quốc có quy định y tế nghiêm ngặt nhất thế giới. Tất cả phẫu thuật thẩm mỹ phải do chuyên gia có giấy phép thực hiện.",
+      "category": "safety"
+    },
+    {
+      "q": "Có thể tư vấn trực tuyến trước khi đến không?",
+      "a": "Có, nhiều bệnh viện cung cấp tư vấn video trực tuyến. Bạn có thể thảo luận trước khi đến Hàn Quốc.",
+      "category": "general"
+    },
+    {
+      "q": "Cần chuẩn bị gì trước khi đi du lịch y tế?",
+      "a": "Chuẩn bị hồ sơ bệnh án, hộ chiếu, bảo hiểm du lịch và danh sách câu hỏi cho bác sĩ.",
+      "category": "preparation"
+    },
+    {
+      "q": "Có gói du lịch y tế không?",
+      "a": "Nhiều cơ quan và bệnh viện cung cấp gói dịch vụ bao gồm đón sân bay, chỗ ở, phiên dịch và chăm sóc sau phẫu thuật.",
+      "category": "cost"
+    },
+    {
+      "q": "Phẫu thuật phổ biến nhất cho người nước ngoài là gì?",
+      "a": "Phổ biến nhất là cắt mí mắt, nâng mũi, tạo hình khuôn mặt, điều trị da (laser, Botox) và nha khoa (veneer, tẩy trắng).",
+      "category": "general"
+    }
+  ]
 }

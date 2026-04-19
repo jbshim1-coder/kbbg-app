@@ -17,7 +17,9 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  const [errors, setErrors] = useState<{ confirmPassword?: string; captcha?: string }>({});
+  const [errors, setErrors] = useState<{ confirmPassword?: string; captcha?: string; general?: string }>({});
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const { verifyRecaptcha } = useRecaptcha();
 
   // 유효성 검사 후 가입 처리
@@ -41,7 +43,27 @@ export default function SignupPage() {
       return;
     }
 
+    setLoading(true);
     setErrors({});
+
+    const supabase = createClient();
+    const { error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: name },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+
+    setLoading(false);
+
+    if (signUpError) {
+      setErrors({ general: signUpError.message });
+      return;
+    }
+
+    setSuccess(true);
   };
 
   // Google OAuth 가입 — Supabase가 Google 인증 페이지로 리다이렉트
@@ -54,6 +76,22 @@ export default function SignupPage() {
       },
     });
   };
+
+  // 가입 성공 시 이메일 확인 안내 화면
+  if (success) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+          <span className="text-4xl">📧</span>
+          <h1 className="mt-4 text-2xl font-bold text-gray-900">{t("auth.check_email_title")}</h1>
+          <p className="mt-2 text-sm text-gray-500">{t("auth.check_email_desc")}</p>
+          <Link href={`/${locale}/login`} className="mt-6 inline-block text-sm text-teal-600 hover:underline">
+            {t("auth.login")}
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
@@ -137,9 +175,12 @@ export default function SignupPage() {
             )}
           </div>
 
-          {/* reCAPTCHA 에러 표시 */}
+          {/* 에러 표시 */}
           {errors.captcha && (
             <p className="text-xs text-red-500">{errors.captcha}</p>
+          )}
+          {errors.general && (
+            <p className="text-xs text-red-500">{errors.general}</p>
           )}
 
           {/* 약관 동의 */}
@@ -152,9 +193,10 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            className="w-full py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 transition"
+            disabled={loading}
+            className="w-full py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {t("auth.signup_btn")}
+            {loading ? t("auth.signing_up") : t("auth.signup_btn")}
           </button>
         </form>
 
