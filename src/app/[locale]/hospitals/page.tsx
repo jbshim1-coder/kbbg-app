@@ -150,7 +150,7 @@ function HospitalsContent() {
                   <div key={clinic.ykiho || idx} className="bg-white rounded-lg border border-gray-100 p-4 sm:p-5">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
-                        <h3 className="font-semibold text-gray-800 break-words">{clinic.yadmNm}</h3>
+                        <h3 className="font-semibold text-gray-800 break-words">{locale !== "ko" && (clinic as any).nameEn ? (clinic as any).nameEn : clinic.yadmNm}</h3>
                         <p className="text-xs text-gray-400 mt-0.5">{clinic.clCdNm} · {clinic.dgsbjtCdNm}</p>
                       </div>
                       {clinic.hospUrl && (

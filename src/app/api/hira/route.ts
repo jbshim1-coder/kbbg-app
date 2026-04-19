@@ -1,7 +1,8 @@
-// 병원 검색 API — 심평원 실데이터 그대로 + 구글 별점 표시만
+// 병원 검색 API — 심평원 실데이터 + 구글 별점 + DB 영어 이름 매칭
 import { NextRequest, NextResponse } from "next/server";
 import { fetchHiraClinics } from "@/lib/hira-api";
 import { fetchGoogleRating } from "@/lib/google-places";
+import { createServiceRoleClient } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -48,6 +49,24 @@ export async function GET(request: NextRequest) {
         // 별점 실패해도 결과는 반환
       }
     }
+
+    // DB에서 영어 이름 매칭 (ykiho 기준)
+    try {
+      const ykihos = clinicsWithRating.map(c => c.ykiho).filter(Boolean);
+      if (ykihos.length > 0) {
+        const supabase = createServiceRoleClient();
+        const { data: dbClinics } = await (supabase as any)
+          .from("clinics")
+          .select("ykiho, name_en")
+          .in("ykiho", ykihos);
+        if (dbClinics) {
+          const enMap = new Map(dbClinics.map((c: { ykiho: string; name_en: string }) => [c.ykiho, c.name_en]));
+          clinicsWithRating.forEach(c => {
+            (c as any).nameEn = enMap.get(c.ykiho) || null;
+          });
+        }
+      }
+    } catch { /* DB 매칭 실패해도 결과는 반환 */ }
 
     // 심평원 순서 그대로 반환 (정렬 로직 없음)
     return NextResponse.json({ ...result, clinics: clinicsWithRating });
