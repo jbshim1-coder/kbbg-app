@@ -1,8 +1,18 @@
 "use client";
 
-// 관리자 대시보드 메인 페이지 — 사이트 통계 요약 및 주요 메뉴 바로가기
+// 관리자 대시보드 메인 페이지 — 실시간 통계 카드 + 주요 메뉴 바로가기
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
+// 통계 데이터 구조
+interface Stats {
+  totalUsers: number;
+  totalPosts: number;
+  totalClinics: number;
+  todayVisitors: number;
+  pendingReports: number;
+}
 
 // 메뉴 카드 데이터 구조
 interface MenuCard {
@@ -16,8 +26,68 @@ interface MenuCard {
 export default function AdminDashboard() {
   const params = useParams();
   const locale = (params?.locale as string) || "ko";
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // 관리 메뉴 카드 목록 — 회원관리, 광고관리, 게시글관리 3개
+  useEffect(() => {
+    fetch("/api/admin/stats")
+      .then((r) => r.json())
+      .then((d) => {
+        if (!d.error) setStats(d);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  // 통계 카드 목록
+  const statCards = [
+    {
+      label: "총 회원",
+      value: stats?.totalUsers ?? 0,
+      href: `/${locale}/admin/users`,
+      icon: "👥",
+      bg: "bg-blue-50",
+      border: "border-blue-200",
+      text: "text-blue-700",
+    },
+    {
+      label: "총 게시글",
+      value: stats?.totalPosts ?? 0,
+      href: `/${locale}/admin/posts`,
+      icon: "📝",
+      bg: "bg-purple-50",
+      border: "border-purple-200",
+      text: "text-purple-700",
+    },
+    {
+      label: "활성 병원",
+      value: stats?.totalClinics ?? 0,
+      href: `/${locale}/admin/clinics`,
+      icon: "🏥",
+      bg: "bg-green-50",
+      border: "border-green-200",
+      text: "text-green-700",
+    },
+    {
+      label: "오늘 방문자",
+      value: stats?.todayVisitors ?? 0,
+      href: `/${locale}/admin`,
+      icon: "📊",
+      bg: "bg-amber-50",
+      border: "border-amber-200",
+      text: "text-amber-700",
+    },
+    {
+      label: "미처리 신고",
+      value: stats?.pendingReports ?? 0,
+      href: `/${locale}/admin/inquiries`,
+      icon: "🚨",
+      bg: "bg-red-50",
+      border: "border-red-200",
+      text: "text-red-700",
+    },
+  ];
+
+  // 관리 메뉴 카드 목록
   const menuCards: MenuCard[] = [
     {
       href: `/${locale}/admin/users`,
@@ -56,7 +126,28 @@ export default function AdminDashboard() {
         <p className="text-sm text-gray-500 mt-1">KBBG 관리자 페이지에 오신 것을 환영합니다.</p>
       </div>
 
-      {/* 주요 관리 메뉴 카드 — 3개 그리드 */}
+      {/* 실시간 통계 카드 */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        {statCards.map((card) => (
+          <Link
+            key={card.label}
+            href={card.href}
+            className={`block rounded-xl border ${card.border} ${card.bg} p-4 hover:shadow-md transition-shadow`}
+          >
+            <div className="text-2xl mb-2">{card.icon}</div>
+            <p className="text-xs text-gray-500 mb-1">{card.label}</p>
+            {loading ? (
+              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />
+            ) : (
+              <p className={`text-2xl font-bold ${card.text}`}>
+                {card.value.toLocaleString()}
+              </p>
+            )}
+          </Link>
+        ))}
+      </div>
+
+      {/* 주요 관리 메뉴 카드 */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {menuCards.map((card) => (
           <Link

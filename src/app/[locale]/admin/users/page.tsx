@@ -10,15 +10,28 @@ interface AdminUser {
   name: string;        // user_metadata.full_name 또는 이메일 앞부분
   provider: string;    // 로그인 방식 (google, email 등)
   createdAt: string;   // 가입일
+  lastSignInAt: string | null; // 마지막 로그인
+  banned: boolean;     // 현재 차단 상태
 }
+
+// 정지 기간 옵션
+const SUSPEND_OPTIONS = [
+  { label: "1일", value: "24h" },
+  { label: "7일", value: "168h" },
+  { label: "30일", value: "720h" },
+  { label: "영구", value: "permanent" },
+] as const;
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  // 정지 기간 선택 드롭다운이 열린 사용자 ID
+  const [suspendMenuOpen, setSuspendMenuOpen] = useState<string | null>(null);
 
-  // Supabase auth.users는 service role key가 필요하므로 API 라우트를 통해 조회
-  useEffect(() => {
+  const fetchUsers = () => {
+    setLoading(true);
     fetch("/api/admin/users")
       .then((res) => res.json())
       .then((data) => {
@@ -26,21 +39,72 @@ export default function AdminUsersPage() {
           setError(data.error);
         } else {
           setUsers(data.users || []);
+          setError("");
         }
       })
       .catch(() => setError("사용자 목록을 불러오는 중 오류가 발생했습니다."))
       .finally(() => setLoading(false));
-  }, []);
-
-  // 차단/정지 버튼 — 현재는 UI만 구현 (Supabase ban API 연동 가능)
-  const handleAction = (userId: string, action: "suspend" | "ban") => {
-    const label = action === "suspend" ? "정지" : "차단";
-    alert(`사용자 ${userId}를 ${label} 처리합니다. (Supabase 연동 후 실제 적용)`);
   };
 
-  // 회원 삭제 핸들러 — 목록에서 즉시 제거 (더미, 실제 연동 시 API 호출)
-  const handleDelete = (userId: string) => {
-    setUsers((prev) => prev.filter((u) => u.id !== userId));
+  // Supabase auth.users는 service role key가 필요하므로 API 라우트를 통해 조회
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // 정지/차단 처리 — Supabase ban API 연동
+  const handleAction = async (userId: string, action: "suspend" | "ban" | "unban", duration?: string) => {
+    const labels: Record<string, string> = { suspend: "정지", ban: "차단", unban: "해제" };
+    const label = labels[action];
+
+    if (action === "ban" && !window.confirm(`이 사용자를 영구 차단하시겠습니까?`)) return;
+    if (action === "unban" && !window.confirm(`이 사용자의 차단을 해제하시겠습니까?`)) return;
+
+    setActionLoading(userId);
+    setSuspendMenuOpen(null);
+
+    try {
+      const res = await fetch("/api/admin/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, action, duration }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        alert(`${label} 처리 실패: ${data.error || "알 수 없는 오류"}`);
+      } else {
+        // 목록 새로고침
+        fetchUsers();
+      }
+    } catch {
+      alert(`${label} 처리 중 오류가 발생했습니다.`);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  // 회원 삭제 핸들러 — Supabase auth.admin.deleteUser 연동
+  const handleDelete = async (userId: string, email: string) => {
+    if (!window.confirm(`정말 ${email} 사용자를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return;
+
+    setActionLoading(userId);
+
+    try {
+      const res = await fetch(`/api/admin/users?userId=${userId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        alert(`삭제 실패: ${data.error || "알 수 없는 오류"}`);
+      } else {
+        setUsers((prev) => prev.filter((u) => u.id !== userId));
+      }
+    } catch {
+      alert("삭제 처리 중 오류가 발생했습니다.");
+    } finally {
+      setActionLoading(null);
+    }
   };
 
   return (
@@ -84,7 +148,9 @@ export default function AdminUsersPage() {
                   <th className="px-6 py-3 font-medium">이메일</th>
                   <th className="px-6 py-3 font-medium">이름</th>
                   <th className="px-6 py-3 font-medium">가입일</th>
+                  <th className="px-6 py-3 font-medium">최근 로그인</th>
                   <th className="px-6 py-3 font-medium">로그인 방식</th>
+                  <th className="px-6 py-3 font-medium">상태</th>
                   <th className="px-6 py-3 font-medium">액션</th>
                 </tr>
               </thead>
@@ -95,6 +161,11 @@ export default function AdminUsersPage() {
                     <td className="px-6 py-3 text-gray-600">{user.name || "-"}</td>
                     <td className="px-6 py-3 text-gray-500">
                       {new Date(user.createdAt).toLocaleDateString("ko-KR")}
+                    </td>
+                    <td className="px-6 py-3 text-gray-500">
+                      {user.lastSignInAt
+                        ? new Date(user.lastSignInAt).toLocaleDateString("ko-KR")
+                        : "-"}
                     </td>
                     <td className="px-6 py-3">
                       {/* 로그인 방식 배지 */}
@@ -107,24 +178,74 @@ export default function AdminUsersPage() {
                       </span>
                     </td>
                     <td className="px-6 py-3">
+                      {user.banned ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-600">
+                          차단됨
+                        </span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-600">
+                          정상
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-6 py-3">
                       {/* 회원 제재 및 삭제 액션 버튼 */}
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 relative">
+                        {user.banned ? (
+                          <button
+                            onClick={() => handleAction(user.id, "unban")}
+                            disabled={actionLoading === user.id}
+                            className="text-xs px-2 py-1 bg-green-50 text-green-600 rounded hover:bg-green-100 transition-colors disabled:opacity-50"
+                          >
+                            해제
+                          </button>
+                        ) : (
+                          <>
+                            {/* 정지 버튼 + 기간 선택 드롭다운 */}
+                            <div className="relative">
+                              <button
+                                onClick={() =>
+                                  setSuspendMenuOpen(
+                                    suspendMenuOpen === user.id ? null : user.id
+                                  )
+                                }
+                                disabled={actionLoading === user.id}
+                                className="text-xs px-2 py-1 bg-yellow-50 text-yellow-600 rounded hover:bg-yellow-100 transition-colors disabled:opacity-50"
+                              >
+                                정지
+                              </button>
+                              {suspendMenuOpen === user.id && (
+                                <div className="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[100px]">
+                                  {SUSPEND_OPTIONS.map((opt) => (
+                                    <button
+                                      key={opt.value}
+                                      onClick={() => {
+                                        const action = opt.value === "permanent" ? "ban" : "suspend";
+                                        const duration = opt.value === "permanent" ? undefined : opt.value;
+                                        handleAction(user.id, action, duration);
+                                      }}
+                                      className="block w-full text-left text-xs px-3 py-2 hover:bg-gray-50 text-gray-700 first:rounded-t-lg last:rounded-b-lg"
+                                    >
+                                      {opt.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                            <button
+                              onClick={() => handleAction(user.id, "ban")}
+                              disabled={actionLoading === user.id}
+                              className="text-xs px-2 py-1 bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors disabled:opacity-50"
+                            >
+                              차단
+                            </button>
+                          </>
+                        )}
+                        {/* 마스터 전용 회원 삭제 버튼 */}
                         <button
-                          onClick={() => handleAction(user.id, "suspend")}
-                          className="text-xs px-2 py-1 bg-yellow-50 text-yellow-600 rounded hover:bg-yellow-100 transition-colors"
-                        >
-                          정지
-                        </button>
-                        <button
-                          onClick={() => handleAction(user.id, "ban")}
-                          className="text-xs px-2 py-1 bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors"
-                        >
-                          차단
-                        </button>
-                        {/* 마스터 전용 회원 삭제 버튼 — 목록에서 즉시 제거 */}
-                        <button
-                          onClick={() => handleDelete(user.id)}
-                          className="text-xs px-2 py-1 bg-gray-800 text-white rounded hover:bg-gray-900 transition-colors"
+                          onClick={() => handleDelete(user.id, user.email)}
+                          disabled={actionLoading === user.id}
+                          className="text-xs px-2 py-1 bg-gray-800 text-white rounded hover:bg-gray-900 transition-colors disabled:opacity-50"
                         >
                           삭제
                         </button>

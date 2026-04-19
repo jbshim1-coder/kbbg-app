@@ -18,7 +18,7 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   // 광고 상태
-  const [topAd, setTopAd] = useState<{ hospitalName: string; title: string; description?: string; linkUrl?: string } | null>(null);
+  const [topAd, setTopAd] = useState<{ hospital_name: string; title: string; description?: string; link_url?: string } | null>(null);
   useEffect(() => {
     fetch("/api/admin/ads").then(r => r.json()).then(d => {
       const ads = d.ads || [];
@@ -248,12 +248,12 @@ export default function FaceAnalysis({ locale }: { locale: string }) {
             <div className="mb-6 bg-stone-50 border border-stone-200 rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xs font-semibold text-rose-500 bg-stone-200 px-2 py-0.5 rounded-full">광고</span>
-                <span className="text-xs text-gray-500">{topAd.hospitalName}</span>
+                <span className="text-xs text-gray-500">{topAd.hospital_name}</span>
               </div>
               <p className="font-semibold text-gray-800">{topAd.title}</p>
               {topAd.description && <p className="text-sm text-gray-600 mt-1">{topAd.description}</p>}
-              {topAd.linkUrl && (
-                <a href={topAd.linkUrl} target="_blank" rel="noopener noreferrer sponsored"
+              {topAd.link_url && (
+                <a href={topAd.link_url} target="_blank" rel="noopener noreferrer sponsored"
                   className="inline-block mt-2 text-xs text-gray-500 hover:underline">
                   {t("ui.learn_more")}
                 </a>

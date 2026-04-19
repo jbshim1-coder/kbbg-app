@@ -1,63 +1,22 @@
 // 광고 API 라우트 — GET: 활성 광고 목록, POST/PUT/DELETE: 관리자 전용
-// 인증된 관리자만 변경 가능, 조회는 공개
+// Supabase ads 테이블 사용 (파일 기반에서 이전)
+// 테이블이 없으면 빈 배열 반환 (Supabase Dashboard에서 테이블 생성 필요)
 
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { createServiceRoleClient } from "@/lib/supabase";
 import { verifyAdminFromRequest } from "@/lib/admin-auth";
 
-// 광고 데이터 구조
+// 광고 데이터 구조 (Supabase 컬럼명: snake_case)
 export interface Ad {
   id: string;
   title: string;
-  hospitalName: string;
+  hospital_name: string;
   description: string;
-  linkUrl: string;
-  imageUrl: string;
+  link_url: string;
+  image_url: string;
   active: boolean;
-  createdAt: string;
-}
-
-// 광고 데이터 저장 파일 경로
-const ADS_FILE = path.join(process.cwd(), "data", "ads.json");
-
-// 더미 초기 광고 데이터
-const DEFAULT_ADS: Ad[] = [
-  {
-    id: "ad_001",
-    title: "강남뷰티성형외과 봄 이벤트",
-    hospitalName: "강남뷰티성형외과",
-    description: "쌍꺼풀, 코수술, 지방흡입 전문. 외국인 환자 통역 서비스 제공.",
-    linkUrl: "https://example.com/gangnam-beauty",
-    imageUrl: "",
-    active: true,
-    createdAt: "2026-03-01",
-  },
-];
-
-function readAds(): Ad[] {
-  try {
-    const dir = path.dirname(ADS_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    if (!fs.existsSync(ADS_FILE)) {
-      fs.writeFileSync(ADS_FILE, JSON.stringify(DEFAULT_ADS, null, 2), "utf-8");
-      return DEFAULT_ADS;
-    }
-    const raw = fs.readFileSync(ADS_FILE, "utf-8");
-    return JSON.parse(raw) as Ad[];
-  } catch {
-    return DEFAULT_ADS;
-  }
-}
-
-function writeAds(ads: Ad[]): void {
-  const dir = path.dirname(ADS_FILE);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  fs.writeFileSync(ADS_FILE, JSON.stringify(ads, null, 2), "utf-8");
+  created_at: string;
+  updated_at: string;
 }
 
 // GET — 활성 광고 목록 (공개), ?all=true면 전체 (관리자용)
@@ -71,9 +30,26 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  const ads = readAds();
-  const result = all ? ads : ads.filter((ad) => ad.active);
-  return NextResponse.json({ ads: result });
+  try {
+    const supabase = createServiceRoleClient();
+    let query = (supabase as any).from("ads").select("*").order("created_at", { ascending: false });
+
+    if (!all) {
+      query = query.eq("active", true);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      // 테이블이 없으면 빈 배열 반환
+      console.error("ads GET error:", error.message);
+      return NextResponse.json({ ads: [] });
+    }
+
+    return NextResponse.json({ ads: data || [] });
+  } catch {
+    return NextResponse.json({ ads: [] });
+  }
 }
 
 // POST — 광고 등록 (관리자 전용)
@@ -85,23 +61,27 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const ads = readAds();
+    const supabase = createServiceRoleClient();
 
-    const newAd: Ad = {
-      id: `ad_${Date.now()}`,
-      title: body.title || "",
-      hospitalName: body.hospitalName || "",
-      description: body.description || "",
-      linkUrl: body.linkUrl || "",
-      imageUrl: body.imageUrl || "",
-      active: body.active !== false,
-      createdAt: new Date().toISOString().split("T")[0],
-    };
+    const { data, error } = await (supabase as any)
+      .from("ads")
+      .insert({
+        title: body.title || "",
+        hospital_name: body.hospitalName || body.hospital_name || "",
+        description: body.description || "",
+        link_url: body.linkUrl || body.link_url || "",
+        image_url: body.imageUrl || body.image_url || "",
+        active: body.active !== false,
+      })
+      .select()
+      .single();
 
-    ads.push(newAd);
-    writeAds(ads);
+    if (error) {
+      console.error("ads POST error:", error.message);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
-    return NextResponse.json({ ad: newAd }, { status: 201 });
+    return NextResponse.json({ ad: data }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
@@ -120,16 +100,37 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "id is required" }, { status: 400 });
     }
 
-    const ads = readAds();
-    const idx = ads.findIndex((a) => a.id === body.id);
-    if (idx === -1) {
+    const supabase = createServiceRoleClient();
+
+    // 프론트에서 camelCase로 보내도 snake_case로 변환
+    const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (body.title !== undefined) updateData.title = body.title;
+    if (body.hospitalName !== undefined || body.hospital_name !== undefined)
+      updateData.hospital_name = body.hospitalName ?? body.hospital_name;
+    if (body.description !== undefined) updateData.description = body.description;
+    if (body.linkUrl !== undefined || body.link_url !== undefined)
+      updateData.link_url = body.linkUrl ?? body.link_url;
+    if (body.imageUrl !== undefined || body.image_url !== undefined)
+      updateData.image_url = body.imageUrl ?? body.image_url;
+    if (body.active !== undefined) updateData.active = body.active;
+
+    const { data, error } = await (supabase as any)
+      .from("ads")
+      .update(updateData)
+      .eq("id", body.id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("ads PUT error:", error.message);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    if (!data) {
       return NextResponse.json({ error: "Ad not found" }, { status: 404 });
     }
 
-    ads[idx] = { ...ads[idx], ...body };
-    writeAds(ads);
-
-    return NextResponse.json({ ad: ads[idx] });
+    return NextResponse.json({ ad: data });
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
@@ -147,12 +148,14 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "id is required" }, { status: 400 });
   }
 
-  const ads = readAds();
-  const filtered = ads.filter((a) => a.id !== id);
-  if (filtered.length === ads.length) {
-    return NextResponse.json({ error: "Ad not found" }, { status: 404 });
+  const supabase = createServiceRoleClient();
+
+  const { error } = await (supabase as any).from("ads").delete().eq("id", id);
+
+  if (error) {
+    console.error("ads DELETE error:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  writeAds(filtered);
   return NextResponse.json({ success: true });
 }

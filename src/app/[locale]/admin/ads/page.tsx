@@ -1,17 +1,17 @@
 "use client";
 
 // 광고관리 페이지 — 광고 등록/수정/삭제 및 활성 여부 관리
-// 광고 데이터는 /api/admin/ads (파일 기반 저장)에서 관리
+// 광고 데이터는 /api/admin/ads (Supabase ads 테이블)에서 관리
 import { useEffect, useState } from "react";
 import type { Ad } from "@/app/api/admin/ads/route";
 
 // 빈 광고 폼 초기값
-const EMPTY_FORM: Omit<Ad, "id" | "createdAt"> = {
+const EMPTY_FORM = {
   title: "",
-  hospitalName: "",
+  hospital_name: "",
   description: "",
-  linkUrl: "",
-  imageUrl: "",
+  link_url: "",
+  image_url: "",
   active: true,
 };
 
@@ -59,10 +59,10 @@ export default function AdminAdsPage() {
     setEditingId(ad.id);
     setForm({
       title: ad.title,
-      hospitalName: ad.hospitalName,
+      hospital_name: ad.hospital_name,
       description: ad.description,
-      linkUrl: ad.linkUrl,
-      imageUrl: ad.imageUrl,
+      link_url: ad.link_url,
+      image_url: ad.image_url,
       active: ad.active,
     });
     setShowForm(true);
@@ -140,8 +140,8 @@ export default function AdminAdsPage() {
                   병원명 *
                 </label>
                 <input
-                  name="hospitalName"
-                  value={form.hospitalName}
+                  name="hospital_name"
+                  value={form.hospital_name}
                   onChange={handleChange}
                   required
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -164,8 +164,8 @@ export default function AdminAdsPage() {
                   링크 URL
                 </label>
                 <input
-                  name="linkUrl"
-                  value={form.linkUrl}
+                  name="link_url"
+                  value={form.link_url}
                   onChange={handleChange}
                   type="url"
                   placeholder="https://..."
@@ -177,8 +177,8 @@ export default function AdminAdsPage() {
                   이미지 URL
                 </label>
                 <input
-                  name="imageUrl"
-                  value={form.imageUrl}
+                  name="image_url"
+                  value={form.image_url}
                   onChange={handleChange}
                   type="url"
                   placeholder="https://..."
@@ -243,7 +243,7 @@ export default function AdminAdsPage() {
               {ads.map((ad) => (
                 <tr key={ad.id} className="border-b border-gray-50 hover:bg-gray-50">
                   <td className="px-5 py-3 font-medium text-gray-800">{ad.title}</td>
-                  <td className="px-5 py-3 text-gray-600">{ad.hospitalName}</td>
+                  <td className="px-5 py-3 text-gray-600">{ad.hospital_name}</td>
                   <td className="px-5 py-3 text-gray-500 max-w-xs truncate">
                     {ad.description}
                   </td>
@@ -257,7 +257,9 @@ export default function AdminAdsPage() {
                       {ad.active ? "활성" : "비활성"}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-gray-500">{ad.createdAt}</td>
+                  <td className="px-5 py-3 text-gray-500">
+                    {ad.created_at ? new Date(ad.created_at).toLocaleDateString("ko-KR") : "-"}
+                  </td>
                   <td className="px-5 py-3">
                     <div className="flex gap-2">
                       <button

@@ -126,12 +126,12 @@ function HospitalsContent() {
               <div className="mb-4 bg-stone-50 border border-stone-200 rounded-lg p-5">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xs font-semibold text-white bg-slate-600 px-2 py-0.5 rounded">광고</span>
-                  <span className="text-xs text-gray-500">{topAd.hospitalName}</span>
+                  <span className="text-xs text-gray-500">{topAd.hospital_name}</span>
                 </div>
                 <p className="font-semibold text-gray-800">{topAd.title}</p>
                 {topAd.description && <p className="text-sm text-gray-600 mt-1">{topAd.description}</p>}
-                {topAd.linkUrl && (
-                  <a href={safeUrl(topAd.linkUrl)} target="_blank" rel="noopener noreferrer sponsored"
+                {topAd.link_url && (
+                  <a href={safeUrl(topAd.link_url)} target="_blank" rel="noopener noreferrer sponsored"
                     className="inline-block mt-2 text-xs text-gray-500 hover:underline">
                     {t("hospitals.learn_more")}
                   </a>

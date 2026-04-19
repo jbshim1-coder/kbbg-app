@@ -283,15 +283,15 @@ function AiSearchContent() {
                   <span className="text-xs font-semibold text-yellow-700 bg-yellow-200 px-2 py-0.5 rounded-full">
                     {t("ad.label" as Parameters<typeof t>[0])}
                   </span>
-                  <span className="text-xs text-yellow-600">{topAd.hospitalName}</span>
+                  <span className="text-xs text-yellow-600">{topAd.hospital_name}</span>
                 </div>
                 <p className="text-sm font-semibold text-gray-800">{topAd.title}</p>
                 {topAd.description && (
                   <p className="text-xs text-gray-600 mt-1">{topAd.description}</p>
                 )}
-                {topAd.linkUrl && (
+                {topAd.link_url && (
                   <a
-                    href={safeUrl(topAd.linkUrl)}
+                    href={safeUrl(topAd.link_url)}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
                     className="inline-block mt-2 text-xs text-slate-600 hover:underline"
