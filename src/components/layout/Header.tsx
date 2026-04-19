@@ -64,10 +64,10 @@ export default function Header() {
 
   // 더미 알림 데이터 — 향후 Supabase 실시간 연동 예정
   const DUMMY_NOTIFICATIONS = [
-    { id: 1, text: currentLocaleCode === "ko" ? "sarah_jp님이 내 게시글에 댓글을 달았습니다." : "sarah_jp commented on your post.", time: "2m ago", read: false },
-    { id: 2, text: currentLocaleCode === "ko" ? "내 게시글이 인기글에 선정되었습니다! 🎉" : "Your post was featured as trending! 🎉", time: "1h ago", read: false },
-    { id: 3, text: currentLocaleCode === "ko" ? "mike_us님이 내 댓글에 답글을 달았습니다." : "mike_us replied to your comment.", time: "3h ago", read: true },
-    { id: 4, text: currentLocaleCode === "ko" ? "새 공지사항: 커뮤니티 가이드라인 업데이트" : "Notice: Community guidelines updated.", time: "1d ago", read: true },
+    { id: 1, text: t("header.notifications.comment", { name: "sarah_jp" }), time: t("header.notifications.time_m", { n: 2 }), read: false },
+    { id: 2, text: t("header.notifications.trending"), time: t("header.notifications.time_h", { n: 1 }), read: false },
+    { id: 3, text: t("header.notifications.reply", { name: "mike_us" }), time: t("header.notifications.time_h", { n: 3 }), read: true },
+    { id: 4, text: t("header.notifications.notice"), time: t("header.notifications.time_d", { n: 1 }), read: true },
   ];
   // 현재 선택된 언어 — URL이 바뀌면(middleware redirect 포함) 항상 pathname과 동기화
   const currentLocale =
@@ -207,7 +207,7 @@ export default function Header() {
                 {notifOpen && (
                   <div className="absolute right-0 mt-2 w-72 bg-[var(--background-dark-surface)] rounded-[var(--radius-lg)] apple-shadow border border-[var(--border-dark)] py-1 z-40">
                     <p className="px-4 py-2 text-xs font-semibold text-white/60 border-b border-[var(--border-dark)]">
-                      {currentLocaleCode === "ko" ? "알림" : "Notifications"}
+                      {t("header.notifications.title")}
                     </p>
                     {DUMMY_NOTIFICATIONS.map((n) => (
                       <div
@@ -427,7 +427,7 @@ export default function Header() {
                   href={localePath("/login")}
                   onClick={() => setMobileOpen(false)}
                   className="flex-1 text-center px-4 py-3 min-h-[44px] text-sm font-medium rounded-lg
-                    border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
+                    border border-white/20 text-white/80 hover:bg-white/10 transition-all duration-200"
                 >
                   {t("nav.login")}
                 </Link>
@@ -435,7 +435,7 @@ export default function Header() {
                   href={localePath("/signup")}
                   onClick={() => setMobileOpen(false)}
                   className="flex-1 text-center px-4 py-3 min-h-[44px] text-sm font-medium rounded-lg
-                    bg-slate-800 text-white hover:bg-slate-900 transition-colors"
+                    bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-all duration-200"
                 >
                   {t("nav.signup")}
                 </Link>

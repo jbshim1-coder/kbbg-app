@@ -20,7 +20,8 @@
     "ai_face": "Phân tích khuôn mặt AI",
     "hospital_search": "Tìm BV theo điều kiện",
     "events": "Sự kiện",
-    "live_short": "LIVE"
+    "live_short": "LIVE",
+    "logout": "Đăng xuất"
   },
   "hero": {
     "title": "Tìm bệnh viện phù hợp nhất tại Hàn Quốc cho bạn",
@@ -750,7 +751,17 @@
   },
   "header": {
     "yesterday_visitors": "Hôm qua:",
-    "visitors_unit": ""
+    "visitors_unit": "",
+    "notifications": {
+      "comment": "{name} commented on your post.",
+      "trending": "Your post was featured as trending! 🎉",
+      "reply": "{name} replied to your comment.",
+      "notice": "Notice: Community guidelines updated.",
+      "title": "Notifications",
+      "time_m": "{n}m ago",
+      "time_h": "{n}h ago",
+      "time_d": "{n}d ago"
+    }
   },
   "ad": {
     "label": "Quảng cáo",

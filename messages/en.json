@@ -20,7 +20,8 @@
     "kbeauty": "K-Beauty",
     "guides": "Guides",
     "events": "Events",
-    "live_short": "LIVE CAM"
+    "live_short": "LIVE CAM",
+    "logout": "Logout"
   },
   "hero": {
     "title": "Find the Perfect Hospital in Korea for You",
@@ -147,7 +148,10 @@
     "ad_location": "Nonhyeon-dong, Gangnam-gu, Seoul",
     "ad_reason": "Grand opening special event — 20% discount for first visit",
     "specialty_plastic": "Plastic Surgery",
-    "specialty_derma": "Dermatology"
+    "specialty_derma": "Dermatology",
+    "specialty_dental": "Dental",
+    "specialty_eye": "Ophthalmology",
+    "specialty_other": "Other"
   },
   "community": {
     "title": "Community",
@@ -749,7 +753,17 @@
   },
   "header": {
     "yesterday_visitors": "Yesterday:",
-    "visitors_unit": ""
+    "visitors_unit": "",
+    "notifications": {
+      "comment": "{name} commented on your post.",
+      "trending": "Your post was featured as trending! 🎉",
+      "reply": "{name} replied to your comment.",
+      "notice": "Notice: Community guidelines updated.",
+      "title": "Notifications",
+      "time_m": "{n}m ago",
+      "time_h": "{n}h ago",
+      "time_d": "{n}d ago"
+    }
   },
   "ad": {
     "label": "AD",

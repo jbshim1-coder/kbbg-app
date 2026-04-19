@@ -20,7 +20,8 @@
     "ai_face": "วิเคราะห์ใบหน้า AI",
     "hospital_search": "ค้นหาคลินิกตามเงื่อนไข",
     "events": "อีเวนต์",
-    "live_short": "LIVE"
+    "live_short": "LIVE",
+    "logout": "ออกจากระบบ"
   },
   "hero": {
     "title": "ค้นหาโรงพยาบาลในเกาหลีที่เหมาะกับคุณที่สุด",
@@ -750,7 +751,17 @@
   },
   "header": {
     "yesterday_visitors": "เมื่อวาน:",
-    "visitors_unit": "คน"
+    "visitors_unit": "คน",
+    "notifications": {
+      "comment": "{name} commented on your post.",
+      "trending": "Your post was featured as trending! 🎉",
+      "reply": "{name} replied to your comment.",
+      "notice": "Notice: Community guidelines updated.",
+      "title": "Notifications",
+      "time_m": "{n}m ago",
+      "time_h": "{n}h ago",
+      "time_d": "{n}d ago"
+    }
   },
   "ad": {
     "label": "โฆษณา",

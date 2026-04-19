@@ -20,7 +20,8 @@
     "kbeauty": "화장품순위",
     "guides": "시술가이드",
     "events": "이벤트",
-    "live_short": "LIVE CAM"
+    "live_short": "LIVE CAM",
+    "logout": "로그아웃"
   },
   "hero": {
     "title": "당신에게 딱 맞는 한국의 병원을 찾아보세요",
@@ -802,7 +803,17 @@
   },
   "header": {
     "yesterday_visitors": "어제 방문자 :",
-    "visitors_unit": "명"
+    "visitors_unit": "명",
+    "notifications": {
+      "comment": "{name}님이 내 게시글에 댓글을 달았습니다.",
+      "trending": "내 게시글이 인기글에 선정되었습니다! 🎉",
+      "reply": "{name}님이 내 댓글에 답글을 달았습니다.",
+      "notice": "새 공지사항: 커뮤니티 가이드라인 업데이트",
+      "title": "알림",
+      "time_m": "{n}분 전",
+      "time_h": "{n}시간 전",
+      "time_d": "{n}일 전"
+    }
   },
   "ad": {
     "label": "광고",

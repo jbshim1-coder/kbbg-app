@@ -1,0 +1,440 @@
+{
+  "updatedAt": "2026-04-19",
+  "clinics": [
+    {
+      "clinic": "톡스앤필 강남본점",
+      "area": "서초",
+      "category": "피부과",
+      "url": "https://www.toxnfill1.com/"
+    },
+    {
+      "clinic": "블리비의원 강남역점",
+      "area": "강남",
+      "category": "피부과",
+      "url": "https://www.velyb.kr/"
+    },
+    {
+      "clinic": "뉴베피부과의원",
+      "area": "강남",
+      "category": "피부과",
+      "url": "https://www.newve-skinclinic.co.kr/event"
+    },
+    {
+      "clinic": "뷰티라운지 의원 강남점",
+      "area": "강남",
+      "category": "피부과",
+      "url": "https://www.beautyloungeclinic.com/"
+    },
+    {
+      "clinic": "에이비 피부과",
+      "area": "강남",
+      "category": "피부과",
+      "url": "https://en.skinab.com/promotion/monthly-event"
+    },
+    {
+      "clinic": "포에버의원 강남점",
+      "area": "강남",
+      "category": "피부과",
+      "url": "https://4-ever.co.kr/"
+    },
+    {
+      "clinic": "아이디병원",
+      "area": "강남",
+      "category": "성형외과",
+      "url": "https://m.idhospital.com/promotion/onsale4"
+    },
+    {
+      "clinic": "강남카라성형외과",
+      "area": "강남",
+      "category": "성형외과",
+      "url": "http://www.caraclinic.co.kr/"
+    },
+    {
+      "clinic": "팝성형외과",
+      "area": "강남",
+      "category": "성형외과",
+      "url": "https://www.pop-ps.com/"
+    },
+    {
+      "clinic": "올리팅성형외과의원",
+      "area": "강남",
+      "category": "성형외과",
+      "url": "https://www.alllitingps.co.kr/"
+    },
+    {
+      "clinic": "밝은성모안과",
+      "area": "강남",
+      "category": "안과",
+      "url": "https://oklasik.com/"
+    },
+    {
+      "clinic": "강남스마일안과의원",
+      "area": "서초",
+      "category": "안과",
+      "url": "https://www.smile-i.co.kr/"
+    },
+    {
+      "clinic": "GS안과의원",
+      "area": "서초",
+      "category": "안과",
+      "url": "https://www.gseyecenter.com/"
+    },
+    {
+      "clinic": "밝은눈안과 강남 교보타워",
+      "area": "강남",
+      "category": "안과",
+      "url": "https://brighteyesclinic.com/"
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "clinic": "톡스앤필 강남본점",
+      "area": "서초",
+      "category": "피부과",
+      "title": "현재 진행 중인 이벤트",
+      "items": [
+        {
+          "name": "첫방문 EVENT",
+          "price": "1,000",
+          "original": "1,500"
+        },
+        {
+          "name": "프리미엄 저통증 아쿠아톡신",
+          "price": "219,000",
+          "original": "430,000"
+        },
+        {
+          "name": "온다리프팅",
+          "price": "199,000",
+          "original": "390,000"
+        },
+        {
+          "name": "Signature 스킨바이브",
+          "price": "279,000",
+          "original": "419,000"
+        },
+        {
+          "name": "슈링크유니버스",
+          "price": "89,000",
+          "original": "170,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "https://www.toxnfill1.com/"
+    },
+    {
+      "id": 2,
+      "clinic": "블리비의원 강남역점",
+      "area": "강남",
+      "category": "피부과",
+      "title": "이벤트 프로모션",
+      "items": [
+        {
+          "name": "덴서티 리프팅(고강도 듀얼 고주파) 하이 300샷",
+          "price": "790,000 원",
+          "original": "1,100,000 원"
+        }
+      ],
+      "period": "2026-04-30까지",
+      "url": "https://www.velyb.kr/"
+    },
+    {
+      "id": 3,
+      "clinic": "뉴베피부과의원",
+      "area": "강남",
+      "category": "피부과",
+      "title": "이벤트 가격안내",
+      "items": [
+        {
+          "name": "리쥬란 진피재생 인텐시브 프로그램",
+          "price": "300,000",
+          "original": "450,000"
+        },
+        {
+          "name": "쥬브젠 자가진피 재생술",
+          "price": "300,000",
+          "original": "450,000"
+        },
+        {
+          "name": "민트실 리프팅",
+          "price": "300,000",
+          "original": "450,000"
+        },
+        {
+          "name": "신사동 쥬베룩 스킨부스터 올인원 프로그램",
+          "price": "300,000",
+          "original": "450,000"
+        },
+        {
+          "name": "울쎄라-엠페이스",
+          "price": "300,000",
+          "original": "450,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "https://www.newve-skinclinic.co.kr/event"
+    },
+    {
+      "id": 4,
+      "clinic": "뷰티라운지 의원 강남점",
+      "area": "강남",
+      "category": "피부과",
+      "title": "4월 보톡스·윤곽주사 이벤트",
+      "items": [
+        {
+          "name": "보톡스 100단위",
+          "price": "79,000",
+          "original": "150,000"
+        },
+        {
+          "name": "윤곽주사 1회",
+          "price": "49,000",
+          "original": "100,000"
+        }
+      ],
+      "period": "2026.04.01 ~ 04.30",
+      "url": "https://www.beautyloungeclinic.com/"
+    },
+    {
+      "id": 5,
+      "clinic": "에이비 피부과",
+      "area": "강남",
+      "category": "피부과",
+      "title": "이달의 특별 혜택",
+      "items": [
+        {
+          "name": "엑소좀 시술 1회",
+          "price": "190,000",
+          "original": "350,000"
+        },
+        {
+          "name": "포텐자 전체",
+          "price": "490,000",
+          "original": "800,000"
+        },
+        {
+          "name": "리쥬란 HB 2cc",
+          "price": "190,000",
+          "original": "300,000"
+        }
+      ],
+      "period": "2026.04 한정",
+      "url": "https://en.skinab.com/promotion/monthly-event"
+    },
+    {
+      "id": 6,
+      "clinic": "포에버의원 강남점",
+      "area": "강남",
+      "category": "피부과",
+      "title": "4월 이벤트",
+      "items": [
+        {
+          "name": "보톡스(국산)",
+          "price": "150,000",
+          "original": "225,000"
+        },
+        {
+          "name": "보톡스(국산 고순도)",
+          "price": "180,000",
+          "original": "270,000"
+        },
+        {
+          "name": "보톡스(독일산)",
+          "price": "200,000",
+          "original": "300,000"
+        },
+        {
+          "name": "윤곽주사/조각주사",
+          "price": "180,000",
+          "original": "270,000"
+        },
+        {
+          "name": "브이올렛",
+          "price": "210,000",
+          "original": "315,000"
+        }
+      ],
+      "period": "2026-04-30까지",
+      "url": "https://4-ever.co.kr/"
+    },
+    {
+      "id": 7,
+      "clinic": "아이디병원",
+      "area": "강남",
+      "category": "성형외과",
+      "title": "이달의 이벤트",
+      "items": [
+        {
+          "name": "세미아웃",
+          "price": "99,000",
+          "original": "148,500"
+        },
+        {
+          "name": "처진눈솔루션",
+          "price": "79,000",
+          "original": "118,500"
+        },
+        {
+          "name": "눈밑지방재배치",
+          "price": "70,000",
+          "original": "105,000"
+        },
+        {
+          "name": "쌍꺼풀 재수술",
+          "price": "89,000",
+          "original": "133,500"
+        },
+        {
+          "name": "mini하안검",
+          "price": "70,000",
+          "original": "105,000"
+        }
+      ],
+      "period": "8월 31일 까지",
+      "url": "https://m.idhospital.com/promotion/onsale4"
+    },
+    {
+      "id": 8,
+      "clinic": "강남카라성형외과",
+      "area": "강남",
+      "category": "성형외과",
+      "title": "눈·코 성형 가격 안내",
+      "items": [
+        {
+          "name": "쌍꺼풀수술 (매몰법)",
+          "price": "1,500,000",
+          "original": "2,000,000"
+        },
+        {
+          "name": "쌍꺼풀수술 (절개법)",
+          "price": "2,500,000",
+          "original": "3,000,000"
+        },
+        {
+          "name": "코끝성형술",
+          "price": "2,500,000",
+          "original": "3,500,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "http://www.caraclinic.co.kr/"
+    },
+    {
+      "id": 9,
+      "clinic": "팝성형외과",
+      "area": "강남",
+      "category": "성형외과",
+      "title": "눈성형 전담센터 이벤트",
+      "items": [
+        {
+          "name": "매몰 쌍꺼풀",
+          "price": "590,000",
+          "original": "900,000"
+        },
+        {
+          "name": "눈매교정 + 쌍꺼풀",
+          "price": "990,000",
+          "original": "1,500,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "https://www.pop-ps.com/"
+    },
+    {
+      "id": 10,
+      "clinic": "올리팅성형외과의원",
+      "area": "강남",
+      "category": "성형외과",
+      "title": "눈성형·이마거상 이벤트",
+      "items": [
+        {
+          "name": "이마거상술",
+          "price": "2,900,000",
+          "original": "4,500,000"
+        },
+        {
+          "name": "눈성형 재수술",
+          "price": "1,900,000",
+          "original": "3,000,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "https://www.alllitingps.co.kr/"
+    },
+    {
+      "id": 11,
+      "clinic": "밝은성모안과",
+      "area": "강남",
+      "category": "안과",
+      "title": "투데이 라섹 프로모션",
+      "items": [
+        {
+          "name": "투데이 라섹",
+          "price": "500,000",
+          "original": "750,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "https://oklasik.com/"
+    },
+    {
+      "id": 12,
+      "clinic": "강남스마일안과의원",
+      "area": "서초",
+      "category": "안과",
+      "title": "뉴스마일라식 특별가",
+      "items": [
+        {
+          "name": "뉴스마일라식 양안",
+          "price": "1,900,000",
+          "original": "2,800,000"
+        },
+        {
+          "name": "스마일프로 양안",
+          "price": "2,400,000",
+          "original": "3,500,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "https://www.smile-i.co.kr/"
+    },
+    {
+      "id": 13,
+      "clinic": "GS안과의원",
+      "area": "서초",
+      "category": "안과",
+      "title": "스마일프로·렌즈삽입술",
+      "items": [
+        {
+          "name": "스마일프로 양안",
+          "price": "2,300,000",
+          "original": "3,200,000"
+        },
+        {
+          "name": "ICL 렌즈삽입술 양안",
+          "price": "3,800,000",
+          "original": "5,000,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "https://www.gseyecenter.com/"
+    },
+    {
+      "id": 14,
+      "clinic": "밝은눈안과 강남 교보타워",
+      "area": "강남",
+      "category": "안과",
+      "title": "가정의 달 함께하는 5월 사전예약 이벤트",
+      "items": [
+        {
+          "name": "스마일라식",
+          "price": "100,000",
+          "original": "150,000"
+        }
+      ],
+      "period": "상시 운영",
+      "url": "https://brighteyesclinic.com/"
+    }
+  ]
+}
