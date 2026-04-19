@@ -10,8 +10,11 @@ import { glowpickTop20 } from "@/data/cosmetics-glowpick";
 import { hwahaeTop20 } from "@/data/cosmetics-hwahae";
 import type { ManualCosmeticsItem } from "@/data/cosmetics-oliveyoung";
 
-const CATEGORIES = ["전체", "스킨케어", "메이크업", "선케어", "클렌징"] as const;
-type Category = (typeof CATEGORIES)[number];
+const CATEGORIES_KO = ["전체", "스킨케어", "메이크업", "선케어", "클렌징"] as const;
+const CATEGORIES_EN: Record<string, string> = {
+  "전체": "All", "스킨케어": "Skincare", "메이크업": "Makeup", "선케어": "Suncare", "클렌징": "Cleansing"
+};
+type Category = (typeof CATEGORIES_KO)[number];
 
 type SourceTab = "naver" | "oliveyoung" | "glowpick" | "hwahae";
 
@@ -72,6 +75,7 @@ export default function CosmeticsPage() {
 
   const [source, setSource] = useState<SourceTab>("naver");
   const [category, setCategory] = useState<Category>("전체");
+  const catLabel = (cat: string) => isKo ? cat : (CATEGORIES_EN[cat] || cat);
   const [items, setItems] = useState<CosmeticsRankingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -153,7 +157,7 @@ export default function CosmeticsPage() {
         {/* 카테고리 탭 — 네이버 탭일 때만 표시 */}
         {source === "naver" && (
           <div className="mx-auto max-w-3xl flex overflow-x-auto px-4 py-3 gap-2">
-            {CATEGORIES.map((cat) => (
+            {CATEGORIES_KO.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
@@ -163,7 +167,7 @@ export default function CosmeticsPage() {
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
               >
-                {cat}
+                {catLabel(cat)}
               </button>
             ))}
           </div>
