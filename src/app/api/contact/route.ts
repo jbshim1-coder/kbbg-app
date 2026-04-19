@@ -1,6 +1,7 @@
 // 문의 API — 추천 문의 접수(POST), 문의 상태 조회(GET)
 
 import { NextRequest, NextResponse } from "next/server";
+import { createServiceRoleClient } from "@/lib/supabase";
 import { sendNotificationEmail } from "@/lib/email";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -64,14 +65,40 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 운영자에게 이메일 알림
+    // 1) Supabase contact_inquiries 테이블에 저장
+    const supabase = createServiceRoleClient();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: saved, error: dbError } = await (supabase as any)
+      .from("contact_inquiries")
+      .insert({
+        name: body.user,
+        email: body.email,
+        country_code: body.country || null,
+        category: "contact",
+        subject: body.procedure || "일반 문의",
+        message: [
+          body.procedure ? `시술: ${body.procedure}` : null,
+          body.budget ? `예산: ${body.budget}` : null,
+          body.visitDate ? `방문예정일: ${body.visitDate}` : null,
+          body.message ? `내용: ${body.message}` : null,
+        ].filter(Boolean).join("\n"),
+        status: "open",
+      })
+      .select("id")
+      .single();
+
+    if (dbError) {
+      console.error("[contact] DB save failed:", dbError);
+    }
+
+    // 2) 운영자에게 이메일 알림
     await sendNotificationEmail({
       subject: `[KBBG] 새 문의 — ${body.user}`,
       content: `새 문의가 접수되었습니다.\n\n성명: ${body.user}\n이메일: ${body.email}\n국적: ${body.country || "-"}\n원하는 시술: ${body.procedure}\n예산: ${body.budget}\n방문예정일: ${body.visitDate || "-"}\n문의내용: ${body.message}\n\n접수 시각: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}`,
     });
 
     const response: ContactResponse = {
-      id: Math.floor(Math.random() * 10000) + 1000, // 더미: 랜덤 4자리 접수 번호
+      id: saved?.id ? 1 : Math.floor(Math.random() * 10000) + 1000,
       status: "pending",
       submittedAt: new Date().toISOString(),
       estimatedResponseTime: "24시간 이내",

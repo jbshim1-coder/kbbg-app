@@ -1,5 +1,6 @@
-// 신고 이메일 알림 API
+// 신고 이메일 알림 API — Supabase 저장 + 이메일 알림
 import { NextRequest, NextResponse } from "next/server";
+import { createServiceRoleClient } from "@/lib/supabase";
 import { sendNotificationEmail } from "@/lib/email";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -29,6 +30,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Input too long" }, { status: 400 });
     }
 
+    // 1) Supabase 저장
+    const supabase = createServiceRoleClient();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase as any).from("contact_inquiries").insert({
+      name,
+      email,
+      category: "report",
+      subject: `${type}${clinicName ? ` — ${clinicName}` : ""}`,
+      message: description,
+      status: "open",
+    });
+
+    // 2) 이메일 알림
     await sendNotificationEmail({
       subject: `[KBBG] 신고 접수 — ${type}`,
       content: `새 신고가 접수되었습니다.\n\n신고자: ${name}\n이메일: ${email}\n신고 유형: ${type}\n병원명: ${clinicName || "-"}\n내용: ${description}\n\n접수 시각: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}`,
