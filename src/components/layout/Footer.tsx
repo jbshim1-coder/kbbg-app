@@ -56,7 +56,7 @@ export default async function Footer({ locale }: { locale: string }) {
       <div className="max-w-[980px] mx-auto px-4 sm:px-6">
 
         {/* ── 상단: 브랜드 + 네비 섹션 ── */}
-        <div className="py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="py-8 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
 
           {/* 회사 정보 블록 */}
           <div className="col-span-1 sm:col-span-2 lg:col-span-2">
@@ -80,15 +80,15 @@ export default async function Footer({ locale }: { locale: string }) {
           {/* 네비게이션 섹션 3개 */}
           {FOOTER_SECTIONS.map((section) => (
             <div key={section.titleKey}>
-              <h3 className="text-sm font-semibold text-white/80 mb-4">
+              <h3 className="text-sm font-semibold text-white/80 mb-2 sm:mb-4">
                 {t(section.titleKey as Parameters<typeof t>[0])}
               </h3>
-              <ul className="space-y-1">
+              <ul className="space-y-0.5">
                 {section.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/50 hover:text-[var(--accent-link-dark)] transition-all duration-200 min-h-[44px] flex items-center"
+                      className="text-[13px] sm:text-sm text-white/50 hover:text-[var(--accent-link-dark)] transition-all duration-200 py-1.5 sm:py-2 flex items-center"
                     >
                       {t(link.labelKey as Parameters<typeof t>[0])}
                     </Link>
