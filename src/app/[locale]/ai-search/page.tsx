@@ -4,8 +4,14 @@ import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type { HiraClinic } from "@/lib/hira-api";
+import { SIDO_CODES } from "@/lib/hira-api";
 import type { Ad } from "@/app/api/admin/ads/route";
 import { safeUrl } from "@/lib/safe-url";
+
+// "서울" → "110000" 역방향 매핑
+const SIDO_NAME_TO_CODE = Object.fromEntries(
+  Object.entries(SIDO_CODES).map(([code, name]) => [name, code])
+);
 
 function useLocale() {
   if (typeof window !== "undefined") {
@@ -175,12 +181,20 @@ function AiSearchContent() {
     window.history.pushState(null, "", `/${locale}/ai-search?q=${encodeURIComponent(newQuery)}`);
   };
 
-  // 조건 검색 페이지로 필터 전달
+  // 조건 검색 페이지로 필터 전달 — 지역명을 시도코드로 변환
   const buildHospitalsUrl = () => {
     if (!filters) return `/${locale}/hospitals`;
     const params = new URLSearchParams();
     if (filters.subject_code) params.set("subject", filters.subject_code);
-    if (filters.region) params.set("keyword", filters.region);
+    if (filters.region) {
+      // "서울" → "110000" 시도코드 변환, 매칭 안 되면 keyword로 전달
+      const sidoCode = SIDO_NAME_TO_CODE[filters.region];
+      if (sidoCode) {
+        params.set("region", sidoCode);
+      } else {
+        params.set("keyword", filters.region);
+      }
+    }
     const qs = params.toString();
     return `/${locale}/hospitals${qs ? `?${qs}` : ""}`;
   };
