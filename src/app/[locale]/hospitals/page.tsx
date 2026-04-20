@@ -26,6 +26,8 @@ function HospitalsContent() {
   const subjectName = subject ? (SUBJECT_CODES[subject] || subject) : "";
   const regionName = region ? (SIDO_CODES[region] || region) : "";
 
+  // 기관유형 필터 (URL에서 초기값, 이후 사용자 변경 가능)
+  const [activeType, setActiveType] = useState(type);
   const [clinics, setClinics] = useState<HiraClinic[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -48,7 +50,7 @@ function HospitalsContent() {
       if (region) params.set("region", region);
       if (sggu) params.set("sggu", sggu);
       if (subject) params.set("subject", subject);
-      if (type) params.set("type", type);
+      if (activeType) params.set("type", activeType);
       if (keyword) params.set("keyword", keyword);
       params.set("page", String(newPage));
 
@@ -65,11 +67,16 @@ function HospitalsContent() {
     }
   };
 
-  // 마운트 시 자동 검색
+  // 기관유형 변경 핸들러
+  const handleTypeChange = (newType: string) => {
+    setActiveType(newType);
+  };
+
+  // 마운트 시 + activeType 변경 시 자동 검색
   useEffect(() => {
     handleSearch(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [activeType]);
 
   const totalPages = Math.ceil(totalCount / 10);
 
@@ -93,6 +100,28 @@ function HospitalsContent() {
                 {!regionName && !subjectName && (
                   <span className="text-xs text-gray-400">{t("hospitals.all_results")}</span>
                 )}
+              </div>
+              {/* 기관유형 필터 */}
+              <div className="flex flex-wrap gap-2 mt-3">
+                {[
+                  { code: "", label: locale === "ko" ? "전체" : "All" },
+                  { code: "31", label: locale === "ko" ? "의원" : "Clinic" },
+                  { code: "21", label: locale === "ko" ? "병원" : "Hospital" },
+                  { code: "11", label: locale === "ko" ? "종합병원" : "General" },
+                  { code: "01", label: locale === "ko" ? "상급종합" : "Tertiary" },
+                ].map((opt) => (
+                  <button
+                    key={opt.code}
+                    onClick={() => handleTypeChange(opt.code)}
+                    className={`text-xs px-3 py-1.5 rounded-full border transition-colors min-h-[32px] ${
+                      activeType === opt.code
+                        ? "bg-slate-800 text-white border-slate-800"
+                        : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
               </div>
             </div>
             <Link

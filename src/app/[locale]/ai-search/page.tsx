@@ -181,19 +181,24 @@ function AiSearchContent() {
     window.history.pushState(null, "", `/${locale}/ai-search?q=${encodeURIComponent(newQuery)}`);
   };
 
-  // 조건 검색 페이지로 필터 전달 — 지역명을 시도코드로 변환
+  // 조건 검색 페이지로 필터 전달 — 지역명을 시도코드로 변환, 기관유형 포함
   const buildHospitalsUrl = () => {
     if (!filters) return `/${locale}/hospitals`;
     const params = new URLSearchParams();
     if (filters.subject_code) params.set("subject", filters.subject_code);
     if (filters.region) {
-      // "서울" → "110000" 시도코드 변환, 매칭 안 되면 keyword로 전달
       const sidoCode = SIDO_NAME_TO_CODE[filters.region];
       if (sidoCode) {
         params.set("region", sidoCode);
       } else {
         params.set("keyword", filters.region);
       }
+    }
+    // 기관유형: AI가 추출했으면 사용, 없으면 의원(31) 기본값
+    if (filters.clinic_type) {
+      params.set("type", filters.clinic_type);
+    } else if (filters.subject_code) {
+      params.set("type", "31");
     }
     const qs = params.toString();
     return `/${locale}/hospitals${qs ? `?${qs}` : ""}`;
