@@ -164,6 +164,7 @@ export async function POST(request: NextRequest) {
       totalCount,
       extractedFilters,
       needsRegion,
+      searchIntent: intent,
     });
   } catch (error) {
     console.error("AI search error:", error);

@@ -79,6 +79,10 @@ function AiSearchContent() {
   const [filters, setFilters] = useState<ExtractedFilters | null>(null);
   const [needsRegion, setNeedsRegion] = useState(false);
   const [topAd, setTopAd] = useState<Ad | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [searchIntent, setSearchIntent] = useState<any>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [allLoaded, setAllLoaded] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const stepTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -132,6 +136,8 @@ function AiSearchContent() {
         setSearchBasis(data.searchBasis || "");
         setFilters(data.extractedFilters || null);
         setNeedsRegion(data.needsRegion || false);
+        setSearchIntent(data.searchIntent || null);
+        setAllLoaded((data.totalCount || 0) <= 10);
       } catch (err) {
         if ((err as Error).name === "AbortError") return;
         setResults([]);
@@ -179,6 +185,32 @@ function AiSearchContent() {
     setRawQuery(newQuery);
     setSearchTrigger((prev) => prev + 1);
     window.history.pushState(null, "", `/${locale}/ai-search?q=${encodeURIComponent(newQuery)}`);
+  };
+
+  // 나머지 결과 더 불러오기 — 같은 DB에서 추가 결과
+  const handleLoadMore = async () => {
+    if (!searchIntent || loadingMore) return;
+    setLoadingMore(true);
+    try {
+      const remaining = totalCount - results.length;
+      const res = await fetch("/api/ai-search/more", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ intent: searchIntent, page: 1, limit: remaining }),
+      });
+      const data = await res.json();
+      if (data.clinics?.length > 0) {
+        // 기존 10개의 ykiho 목록으로 중복 제거
+        const existingIds = new Set(results.map((r) => r.ykiho));
+        const newClinics = data.clinics.filter((c: HiraClinic) => !existingIds.has(c.ykiho));
+        setResults((prev) => [...prev, ...newClinics]);
+      }
+      setAllLoaded(true);
+    } catch {
+      // 실패해도 무시
+    } finally {
+      setLoadingMore(false);
+    }
   };
 
   // 조건 검색 페이지로 필터 전달 — 지역명을 시도코드로 변환, 기관유형 포함
@@ -411,18 +443,32 @@ function AiSearchContent() {
               </div>
             )}
 
-            {/* 조건 검색으로 더 찾기 — 추출된 필터 자동 전달 */}
-            <div className="pt-4">
+            {/* 나머지 결과 더 보기 — 같은 DB에서 추가 로드 */}
+            {!allLoaded && totalCount > 10 && (
+              <div className="pt-4">
+                <button
+                  onClick={handleLoadMore}
+                  disabled={loadingMore}
+                  className="block w-full text-center py-3 px-6 bg-slate-800 text-white hover:bg-slate-900 text-sm font-medium rounded-full transition-colors min-h-[44px] disabled:bg-slate-400"
+                >
+                  {loadingMore
+                    ? (locale === "ko" ? "불러오는 중..." : "Loading...")
+                    : (locale === "ko"
+                        ? `나머지 ${(totalCount - results.length).toLocaleString()}개 병원 더 보기`
+                        : `Show ${(totalCount - results.length).toLocaleString()} more clinics`
+                      )
+                  }
+                </button>
+              </div>
+            )}
+
+            {/* 조건 검색 보조 링크 */}
+            <div className="pt-3 text-center">
               <Link
                 href={buildHospitalsUrl()}
-                className="block w-full text-center py-3 px-6 bg-slate-800 text-white hover:bg-slate-900 text-sm font-medium rounded-full transition-colors min-h-[44px]"
+                className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors"
               >
-                {t("ai_search.more_filter" as Parameters<typeof t>[0])}
-                {totalCount > 10 && (
-                  <span className="ml-1 text-xs opacity-75">
-                    ({totalCount.toLocaleString()}{t("ui.clinics_count")})
-                  </span>
-                )}
+                {locale === "ko" ? "조건별 병원검색에서 더 알아보기" : "Browse more in condition search"}
               </Link>
             </div>
           </div>
