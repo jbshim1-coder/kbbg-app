@@ -251,17 +251,26 @@ function CommunityContent() {
       .eq("is_deleted", false)
       .order("created_at", { ascending: false })
       .limit(50)
-      .then(({ data }) => {
+      .then(async ({ data }) => {
         if (!data || data.length === 0) return;
-        const dbPosts = data.map((p: { id: string; title: string; author_id: string; upvotes: number; comment_count: number; created_at: string }) => ({
+        // board_id → slug 매핑을 비동기로 가져옴
+        const { data: boards } = await supabase.from("boards").select("id, slug");
+        const boardMap: Record<string, string> = {};
+        boards?.forEach((b: { id: string; slug: string }) => {
+          const key = "community." + b.slug.replace(/-/g, "_");
+          boardMap[b.id] = key;
+        });
+
+        const dbPosts = data.map((p: { id: string; title: string; author_id: string; upvotes: number; comment_count: number; created_at: string; board_id: string }) => ({
           id: p.id,
           title: p.title,
-          categoryKey: "community.plastic_surgery",
+          categoryKey: boardMap[p.board_id] || "community.general",
           author: p.author_id?.slice(0, 8) || "user",
           level: 1,
           upvotes: p.upvotes || 0,
           comments: p.comment_count || 0,
           time: formatRelativeTime(p.created_at),
+          createdAt: p.created_at,
           flair: "review" as FlairType,
           postType: "text" as const,
         }));
@@ -372,7 +381,10 @@ function CommunityContent() {
   const sortedNormal = [...normalPosts].sort((a, b) => {
     if (sort === "hot") return hotScore(b.upvotes, b.time) - hotScore(a.upvotes, a.time);
     if (sort === "top") return b.upvotes - a.upvotes;
-    return String(b.id).localeCompare(String(a.id)); // new
+    // new: created_at 기준 최신순 (없으면 id 역순 fallback)
+    const aTime = "createdAt" in a ? new Date(a.createdAt as string).getTime() : 0;
+    const bTime = "createdAt" in b ? new Date(b.createdAt as string).getTime() : 0;
+    return bTime - aTime || String(b.id).localeCompare(String(a.id));
   });
 
   const allSorted = [...pinnedPosts, ...sortedNormal];
@@ -488,16 +500,12 @@ function CommunityContent() {
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              {isKo
-                ? (isSearchAll ? "전체 검색 중" : "카테고리 내 검색")
-                : (isSearchAll ? "Search All" : "In Category")}
+              {isSearchAll ? t("community.search_all") : t("community.search_in_category")}
             </button>
           </div>
           {searchQuery && (
             <p className="mt-2 text-xs text-gray-500">
-              {isKo
-                ? `"${searchQuery}" 검색 결과: ${allSorted.length}건 ${isSearchAll ? "(전체)" : `(${t(activeCategoryKey as Parameters<typeof t>[0])})`}`
-                : `"${searchQuery}" results: ${allSorted.length} ${isSearchAll ? "(all)" : "(current category)"}`}
+              {`"${searchQuery}" ${t("community.search_results")}: ${allSorted.length} ${isSearchAll ? t("community.search_results_all") : t("community.search_results_category")}`}
             </p>
           )}
         </div>
@@ -685,7 +693,7 @@ function CommunityContent() {
                             onClick={() => handleDeletePost(post.id)}
                             className="ml-2 text-xs text-red-400 hover:text-red-600"
                           >
-                            삭제
+                            {t("community.delete")}
                           </button>
                         )}
                       </div>

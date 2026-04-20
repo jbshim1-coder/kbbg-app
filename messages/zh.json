@@ -21,7 +21,10 @@
     "hospital_search": "按条件搜索医院",
     "events": "活动",
     "live_short": "LIVE",
-    "logout": "退出登录"
+    "logout": "退出登录",
+    "clinics_short": "医院",
+    "rankings_short": "排名",
+    "community_short": "社区"
   },
   "hero": {
     "title": "找到最适合您的韩国医院",
@@ -234,7 +237,13 @@
     "link_url": "外部链接URL",
     "image_add": "添加图片",
     "image_max_size": "最大5MB",
-    "image_size_error": "文件大小超过5MB。"
+    "image_size_error": "文件大小超过5MB。",
+    "search_all": "全部搜索",
+    "search_in_category": "分类内搜索",
+    "search_results": "个结果",
+    "search_results_all": "(全部)",
+    "search_results_category": "(当前分类)",
+    "written_in": "撰写语言："
   },
   "about": {
     "title": "关于我们",

@@ -90,7 +90,7 @@ export default function PostDetailPage({
             contentEn: data.content_en || data.content || "",
             author: (data.author_id || "").slice(0, 8),
             level: 1,
-            time: new Date(data.created_at).toLocaleDateString(),
+            time: new Date(data.created_at).toLocaleDateString(locale),
             upvotes: data.upvotes || 0,
             downvotes: data.downvotes || 0,
             categoryKey: "community.general",
@@ -279,17 +279,32 @@ export default function PostDetailPage({
   const title = (titleTranslation && !showOriginal) ? titleTranslation : originalTitle;
   const content = (contentTranslation && !showOriginal) ? contentTranslation : originalContent;
 
-  // 투표 처리
-  function handleVote(type: "up" | "down") {
-    if (voted === type) return;
-    if (type === "up") {
-      setUpvotes((v) => v + 1);
-      if (voted === "down") setDownvotes((v) => v - 1);
-    } else {
-      setDownvotes((v) => v + 1);
-      if (voted === "up") setUpvotes((v) => v - 1);
+  // 투표 처리 — API 호출로 DB 영속화
+  async function handleVote(type: "up" | "down") {
+    try {
+      const res = await fetch(`/api/posts/${displayPost!.id}/vote`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setUpvotes(data.data.upvotes);
+        setDownvotes(data.data.downvotes);
+        setVoted(data.data.userVote);
+      }
+    } catch {
+      // API 실패 시 로컬 폴백
+      if (voted === type) return;
+      if (type === "up") {
+        setUpvotes((v) => v + 1);
+        if (voted === "down") setDownvotes((v) => v - 1);
+      } else {
+        setDownvotes((v) => v + 1);
+        if (voted === "up") setUpvotes((v) => v - 1);
+      }
+      setVoted(type);
     }
-    setVoted(type);
   }
 
   // 북마크 토글
@@ -476,7 +491,7 @@ export default function PostDetailPage({
           {needsTranslation && (
             <div className="mt-2 flex items-center gap-2 flex-wrap">
               <span className="text-xs text-gray-500 bg-stone-50 rounded-full px-2.5 py-1 border border-stone-100">
-                {postFlag} {getLangName(postLang, locale)}{locale === "ko" ? "로 작성됨" : " post"}
+                {postFlag} {getLangName(postLang, locale)} {t("community.written_in")}
               </span>
               {/* 번역 완료 시 원문 보기 토글 */}
               {titleTranslation && !translating && (

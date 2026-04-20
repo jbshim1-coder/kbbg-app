@@ -21,7 +21,10 @@
     "hospital_search": "Нөхцөлөөр эмнэлэг хайх",
     "events": "Арга хэмжээ",
     "live_short": "LIVE",
-    "logout": "Гарах"
+    "logout": "Гарах",
+    "clinics_short": "Эмнэлэг",
+    "rankings_short": "Рейтинг",
+    "community_short": "Нийгэмлэг"
   },
   "hero": {
     "title": "Танд хамгийн тохиромжтой Солонгосын эмнэлгийг олоорой",
@@ -234,7 +237,13 @@
     "link_url": "Гадаад холбоосын URL",
     "image_add": "Зураг нэмэх",
     "image_max_size": "Дээд тал нь 5MB",
-    "image_size_error": "Файлын хэмжээ 5MB-ээс хэтэрсэн."
+    "image_size_error": "Файлын хэмжээ 5MB-ээс хэтэрсэн.",
+    "search_all": "Бүгдийг хайх",
+    "search_in_category": "Ангилал дотор",
+    "search_results": "үр дүн",
+    "search_results_all": "(бүгд)",
+    "search_results_category": "(одоогийн ангилал)",
+    "written_in": "Бичсэн хэл:"
   },
   "about": {
     "title": "Бидний тухай",

@@ -21,7 +21,10 @@
     "guides": "Guides",
     "events": "Events",
     "live_short": "LIVE CAM",
-    "logout": "Logout"
+    "logout": "Logout",
+    "clinics_short": "Clinics",
+    "rankings_short": "Rankings",
+    "community_short": "Community"
   },
   "hero": {
     "title": "Find the Perfect Hospital in Korea for You",
@@ -234,7 +237,13 @@
     "link_url": "External Link URL",
     "image_add": "Add image",
     "image_max_size": "Max 5MB",
-    "image_size_error": "File size exceeds 5MB."
+    "image_size_error": "File size exceeds 5MB.",
+    "search_all": "Search All",
+    "search_in_category": "In Category",
+    "search_results": "results",
+    "search_results_all": "(all)",
+    "search_results_category": "(current category)",
+    "written_in": "Written in"
   },
   "about": {
     "title": "About Us",

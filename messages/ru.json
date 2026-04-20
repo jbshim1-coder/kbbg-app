@@ -21,7 +21,10 @@
     "hospital_search": "Поиск клиник по критериям",
     "events": "Акции",
     "live_short": "LIVE",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "clinics_short": "Клиники",
+    "rankings_short": "Рейтинг",
+    "community_short": "Сообщество"
   },
   "hero": {
     "title": "Найдите идеальную больницу в Корее для вас",
@@ -234,7 +237,13 @@
     "link_url": "URL внешней ссылки",
     "image_add": "Добавить изображение",
     "image_max_size": "Макс. 5МБ",
-    "image_size_error": "Размер файла превышает 5МБ."
+    "image_size_error": "Размер файла превышает 5МБ.",
+    "search_all": "Искать везде",
+    "search_in_category": "В категории",
+    "search_results": "результатов",
+    "search_results_all": "(все)",
+    "search_results_category": "(текущая категория)",
+    "written_in": "Написано на"
   },
   "about": {
     "title": "О нас",

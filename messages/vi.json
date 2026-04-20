@@ -21,7 +21,10 @@
     "hospital_search": "Tìm BV theo điều kiện",
     "events": "Sự kiện",
     "live_short": "LIVE",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "clinics_short": "Bệnh viện",
+    "rankings_short": "Xếp hạng",
+    "community_short": "Cộng đồng"
   },
   "hero": {
     "title": "Tìm bệnh viện phù hợp nhất tại Hàn Quốc cho bạn",
@@ -234,7 +237,13 @@
     "link_url": "URL liên kết ngoài",
     "image_add": "Thêm hình ảnh",
     "image_max_size": "Tối đa 5MB",
-    "image_size_error": "Kích thước tệp vượt quá 5MB."
+    "image_size_error": "Kích thước tệp vượt quá 5MB.",
+    "search_all": "Tìm tất cả",
+    "search_in_category": "Trong danh mục",
+    "search_results": "kết quả",
+    "search_results_all": "(tất cả)",
+    "search_results_category": "(danh mục hiện tại)",
+    "written_in": "Viết bằng"
   },
   "about": {
     "title": "Giới thiệu về chúng tôi",

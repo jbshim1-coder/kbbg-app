@@ -1,90 +1,83 @@
-// 게시글 투표 API — 추천(up)/비추천(down) 등록(POST), 투표 취소(DELETE)
+// 게시글 투표 API — Supabase post_votes 테이블 연동
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
 
-// 투표 방향 유형 — "up"(추천) 또는 "down"(비추천)
-type VoteType = "up" | "down";
-
-// 투표 요청 바디 타입
-interface VoteRequest {
-  type: VoteType;  // 투표 방향
-  userId: string;  // 투표한 사용자 ID — 중복 투표 방지에 사용
-}
-
-// POST /api/posts/[id]/vote — 게시글에 투표 등록
-// 동일 사용자가 같은 방향으로 재투표 시 실제 구현에서는 오류 또는 취소 처리 필요
+// POST /api/posts/[id]/vote — 투표 등록/변경
 export async function POST(
   request: NextRequest,
   ctx: RouteContext<"/api/posts/[id]/vote">
 ) {
-  // 로그인 사용자만 투표 가능
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  try {
-    // 동적 라우트 파라미터에서 게시글 ID 추출 (Next.js App Router: params는 Promise)
-    const { id } = await ctx.params;
-    const postId = parseInt(id, 10);
+  const { id: postId } = await ctx.params;
+  const body = await request.json();
+  const voteType = body.type;
 
-    // 숫자가 아닌 ID 요청 방어
-    if (isNaN(postId)) {
-      return Response.json({ error: "Invalid post id" }, { status: 400 });
-    }
-
-    // 요청 바디 파싱
-    const body: VoteRequest = await request.json();
-
-    // 투표 방향 유효성 검증 — "up" 또는 "down"만 허용
-    if (!body.type || !["up", "down"].includes(body.type)) {
-      return Response.json(
-        { error: "type must be 'up' or 'down'" },
-        { status: 400 }
-      );
-    }
-
-    // 사용자 ID 누락 검증
-    if (!body.userId) {
-      return Response.json({ error: "userId is required" }, { status: 400 });
-    }
-
-    // 더미 투표 반영 결과 — 실제 구현 시 DB 트랜잭션으로 투표 수 원자적 업데이트
-    const updatedVotes = {
-      postId,
-      voteUp: body.type === "up" ? 43 : 42,   // 추천 시 +1
-      voteDown: body.type === "down" ? 3 : 2,  // 비추천 시 +1
-      userVote: body.type, // 해당 사용자의 현재 투표 방향 반환
-    };
-
-    return Response.json({ success: true, data: updatedVotes });
-  } catch {
-    // JSON 파싱 실패 등 예외 처리
-    return Response.json({ error: "Invalid request body" }, { status: 400 });
+  if (!voteType || !["up", "down"].includes(voteType)) {
+    return NextResponse.json({ error: "type must be 'up' or 'down'" }, { status: 400 });
   }
+
+  // 기존 투표 확인 (post_votes 테이블 — 마이그레이션 후 작동)
+  const { data: existing } = await supabase
+    .from("post_votes" as never)
+    .select("id, vote_type")
+    .eq("post_id", postId)
+    .eq("user_id", user.id)
+    .single() as { data: { id: string; vote_type: string } | null };
+
+  if (existing) {
+    if (existing.vote_type === voteType) {
+      await supabase.from("post_votes" as never).delete().eq("id", existing.id);
+    } else {
+      await supabase.from("post_votes" as never).update({ vote_type: voteType } as never).eq("id", existing.id);
+    }
+  } else {
+    await supabase.from("post_votes" as never).insert({ post_id: postId, user_id: user.id, vote_type: voteType } as never);
+  }
+
+  // 최신 투표 수 계산
+  const { count: upCount } = await supabase.from("post_votes" as never).select("*", { count: "exact", head: true }).eq("post_id", postId).eq("vote_type", "up");
+  const { count: downCount } = await supabase.from("post_votes" as never).select("*", { count: "exact", head: true }).eq("post_id", postId).eq("vote_type", "down");
+
+  // posts 테이블 upvotes/downvotes 캐시 업데이트
+  await supabase.from("posts").update({ upvotes: upCount || 0, downvotes: downCount || 0 } as never).eq("id", postId);
+
+  // 현재 유저 투표 상태
+  const { data: userVote } = await supabase.from("post_votes" as never).select("vote_type").eq("post_id", postId).eq("user_id", user.id).single() as { data: { vote_type: string } | null };
+
+  return NextResponse.json({
+    success: true,
+    data: { postId, upvotes: upCount || 0, downvotes: downCount || 0, userVote: userVote?.vote_type || null },
+  });
 }
 
-// DELETE /api/posts/[id]/vote — 게시글 투표 취소
-// 사용자가 이미 투표한 항목을 클릭하면 투표를 철회하는 토글 동작
+// DELETE /api/posts/[id]/vote — 투표 취소
 export async function DELETE(
   request: NextRequest,
   ctx: RouteContext<"/api/posts/[id]/vote">
 ) {
-  // 동적 라우트 파라미터에서 게시글 ID 추출
-  const { id } = await ctx.params;
-  const postId = parseInt(id, 10);
-
-  // 숫자가 아닌 ID 요청 방어
-  if (isNaN(postId)) {
-    return Response.json({ error: "Invalid post id" }, { status: 400 });
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // 더미 취소 결과 — userVote: null로 투표 없음 상태 표현
-  // 실제 구현 시 해당 사용자의 투표 레코드를 DB에서 삭제
-  return Response.json({
+  const { id: postId } = await ctx.params;
+
+  await supabase.from("post_votes" as never).delete().eq("post_id", postId).eq("user_id", user.id);
+
+  const { count: upCount } = await supabase.from("post_votes" as never).select("*", { count: "exact", head: true }).eq("post_id", postId).eq("vote_type", "up");
+  const { count: downCount } = await supabase.from("post_votes" as never).select("*", { count: "exact", head: true }).eq("post_id", postId).eq("vote_type", "down");
+
+  await supabase.from("posts").update({ upvotes: upCount || 0, downvotes: downCount || 0 } as never).eq("id", postId);
+
+  return NextResponse.json({
     success: true,
-    data: { postId, voteUp: 42, voteDown: 2, userVote: null },
+    data: { postId, upvotes: upCount || 0, downvotes: downCount || 0, userVote: null },
   });
 }

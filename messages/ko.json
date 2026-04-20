@@ -21,7 +21,10 @@
     "guides": "시술가이드",
     "events": "이벤트",
     "live_short": "LIVE CAM",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "clinics_short": "병원",
+    "rankings_short": "랭킹",
+    "community_short": "커뮤니티"
   },
   "hero": {
     "title": "당신에게 딱 맞는 한국의 병원을 찾아보세요",
@@ -234,7 +237,13 @@
     "link_url": "외부 링크 URL",
     "image_add": "이미지 추가",
     "image_max_size": "최대 5MB",
-    "image_size_error": "파일 크기가 5MB를 초과합니다."
+    "image_size_error": "파일 크기가 5MB를 초과합니다.",
+    "search_all": "전체 검색 중",
+    "search_in_category": "카테고리 내 검색",
+    "search_results": "검색 결과",
+    "search_results_all": "(전체)",
+    "search_results_category": "",
+    "written_in": "로 작성됨"
   },
   "about": {
     "badge": "소개",

@@ -135,9 +135,10 @@ export default function Header() {
   // 언어 선택 핸들러 — 선택한 언어로 URL 변경 (currentLocale은 pathname에서 자동 동기화됨)
   const handleSelectLocale = (locale: (typeof LOCALES)[number]) => {
     setLangOpen(false);
-    // 현재 경로에서 locale 부분만 교체하여 이동
+    // 현재 경로에서 locale 부분만 교체하여 이동 (검색 파라미터 유지)
     const restPath = pathname.split("/").slice(2).join("/");
-    router.push(`/${locale.code}${restPath ? `/${restPath}` : ""}`);
+    const search = typeof window !== "undefined" ? window.location.search : "";
+    router.push(`/${locale.code}${restPath ? `/${restPath}` : ""}${search}`);
   };
 
   void handleSearch;
@@ -166,13 +167,13 @@ export default function Header() {
           {/* ── 모바일 퀵메뉴 (로고 옆) ── */}
           <nav className="flex sm:hidden items-center gap-1 ml-1">
             <Link href={localePath("/hospitals")} className="px-2 py-1 text-[11px] font-medium text-white/80 hover:text-white rounded-md hover:bg-white/10 transition">
-              🏥 Clinics
+              🏥 {t("nav.clinics_short")}
             </Link>
             <Link href={localePath("/cosmetics")} className="px-2 py-1 text-[11px] font-medium text-white/80 hover:text-white rounded-md hover:bg-white/10 transition">
-              💄 Rankings
+              💄 {t("nav.rankings_short")}
             </Link>
             <Link href={localePath("/community")} className="px-2 py-1 text-[11px] font-medium text-white/80 hover:text-white rounded-md hover:bg-white/10 transition">
-              💬 Community
+              💬 {t("nav.community_short")}
             </Link>
           </nav>
 
@@ -185,7 +186,7 @@ export default function Header() {
 
           {/* ── PC 네비게이션 ── */}
           <nav
-            className="hidden lg:flex items-center gap-0.5 flex-nowrap"
+            className="hidden lg:flex items-center gap-0.5 flex-nowrap overflow-x-auto"
             aria-label={t("nav.home")}
           >
             {NAV_LINKS.map((link) => (

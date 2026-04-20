@@ -21,7 +21,10 @@
     "hospital_search": "条件別病院検索",
     "events": "イベント",
     "live_short": "LIVE",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "clinics_short": "クリニック",
+    "rankings_short": "ランキング",
+    "community_short": "コミュニティ"
   },
   "hero": {
     "title": "あなたにぴったりの韓国の病院を見つけましょう",
@@ -234,7 +237,13 @@
     "link_url": "外部リンクURL",
     "image_add": "画像を追加",
     "image_max_size": "最大5MB",
-    "image_size_error": "ファイルサイズが5MBを超えています。"
+    "image_size_error": "ファイルサイズが5MBを超えています。",
+    "search_all": "全体検索",
+    "search_in_category": "カテゴリ内検索",
+    "search_results": "件の結果",
+    "search_results_all": "(全体)",
+    "search_results_category": "(現在のカテゴリ)",
+    "written_in": "で作成"
   },
   "about": {
     "title": "私たちについて",

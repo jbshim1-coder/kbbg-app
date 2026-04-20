@@ -21,7 +21,10 @@
     "hospital_search": "ค้นหาคลินิกตามเงื่อนไข",
     "events": "อีเวนต์",
     "live_short": "LIVE",
-    "logout": "ออกจากระบบ"
+    "logout": "ออกจากระบบ",
+    "clinics_short": "คลินิก",
+    "rankings_short": "อันดับ",
+    "community_short": "ชุมชน"
   },
   "hero": {
     "title": "ค้นหาโรงพยาบาลในเกาหลีที่เหมาะกับคุณที่สุด",
@@ -234,7 +237,13 @@
     "link_url": "URL ลิงก์ภายนอก",
     "image_add": "เพิ่มรูปภาพ",
     "image_max_size": "สูงสุด 5MB",
-    "image_size_error": "ขนาดไฟล์เกิน 5MB"
+    "image_size_error": "ขนาดไฟล์เกิน 5MB",
+    "search_all": "ค้นหาทั้งหมด",
+    "search_in_category": "ในหมวดหมู่",
+    "search_results": "ผลลัพธ์",
+    "search_results_all": "(ทั้งหมด)",
+    "search_results_category": "(หมวดหมู่ปัจจุบัน)",
+    "written_in": "เขียนเป็น"
   },
   "about": {
     "title": "เกี่ยวกับเรา",
