@@ -28,7 +28,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 3,
     brand: "-",
     name: "눈밑 꺼짐·주름 집중 케어 수분 아이크림 올리브영 베스트 3개",
-    nameEn: "Under-Eye Hollow & Wrinkle Focus Care Moisture Eye Cream Olive Young Best 3",
+    nameEn: "Under-eye Puffiness and Wrinkle Focus Care Moisturizing Eye Cream Olive Young Best 3",
     category: "메이크업",
     price: "34,900원"
   },
@@ -36,7 +36,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 4,
     brand: "제로이드",
     name: "제로이드 인텐시브 크림 80ml 어워즈 올리브영기획 (+크림 25ml+ 베스트 3종 샘플 6매)",
-    nameEn: "Zeroid Intensive Cream 80ml Awards Olive Young Plan (+Cream 25ml + Best 3 Sample 6 Pieces)",
+    nameEn: "Zeroid Intensive Cream 80ml Awards Olive Young Project (+Cream 25ml + Best 3 Types Sample 6 sheets)",
     category: "스킨케어",
     price: "32,000원"
   },
@@ -44,7 +44,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 5,
     brand: "3CE",
     name: "올리브영 3CE 미스티 립 베어 4.6g 튤립 퍼즈(쿨 베스트)+미스티 틴트 링",
-    nameEn: "Olive Young 3CE Misty Lip Bear 4.6g Tulip Fuzz (Cool Best) + Misty Tint Ring",
+    nameEn: "Olive Young 3CE Misty Lip Bear 4.6g Tulip Fuzz (Cool Best)+Misty Tint Ring",
     category: "메이크업",
     price: "21,000원"
   },
@@ -52,9 +52,9 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 6,
     brand: "화홍엠",
     name: "[화홍엠 베스트셀러/베이스착붙템] 화홍엠 163 파운데이션 브러쉬",
-    nameEn: "[Hwahong M Bestseller/Base Sticking Item] Hwahong M 163 Foundation Brush",
+    nameEn: "[Hwa Hong M Bestseller/Base Stick Item] Hwa Hong M 163 Foundation Brush",
     category: "메이크업",
-    price: "18,810원"
+    price: "19,800원"
   },
   {
     rank: 7,
