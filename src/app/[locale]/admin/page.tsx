@@ -186,6 +186,88 @@ export default function AdminDashboard() {
           </Link>
         </div>
       </div>
+
+      {/* 사이트 점검 */}
+      <HealthCheck />
+    </div>
+  );
+}
+
+// 사이트 점검 컴포넌트
+interface CheckItem {
+  name: string;
+  status: "pass" | "fail" | "warn";
+  message: string;
+  ms?: number;
+}
+
+function HealthCheck() {
+  const [checks, setChecks] = useState<CheckItem[]>([]);
+  const [summary, setSummary] = useState<{ total: number; pass: number; fail: number; warn: number } | null>(null);
+  const [running, setRunning] = useState(false);
+  const [checkedAt, setCheckedAt] = useState("");
+
+  const runCheck = async () => {
+    setRunning(true);
+    setChecks([]);
+    setSummary(null);
+    try {
+      const res = await fetch("/api/admin/health-check");
+      const data = await res.json();
+      setChecks(data.checks || []);
+      setSummary(data.summary || null);
+      setCheckedAt(data.checkedAt ? new Date(data.checkedAt).toLocaleString("ko-KR") : "");
+    } catch {
+      setChecks([{ name: "점검 실행", status: "fail", message: "API 호출 실패" }]);
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  const statusIcon = (s: string) => s === "pass" ? "✅" : s === "fail" ? "❌" : "⚠️";
+  const statusColor = (s: string) => s === "pass" ? "text-green-700 bg-green-50" : s === "fail" ? "text-red-700 bg-red-50" : "text-amber-700 bg-amber-50";
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold text-gray-700">🔍 사이트 점검</h3>
+        <button
+          onClick={runCheck}
+          disabled={running}
+          className="px-4 py-2 text-sm bg-slate-800 text-white rounded-lg hover:bg-slate-900 disabled:bg-slate-400 transition-colors min-h-[40px]"
+        >
+          {running ? "점검 중..." : "전체 점검 실행"}
+        </button>
+      </div>
+
+      {summary && (
+        <div className="flex gap-3 mb-4">
+          <span className="text-sm px-3 py-1 rounded-full bg-gray-100 text-gray-600">전체 {summary.total}개</span>
+          <span className="text-sm px-3 py-1 rounded-full bg-green-50 text-green-700">통과 {summary.pass}</span>
+          {summary.fail > 0 && <span className="text-sm px-3 py-1 rounded-full bg-red-50 text-red-700">실패 {summary.fail}</span>}
+          {summary.warn > 0 && <span className="text-sm px-3 py-1 rounded-full bg-amber-50 text-amber-700">경고 {summary.warn}</span>}
+          {checkedAt && <span className="text-xs text-gray-400 self-center ml-auto">{checkedAt}</span>}
+        </div>
+      )}
+
+      {checks.length > 0 && (
+        <div className="space-y-2 max-h-[400px] overflow-y-auto">
+          {checks.map((c, i) => (
+            <div key={i} className={`flex items-start gap-3 px-3 py-2 rounded-lg ${statusColor(c.status)}`}>
+              <span className="shrink-0 mt-0.5">{statusIcon(c.status)}</span>
+              <div className="min-w-0 flex-1">
+                <span className="text-sm font-medium">{c.name}</span>
+                <p className="text-xs opacity-75 break-all">{c.message}</p>
+              </div>
+              {c.ms !== undefined && <span className="text-xs opacity-50 shrink-0">{c.ms}ms</span>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {checks.length === 0 && !running && (
+        <p className="text-sm text-gray-400 text-center py-4">&quot;전체 점검 실행&quot; 버튼을 눌러 사이트 상태를 확인하세요</p>
+      )}
     </div>
   );
 }
