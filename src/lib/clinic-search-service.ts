@@ -396,6 +396,45 @@ function parseRegionString(regionText: string | null): { city: string | null; di
 
 // ─── 2단계: DB 검색 (Supabase RPC) ───
 
+// 최소 보장 결과 수 — 어떤 검색이든 이 수 이상 노출
+const MIN_RESULTS = 10;
+
+// RPC 호출 헬퍼
+async function rpcSearch(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any,
+  params: { subject: string; keyword: string; region: string; type: string; page: number; limit: number },
+): Promise<Record<string, unknown>[]> {
+  const { data, error } = await supabase.rpc("search_clinics_ranked", {
+    p_subject: params.subject,
+    p_keyword: params.keyword,
+    p_region: params.region,
+    p_type: params.type,
+    p_page: params.page,
+    p_limit: params.limit,
+  });
+  if (error || !data) return [];
+  return data;
+}
+
+// 중복 제거하며 결과 병합 (ykiho 기준)
+function mergeResults(
+  existing: Record<string, unknown>[],
+  additional: Record<string, unknown>[],
+  limit: number,
+): Record<string, unknown>[] {
+  const seen = new Set(existing.map((c) => c.ykiho as string));
+  const merged = [...existing];
+  for (const c of additional) {
+    if (merged.length >= limit) break;
+    if (!seen.has(c.ykiho as string)) {
+      seen.add(c.ykiho as string);
+      merged.push(c);
+    }
+  }
+  return merged;
+}
+
 export async function searchClinics(
   intent: SearchIntent,
   page: number = 1,
@@ -416,91 +455,68 @@ export async function searchClinics(
   const subject = intent.subject_code || "";
   const type = intent.clinic_type === "korean_medicine" ? "korean_medicine" : "";
 
-  // keyword 전략: 구/동 키워드 + 시술 키워드를 조합하여 3단계 폴백
-  // 1차: 구/동 + 시술 키워드 (가장 정밀)
-  // 2차: 구/동만 (지역 필터링)
-  // 3차: 시술 키워드만 (병원명에 시술어 포함된 곳)
-  // 4차: 키워드 없이 (지역+진료과만)
   const procedureKw = intent.keyword?.trim() || "";
   const combinedKeyword = [districtKeyword, procedureKw].filter(Boolean).join(" ");
+  const minRequired = Math.max(MIN_RESULTS, limit);
+
+  // 점진적 조건 완화 검색 전략
+  // 조건이 좁은 순서대로 시도하고, 결과가 부족하면 다음 단계 결과를 합침
+  const searchSteps: { keyword: string; region: string; subject: string; label: string }[] = [];
+
+  // 1차: 구/동 + 시술 키워드 (가장 정밀)
+  const kw1 = combinedKeyword || districtKeyword;
+  if (kw1) searchSteps.push({ keyword: kw1, region: regionCode, subject, label: "district+procedure" });
+
+  // 2차: 구/동만
+  if (districtKeyword && districtKeyword !== kw1) {
+    searchSteps.push({ keyword: districtKeyword, region: regionCode, subject, label: "district-only" });
+  }
+
+  // 3차: 시술 키워드만 (지역 내)
+  if (procedureKw && regionCode) {
+    searchSteps.push({ keyword: procedureKw, region: regionCode, subject, label: "procedure+region" });
+  }
+
+  // 4차: 키워드 없이 (지역+진료과)
+  if (regionCode || subject) {
+    searchSteps.push({ keyword: "", region: regionCode, subject, label: "region+subject" });
+  }
+
+  // 5차: 진료과만 (지역 제한 해제)
+  if (subject && regionCode) {
+    searchSteps.push({ keyword: "", region: "", subject, label: "subject-only" });
+  }
+
+  // 6차: 전체 (최후 보장 — 인기순)
+  searchSteps.push({ keyword: "", region: "", subject: "", label: "all" });
 
   try {
-    // 1차 시도: 구/동 + 시술 키워드
-    const keyword = combinedKeyword || districtKeyword;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data, error } = await (supabase as any).rpc("search_clinics_ranked", {
-      p_subject: subject,
-      p_keyword: keyword,
-      p_region: regionCode,
-      p_type: type,
-      p_page: page,
-      p_limit: limit,
-    });
+    let accumulated: Record<string, unknown>[] = [];
+    let bestTotalCount = 0;
 
-    if (error || !data || data.length === 0) {
-      // 2차: 구/동만으로 재시도
-      if (districtKeyword && districtKeyword !== keyword) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const retry2 = await (supabase as any).rpc("search_clinics_ranked", {
-          p_subject: subject,
-          p_keyword: districtKeyword,
-          p_region: regionCode,
-          p_type: type,
-          p_page: page,
-          p_limit: limit,
-        });
-        if (!retry2.error && retry2.data && retry2.data.length > 0) {
-          return {
-            clinics: mapClinicData(retry2.data),
-            totalCount: Number(retry2.data[0]?.total_count) || retry2.data.length,
-          };
-        }
+    for (const step of searchSteps) {
+      if (accumulated.length >= minRequired) break;
+
+      const data = await rpcSearch(supabase, {
+        subject: step.subject,
+        keyword: step.keyword,
+        region: step.region,
+        type,
+        page,
+        limit: minRequired,
+      });
+
+      if (data.length > 0) {
+        const stepTotal = Number(data[0]?.total_count) || data.length;
+        if (stepTotal > bestTotalCount) bestTotalCount = stepTotal;
+
+        accumulated = mergeResults(accumulated, data, minRequired);
       }
-
-      // 3차: 시술 키워드만으로 재시도 (병원명에 "눈", "아이" 등 포함)
-      if (procedureKw && regionCode) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const retry3 = await (supabase as any).rpc("search_clinics_ranked", {
-          p_subject: subject,
-          p_keyword: procedureKw,
-          p_region: regionCode,
-          p_type: type,
-          p_page: page,
-          p_limit: limit,
-        });
-        if (!retry3.error && retry3.data && retry3.data.length > 0) {
-          return {
-            clinics: mapClinicData(retry3.data),
-            totalCount: Number(retry3.data[0]?.total_count) || retry3.data.length,
-          };
-        }
-      }
-
-      // 4차: 키워드 없이 (지역+진료과만)
-      if (regionCode || subject) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const retry4 = await (supabase as any).rpc("search_clinics_ranked", {
-          p_subject: subject,
-          p_keyword: "",
-          p_region: regionCode,
-          p_type: type,
-          p_page: page,
-          p_limit: limit,
-        });
-        if (!retry4.error && retry4.data && retry4.data.length > 0) {
-          return {
-            clinics: mapClinicData(retry4.data),
-            totalCount: Number(retry4.data[0]?.total_count) || retry4.data.length,
-          };
-        }
-      }
-
-      return { clinics: [], totalCount: 0 };
     }
 
     return {
-      clinics: mapClinicData(data),
-      totalCount: Number(data[0]?.total_count) || data.length,
+      clinics: mapClinicData(accumulated),
+      totalCount: Math.max(bestTotalCount, accumulated.length),
     };
   } catch {
     return { clinics: [], totalCount: 0 };
