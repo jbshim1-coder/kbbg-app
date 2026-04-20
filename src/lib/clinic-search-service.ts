@@ -77,12 +77,34 @@ const INTENT_SYSTEM_PROMPT = `당신은 병원 추천 검색 파라미터 추출
   - ophthalmology/eye → "12"
 - clinic_type: "clinic"(의원), "hospital"(병원), "korean_medicine"(한의원). 모르면 null
 - keyword: 시술명/고민 등 핵심 키워드. 지역명·진료과명 제외. 없으면 빈 문자열 ""
-  병원명에 포함될 수 있는 짧은 한글 키워드로 변환:
-  예: "눈성형/쌍꺼풀/눈매교정" → keyword: "눈"
+
+  ★★★ 최우선 규칙: 시술명/장비명은 절대 임의 변환 금지 ★★★
+  사용자가 특정 시술명이나 장비명을 입력하면 원문 그대로 keyword에 넣으세요.
+  아는 시술이든 모르는 시술이든 상관없이 원문을 보존합니다.
+  예: "덴서티" → keyword: "덴서티" (여드름으로 변환 금지!)
+  "울쎄라" → keyword: "울쎄라"
+  "쥬베룩" → keyword: "쥬베룩"
+  "리쥬란" → keyword: "리쥬란"
+  "인모드" → keyword: "인모드"
+  "포텐자" → keyword: "포텐자"
+  "슈링크" → keyword: "슈링크"
+  "올리지오" → keyword: "올리지오"
+  "피코토닝" → keyword: "피코토닝"
+  "써마지" → keyword: "써마지"
+  "프락셀" → keyword: "프락셀"
+  "젠틀맥스" → keyword: "젠틀맥스"
+
+  알려진 시술 카테고리 참고:
+  - 리프팅: 덴서티, 울쎄라, 써마지, 인모드, 슈링크, 올리지오
+  - 스킨부스터: 리쥬란, 쥬베룩, 엑소좀
+  - 레이저: 피코토닝, 프락셀, 젠틀맥스, 브이빔
+  - 쁘띠: 보톡스, 필러, 윤곽주사
+
+  일반적인 고민/증상은 짧은 키워드로 변환:
+  "눈성형/쌍꺼풀/눈매교정" → keyword: "눈"
   "코성형/코수술" → keyword: "코"
   "치아교정/교정" → keyword: "교정"
   "임플란트" → keyword: "임플란트"
-  "보톡스/필러" → keyword: "보톡스"
   "여드름/피부" → keyword: "여드름"
 
   ★ 나이/성별/고민 맥락이 있으면 관련 시술로 변환:
@@ -91,18 +113,11 @@ const INTENT_SYSTEM_PROMPT = `당신은 병원 추천 검색 파라미터 추출
   "20대 여자 피부 관리" → subject_code: "14", keyword: ""
   "30대 남자 탈모" → subject_code: "14", keyword: "모발"
   "60대 임플란트" → subject_code: "49", keyword: "임플란트"
-  "20대 코성형 추천" → subject_code: "08", keyword: "코"
   "주름 없애고 싶어" → subject_code: "14", keyword: "리프팅"
   "얼굴 처짐" → subject_code: "08", keyword: "리프팅"
   "여드름 흉터" → subject_code: "14", keyword: "여드름"
-  "치아 미백" → subject_code: "49", keyword: ""
-  나이/성별/고민은 keyword에 넣지 말고, 관련 시술 키워드로 변환하세요.
   "탈모/모발이식" → keyword: "모발"
-  "라식/라섹/시력" → keyword: "눈"
-  "다이어트/지방흡입" → keyword: "다이어트"
-  "리프팅/주름" → keyword: "리프팅"
   "강남 성형외과" → keyword: "" (지역+진료과만이므로)
-  "40대 여성 성형외과 추천" → keyword: ""
 - confidence: 추출 확신도 0~1
 - reason: 추출 근거 (한국어)
 
