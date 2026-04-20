@@ -223,7 +223,18 @@
     "comment2_time": "30 phút trước",
     "delete": "Xóa",
     "captcha_failed": "Xác minh bảo mật thất bại. Vui lòng thử lại.",
-    "post_failed": "Đăng bài thất bại. Vui lòng thử lại."
+    "post_failed": "Đăng bài thất bại. Vui lòng thử lại.",
+    "post_type_label": "Loại bài viết",
+    "type_text": "Văn bản",
+    "type_image": "Hình ảnh",
+    "type_link": "Liên kết",
+    "flair_label": "Thẻ (Flair)",
+    "no_flair": "Không có thẻ (tùy chọn)",
+    "image_url": "URL hình ảnh",
+    "link_url": "URL liên kết ngoài",
+    "image_add": "Thêm hình ảnh",
+    "image_max_size": "Tối đa 5MB",
+    "image_size_error": "Kích thước tệp vượt quá 5MB."
   },
   "about": {
     "title": "Giới thiệu về chúng tôi",
@@ -318,7 +329,8 @@
     "check_email_title": "Kiểm tra email của bạn",
     "check_email_desc": "Chúng tôi đã gửi liên kết xác nhận đến email của bạn. Vui lòng xác minh để hoàn tất đăng ký.",
     "signing_up": "Đang đăng ký...",
-    "signing_in": "Đang đăng nhập..."
+    "signing_in": "Đang đăng nhập...",
+    "login_error": "Email hoặc mật khẩu không đúng."
   },
   "footer": {
     "disclaimer": "Tuyên bố miễn trách nhiệm",

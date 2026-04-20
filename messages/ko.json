@@ -183,7 +183,7 @@
     "comments_count": "{count}개의 댓글",
     "share": "공유",
     "write_title": "글 쓰기",
-    "select_category": "카테고리 선택",
+    "select_category": "카테고리를 선택하세요",
     "category_label": "카테고리",
     "post_title": "제목",
     "title_placeholder": "제목을 입력하세요",
@@ -223,7 +223,18 @@
     "comment2_time": "30분 전",
     "delete": "삭제",
     "captcha_failed": "보안 검증에 실패했습니다. 다시 시도해주세요.",
-    "post_failed": "게시글 등록에 실패했습니다. 다시 시도해주세요."
+    "post_failed": "게시글 등록에 실패했습니다. 다시 시도해주세요.",
+    "post_type_label": "게시 유형",
+    "type_text": "텍스트",
+    "type_image": "이미지",
+    "type_link": "링크",
+    "flair_label": "태그 (Flair)",
+    "no_flair": "태그 없음 (선택 사항)",
+    "image_url": "이미지 URL",
+    "link_url": "외부 링크 URL",
+    "image_add": "이미지 추가",
+    "image_max_size": "최대 5MB",
+    "image_size_error": "파일 크기가 5MB를 초과합니다."
   },
   "about": {
     "badge": "소개",
@@ -318,7 +329,8 @@
     "check_email_title": "이메일을 확인해주세요",
     "check_email_desc": "확인 링크를 이메일로 보냈습니다. 가입을 완료하려면 이메일을 확인해주세요.",
     "signing_up": "가입 중...",
-    "signing_in": "로그인 중..."
+    "signing_in": "로그인 중...",
+    "login_error": "이메일 또는 비밀번호가 올바르지 않습니다."
   },
   "footer": {
     "disclaimer": "면책조항",

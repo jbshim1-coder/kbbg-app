@@ -19,7 +19,7 @@ interface FileEntry {
   progress: number;     // 0~100 (fetch는 스트림 없으므로 0 → 100 두 단계)
 }
 
-export default function ImageUpload({ onUploadComplete }: ImageUploadProps) {
+export default function ImageUpload({ onUploadComplete, locale = "en" }: ImageUploadProps & { locale?: string }) {
   const [entries, setEntries] = useState<FileEntry[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,7 +32,17 @@ export default function ImageUpload({ onUploadComplete }: ImageUploadProps) {
 
     const validated = selected.filter((f) => {
       if (f.size > MAX_SIZE_BYTES) {
-        alert(`${f.name}: 파일 크기가 5MB를 초과합니다.`);
+        const sizeMsg: Record<string, string> = {
+          ko: '파일 크기가 5MB를 초과합니다.',
+          en: 'File size exceeds 5MB.',
+          ja: 'ファイルサイズが5MBを超えています。',
+          zh: '文件大小超过5MB。',
+          vi: 'Kích thước tệp vượt quá 5MB.',
+          th: 'ขนาดไฟล์เกิน 5MB',
+          ru: 'Размер файла превышает 5МБ.',
+          mn: 'Файлын хэмжээ 5MB-ээс хэтэрсэн.',
+        };
+        alert(`${f.name}: ${sizeMsg[locale] || sizeMsg.en}`);
         return false;
       }
       return true;
@@ -154,7 +164,13 @@ export default function ImageUpload({ onUploadComplete }: ImageUploadProps) {
         <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 px-4 py-4 text-sm text-gray-500 hover:border-pink-300 hover:bg-slate-50">
           <span>📎</span>
           <span>
-            이미지 추가 ({entries.length}/{MAX_FILES}) — 최대 5MB
+            {({
+              ko: '이미지 추가', en: 'Add image', ja: '画像を追加', zh: '添加图片',
+              vi: 'Thêm hình ảnh', th: 'เพิ่มรูปภาพ', ru: 'Добавить', mn: 'Зураг нэмэх',
+            } as Record<string, string>)[locale] || 'Add image'} ({entries.length}/{MAX_FILES}) — {({
+              ko: '최대 5MB', en: 'Max 5MB', ja: '最大5MB', zh: '最大5MB',
+              vi: 'Tối đa 5MB', th: 'สูงสุด 5MB', ru: 'Макс. 5МБ', mn: 'Дээд тал нь 5MB',
+            } as Record<string, string>)[locale] || 'Max 5MB'}
           </span>
           <input
             ref={inputRef}

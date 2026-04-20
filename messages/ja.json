@@ -223,7 +223,18 @@
     "comment2_time": "30分前",
     "delete": "削除",
     "captcha_failed": "セキュリティ検証に失敗しました。もう一度お試しください。",
-    "post_failed": "投稿に失敗しました。もう一度お試しください。"
+    "post_failed": "投稿に失敗しました。もう一度お試しください。",
+    "post_type_label": "投稿タイプ",
+    "type_text": "テキスト",
+    "type_image": "画像",
+    "type_link": "リンク",
+    "flair_label": "タグ (Flair)",
+    "no_flair": "タグなし（任意）",
+    "image_url": "画像URL",
+    "link_url": "外部リンクURL",
+    "image_add": "画像を追加",
+    "image_max_size": "最大5MB",
+    "image_size_error": "ファイルサイズが5MBを超えています。"
   },
   "about": {
     "title": "私たちについて",
@@ -318,7 +329,8 @@
     "check_email_title": "メールを確認してください",
     "check_email_desc": "確認リンクをメールに送信しました。登録を完了するにはメールをご確認ください。",
     "signing_up": "登録中...",
-    "signing_in": "ログイン中..."
+    "signing_in": "ログイン中...",
+    "login_error": "メールアドレスまたはパスワードが正しくありません。"
   },
   "footer": {
     "disclaimer": "免責事項",

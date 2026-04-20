@@ -138,11 +138,11 @@ export async function DELETE(request: NextRequest) {
   // 댓글 소유자 확인 — 본인 댓글만 삭제 가능
   const { data: comment } = await supabase
     .from("comments")
-    .select("user_id")
+    .select("author_id")
     .eq("id", commentId)
-    .single() as { data: { user_id: string } | null };
+    .single() as { data: { author_id: string } | null };
 
-  if (!comment || comment.user_id !== user.id) {
+  if (!comment || comment.author_id !== user.id) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

@@ -164,6 +164,9 @@ export default function NewPostPage() {
         title_en: titleEn,
         content: body,
         images: imageUrls.length > 0 ? imageUrls : null,
+        flair: flair || null,
+        post_type: postType,
+        link_url: postType === "link" ? linkUrl || null : postType === "image" ? imageUrl || null : null,
       } as never)
       .select("id")
       .single();
@@ -201,7 +204,7 @@ export default function NewPostPage() {
               onChange={(e) => setCategoryKey(e.target.value)}
               className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400 bg-white"
             >
-              <option value="">{locale === "ko" ? "카테고리를 선택하세요" : "Select a category"}</option>
+              <option value="">{t("community.select_category")}</option>
               {CATEGORY_KEYS.map((catKey) => (
                 <option key={catKey} value={catKey}>
                   {t(catKey as Parameters<typeof t>[0])}
@@ -213,7 +216,7 @@ export default function NewPostPage() {
           {/* 게시 유형 선택 */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              {locale === "ko" ? "게시 유형" : "Post Type"}
+              {t("community.post_type_label")}
             </label>
             <div className="flex gap-2">
               {(["text", "image", "link"] as PostType[]).map((pt) => (
@@ -227,9 +230,9 @@ export default function NewPostPage() {
                       : "bg-white text-gray-600 border-stone-200 hover:border-slate-300"
                   }`}
                 >
-                  {pt === "text"  ? (locale === "ko" ? "📝 텍스트" : "📝 Text") :
-                   pt === "image" ? (locale === "ko" ? "🖼️ 이미지" : "🖼️ Image") :
-                                    (locale === "ko" ? "🔗 링크"   : "🔗 Link")}
+                  {pt === "text"  ? `📝 ${t("community.type_text")}` :
+                   pt === "image" ? `🖼️ ${t("community.type_image")}` :
+                                    `🔗 ${t("community.type_link")}`}
                 </button>
               ))}
             </div>
@@ -238,14 +241,14 @@ export default function NewPostPage() {
           {/* Flair 선택 */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              {locale === "ko" ? "태그 (Flair)" : "Flair Tag"}
+              {t("community.flair_label")}
             </label>
             <select
               value={flair}
               onChange={(e) => setFlair(e.target.value as FlairType | "")}
               className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400 bg-white"
             >
-              <option value="">{locale === "ko" ? "태그 없음 (선택 사항)" : "No tag (optional)"}</option>
+              <option value="">{t("community.no_flair")}</option>
               {FLAIR_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {locale === "ko" ? opt.labelKo : opt.labelEn}
@@ -258,7 +261,7 @@ export default function NewPostPage() {
           {postType === "image" && (
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
-                {locale === "ko" ? "이미지 URL" : "Image URL"}
+                {t("community.image_url")}
               </label>
               <input
                 type="url"
@@ -274,7 +277,7 @@ export default function NewPostPage() {
           {postType === "link" && (
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
-                {locale === "ko" ? "외부 링크 URL" : "External Link URL"}
+                {t("community.link_url")}
               </label>
               <input
                 type="url"
@@ -322,7 +325,7 @@ export default function NewPostPage() {
             <label className="mb-2 block text-sm font-medium text-gray-700">
               {t("community.image_optional")}
             </label>
-            <ImageUpload onUploadComplete={(urls) => setImageUrls(urls)} />
+            <ImageUpload onUploadComplete={(urls) => setImageUrls(urls)} locale={locale} />
           </div>
 
           {/* reCAPTCHA / 제출 에러 메시지 */}

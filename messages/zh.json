@@ -223,7 +223,18 @@
     "comment2_time": "30分钟前",
     "delete": "删除",
     "captcha_failed": "安全验证失败，请重试。",
-    "post_failed": "发布失败，请重试。"
+    "post_failed": "发布失败，请重试。",
+    "post_type_label": "帖子类型",
+    "type_text": "文字",
+    "type_image": "图片",
+    "type_link": "链接",
+    "flair_label": "标签 (Flair)",
+    "no_flair": "无标签（可选）",
+    "image_url": "图片URL",
+    "link_url": "外部链接URL",
+    "image_add": "添加图片",
+    "image_max_size": "最大5MB",
+    "image_size_error": "文件大小超过5MB。"
   },
   "about": {
     "title": "关于我们",
@@ -318,7 +329,8 @@
     "check_email_title": "请查看您的邮箱",
     "check_email_desc": "我们已发送确认链接到您的邮箱，请验证以完成注册。",
     "signing_up": "注册中...",
-    "signing_in": "登录中..."
+    "signing_in": "登录中...",
+    "login_error": "邮箱或密码不正确。"
   },
   "footer": {
     "disclaimer": "免责声明",

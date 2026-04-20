@@ -183,7 +183,7 @@
     "comments_count": "{count} Comments",
     "share": "Share",
     "write_title": "Write a Post",
-    "select_category": "Select Category",
+    "select_category": "Select a category",
     "category_label": "Category",
     "post_title": "Title",
     "title_placeholder": "Enter a title",
@@ -223,7 +223,18 @@
     "comment2_time": "30m ago",
     "delete": "Delete",
     "captcha_failed": "Security verification failed. Please try again.",
-    "post_failed": "Failed to publish post. Please try again."
+    "post_failed": "Failed to publish post. Please try again.",
+    "post_type_label": "Post Type",
+    "type_text": "Text",
+    "type_image": "Image",
+    "type_link": "Link",
+    "flair_label": "Flair Tag",
+    "no_flair": "No tag (optional)",
+    "image_url": "Image URL",
+    "link_url": "External Link URL",
+    "image_add": "Add image",
+    "image_max_size": "Max 5MB",
+    "image_size_error": "File size exceeds 5MB."
   },
   "about": {
     "title": "About Us",
@@ -318,7 +329,8 @@
     "check_email_title": "Check your email",
     "check_email_desc": "We sent a confirmation link to your email. Please verify to complete signup.",
     "signing_up": "Signing up...",
-    "signing_in": "Signing in..."
+    "signing_in": "Signing in...",
+    "login_error": "Invalid email or password."
   },
   "footer": {
     "disclaimer": "Disclaimer",

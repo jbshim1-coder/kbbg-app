@@ -31,11 +31,7 @@ export default function LoginPage() {
     });
 
     if (authError) {
-      setError(
-        locale === "ko"
-          ? "이메일 또는 비밀번호가 올바르지 않습니다."
-          : "Invalid email or password."
-      );
+      setError(t("auth.login_error"));
       setLoading(false);
       return;
     }
@@ -50,7 +46,7 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/${locale}/auth/callback`,
       },
     });
   };
