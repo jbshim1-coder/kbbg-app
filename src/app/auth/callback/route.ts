@@ -42,7 +42,10 @@ export async function GET(request: Request) {
     const { error: authError } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!authError) {
-      return NextResponse.redirect(`${origin}/${locale}`)
+      // next 파라미터가 있으면 해당 경로로 (관리자 로그인 등)
+      const next = searchParams.get('next');
+      const redirectPath = next && next.startsWith('/') ? next : `/${locale}`;
+      return NextResponse.redirect(`${origin}${redirectPath}`)
     }
 
     // 에러 메시지를 로그인 페이지에 전달
