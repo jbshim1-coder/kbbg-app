@@ -26,8 +26,9 @@ function HospitalsContent() {
   const subjectName = subject ? (SUBJECT_CODES[subject] || subject) : "";
   const regionName = region ? (SIDO_CODES[region] || region) : "";
 
-  // 기관유형 필터 (URL에서 초기값, 이후 사용자 변경 가능)
-  const [activeType, setActiveType] = useState(type);
+  // 기관유형 필터: URL에 type이 있으면 사용, 없으면 전문과 검색 시 의원(31) 기본
+  const defaultType = type || (subject ? "31" : "");
+  const [activeType, setActiveType] = useState(defaultType);
   const [clinics, setClinics] = useState<HiraClinic[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
