@@ -30,15 +30,7 @@ const CAT_TO_KEY: Record<string, string> = {
   kfashion: "community.kfashion", travel: "community.travel", korean_learn: "community.korean_learn",
 };
 
-// flair 색상 맵
-const FLAIR_STYLE: Record<FlairType, { bg: string; text: string; label: string; labelEn: string }> = {
-  review:       { bg: "bg-blue-100",   text: "text-blue-700",   label: "후기",        labelEn: "Review" },
-  question:     { bg: "bg-yellow-100", text: "text-yellow-700", label: "질문",        labelEn: "Question" },
-  info:         { bg: "bg-gray-100",   text: "text-gray-700",   label: "정보",        labelEn: "Info" },
-  before_after: { bg: "bg-purple-100", text: "text-purple-700", label: "Before/After", labelEn: "Before/After" },
-  cost:         { bg: "bg-green-100",  text: "text-green-700",  label: "비용공유",     labelEn: "Cost" },
-  recommend:    { bg: "bg-rose-100",   text: "text-rose-700",   label: "병원추천",     labelEn: "Recommend" },
-};
+import { FLAIR_STYLE, formatRelativeTime } from "@/lib/community-utils";
 
 // time 문자열 → "today" | "week" | "month" | "all" 판별
 function classifyTime(time: string): "today" | "week" | "month" | "all" {
@@ -62,17 +54,7 @@ function hotScore(upvotes: number, time: string): number {
   return upvotes / Math.max(hours, 1);
 }
 
-// DB 게시글 시간 표시용
-function formatRelativeTime(isoString: string): string {
-  const diff = Date.now() - new Date(isoString).getTime();
-  const minutes = Math.floor(diff / 60000);
-  if (minutes < 1) return "just now";
-  if (minutes < 60) return `${minutes}m ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
+// formatRelativeTime은 @/lib/community-utils에서 import
 
 // 16개 카테고리 전체 가상 게시글 — 다양한 국적의 가상 회원
 const INITIAL_POSTS = [

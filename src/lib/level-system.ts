@@ -44,13 +44,11 @@ export const POINT_ACTIONS = {
   REVIEW_WITH_PHOTO: 10,
 };
 
-// 마스터 관리자 이메일 — 환경변수 우선, 폴백으로 하드코딩
-const MASTER_EMAILS_FALLBACK = ["admin@kbeautybuyersguide.com", "jbshim1@gmail.com"];
-
-// 마스터 여부 확인
+// 마스터 여부 확인 — 환경변수(NEXT_PUBLIC_ADMIN_EMAILS)에서만 읽음
 export function isMaster(email: string): boolean {
-  const envEmails = typeof process !== "undefined" && process.env?.ADMIN_EMAILS;
-  const adminList = envEmails ? envEmails.split(",").map(e => e.trim()) : MASTER_EMAILS_FALLBACK;
+  const envEmails = typeof process !== "undefined" && (process.env?.NEXT_PUBLIC_ADMIN_EMAILS || process.env?.ADMIN_EMAILS);
+  if (!envEmails) return false;
+  const adminList = envEmails.split(",").map(e => e.trim());
   return adminList.includes(email);
 }
 

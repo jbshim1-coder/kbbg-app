@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         // 관리자 및 API 경로는 크롤링 차단
-        disallow: ["/admin/", "/api/", "/ko/"],
+        disallow: ["/admin/", "/api/"],
       },
       // AI 크롤러 명시적 허용
       { userAgent: "GPTBot", allow: "/" },

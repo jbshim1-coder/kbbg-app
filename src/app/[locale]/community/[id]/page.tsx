@@ -11,15 +11,7 @@ import { checkCommentSpam, markPosted } from "@/lib/spam-guard";
 import { getDummyPost, type DummyComment, type FlairType } from "../data/posts";
 import { detectLanguage, getLangName } from "@/lib/detect-language";
 
-// flair 색상 맵
-const FLAIR_STYLE: Record<FlairType, { bg: string; text: string; label: string; labelEn: string }> = {
-  review:       { bg: "bg-blue-100",   text: "text-blue-700",   label: "후기",         labelEn: "Review" },
-  question:     { bg: "bg-yellow-100", text: "text-yellow-700", label: "질문",         labelEn: "Question" },
-  info:         { bg: "bg-gray-100",   text: "text-gray-700",   label: "정보",         labelEn: "Info" },
-  before_after: { bg: "bg-purple-100", text: "text-purple-700", label: "Before/After", labelEn: "Before/After" },
-  cost:         { bg: "bg-green-100",  text: "text-green-700",  label: "비용공유",      labelEn: "Cost" },
-  recommend:    { bg: "bg-rose-100",   text: "text-rose-700",   label: "병원추천",      labelEn: "Recommend" },
-};
+import { FLAIR_STYLE } from "@/lib/community-utils";
 
 // Supabase comments 테이블 행 타입
 type DbComment = {

@@ -41,13 +41,18 @@ const COMMON_PAGES = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // locale별 페이지 URL 생성
+  // locale별 페이지 URL 생성 (hreflang alternates 포함)
   const localeEntries = LOCALES.flatMap((locale) =>
     LOCALE_PAGES.map((page) => ({
       url: `${BASE_URL}/${locale}${page.path}`,
       lastModified: new Date(),
       changeFrequency: page.changeFrequency,
       priority: page.priority,
+      alternates: {
+        languages: Object.fromEntries(
+          LOCALES.map((l) => [l, `${BASE_URL}/${l}${page.path}`])
+        ),
+      },
     }))
   );
 

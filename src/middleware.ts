@@ -16,6 +16,20 @@ export default function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // 관리자 페이지 서버 사이드 인증 — 로그인 페이지는 제외
+  const adminMatch = pathname.match(/^\/\w{2}\/admin(?:\/|$)/);
+  if (adminMatch && !pathname.includes('/admin/login')) {
+    const hasAuthToken = request.cookies.getAll().some(
+      (c) => c.name.startsWith('sb-') && c.name.includes('-auth-token')
+    );
+    if (!hasAuthToken) {
+      const locale = pathname.split('/')[1] || 'en';
+      const url = request.nextUrl.clone();
+      url.pathname = `/${locale}/admin/login`;
+      return NextResponse.redirect(url);
+    }
+  }
+
   // /ko/ 경로 접근 시 로그인 여부 확인
   if (pathname === '/ko' || pathname.startsWith('/ko/')) {
     // Supabase auth 쿠키로 로그인 상태 판별
