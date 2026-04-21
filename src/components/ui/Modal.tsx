@@ -95,7 +95,7 @@ export default function Modal({
             <button
               onClick={onClose}
               className="ml-auto p-1.5 rounded-[var(--radius-sm)] text-[var(--foreground-tertiary)] hover:text-[var(--foreground)] hover:bg-[var(--background-secondary)] transition-all duration-200"
-              aria-label="모달 닫기"
+              aria-label="Close"
             >
               <X size={18} />
             </button>

@@ -33,38 +33,18 @@ const MANUAL_DATA: Record<Exclude<SourceTab, "naver">, ManualCosmeticsItem[]> = 
 
 const SOURCE_META: Record<
   SourceTab,
-  { sourceKo: string; sourceEn: string; updateKo: string; updateEn: string }
+  { sourceKey: string; updateKey: string }
 > = {
-  naver: {
-    sourceKo: "출처: 네이버 쇼핑",
-    sourceEn: "Source: Naver Shopping",
-    updateKo: "매일 업데이트",
-    updateEn: "Updated daily",
-  },
-  oliveyoung: {
-    sourceKo: "출처: 올리브영",
-    sourceEn: "Source: Olive Young",
-    updateKo: "매주 월요일 기준 1주일 데이터",
-    updateEn: "Weekly data based on Monday",
-  },
-  glowpick: {
-    sourceKo: "출처: 글로우픽",
-    sourceEn: "Source: Glowpick",
-    updateKo: "매주 월요일 기준 1주일 데이터",
-    updateEn: "Weekly data based on Monday",
-  },
-  hwahae: {
-    sourceKo: "출처: 화해",
-    sourceEn: "Source: Hwahae",
-    updateKo: "매주 월요일 기준 1주일 데이터",
-    updateEn: "Weekly data based on Monday",
-  },
+  naver: { sourceKey: "ui.source_naver", updateKey: "ui.data_daily" },
+  oliveyoung: { sourceKey: "ui.source_oliveyoung", updateKey: "ui.data_weekly" },
+  glowpick: { sourceKey: "ui.source_glowpick", updateKey: "ui.data_weekly" },
+  hwahae: { sourceKey: "ui.source_hwahae", updateKey: "ui.data_weekly" },
 };
 
 // 가격 포맷 — lprice는 문자열 숫자 (예: "15000")
-function formatPrice(lprice: string): string {
+function formatPrice(lprice: string, suffix: string): string {
   if (!lprice) return "-";
-  return Number(lprice).toLocaleString("ko-KR") + "원~";
+  return Number(lprice).toLocaleString() + suffix;
 }
 
 export default function CosmeticsPage() {
@@ -231,7 +211,7 @@ export default function CosmeticsPage() {
                   </div>
 
                   <div className="shrink-0 text-sm font-semibold text-slate-700">
-                    {formatPrice(item.lprice)}
+                    {formatPrice(item.lprice, t("ui.price_suffix"))}
                   </div>
                 </a>
               ))}
@@ -278,7 +258,7 @@ export default function CosmeticsPage() {
           {/* 출처 표시 */}
           {(source !== "naver" || (!loading && !error && items.length > 0)) && (
             <p className="mt-8 text-center text-xs text-gray-400">
-              {isKo ? `${meta.sourceKo} | ${meta.updateKo}` : `${meta.sourceEn} | ${meta.updateEn}`}
+              {t(meta.sourceKey as Parameters<typeof t>[0])} | {t(meta.updateKey as Parameters<typeof t>[0])}
             </p>
           )}
         </div>

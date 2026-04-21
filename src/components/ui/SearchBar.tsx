@@ -78,7 +78,7 @@ export default function SearchBar({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          aria-label="검색"
+          aria-label="Search"
           className={[
             "w-full pl-9 pr-9 rounded-[var(--radius-md)] border-[3px] border-[rgba(0,0,0,0.04)] bg-[#fafafc]",
             "text-[var(--foreground)] placeholder-[var(--foreground-tertiary)]",
@@ -93,7 +93,7 @@ export default function SearchBar({
           <button
             type="button"
             onClick={handleClear}
-            aria-label="검색어 지우기"
+            aria-label="Clear search"
             className="absolute right-3 p-0.5 text-gray-400 hover:text-gray-600 transition-colors"
           >
             <X size={iconSize - 2} />

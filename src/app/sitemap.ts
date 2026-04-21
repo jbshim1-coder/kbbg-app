@@ -33,8 +33,8 @@ const LOCALE_PAGES = [
   { path: "/bug-report", priority: 0.3, changeFrequency: "monthly" as const },
 ];
 
-// locale prefix 없이 제공되는 공통 정책 페이지
-const COMMON_PAGES = [
+// 정책 페이지 — locale prefix 필요 (실제 라우트가 /[locale]/terms)
+const POLICY_PAGES = [
   { path: "/terms", priority: 0.3, changeFrequency: "yearly" as const },
   { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const },
   { path: "/disclaimer", priority: 0.3, changeFrequency: "yearly" as const },
@@ -56,13 +56,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  // 공통 정책 페이지 URL 생성
-  const commonEntries = COMMON_PAGES.map((page) => ({
-    url: `${BASE_URL}${page.path}`,
-    lastModified: new Date(),
-    changeFrequency: page.changeFrequency,
-    priority: page.priority,
-  }));
+  // 정책 페이지도 locale별 생성
+  const policyEntries = LOCALES.flatMap((locale) =>
+    POLICY_PAGES.map((page) => ({
+      url: `${BASE_URL}/${locale}${page.path}`,
+      lastModified: new Date(),
+      changeFrequency: page.changeFrequency,
+      priority: page.priority,
+    }))
+  );
 
-  return [...localeEntries, ...commonEntries];
+  return [...localeEntries, ...policyEntries];
 }

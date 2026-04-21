@@ -25,13 +25,13 @@ const CATEGORY_KEYS = [
 type PostType = "text" | "image" | "link";
 type FlairType = "review" | "question" | "info" | "before_after" | "cost" | "recommend";
 
-const FLAIR_OPTIONS: { value: FlairType; labelKo: string; labelEn: string }[] = [
-  { value: "review",       labelKo: "후기",         labelEn: "Review" },
-  { value: "question",     labelKo: "질문",         labelEn: "Question" },
-  { value: "info",         labelKo: "정보",         labelEn: "Info" },
-  { value: "before_after", labelKo: "Before/After", labelEn: "Before/After" },
-  { value: "cost",         labelKo: "비용공유",      labelEn: "Cost" },
-  { value: "recommend",    labelKo: "병원추천",      labelEn: "Recommend" },
+const FLAIR_OPTIONS: { value: FlairType; labelKey: string }[] = [
+  { value: "review",       labelKey: "ui.flair_review" },
+  { value: "question",     labelKey: "ui.flair_question" },
+  { value: "info",         labelKey: "ui.flair_info" },
+  { value: "before_after", labelKey: "ui.flair_before_after" },
+  { value: "cost",         labelKey: "ui.flair_cost" },
+  { value: "recommend",    labelKey: "ui.flair_recommend" },
 ];
 
 // 새 게시글 작성 페이지 — 카테고리·제목·본문·이미지 첨부
@@ -251,7 +251,7 @@ export default function NewPostPage() {
               <option value="">{t("community.no_flair")}</option>
               {FLAIR_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
-                  {locale === "ko" ? opt.labelKo : opt.labelEn}
+                  {t(opt.labelKey as Parameters<typeof t>[0])}
                 </option>
               ))}
             </select>

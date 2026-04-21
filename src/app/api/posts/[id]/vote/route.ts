@@ -32,12 +32,15 @@ export async function POST(
 
   if (existing) {
     if (existing.vote_type === voteType) {
-      await supabase.from("post_votes" as never).delete().eq("id", existing.id);
+      const { error: delErr } = await supabase.from("post_votes" as never).delete().eq("id", existing.id);
+      if (delErr) return NextResponse.json({ error: "Failed to remove vote" }, { status: 500 });
     } else {
-      await supabase.from("post_votes" as never).update({ vote_type: voteType } as never).eq("id", existing.id);
+      const { error: updErr } = await supabase.from("post_votes" as never).update({ vote_type: voteType } as never).eq("id", existing.id);
+      if (updErr) return NextResponse.json({ error: "Failed to update vote" }, { status: 500 });
     }
   } else {
-    await supabase.from("post_votes" as never).insert({ post_id: postId, user_id: user.id, vote_type: voteType } as never);
+    const { error: insErr } = await supabase.from("post_votes" as never).insert({ post_id: postId, user_id: user.id, vote_type: voteType } as never);
+    if (insErr) return NextResponse.json({ error: "Failed to cast vote" }, { status: 500 });
   }
 
   // 최신 투표 수 계산

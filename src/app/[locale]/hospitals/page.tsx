@@ -105,11 +105,11 @@ function HospitalsContent() {
               {/* 기관유형 필터 */}
               <div className="flex flex-wrap gap-2 mt-3">
                 {[
-                  { code: "", label: locale === "ko" ? "전체" : "All" },
-                  { code: "31", label: locale === "ko" ? "의원" : "Clinic" },
-                  { code: "21", label: locale === "ko" ? "병원" : "Hospital" },
-                  { code: "11", label: locale === "ko" ? "종합병원" : "General" },
-                  { code: "01", label: locale === "ko" ? "상급종합" : "Tertiary" },
+                  { code: "", label: t("ui.hospital_all") },
+                  { code: "31", label: t("ui.hospital_clinic") },
+                  { code: "21", label: t("ui.hospital_hospital") },
+                  { code: "11", label: t("ui.hospital_general") },
+                  { code: "01", label: t("ui.hospital_tertiary") },
                 ].map((opt) => (
                   <button
                     key={opt.code}
