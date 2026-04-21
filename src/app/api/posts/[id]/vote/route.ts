@@ -22,7 +22,7 @@ export async function POST(
     return NextResponse.json({ error: "type must be 'up' or 'down'" }, { status: 400 });
   }
 
-  // 기존 투표 확인 (post_votes 테이블 — 마이그레이션 후 작동)
+  // 기존 투표 확인
   const { data: existing } = await supabase
     .from("post_votes" as never)
     .select("id, vote_type")
@@ -72,7 +72,8 @@ export async function DELETE(
 
   const { id: postId } = await ctx.params;
 
-  await supabase.from("post_votes" as never).delete().eq("post_id", postId).eq("user_id", user.id);
+  const { error: delErr } = await supabase.from("post_votes" as never).delete().eq("post_id", postId).eq("user_id", user.id);
+  if (delErr) return NextResponse.json({ error: "Failed to cancel vote" }, { status: 500 });
 
   const { count: upCount } = await supabase.from("post_votes" as never).select("*", { count: "exact", head: true }).eq("post_id", postId).eq("vote_type", "up");
   const { count: downCount } = await supabase.from("post_votes" as never).select("*", { count: "exact", head: true }).eq("post_id", postId).eq("vote_type", "down");

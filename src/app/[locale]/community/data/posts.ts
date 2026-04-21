@@ -1,7 +1,8 @@
 // 커뮤니티 더미 게시글 데이터 — id 1~10 상세 본문 + 댓글
 // 실제 Supabase posts 테이블 데이터가 없을 때 폴백으로 사용
 
-export type FlairType = "review" | "question" | "info" | "before_after" | "cost" | "recommend";
+import type { FlairType } from "@/lib/community-utils";
+export type { FlairType };
 export type PostType = "text" | "image" | "link";
 
 export type DummyComment = {

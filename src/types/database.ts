@@ -30,6 +30,15 @@ export interface User {
   updated_at: string
 }
 
+// 게시글 투표 — 추천/비추천 기록
+export interface PostVote {
+  id: string
+  post_id: string
+  user_id: string
+  vote_type: VoteType
+  created_at: string
+}
+
 // 사용자 프로필 확장 정보 — User와 1:1 관계
 export interface UserProfile {
   id: string
@@ -381,6 +390,11 @@ export interface Database {
         Row: Vote
         Insert: VoteInsert
         Update: Pick<Vote, 'vote_type'>  // vote_type만 변경 허용
+      }
+      post_votes: {
+        Row: PostVote
+        Insert: Omit<PostVote, 'id' | 'created_at'>
+        Update: Pick<PostVote, 'vote_type'>
       }
       reports: {
         Row: Report

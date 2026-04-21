@@ -448,7 +448,7 @@ export default function PostDetailPage({
               {t(displayPost.categoryKey as Parameters<typeof t>[0])}
             </span>
             {displayPost.flair && (() => {
-              const style = FLAIR_STYLE[displayPost.flair];
+              const style = FLAIR_STYLE[displayPost.flair as FlairType];
               return (
                 <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${style.bg} ${style.text}`}>
                   {isKo ? style.label : style.labelEn}

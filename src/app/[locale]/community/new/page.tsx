@@ -23,7 +23,7 @@ const CATEGORY_KEYS = [
 ];
 
 type PostType = "text" | "image" | "link";
-type FlairType = "review" | "question" | "info" | "before_after" | "cost" | "recommend";
+import type { FlairType } from "@/lib/community-utils";
 
 const FLAIR_OPTIONS: { value: FlairType; labelKey: string }[] = [
   { value: "review",       labelKey: "ui.flair_review" },

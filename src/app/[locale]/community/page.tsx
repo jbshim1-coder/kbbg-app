@@ -226,6 +226,7 @@ function CommunityContent() {
 
   // Supabase에서 DB 게시글 로드 → 더미 데이터와 병합
   useEffect(() => {
+    let cancelled = false;
     const supabase = createClient();
     supabase
       .from("posts")
@@ -233,8 +234,9 @@ function CommunityContent() {
       .eq("is_deleted", false)
       .order("created_at", { ascending: false })
       .limit(50)
-      .then(async ({ data }) => {
-        if (!data || data.length === 0) return;
+      .then(async ({ data, error }) => {
+        if (error) { console.error("posts load error:", error.message); return; }
+        if (!data || data.length === 0 || cancelled) return;
         // board_id → slug 매핑을 비동기로 가져옴
         const { data: boards } = await supabase.from("boards").select("id, slug");
         const boardMap: Record<string, string> = {};
@@ -256,8 +258,9 @@ function CommunityContent() {
           flair: "review" as FlairType,
           postType: "text" as const,
         }));
-        setAllPosts((prev) => [...prev, ...dbPosts]);
-      });
+        if (!cancelled) setAllPosts((prev) => [...prev, ...dbPosts]);
+      }).then(null, (err: unknown) => console.error("posts load failed:", err));
+    return () => { cancelled = true; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
