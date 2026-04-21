@@ -26,6 +26,16 @@ export default async function NotFoundPage() {
   const contactHint = t ? t("contact_hint") : "If the problem persists, please";
   const contactLink = t ? t("contact_link") : "contact us";
 
+  // 쿠키에서 locale 감지 (글로벌 not-found는 [locale] 밖이므로)
+  let locale = "en";
+  try {
+    const { cookies: getCookies } = await import("next/headers");
+    const cookieStore = await getCookies();
+    locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
+  } catch {
+    // 쿠키 접근 불가 시 en 기본값
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 text-center">
       <div className="max-w-md">
@@ -42,19 +52,19 @@ export default async function NotFoundPage() {
         {/* 유용한 링크 목록 */}
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
-            href="/en"
+            href={`/${locale}`}
             className="rounded-xl bg-pink-500 px-6 py-3 font-semibold text-white hover:bg-pink-600"
           >
             {homeLabel}
           </Link>
           <Link
-            href="/en/recommend"
+            href={`/${locale}/recommend`}
             className="rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50"
           >
             {recommendLabel}
           </Link>
           <Link
-            href="/en/community"
+            href={`/${locale}/community`}
             className="rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50"
           >
             {communityLabel}
@@ -64,7 +74,7 @@ export default async function NotFoundPage() {
         {/* 추가 도움말 */}
         <p className="mt-8 text-sm text-gray-400">
           {contactHint}{" "}
-          <Link href="/en/contact" className="text-pink-500 hover:underline">
+          <Link href={`/${locale}/contact`} className="text-pink-500 hover:underline">
             {contactLink}
           </Link>
           .

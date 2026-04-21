@@ -339,7 +339,8 @@
     "check_email_desc": "Chúng tôi đã gửi liên kết xác nhận đến email của bạn. Vui lòng xác minh để hoàn tất đăng ký.",
     "signing_up": "Đang đăng ký...",
     "signing_in": "Đang đăng nhập...",
-    "login_error": "Email hoặc mật khẩu không đúng."
+    "login_error": "Email hoặc mật khẩu không đúng.",
+    "signup_error": "Tạo tài khoản thất bại. Vui lòng thử lại."
   },
   "footer": {
     "disclaimer": "Tuyên bố miễn trách nhiệm",
@@ -937,7 +938,16 @@
     "events_description": "Ưu đãi phòng khám da liễu & thẩm mỹ Gangnam-Seocho (cập nhật hàng tuần)",
     "events_disclaimer": "※ Thông tin dựa trên trang web của các phòng khám. Vui lòng liên hệ trực tiếp để xác nhận giá.",
     "events_ad_inquiry": "Hỏi về quảng cáo: jbshim1@gmail.com",
-    "consult_error": "Gửi thất bại. Vui lòng thử lại."
+    "consult_error": "Gửi thất bại. Vui lòng thử lại.",
+    "loading_more": "Đang tải...",
+    "show_more_clinics": "Xem thêm {count} phòng khám",
+    "browse_condition": "Tìm thêm theo điều kiện",
+    "search_fallback": "Kết quả tìm kiếm.",
+    "ad_label": "QC",
+    "filter_derma": "Da liễu",
+    "filter_plastic": "Phẫu thuật thẩm mỹ",
+    "filter_eye": "Nhãn khoa",
+    "price_unit": "KRW"
   },
   "cf": {
     "select_specialty": "Chọn chuyên khoa",

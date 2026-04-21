@@ -9,6 +9,13 @@ const EVENTS = eventsData.events;
 
 type FilterType = "all" | "피부과" | "성형외과" | "안과";
 
+const FILTER_LABELS: Record<FilterType, string> = {
+  all: "ui.all",
+  "피부과": "ui.filter_derma",
+  "성형외과": "ui.filter_plastic",
+  "안과": "ui.filter_eye",
+};
+
 export default function EventsPage() {
   const t = useTranslations();
   const pathname = usePathname();
@@ -48,7 +55,7 @@ export default function EventsPage() {
                   : "bg-white border border-stone-200 text-gray-600 hover:bg-stone-50"
               }`}
             >
-              {f === "all" ? t("ui.all") : f}
+              {t(FILTER_LABELS[f] as Parameters<typeof t>[0])}
             </button>
           ))}
         </div>

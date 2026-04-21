@@ -339,7 +339,8 @@
     "check_email_desc": "We sent a confirmation link to your email. Please verify to complete signup.",
     "signing_up": "Signing up...",
     "signing_in": "Signing in...",
-    "login_error": "Invalid email or password."
+    "login_error": "Invalid email or password.",
+    "signup_error": "Failed to create account. Please try again."
   },
   "footer": {
     "disclaimer": "Disclaimer",
@@ -937,7 +938,16 @@
     "events_description": "Gangnam & Seocho dermatology & plastic surgery promotions (updated weekly)",
     "events_disclaimer": "※ Prices are based on clinic website listings. Please contact clinics directly for confirmation.",
     "events_ad_inquiry": "Advertising inquiries: jbshim1@gmail.com",
-    "consult_error": "Failed to submit. Please try again."
+    "consult_error": "Failed to submit. Please try again.",
+    "loading_more": "Loading...",
+    "show_more_clinics": "Show {count} more clinics",
+    "browse_condition": "Browse more in condition search",
+    "search_fallback": "Search results.",
+    "ad_label": "Ad",
+    "filter_derma": "Dermatology",
+    "filter_plastic": "Plastic Surgery",
+    "filter_eye": "Ophthalmology",
+    "price_unit": "KRW"
   },
   "cf": {
     "select_specialty": "Select Specialty",

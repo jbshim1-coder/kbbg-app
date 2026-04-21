@@ -59,7 +59,7 @@ export default function SignupPage() {
     setLoading(false);
 
     if (signUpError) {
-      setErrors({ general: signUpError.message });
+      setErrors({ general: t("auth.signup_error") });
       return;
     }
 

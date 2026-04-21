@@ -339,7 +339,8 @@
     "check_email_desc": "確認リンクをメールに送信しました。登録を完了するにはメールをご確認ください。",
     "signing_up": "登録中...",
     "signing_in": "ログイン中...",
-    "login_error": "メールアドレスまたはパスワードが正しくありません。"
+    "login_error": "メールアドレスまたはパスワードが正しくありません。",
+    "signup_error": "アカウントの作成に失敗しました。もう一度お試しください。"
   },
   "footer": {
     "disclaimer": "免責事項",
@@ -937,7 +938,16 @@
     "events_description": "カンナム・ソチョ皮膚科・整形外科イベント (毎週更新)",
     "events_disclaimer": "※ 本情報は各病院のウェブサイト掲載基準です。実際の価格は病院に直接お問い合わせください。",
     "events_ad_inquiry": "広告掲載のお問い合わせ: jbshim1@gmail.com",
-    "consult_error": "送信に失敗しました。もう一度お試しください。"
+    "consult_error": "送信に失敗しました。もう一度お試しください。",
+    "loading_more": "読み込み中...",
+    "show_more_clinics": "さらに{count}件のクリニック",
+    "browse_condition": "条件検索でもっと探す",
+    "search_fallback": "検索結果です。",
+    "ad_label": "広告",
+    "filter_derma": "皮膚科",
+    "filter_plastic": "整形外科",
+    "filter_eye": "眼科",
+    "price_unit": "円"
   },
   "cf": {
     "select_specialty": "診療科を選択",

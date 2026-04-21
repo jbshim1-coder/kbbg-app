@@ -32,11 +32,11 @@ interface ExtractedFilters {
 
 // 주요 지역 칩 (외국인 대상)
 const REGION_CHIPS = [
-  { label: "서울 강남", region: "강남구" },
-  { label: "서울 서초", region: "서초구" },
-  { label: "서울 명동", region: "중구" },
-  { label: "부산", region: "부산" },
-  { label: "제주", region: "제주" },
+  { labelKey: "Gangnam", labelKo: "서울 강남", region: "강남구" },
+  { labelKey: "Seocho", labelKo: "서울 서초", region: "서초구" },
+  { labelKey: "Myeongdong", labelKo: "서울 명동", region: "중구" },
+  { labelKey: "Busan", labelKo: "부산", region: "부산" },
+  { labelKey: "Jeju", labelKo: "제주", region: "제주" },
 ];
 
 // 로딩 단계별 키 (i18n)
@@ -132,7 +132,7 @@ function AiSearchContent() {
 
         setResults(data.clinics || []);
         setTotalCount(data.totalCount || 0);
-        setNarrative(data.narrative || `"${rawQuery}" 검색 결과입니다.`);
+        setNarrative(data.narrative || `"${rawQuery}" ${t("ui.search_fallback")}`);
         setSearchBasis(data.searchBasis || "");
         setFilters(data.extractedFilters || null);
         setNeedsRegion(data.needsRegion || false);
@@ -178,7 +178,7 @@ function AiSearchContent() {
     // 기존 검색어에서 다른 지역 칩이 이미 붙어있으면 제거하고 새로 추가
     let baseQuery = rawQuery;
     for (const chip of REGION_CHIPS) {
-      baseQuery = baseQuery.replace(new RegExp(`\\s*${chip.label}\\s*`, "g"), " ").trim();
+      baseQuery = baseQuery.replace(new RegExp(`\\s*${chip.labelKo}\\s*`, "g"), " ").trim();
     }
     const newQuery = `${baseQuery} ${regionLabel}`.trim();
     setInputValue(newQuery);
@@ -317,10 +317,10 @@ function AiSearchContent() {
                   {REGION_CHIPS.map((chip) => (
                     <button
                       key={chip.region}
-                      onClick={() => handleRegionChip(chip.label)}
+                      onClick={() => handleRegionChip(chip.labelKo)}
                       className="px-3 py-1.5 bg-white border border-amber-300 text-amber-800 text-xs font-medium rounded-full hover:bg-amber-100 transition-colors min-h-[36px]"
                     >
-                      {chip.label}
+                      {locale === "ko" ? chip.labelKo : chip.labelKey}
                     </button>
                   ))}
                 </div>
@@ -452,11 +452,8 @@ function AiSearchContent() {
                   className="block w-full text-center py-3 px-6 bg-slate-800 text-white hover:bg-slate-900 text-sm font-medium rounded-full transition-colors min-h-[44px] disabled:bg-slate-400"
                 >
                   {loadingMore
-                    ? (locale === "ko" ? "불러오는 중..." : "Loading...")
-                    : (locale === "ko"
-                        ? `나머지 ${(totalCount - results.length).toLocaleString()}개 병원 더 보기`
-                        : `Show ${(totalCount - results.length).toLocaleString()} more clinics`
-                      )
+                    ? t("ui.loading_more")
+                    : t("ui.show_more_clinics", { count: (totalCount - results.length).toLocaleString() })
                   }
                 </button>
               </div>
@@ -468,7 +465,7 @@ function AiSearchContent() {
                 href={buildHospitalsUrl()}
                 className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors"
               >
-                {locale === "ko" ? "조건별 병원검색에서 더 알아보기" : "Browse more in condition search"}
+                {t("ui.browse_condition")}
               </Link>
             </div>
           </div>
