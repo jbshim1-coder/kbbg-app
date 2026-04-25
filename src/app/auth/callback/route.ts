@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     if (!authError) {
       // next 파라미터가 있으면 해당 경로로 (관리자 로그인 등)
       const next = searchParams.get('next');
-      const redirectPath = next && next.startsWith('/') ? next : `/${locale}`;
+      const redirectPath = next && next.startsWith('/') && !next.startsWith('//') ? next : `/${locale}`;
       return NextResponse.redirect(`${origin}${redirectPath}`)
     }
 

@@ -142,7 +142,7 @@ export default function ConsultationForm({ locale }: { locale: string }) {
       </div>
       {error && <p className="text-sm text-red-500 text-center">{error}</p>}
       <button type="submit" disabled={loading}
-        className="w-full py-3 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900 disabled:bg-slate-400 transition">
+        className="w-full py-3 bg-[#0071e3] text-white text-sm font-bold rounded-xl hover:bg-[#0077ED] disabled:bg-gray-400 transition">
         {loading ? t("ui.consult_submitting") : t("ui.consult_submit")}
       </button>
     </form>

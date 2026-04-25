@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
+import { sanitizeInput, truncate } from "@/lib/sanitize";
 
 // 게시글 데이터 구조
 interface Post {
@@ -115,9 +116,9 @@ export async function POST(request: NextRequest) {
     // 새 게시글 객체 생성 — 실제 구현 시 DB INSERT 후 생성된 ID 반환
     const newPost: Post = {
       id: DUMMY_POSTS.length + 1, // 더미: 배열 길이 + 1을 임시 ID로 사용
-      title: body.title,
-      content: body.content,
-      author: body.author,
+      title: sanitizeInput(truncate(body.title, 200)),
+      content: sanitizeInput(truncate(body.content, 10000)),
+      author: sanitizeInput(truncate(body.author, 50)),
       country: body.country ?? "unknown",  // 국적 미제공 시 "unknown"으로 저장
       category: body.category ?? "일반",   // 카테고리 미제공 시 "일반"으로 분류
       voteUp: 0,

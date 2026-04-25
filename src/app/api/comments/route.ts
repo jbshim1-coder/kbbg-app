@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
+import { sanitizeInput, truncate } from "@/lib/sanitize";
 
 // 댓글 데이터 구조
 interface Comment {
@@ -98,9 +99,9 @@ export async function POST(request: NextRequest) {
     const newComment: Comment = {
       id: DUMMY_COMMENTS.length + 1, // 더미: 배열 길이 + 1을 임시 ID로 사용
       postId: body.postId,
-      author: body.author,
+      author: sanitizeInput(truncate(body.author, 50)),
       country: body.country ?? "unknown", // 국적 미제공 시 "unknown"으로 저장
-      content: body.content,
+      content: sanitizeInput(truncate(body.content, 5000)),
       voteUp: 0, // 신규 댓글은 추천 0에서 시작
       createdAt: new Date().toISOString(), // 현재 시각을 작성 시각으로 기록
     };

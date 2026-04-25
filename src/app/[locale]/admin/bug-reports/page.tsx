@@ -5,7 +5,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { createClient } from "@/lib/supabase";
 
 interface BugReport {
   id: number;
@@ -36,19 +35,17 @@ export default function AdminBugReportsPage() {
   const [loading, setLoading] = useState(true);
   const [resolving, setResolving] = useState<number | null>(null);
 
-  // Supabase에서 bug_report 카테고리 문의 목록 조회
+  // 서버 인증 API를 통해 bug_report 목록 조회
   useEffect(() => {
     async function fetchReports() {
-      const supabase = createClient();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data, error } = await (supabase as any)
-        .from("contact_inquiries")
-        .select("id, name, email, message, status, created_at")
-        .eq("category", "bug_report")
-        .order("created_at", { ascending: false });
-
-      if (!error && data) {
-        setReports(data as BugReport[]);
+      try {
+        const res = await fetch("/api/admin/bug-reports");
+        if (res.ok) {
+          const json = await res.json();
+          setReports(json.reports || []);
+        }
+      } catch {
+        // 네트워크 에러 무시
       }
       setLoading(false);
     }
@@ -56,20 +53,22 @@ export default function AdminBugReportsPage() {
     fetchReports();
   }, []);
 
-  // 100P 지급 버튼 — 현재는 상태를 "resolved"로 변경만 처리
+  // 100P 지급 버튼 — 서버 API를 통해 상태를 "resolved"로 변경
   async function handleResolve(id: number) {
     setResolving(id);
-    const supabase = createClient();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase as any)
-      .from("contact_inquiries")
-      .update({ status: "resolved" })
-      .eq("id", id);
-
-    if (!error) {
-      setReports((prev) =>
-        prev.map((r) => (r.id === id ? { ...r, status: "resolved" } : r))
-      );
+    try {
+      const res = await fetch("/api/admin/bug-reports", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setReports((prev) =>
+          prev.map((r) => (r.id === id ? { ...r, status: "resolved" } : r))
+        );
+      }
+    } catch {
+      // 네트워크 ���러 무시
     }
     setResolving(null);
   }

@@ -38,7 +38,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "API key not set" }, { status: 500 });
     }
 
-    const targetLang = LOCALE_NAMES[targetLocale] || "English";
+    const targetLang = LOCALE_NAMES[targetLocale];
+    if (!targetLang) {
+      return NextResponse.json({ error: "Unsupported target locale" }, { status: 400 });
+    }
 
     const response = await fetch(OPENAI_API_URL, {
       method: "POST",
@@ -51,8 +54,12 @@ export async function POST(req: NextRequest) {
         max_tokens: 1024,
         messages: [
           {
+            role: "system",
+            content: `You are a translator. Translate the user-provided text to ${targetLang}. Return only the translated text, no explanations.`,
+          },
+          {
             role: "user",
-            content: `Translate the following text to ${targetLang}. Return only the translated text, no explanations.\n\n${text}`,
+            content: text,
           },
         ],
       }),

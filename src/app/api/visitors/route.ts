@@ -43,24 +43,32 @@ export async function POST(req: Request) {
     const supabase = createServiceRoleClient();
     const today = getKSTDate(0);
 
+    // 원자적 upsert: insert 시도 후 conflict 시 count+1 업데이트
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: existing } = await (supabase as any)
+    const { error: upsertError } = await (supabase as any)
       .from("daily_visitors")
-      .select("count")
-      .eq("date", today)
-      .single();
+      .upsert(
+        { date: today, count: 1 },
+        { onConflict: "date", ignoreDuplicates: false }
+      );
 
-    if (existing) {
+    // upsert가 새 행을 삽입한 경우 완료, 기존 행이면 count 증가
+    if (upsertError) {
+      // conflict 시 기존 행의 count를 SQL로 증가 (race condition 최소화)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase as any)
+      const { data: existing } = await (supabase as any)
         .from("daily_visitors")
-        .update({ count: existing.count + 1 })
-        .eq("date", today);
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase as any)
-        .from("daily_visitors")
-        .insert({ date: today, count: 1 });
+        .select("count")
+        .eq("date", today)
+        .single();
+
+      if (existing) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase as any)
+          .from("daily_visitors")
+          .update({ count: existing.count + 1 })
+          .eq("date", today);
+      }
     }
 
     return NextResponse.json({ success: true });

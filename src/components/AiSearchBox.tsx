@@ -55,7 +55,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
 
         <button
           onClick={handleSubmit}
-          className="mt-4 px-8 py-3 min-h-[44px] bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-full transition-colors"
+          className="mt-4 px-8 py-3 min-h-[44px] bg-[#0071e3] hover:bg-[#0077ED] text-white text-sm font-medium rounded-full transition-colors"
         >
           {t("ai_start.button" as Parameters<typeof t>[0])}
         </button>
@@ -81,7 +81,7 @@ export default function AiSearchBox({ locale }: { locale: string }) {
               </button>
               <button
                 onClick={() => router.push(`/${locale}/signup`)}
-                className="flex-1 py-2.5 bg-slate-800 text-white rounded-lg text-sm font-semibold hover:bg-slate-900"
+                className="flex-1 py-2.5 bg-[#0071e3] text-white rounded-lg text-sm font-semibold hover:bg-[#0077ED]"
               >
                 {t("ui.signup_free")}
               </button>

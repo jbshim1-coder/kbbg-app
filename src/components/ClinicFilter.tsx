@@ -181,7 +181,7 @@ export default function ClinicFilter({ locale: _locale }: { locale: string }) {
 
       <button
         onClick={handleSearch}
-        className="w-full py-2.5 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 transition"
+        className="w-full py-2.5 bg-[#0071e3] text-white text-sm font-semibold rounded-lg hover:bg-[#0077ED] transition"
       >
         {t("ui.search_clinics")}
       </button>
@@ -203,7 +203,7 @@ export default function ClinicFilter({ locale: _locale }: { locale: string }) {
                 {t("ui.close")}
               </button>
               <button onClick={() => router.push(`/${currentLocale}/signup`)}
-                className="flex-1 py-2.5 bg-slate-800 text-white rounded-lg text-sm font-semibold hover:bg-slate-900">
+                className="flex-1 py-2.5 bg-[#0071e3] text-white rounded-lg text-sm font-semibold hover:bg-[#0077ED]">
                 {t("ui.signup_free")}
               </button>
             </div>

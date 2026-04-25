@@ -55,8 +55,8 @@ export default function DailyCheckIn({ locale: _locale }: { locale: string }) {
         disabled={checked}
         className={`w-full py-2.5 rounded-xl text-sm font-semibold transition ${
           checked
-            ? "bg-green-50 text-green-600 border-2 border-green-400"
-            : "bg-slate-800 text-white hover:bg-slate-900"
+            ? "bg-blue-50 text-[#0071e3] border-2 border-[#0071e3]"
+            : "bg-[#0071e3] text-white hover:bg-[#0077ED]"
         }`}
       >
         {checked

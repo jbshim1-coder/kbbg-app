@@ -44,9 +44,9 @@ export const POINT_ACTIONS = {
   REVIEW_WITH_PHOTO: 10,
 };
 
-// 마스터 여부 확인 — 환경변수(NEXT_PUBLIC_ADMIN_EMAILS)에서만 읽음
+// 마스터 여부 확인 — 서버 전용 환경변수(ADMIN_EMAILS)에서만 읽음
 export function isMaster(email: string): boolean {
-  const envEmails = typeof process !== "undefined" && (process.env?.NEXT_PUBLIC_ADMIN_EMAILS || process.env?.ADMIN_EMAILS);
+  const envEmails = typeof process !== "undefined" && process.env?.ADMIN_EMAILS;
   if (!envEmails) return false;
   const adminList = envEmails.split(",").map(e => e.trim());
   return adminList.includes(email);

@@ -195,7 +195,7 @@ export async function POST(req: Request) {
     const subjectCodes = extractSubjectCodes(text);
     return NextResponse.json({ success: true, analysis: text, subjectCodes, provider });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
+    console.error("[face-analysis] Error:", error);
+    return NextResponse.json({ success: false, error: "Analysis failed. Please try again." }, { status: 500 });
   }
 }
