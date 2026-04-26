@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
-import DOMPurify from "isomorphic-dompurify";
+import sanitize from "sanitize-html";
 
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -15,11 +15,11 @@ function getSupabase() {
   );
 }
 
-const ALLOWED_TAGS = ["h2","h3","h4","p","ul","ol","li","strong","em","a","br","hr","img","div","span","table","tr","td","th","thead","tbody"];
-const ALLOWED_ATTR = ["href","src","alt","class","style","loading","target","rel"];
-
 function sanitizeHtml(html: string): string {
-  return DOMPurify.sanitize(html, { ALLOWED_TAGS, ALLOWED_ATTR });
+  return sanitize(html, {
+    allowedTags: ["h2","h3","h4","p","ul","ol","li","strong","em","a","br","hr","img","div","span","table","tr","td","th","thead","tbody"],
+    allowedAttributes: { a: ["href","target","rel"], img: ["src","alt","style","loading"], div: ["style","class"], span: ["class","style"], "*": ["class"] },
+  });
 }
 
 const CATEGORY_LABELS: Record<string, Record<string, string>> = {
