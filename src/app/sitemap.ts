@@ -1,6 +1,8 @@
 // 자동 사이트맵 생성 — Next.js MetadataRoute.Sitemap 활용
-// 정적 페이지 + locale별 동적 URL을 포함
+// 정적 페이지 + locale별 동적 URL + 프로그래매틱 SEO 페이지 포함
 import type { MetadataRoute } from "next";
+import { procedureGuides } from "@/data/procedure-guides";
+import { seoCombinations } from "@/data/seo-combinations";
 
 // 프로덕션 도메인
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -66,5 +68,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...localeEntries, ...policyEntries];
+  // 시술별 개별 페이지 (39개 × 8개 언어 = 312 URL)
+  const procedureEntries = LOCALES.flatMap((locale) =>
+    procedureGuides.map((guide) => ({
+      url: `${BASE_URL}/${locale}/procedures/${guide.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+      alternates: {
+        languages: Object.fromEntries(
+          LOCALES.map((l) => [l, `${BASE_URL}/${l}/procedures/${guide.slug}`])
+        ),
+      },
+    }))
+  );
+
+  // 시술×지역 조합 페이지 (190개 × 8개 언어 = 1,520 URL)
+  const comboEntries = LOCALES.flatMap((locale) =>
+    seoCombinations.map((combo) => ({
+      url: `${BASE_URL}/${locale}/clinics/${combo.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+      alternates: {
+        languages: Object.fromEntries(
+          LOCALES.map((l) => [l, `${BASE_URL}/${l}/clinics/${combo.slug}`])
+        ),
+      },
+    }))
+  );
+
+  return [...localeEntries, ...policyEntries, ...procedureEntries, ...comboEntries];
 }
