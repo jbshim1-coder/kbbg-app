@@ -74,7 +74,7 @@ async function fetchAndUploadImages(keyword, slug) {
     if (!data.hits || data.hits.length === 0) return [];
 
     // 동물/곤충 태그 필터링 + 중복 제거
-    const BLOCK_TAGS = ["animal", "animals", "cat", "dog", "bird", "insect", "fly", "bug", "pet", "wildlife", "spider", "snake"];
+    const BLOCK_TAGS = ["animal", "animals", "cat", "dog", "bird", "insect", "fly", "bug", "pet", "wildlife", "spider", "snake", "surgery", "blood", "wound", "operation", "scalpel", "needle", "injection", "syringe", "hospital bed", "autopsy", "gore", "anatomy", "dissection", "corpse"];
     const filtered = data.hits.filter((img) => {
       const tags = img.tags.toLowerCase();
       return !BLOCK_TAGS.some((t) => tags.includes(t));
