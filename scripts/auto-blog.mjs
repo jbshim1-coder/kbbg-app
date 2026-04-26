@@ -222,9 +222,8 @@ async function main() {
   console.log("1/4 글 생성 중...");
   const article = await generateArticle(availableTopic);
 
-  // 2. 한국어 본문 번역
-  console.log("2/4 한국어 번역 중...");
-  const contentKo = await translateToKorean(article.content_en);
+  // 2. 한국어 제외 — 외국인 전용 블로그 (한국어 포스팅 금지)
+  console.log("2/4 한국어 건너뜀 (외국인 전용)");
 
   // 3. 나머지 언어 번역 (병렬)
   console.log("3/4 다국어 번역 중...");
@@ -246,7 +245,7 @@ async function main() {
     slug,
     category: availableTopic.category,
     title_en: article.title_en,
-    title_ko: article.title_ko,
+    title_ko: "", // 한국어 포스팅 금지
     title_zh: article.title_zh,
     title_ja: article.title_ja,
     title_vi: article.title_vi,
@@ -254,7 +253,7 @@ async function main() {
     title_ru: article.title_ru,
     title_mn: article.title_mn,
     content_en: article.content_en,
-    content_ko: contentKo,
+    content_ko: "", // 한국어 포스팅 금지 — 외국인 전용
     ...translations,
     excerpt_en: article.excerpt_en,
     excerpt_ko: article.excerpt_ko,
