@@ -66,15 +66,31 @@ const { TOPICS } = await import(config.topicsFile);
 async function fetchAndUploadImages(keyword, slug) {
   if (!PIXABAY_API_KEY) return [];
   try {
-    const q = encodeURIComponent(keyword.split(" ").slice(0, 3).join(" "));
+    const q = encodeURIComponent(keyword.split(" ").slice(0, 3).join(" ") + " beauty clinic skincare");
     const res = await fetch(
-      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${q}&image_type=photo&orientation=horizontal&per_page=10&safesearch=true`
+      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${q}&image_type=photo&orientation=horizontal&per_page=30&safesearch=true&category=health,beauty,people,places`
     );
     const data = await res.json();
     if (!data.hits || data.hits.length === 0) return [];
 
-    const shuffled = data.hits.slice(0, 6).sort(() => Math.random() - 0.5);
-    const selected = shuffled.slice(0, 3);
+    // 동물/곤충 태그 필터링 + 중복 제거
+    const BLOCK_TAGS = ["animal", "animals", "cat", "dog", "bird", "insect", "fly", "bug", "pet", "wildlife", "spider", "snake"];
+    const filtered = data.hits.filter((img) => {
+      const tags = img.tags.toLowerCase();
+      return !BLOCK_TAGS.some((t) => tags.includes(t));
+    });
+    if (filtered.length === 0) return [];
+
+    // 중복 방지: 각각 다른 이미지 ID 선택
+    const usedIds = new Set();
+    const selected = [];
+    const shuffled = filtered.sort(() => Math.random() - 0.5);
+    for (const img of shuffled) {
+      if (usedIds.has(img.id)) continue;
+      usedIds.add(img.id);
+      selected.push(img);
+      if (selected.length >= 3) break;
+    }
     const urls = [];
 
     for (let i = 0; i < selected.length; i++) {
