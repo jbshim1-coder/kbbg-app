@@ -3,6 +3,7 @@
 import type { MetadataRoute } from "next";
 import { procedureGuides } from "@/data/procedure-guides";
 import { seoCombinations } from "@/data/seo-combinations";
+import { createClient } from "@supabase/supabase-js";
 
 // 프로덕션 도메인
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -42,7 +43,23 @@ const POLICY_PAGES = [
   { path: "/disclaimer", priority: 0.3, changeFrequency: "yearly" as const },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // 블로그 글 slug 조회
+  let blogSlugs: string[] = [];
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+    const { data } = await supabase
+      .from("blog_posts")
+      .select("slug")
+      .eq("is_published", true)
+      .order("published_at", { ascending: false });
+    blogSlugs = (data || []).map((p: { slug: string }) => p.slug);
+  } catch {
+    // Supabase 연결 실패 시 빈 배열로 진행
+  }
   // locale별 페이지 URL 생성 (hreflang alternates 포함)
   const localeEntries = LOCALES.flatMap((locale) =>
     LOCALE_PAGES.map((page) => ({
@@ -98,5 +115,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...localeEntries, ...policyEntries, ...procedureEntries, ...comboEntries];
+  // 블로그 글 페이지
+  const blogEntries = LOCALES.flatMap((locale) =>
+    blogSlugs.map((slug) => ({
+      url: `${BASE_URL}/${locale}/blog/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+      alternates: {
+        languages: Object.fromEntries(
+          LOCALES.map((l) => [l, `${BASE_URL}/${l}/blog/${slug}`])
+        ),
+      },
+    }))
+  );
+
+  return [...localeEntries, ...policyEntries, ...procedureEntries, ...comboEntries, ...blogEntries];
 }
