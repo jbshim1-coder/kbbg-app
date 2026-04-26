@@ -779,7 +779,12 @@
     "cta_title": "Ready to Find Your Clinic?",
     "cta_description": "Browse verified Korean clinics offering these procedures and get personalized recommendations.",
     "cta_browse": "Browse Clinics",
-    "cta_ai": "AI Recommendation"
+    "cta_ai": "AI Recommendation",
+    "share_results_title": "Share My AI Results",
+    "share_results_desc": "KBBG AI recommended {count} clinics for \"{query}\"",
+    "share_results_cta": "Get your personalized clinic recommendations too!",
+    "share_copied": "Link copied!",
+    "share_native": "Share"
   },
   "header": {
     "yesterday_visitors": "Yesterday:",

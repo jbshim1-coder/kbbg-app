@@ -779,7 +779,12 @@
     "cta_title": "พร้อมที่จะหาคลินิกของคุณหรือยัง?",
     "cta_description": "ค้นหาคลินิกเกาหลีที่ได้รับการยืนยันและรับคำแนะนำ AI ส่วนบุคคล",
     "cta_browse": "ค้นหาคลินิก",
-    "cta_ai": "แนะนำ AI"
+    "cta_ai": "แนะนำ AI",
+    "share_results_title": "แชร์ผลแนะนำ AI",
+    "share_results_desc": "KBBG AI แนะนำ {count} คลินิกสำหรับ \"{query}\"",
+    "share_results_cta": "รับคำแนะนำคลินิกที่เหมาะกับคุณเลย!",
+    "share_copied": "คัดลอกลิงก์แล้ว!",
+    "share_native": "แชร์"
   },
   "header": {
     "yesterday_visitors": "เมื่อวาน:",

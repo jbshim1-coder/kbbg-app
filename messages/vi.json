@@ -779,7 +779,12 @@
     "cta_title": "Sẵn sàng tìm phòng khám?",
     "cta_description": "Tìm kiếm phòng khám Hàn Quốc đã được xác minh và nhận đề xuất AI cá nhân hóa.",
     "cta_browse": "Tìm phòng khám",
-    "cta_ai": "Đề xuất AI"
+    "cta_ai": "Đề xuất AI",
+    "share_results_title": "Chia sẻ kết quả AI",
+    "share_results_desc": "KBBG AI đã gợi ý {count} phòng khám cho \"{query}\"",
+    "share_results_cta": "Nhận đề xuất phòng khám phù hợp với bạn!",
+    "share_copied": "Đã sao chép liên kết!",
+    "share_native": "Chia sẻ"
   },
   "header": {
     "yesterday_visitors": "Hôm qua:",

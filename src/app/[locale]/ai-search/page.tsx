@@ -46,6 +46,94 @@ const LOADING_STEP_KEYS = [
   "ui.loading_step_2",
 ] as const;
 
+// 공유 패널 — 검색 결과를 SNS/링크로 공유
+function ShareResultsPanel({ query, count, locale }: { query: string; count: number; locale: string }) {
+  const t = useTranslations();
+  const [copied, setCopied] = useState(false);
+
+  const shareUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/${locale}/ai-search?q=${encodeURIComponent(query)}`
+    : "";
+  const shareText = t("ui.share_results_desc", { query, count: String(count) })
+    + "\n" + t("ui.share_results_cta");
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(shareUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleTwitter = () => {
+    window.open(
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
+      "_blank"
+    );
+  };
+
+  const handleFacebook = () => {
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+      "_blank"
+    );
+  };
+
+  const handleNativeShare = async () => {
+    if (!navigator.share) return;
+    try {
+      await navigator.share({ title: "KBBG AI Recommendation", text: shareText, url: shareUrl });
+    } catch {
+      // 사용자가 취소한 경우 무시
+    }
+  };
+
+  const canNativeShare = typeof navigator !== "undefined" && !!navigator.share;
+
+  return (
+    <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-5 shadow-sm text-white">
+      <p className="text-sm font-semibold mb-1">
+        {t("ui.share_results_title")}
+      </p>
+      <p className="text-xs text-slate-300 mb-3">
+        {t("ui.share_results_desc", { query, count: String(count) })}
+      </p>
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors min-h-[36px]"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          {copied ? t("ui.share_copied") : t("ui.copy_link")}
+        </button>
+        <button
+          onClick={handleTwitter}
+          className="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors min-h-[36px]"
+        >
+          <span className="text-sm font-bold">𝕏</span>
+        </button>
+        <button
+          onClick={handleFacebook}
+          className="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors min-h-[36px]"
+        >
+          <span className="text-sm font-bold">f</span>
+        </button>
+        {canNativeShare && (
+          <button
+            onClick={handleNativeShare}
+            className="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors min-h-[36px]"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+            {t("ui.share_native")}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function AiSearchPageWrapper() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-400">Loading...</div>}>
@@ -411,6 +499,9 @@ function AiSearchContent() {
                 </div>
               </div>
             ))}
+
+            {/* 공유 패널 — 결과가 있을 때만 표시 */}
+            {results.length > 0 && <ShareResultsPanel query={rawQuery} count={results.length} locale={locale} />}
 
             {/* 검색 기준 + AI 추천 */}
             {(searchBasis || narrative) && (

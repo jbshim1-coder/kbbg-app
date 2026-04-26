@@ -831,7 +831,12 @@
     "cta_title": "나에게 맞는 병원을 찾아보세요",
     "cta_description": "검증된 한국 병원을 검색하고 맞춤 AI 추천을 받아보세요.",
     "cta_browse": "병원 검색",
-    "cta_ai": "AI 추천"
+    "cta_ai": "AI 추천",
+    "share_results_title": "내 AI 추천 결과 공유하기",
+    "share_results_desc": "KBBG AI가 \"{query}\" 검색으로 {count}개 클리닉을 추천했어요",
+    "share_results_cta": "나도 맞춤 클리닉 추천 받아보기!",
+    "share_copied": "링크가 복사되었습니다!",
+    "share_native": "공유"
   },
   "header": {
     "yesterday_visitors": "어제 방문자 :",

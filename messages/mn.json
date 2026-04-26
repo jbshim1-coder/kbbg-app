@@ -779,7 +779,12 @@
     "cta_title": "Өөрт тохирсон эмнэлгийг олоход бэлэн үү?",
     "cta_description": "Баталгаажсан Солонгосын эмнэлгүүдийг хайж, AI зөвлөмж аваарай.",
     "cta_browse": "Эмнэлэг хайх",
-    "cta_ai": "AI зөвлөмж"
+    "cta_ai": "AI зөвлөмж",
+    "share_results_title": "AI зөвлөмжийн үр дүнг хуваалцах",
+    "share_results_desc": "KBBG AI \"{query}\" хайлтаар {count} эмнэлэг санал болгов",
+    "share_results_cta": "Та ч гэсэн хувийн зөвлөмж авна уу!",
+    "share_copied": "Холбоос хуулагдлаа!",
+    "share_native": "Хуваалцах"
   },
   "header": {
     "yesterday_visitors": "Өчигдөр:",

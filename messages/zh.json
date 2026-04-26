@@ -779,7 +779,12 @@
     "cta_title": "找到适合您的医院",
     "cta_description": "搜索经过验证的韩国医院，获取个性化AI推荐。",
     "cta_browse": "搜索医院",
-    "cta_ai": "AI推荐"
+    "cta_ai": "AI推荐",
+    "share_results_title": "分享我的AI推荐结果",
+    "share_results_desc": "KBBG AI为\"{query}\"推荐了{count}家诊所",
+    "share_results_cta": "你也来获取个性化诊所推荐吧！",
+    "share_copied": "链接已复制！",
+    "share_native": "分享"
   },
   "header": {
     "yesterday_visitors": "昨日访问:",

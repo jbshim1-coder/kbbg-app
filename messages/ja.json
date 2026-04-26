@@ -779,7 +779,12 @@
     "cta_title": "あなたに合ったクリニックを見つけましょう",
     "cta_description": "認証済みの韓国クリニックを検索し、パーソナライズされたAI推薦を受けましょう。",
     "cta_browse": "クリニック検索",
-    "cta_ai": "AI推薦"
+    "cta_ai": "AI推薦",
+    "share_results_title": "AI推薦結果をシェア",
+    "share_results_desc": "KBBG AIが「{query}」で{count}件のクリニックをおすすめしました",
+    "share_results_cta": "あなたもパーソナライズされたクリニック推薦を受けてみませんか？",
+    "share_copied": "リンクをコピーしました！",
+    "share_native": "共有"
   },
   "header": {
     "yesterday_visitors": "昨日の訪問者:",
