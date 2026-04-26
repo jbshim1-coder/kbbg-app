@@ -75,26 +75,47 @@ const TOPICS = [
   { category: "tips", keyword: "best time visit Korea beauty treatment", ko: "한국 뷰티 시술 최적 방문 시기" },
 ];
 
-// ─── Pixabay 이미지 가져오기 ───────────────────────────────────────
-async function fetchPixabayImage(keyword) {
+// ─── Pixabay 이미지 3개 가져와서 Supabase Storage에 업로드 ────────────
+async function fetchAndUploadImages(keyword, slug) {
   if (!PIXABAY_API_KEY) {
     console.log("Pixabay API 키 없음 — 이미지 없이 진행");
-    return { url: null, alt: null };
+    return [];
   }
   try {
     const q = encodeURIComponent(keyword.split(" ").slice(0, 3).join(" "));
     const res = await fetch(
-      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${q}&image_type=photo&orientation=horizontal&per_page=5&safesearch=true`
+      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${q}&image_type=photo&orientation=horizontal&per_page=10&safesearch=true`
     );
     const data = await res.json();
-    if (data.hits && data.hits.length > 0) {
-      const img = data.hits[Math.floor(Math.random() * Math.min(data.hits.length, 3))];
-      return { url: img.webformatURL, alt: keyword };
+    if (!data.hits || data.hits.length === 0) return [];
+
+    // 상위 6개 중 랜덤 3개 선택
+    const shuffled = data.hits.slice(0, 6).sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, 3);
+    const urls = [];
+
+    for (let i = 0; i < selected.length; i++) {
+      const img = selected[i];
+      // 이미지 다운로드
+      const imgRes = await fetch(img.webformatURL);
+      const imgBuffer = Buffer.from(await imgRes.arrayBuffer());
+      const fileName = `blog/${slug}-${i + 1}.jpg`;
+
+      // Supabase Storage에 업로드
+      const { error } = await supabase.storage
+        .from("image-hub")
+        .upload(fileName, imgBuffer, { contentType: "image/jpeg", upsert: true });
+
+      if (!error) {
+        const { data: urlData } = supabase.storage.from("image-hub").getPublicUrl(fileName);
+        urls.push({ url: urlData.publicUrl, alt: `${keyword} - image ${i + 1}` });
+      }
     }
+    return urls;
   } catch (e) {
-    console.log("Pixabay error:", e.message);
+    console.log("Image error:", e.message);
   }
-  return { url: null, alt: null };
+  return [];
 }
 
 // ─── Claude API로 글 생성 ───────────────────────────────────────────
@@ -112,6 +133,16 @@ RULES:
 - Natural, helpful tone — not salesy
 - At the end, mention "For personalized clinic recommendations, try KBBG's AI search tool"
 - Do NOT include any images or image tags
+
+FORMATTING (very important for readability):
+- Add <br/> between paragraphs for spacing
+- Keep paragraphs SHORT (2-3 sentences max per <p>)
+- Use <h2> for major sections, <h3> for subsections
+- Add a blank line (empty <p>&nbsp;</p>) between major sections
+- Use <ul> bullet lists to break up dense text
+- Use <strong> to highlight key numbers and important terms
+- Add a <hr/> divider before the FAQ section
+- Mark 3 places in the content with <!--IMAGE--> where images should be inserted (after intro, middle, before FAQ)
 
 Respond with ONLY a JSON object (no markdown wrapping):
 {
@@ -236,9 +267,25 @@ async function main() {
     translations[`content_${lang}`] = translationResults[i];
   });
 
-  // 4. Pixabay 이미지
-  console.log("4/4 이미지 검색 중...");
-  const image = await fetchPixabayImage(availableTopic.keyword);
+  // 4. Pixabay 이미지 3개 → Supabase Storage 업로드
+  console.log("4/4 이미지 3개 업로드 중...");
+  const images = await fetchAndUploadImages(availableTopic.keyword, slug);
+
+  // 본문에 이미지 삽입 (<!--IMAGE--> 마커를 실제 img 태그로 교체)
+  let contentWithImages = article.content_en;
+  let imgIdx = 0;
+  contentWithImages = contentWithImages.replace(/<!--IMAGE-->/g, () => {
+    if (imgIdx < images.length) {
+      const img = images[imgIdx++];
+      return `<div style="margin:24px 0"><img src="${img.url}" alt="${img.alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>`;
+    }
+    return "";
+  });
+  // IMAGE 마커가 없으면 본문 앞에 대표 이미지 삽입
+  if (imgIdx === 0 && images.length > 0) {
+    const heroImg = images[0];
+    contentWithImages = `<div style="margin:0 0 24px"><img src="${heroImg.url}" alt="${heroImg.alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>` + contentWithImages;
+  }
 
   // Supabase에 저장
   const postData = {
@@ -252,13 +299,13 @@ async function main() {
     title_th: article.title_th,
     title_ru: article.title_ru,
     title_mn: article.title_mn,
-    content_en: article.content_en,
+    content_en: contentWithImages,
     content_ko: "", // 한국어 포스팅 금지 — 외국인 전용
     ...translations,
     excerpt_en: article.excerpt_en,
     excerpt_ko: article.excerpt_ko,
-    image_url: image.url,
-    image_alt: image.alt,
+    image_url: images.length > 0 ? images[0].url : null,
+    image_alt: images.length > 0 ? images[0].alt : null,
     tags: article.tags || [],
     hashtags: article.hashtags || [],
     is_published: true,
