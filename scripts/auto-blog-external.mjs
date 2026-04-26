@@ -136,13 +136,26 @@ Respond with ONLY a JSON object (no markdown wrapping):
 
   const response = await anthropic.messages.create({
     model: "claude-sonnet-4-20250514",
-    max_tokens: 4000,
+    max_tokens: 8000,
     messages: [{ role: "user", content: prompt }],
   });
 
   const text = response.content[0].text.trim();
   const jsonStr = text.replace(/^```json\n?/, "").replace(/\n?```$/, "");
-  return JSON.parse(jsonStr);
+  try {
+    return JSON.parse(jsonStr);
+  } catch {
+    // JSON 파싱 실패 시 content_en에서 HTML만 추출
+    const titleMatch = jsonStr.match(/"title_en"\s*:\s*"([^"]+)"/);
+    const contentMatch = jsonStr.match(/"content_en"\s*:\s*"([\s\S]*?)(?:"\s*,\s*"excerpt|"\s*})/);
+    return {
+      title_en: titleMatch ? titleMatch[1] : topic.keyword,
+      content_en: contentMatch ? contentMatch[1].replace(/\\"/g, '"').replace(/\\n/g, "\n") : `<h2>${topic.keyword}</h2><p>Guide coming soon.</p>`,
+      excerpt_en: `A comprehensive guide to ${topic.keyword}.`,
+      hashtags: ["#KBeauty", "#Korea"],
+      tags: ["korea", "beauty"],
+    };
+  }
 }
 
 // ─── 다국어 번역 (한국어 제외) ──────────────────────────────────────
@@ -153,7 +166,7 @@ async function translateContent(contentEn, locale) {
   };
   const response = await anthropic.messages.create({
     model: "claude-sonnet-4-20250514",
-    max_tokens: 4000,
+    max_tokens: 8000,
     messages: [{
       role: "user",
       content: `Translate this HTML blog content to ${langNames[locale]}.
