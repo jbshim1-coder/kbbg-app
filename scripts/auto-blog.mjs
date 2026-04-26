@@ -4,6 +4,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
+import { TOPICS } from "./blog-topics.mjs";
 
 // 환경변수
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
@@ -19,61 +20,7 @@ if (!ANTHROPIC_API_KEY || !SUPABASE_URL || !SUPABASE_KEY) {
 const anthropic = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ─── 주제 데이터베이스 ───────────────────────────────────────────────
-const TOPICS = [
-  // 시술 가이드 (월)
-  { category: "guide", keyword: "rhinoplasty in Korea", ko: "한국 코성형 완벽 가이드" },
-  { category: "guide", keyword: "double eyelid surgery Korea", ko: "한국 쌍꺼풀 수술 안내" },
-  { category: "guide", keyword: "laser toning Korea", ko: "한국 레이저 토닝 가이드" },
-  { category: "guide", keyword: "dental implant Korea cost", ko: "한국 임플란트 비용 가이드" },
-  { category: "guide", keyword: "LASIK surgery Korea", ko: "한국 라식 수술 가이드" },
-  { category: "guide", keyword: "facial contouring Korea", ko: "한국 윤곽 수술 가이드" },
-  { category: "guide", keyword: "hair transplant Korea", ko: "한국 모발이식 가이드" },
-  { category: "guide", keyword: "botox filler Korea", ko: "한국 보톡스 필러 가이드" },
-  { category: "guide", keyword: "ultherapy Korea", ko: "한국 울쎄라 가이드" },
-  { category: "guide", keyword: "liposuction Korea", ko: "한국 지방흡입 가이드" },
-  { category: "guide", keyword: "acne treatment Korea dermatology", ko: "한국 여드름 치료 가이드" },
-  { category: "guide", keyword: "teeth whitening Korea", ko: "한국 치아미백 가이드" },
-  // 화장품 순위 (화)
-  { category: "cosmetics", keyword: "best Korean sunscreen", ko: "한국 선크림 TOP 10" },
-  { category: "cosmetics", keyword: "best Korean moisturizer", ko: "한국 수분크림 추천 순위" },
-  { category: "cosmetics", keyword: "best Korean serum", ko: "한국 세럼 추천 TOP 10" },
-  { category: "cosmetics", keyword: "best Korean cleanser", ko: "한국 클렌저 추천 순위" },
-  { category: "cosmetics", keyword: "best Korean toner", ko: "한국 토너 추천 TOP 10" },
-  { category: "cosmetics", keyword: "best Korean eye cream", ko: "한국 아이크림 추천 순위" },
-  { category: "cosmetics", keyword: "best Korean sheet mask", ko: "한국 시트 마스크 TOP 10" },
-  { category: "cosmetics", keyword: "best Korean lip product", ko: "한국 립 제품 추천 순위" },
-  { category: "cosmetics", keyword: "best Korean retinol product", ko: "한국 레티놀 제품 TOP 10" },
-  { category: "cosmetics", keyword: "Korean skincare for oily skin", ko: "지성피부 한국 화장품 추천" },
-  { category: "cosmetics", keyword: "Korean skincare for dry skin", ko: "건성피부 한국 화장품 추천" },
-  { category: "cosmetics", keyword: "Korean anti-aging skincare", ko: "한국 안티에이징 화장품 순위" },
-  // FAQ (수)
-  { category: "faq", keyword: "is plastic surgery safe in Korea for foreigners", ko: "외국인 한국 성형, 안전한가요?" },
-  { category: "faq", keyword: "how to choose clinic in Korea", ko: "한국 클리닉 선택하는 법" },
-  { category: "faq", keyword: "Korean dermatology vs Western", ko: "한국 피부과 vs 서양 피부과 차이" },
-  { category: "faq", keyword: "recovery time Korean plastic surgery", ko: "한국 성형 회복기간 총정리" },
-  { category: "faq", keyword: "do Korean clinics speak English", ko: "한국 병원 영어 가능한가요?" },
-  { category: "faq", keyword: "Korean clinic consultation process", ko: "한국 클리닉 상담 과정 안내" },
-  // 비용 비교 (금) — 병원명 노출 없이 평균 가격대만
-  { category: "compare", keyword: "Korea vs Thailand plastic surgery cost", ko: "한국 vs 태국 성형 비용 비교" },
-  { category: "compare", keyword: "Korea vs Turkey rhinoplasty cost", ko: "한국 vs 터키 코성형 비용 비교" },
-  { category: "compare", keyword: "Korea vs Japan dermatology cost", ko: "한국 vs 일본 피부과 비용 비교" },
-  { category: "compare", keyword: "Korea vs USA plastic surgery cost", ko: "한국 vs 미국 성형 비용 비교" },
-  { category: "compare", keyword: "Korea dental treatment cost guide", ko: "한국 치과 치료 비용 가이드" },
-  // 성분 분석 (토)
-  { category: "ingredient", keyword: "niacinamide Korean skincare benefits", ko: "나이아신아마이드, 한국 화장품에 많은 이유" },
-  { category: "ingredient", keyword: "snail mucin Korean skincare science", ko: "달팽이 점액 성분 과학적 효과" },
-  { category: "ingredient", keyword: "centella asiatica Korean skincare", ko: "센텔라아시아티카 효능 분석" },
-  { category: "ingredient", keyword: "hyaluronic acid Korean products", ko: "히알루론산 한국 제품 효과" },
-  { category: "ingredient", keyword: "retinol Korean skincare guide", ko: "레티놀 한국 화장품 가이드" },
-  // 의료관광 팁 (일)
-  { category: "tips", keyword: "Korea medical tourism visa guide", ko: "한국 의료관광 비자 가이드" },
-  { category: "tips", keyword: "Gangnam clinic area guide foreigners", ko: "강남 클리닉 지역 가이드" },
-  { category: "tips", keyword: "Seoul medical tourism budget plan", ko: "서울 의료관광 예산 계획" },
-  { category: "tips", keyword: "Korea clinic first visit checklist", ko: "한국 클리닉 첫 방문 체크리스트" },
-  { category: "tips", keyword: "Korea medical tourism insurance guide", ko: "한국 의료관광 보험 가이드" },
-  { category: "tips", keyword: "best time visit Korea beauty treatment", ko: "한국 뷰티 시술 최적 방문 시기" },
-];
+// 주제는 blog-topics.mjs에서 import (365개, 1년치)
 
 // ─── Pixabay 이미지 3개 가져와서 Supabase Storage에 업로드 ────────────
 async function fetchAndUploadImages(keyword, slug) {
