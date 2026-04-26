@@ -6,10 +6,12 @@ import { createClient } from "@supabase/supabase-js";
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ""
+  );
+}
 
 const CATEGORY_LABELS: Record<string, Record<string, string>> = {
   guide: { en: "Procedure Guide", ko: "시술 가이드" },
@@ -71,7 +73,7 @@ export default async function BlogListPage({
   const currentPage = parseInt(page || "1");
   const perPage = 12;
 
-  let query = supabase
+  let query = getSupabase()
     .from("blog_posts")
     .select("slug, category, title_ko, title_en, excerpt_ko, excerpt_en, image_url, published_at, tags")
     .eq("is_published", true)

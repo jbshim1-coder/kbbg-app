@@ -306,7 +306,19 @@ async function main() {
     ...titles,
     content_en: contentWithImages,
     content_ko: "",
-    ...contents,
+    // 번역 콘텐츠에도 이미지 삽입
+    ...Object.fromEntries(Object.entries(contents).map(([key, val]) => {
+      let c = val;
+      let ii = 0;
+      c = c.replace(/<!--IMAGE-->/g, () => {
+        if (ii < images.length) {
+          const img = images[ii++];
+          return `<div style="margin:24px 0"><img src="${img.url}" alt="${img.alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>`;
+        }
+        return "";
+      });
+      return [key, c];
+    })),
     excerpt_en: article.excerpt_en,
     excerpt_ko: "",
     image_url: images.length > 0 ? images[0].url : null,

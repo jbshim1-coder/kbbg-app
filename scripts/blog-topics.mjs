@@ -281,8 +281,6 @@ export const TOPICS = [
   { category: "ingredient", keyword: "glutathione Korean skincare brightening" },
   { category: "ingredient", keyword: "KFDA approved ingredients vs FDA difference" },
   { category: "ingredient", keyword: "Korean skincare ingredient blacklist avoid" },
-  { category: "ingredient", keyword: "how to read Korean skincare ingredient label" },
-
   // ═══════════════════════════════════════════════════════════════
   // TIPS — 의료관광 팁 (52개)
   // ═══════════════════════════════════════════════════════════════
@@ -338,6 +336,7 @@ export const TOPICS = [
   { category: "tips", keyword: "Korea medical tourism for Middle East patients" },
   { category: "tips", keyword: "Korea medical tourism for Southeast Asian" },
   { category: "tips", keyword: "returning home after Korea surgery checklist" },
+  { category: "tips", keyword: "how to read Korean skincare ingredient labels" },
 
   // ═══════════════════════════════════════════════════════════════
   // EVENT — 병원 이벤트/트렌드 (52개)

@@ -138,9 +138,22 @@ Respond with ONLY a JSON object (no markdown wrapping):
   });
 
   const text = response.content[0].text.trim();
-  // JSON 파싱 (```json 래핑 제거)
   const jsonStr = text.replace(/^```json\n?/, "").replace(/\n?```$/, "");
-  return JSON.parse(jsonStr);
+  try {
+    return JSON.parse(jsonStr);
+  } catch {
+    const titleMatch = jsonStr.match(/"title_en"\s*:\s*"([^"]+)"/);
+    return {
+      title_en: titleMatch ? titleMatch[1] : topic.keyword,
+      title_ko: "",
+      title_zh: "", title_ja: "", title_vi: "", title_th: "", title_ru: "", title_mn: "",
+      content_en: `<h2>${topic.keyword}</h2><p>Comprehensive guide coming soon.</p>`,
+      excerpt_en: `A guide to ${topic.keyword}.`,
+      excerpt_ko: "",
+      hashtags: ["#KBeauty", "#Korea"],
+      tags: ["korea", "beauty"],
+    };
+  }
 }
 
 // ─── 다국어 콘텐츠 번역 ───────────────────────────────────────────
@@ -270,8 +283,20 @@ async function main() {
     title_ru: article.title_ru,
     title_mn: article.title_mn,
     content_en: contentWithImages,
-    content_ko: "", // 한국어 포스팅 금지 — 외국인 전용
-    ...translations,
+    content_ko: "",
+    // 번역 콘텐츠에도 이미지 삽입 (<!--IMAGE--> 마커 제거 + 이미지 태그 삽입)
+    ...Object.fromEntries(Object.entries(translations).map(([key, val]) => {
+      let c = val;
+      let ii = 0;
+      c = c.replace(/<!--IMAGE-->/g, () => {
+        if (ii < images.length) {
+          const img = images[ii++];
+          return `<div style="margin:24px 0"><img src="${img.url}" alt="${img.alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>`;
+        }
+        return "";
+      });
+      return [key, c];
+    })),
     excerpt_en: article.excerpt_en,
     excerpt_ko: article.excerpt_ko,
     image_url: images.length > 0 ? images[0].url : null,

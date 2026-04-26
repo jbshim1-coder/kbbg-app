@@ -3,14 +3,24 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
+import DOMPurify from "isomorphic-dompurify";
 
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ""
+  );
+}
+
+const ALLOWED_TAGS = ["h2","h3","h4","p","ul","ol","li","strong","em","a","br","hr","img","div","span","table","tr","td","th","thead","tbody"];
+const ALLOWED_ATTR = ["href","src","alt","class","style","loading","target","rel"];
+
+function sanitizeHtml(html: string): string {
+  return DOMPurify.sanitize(html, { ALLOWED_TAGS, ALLOWED_ATTR });
+}
 
 const CATEGORY_LABELS: Record<string, Record<string, string>> = {
   guide: { en: "Procedure Guide", ko: "시술 가이드" },
@@ -23,7 +33,7 @@ const CATEGORY_LABELS: Record<string, Record<string, string>> = {
 };
 
 async function getPost(slug: string) {
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("blog_posts")
     .select("*")
     .eq("slug", slug)
@@ -42,7 +52,7 @@ interface RelatedPost {
 }
 
 async function getRelatedPosts(category: string, currentSlug: string): Promise<RelatedPost[]> {
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("blog_posts")
     .select("slug, title_ko, title_en, category, published_at")
     .eq("is_published", true)
@@ -97,7 +107,8 @@ export default async function BlogPostPage({
 
   const isKo = locale === "ko";
   const title = post[`title_${locale}`] || post.title_en;
-  const content = post[`content_${locale}`] || post.content_en;
+  const rawContent = post[`content_${locale}`] || post.content_en || "<p>Content not available.</p>";
+  const content = sanitizeHtml(rawContent);
   const catLabel = CATEGORY_LABELS[post.category]?.[isKo ? "ko" : "en"] || post.category;
   const relatedPosts = await getRelatedPosts(post.category, slug);
 
