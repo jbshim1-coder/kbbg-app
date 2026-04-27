@@ -12,6 +12,8 @@ import MedicalDisclaimer from "@/components/MedicalDisclaimer";
 import AdBanner from "@/components/AdBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import CookieConsent from "@/components/CookieConsent";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
 import "../globals.css";
 
 const inter = Inter({
@@ -197,6 +199,8 @@ export default async function LocaleLayout({
             <MedicalDisclaimer locale={locale} />
             <Footer locale={locale} />
           </div>
+          <WhatsAppButton />
+          <StickyMobileCTA />
         </NextIntlClientProvider>
         <GoogleAnalytics />
       </body>

@@ -196,7 +196,7 @@ export default async function BlogPostPage({
           )}
 
           {/* AI 추천 CTA */}
-          <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-6 text-white text-center">
+          <div className="bg-[#1d1d1f] rounded-2xl p-6 text-white text-center">
             <h2 className="text-lg font-bold mb-2">
               {isKo ? "나에게 맞는 클리닉 찾기" : "Find Your Perfect Clinic"}
             </h2>
