@@ -89,7 +89,7 @@ function ShareResultsPanel({ query, count, locale }: { query: string; count: num
   const canNativeShare = typeof navigator !== "undefined" && !!navigator.share;
 
   return (
-    <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-5 shadow-sm text-white">
+    <div className="bg-[#1d1d1f] rounded-2xl p-5 shadow-sm text-white">
       <p className="text-sm font-semibold mb-1">
         {t("ui.share_results_title")}
       </p>
@@ -344,18 +344,40 @@ function AiSearchContent() {
             />
             <button
               onClick={handleSearch}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium rounded-full transition-colors shrink-0 min-h-[44px] whitespace-nowrap"
+              className="px-4 py-2 bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-medium rounded-full transition-colors shrink-0 min-h-[44px] whitespace-nowrap"
             >
               {t("ai_start.button" as Parameters<typeof t>[0])}
             </button>
           </div>
         </div>
 
+        {/* 예시 검색어 칩 — 빈 상태일 때만 표시 */}
+        {!rawQuery && !isThinking && (
+          <div className="space-y-3 text-center py-8">
+            <p className="text-xs text-gray-400">Try searching for:</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {["Gangnam rhinoplasty", "Best dermatology Seoul", "LASIK surgery Korea", "Dental implant Busan", "Botox Gangnam price"].map((q) => (
+                <button
+                  key={q}
+                  onClick={() => {
+                    setInputValue(q);
+                    setRawQuery(q);
+                    window.history.pushState(null, "", `/${locale}/ai-search?q=${encodeURIComponent(q)}`);
+                  }}
+                  className="px-3 py-2 bg-white border border-stone-200 rounded-full text-xs text-gray-600 hover:bg-stone-50 hover:border-stone-300 transition-colors min-h-[36px]"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* 로딩 — 스켈레톤 + 단계별 메시지 */}
         {isThinking && rawQuery && (
           <div className="space-y-4">
             <div className="bg-white rounded-2xl p-8 shadow-sm flex flex-col items-center gap-4">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-pink-500 border-t-transparent" />
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
               <p className="text-sm text-gray-600 animate-pulse">
                 {t(LOADING_STEP_KEYS[loadingStep])}
               </p>
@@ -415,6 +437,29 @@ function AiSearchContent() {
               </div>
             )}
 
+            {/* 검색 기준 + AI 추천 — 결과 위에 먼저 표시 */}
+            {(searchBasis || narrative) && (
+              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
+                {searchBasis && (
+                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                    <p className="text-xs font-medium text-slate-500 mb-1">{t("ui.search_criteria")}</p>
+                    <p className="text-sm text-slate-700 whitespace-pre-line leading-relaxed">{searchBasis}</p>
+                  </div>
+                )}
+                {narrative && (
+                  <div className="flex items-start gap-3">
+                    <span className="text-slate-500 text-lg mt-0.5">✦</span>
+                    <div>
+                      <p className="text-xs text-gray-400 mb-2">AI {t("ui.ai_recommendation")}</p>
+                      <p className="text-sm text-gray-800 whitespace-pre-line leading-relaxed">
+                        {narrative}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* 광고 카드 */}
             {topAd && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-5 shadow-sm">
@@ -441,7 +486,7 @@ function AiSearchContent() {
               </div>
             )}
 
-            {/* 병원 카드 목록 — 데이터 먼저 표시 */}
+            {/* 병원 카드 목록 */}
             {results.map((clinic, idx) => (
               <div
                 key={clinic.ykiho || idx}
@@ -502,29 +547,6 @@ function AiSearchContent() {
 
             {/* 공유 패널 — 결과가 있을 때만 표시 */}
             {results.length > 0 && <ShareResultsPanel query={rawQuery} count={results.length} locale={locale} />}
-
-            {/* 검색 기준 + AI 추천 */}
-            {(searchBasis || narrative) && (
-              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
-                {searchBasis && (
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <p className="text-xs font-medium text-slate-500 mb-1">{t("ui.search_criteria")}</p>
-                    <p className="text-sm text-slate-700 whitespace-pre-line leading-relaxed">{searchBasis}</p>
-                  </div>
-                )}
-                {narrative && (
-                  <div className="flex items-start gap-3">
-                    <span className="text-slate-500 text-lg mt-0.5">✦</span>
-                    <div>
-                      <p className="text-xs text-gray-400 mb-2">AI {t("ui.ai_recommendation")}</p>
-                      <p className="text-sm text-gray-800 whitespace-pre-line leading-relaxed">
-                        {narrative}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
 
             {results.length === 0 && !narrative && (
               <div className="bg-white rounded-2xl p-6 shadow-sm text-center">
