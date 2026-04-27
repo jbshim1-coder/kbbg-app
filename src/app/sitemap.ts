@@ -19,6 +19,7 @@ const LOCALE_PAGES = [
   { path: "/hospitals", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/guide", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/guides", priority: 0.7, changeFrequency: "weekly" as const },
+  { path: "/blog", priority: 0.7, changeFrequency: "daily" as const },
   { path: "/safety", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/procedures", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/cosmetics", priority: 0.7, changeFrequency: "weekly" as const },

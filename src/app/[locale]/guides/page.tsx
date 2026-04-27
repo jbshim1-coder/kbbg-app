@@ -217,7 +217,7 @@ export default async function GuidesPage({
                 {filtered.map((guide) => (
                   <Link
                     key={guide.id}
-                    href={`/${locale}/guides/${guide.slug}`}
+                    href={`/${locale}/procedures/${guide.slug}`}
                     className={`group block rounded-2xl border ${meta.borderColor} ${meta.bgColor} p-5 transition-all hover:shadow-sm hover:-translate-y-0.5`}
                   >
                     <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${meta.color} bg-white/70 mb-3`}>
