@@ -4,6 +4,20 @@
 
 ---
 
+### [2026-05-01 15:00] 미완료 작업 일괄 점검 + 마케팅 콘텐츠 생성
+
+KBBG 프로젝트의 미완료 작업들을 자동으로 처리할 수 있는 것부터 진행했습니다.
+- KBBG 블로그 500 에러 → 정상 작동 확인 완료 (HTTP 200)
+- 4개 블로그 이미지 중복 → 중복 없음 확인 완료 (최근 20개 포스트)
+- 외부 블로그 사이트명 수정: kskindaily "K Blog"→"K Skin Daily", dailyhallyuwave "K Blog"→"Daily Hallyu Wave" (siteId도 수정)
+- 외부 블로그 3개 DNS → SERVFAIL (도메인 등록/DNS 설정 필요, 별도 진행 예정)
+- Quora 자문자답 세트 20개 생성 (docs/quora-qa-20.md)
+- Reddit 답변 템플릿 10개 생성 (docs/reddit-templates-10.md)
+- docx 변환 완료 (docs/exports/)
+- [완료]
+
+---
+
 ### [2026-04-26 14:00] 내부 블로그 시스템 + 자동 포스팅 구현
 
 SEO 유입을 위한 내부 블로그를 만들었습니다. 매일 자동으로 글이 올라갑니다.
