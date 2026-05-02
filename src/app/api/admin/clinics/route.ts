@@ -25,7 +25,8 @@ export async function GET(request: NextRequest) {
       .select("*", { count: "exact" });
 
     if (search) {
-      query = query.ilike("name", `%${search}%`);
+      const escapedSearch = search.replace(/[%_\\]/g, '\\$&');
+      query = query.ilike("name", `%${escapedSearch}%`);
     }
 
     const { data, count, error } = await query
@@ -55,6 +56,11 @@ export async function PATCH(request: NextRequest) {
 
     if (!clinicId || !action) {
       return NextResponse.json({ error: "clinicId and action required" }, { status: 400 });
+    }
+
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!UUID_RE.test(clinicId)) {
+      return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
 
     const supabase = createServiceRoleClient();

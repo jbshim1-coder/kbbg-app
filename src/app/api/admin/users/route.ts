@@ -63,6 +63,11 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "userId and action required" }, { status: 400 });
     }
 
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!UUID_RE.test(userId)) {
+      return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
+    }
+
     const supabase = createServiceRoleClient();
 
     if (action === "unban") {
@@ -106,6 +111,11 @@ export async function DELETE(request: NextRequest) {
 
     if (!userId) {
       return NextResponse.json({ error: "userId required" }, { status: 400 });
+    }
+
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!UUID_RE.test(userId)) {
+      return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
 
     const supabase = createServiceRoleClient();

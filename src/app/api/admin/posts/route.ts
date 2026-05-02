@@ -30,7 +30,8 @@ export async function GET(request: NextRequest) {
     else if (status === "active") query = query.eq("is_deleted", false);
 
     if (search) {
-      query = query.ilike("title", `%${search}%`);
+      const escapedSearch = search.replace(/[%_\\]/g, '\\$&');
+      query = query.ilike("title", `%${escapedSearch}%`);
     }
 
     const { data, count, error } = await query
@@ -60,6 +61,11 @@ export async function PATCH(request: NextRequest) {
 
     if (!postId || !action) {
       return NextResponse.json({ error: "postId and action required" }, { status: 400 });
+    }
+
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!UUID_RE.test(postId)) {
+      return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
 
     const supabase = createServiceRoleClient();
