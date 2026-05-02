@@ -4,6 +4,60 @@
 
 ---
 
+### [2026-05-02 19:45] YouTube Shorts 자동화 완료
+
+AutoShorts.ai로 K-MEDI TV 채널에 매일 자동 쇼츠 업로드를 설정했습니다.
+- AutoShorts.ai Daily 플랜($39/월) 가입 + K-MEDI TV 연결
+- Custom Prompt로 K-Beauty/의료관광 주제 자동 생성
+- 첫 영상 "K-Beauty Laser Prices: Korea vs. LA Shock!" 오후 9:15 업로드 예정
+- 3채널분 쇼츠 주제 1,095개 준비 (scripts/shorts-topics-*.mjs)
+- 상태: [완료]
+
+### [2026-05-02 17:00] KBBG 웹사이트 + 관리자 모드 전수 점검
+
+6개 AI 에이전트로 웹사이트와 관리자 기능을 병렬 점검했습니다.
+- Critical 7건 수정: 이메일 환경변수, 대시보드 통계 버그, XSS, 404 등
+- Warning 16건 중 6건 수정: Rate Limit, UUID검증, LIKE이스케이프 등
+- 관리자 인증 정상 확인, 보안 헤더 정상
+- 보류 4건: 감사 로그 연동, Race Condition(RPC 필요)
+- 상태: [완료] (보류 4건 별도 진행)
+
+### [2026-05-02 15:00] Google Search Console SEO 점검
+
+구글 인덱싱 상태를 확인하고 오류를 수정했습니다.
+- 488페이지 색인 완료, 1,685페이지 대기 중 (정상)
+- 404 오류 수정: guides JSON-LD URL /guides/→/procedures/ 수정
+- 사이트맵 2,016개 URL 정상 등록 확인
+- 상태: [완료]
+
+### [2026-05-02 14:00] 4개 블로그 시스템 딥서치 전수 수정
+
+3개 AI 에이전트로 블로그 4개를 병렬 점검하고 오류를 수정했습니다.
+- KBBG 블로그 페이지에 site 필터 추가 (외부 글 혼합 방지)
+- 번역 콘텐츠 이미지 삽입 개선 + Promise.allSettled 적용
+- koreatravel365 fallback 기본값 수정
+- 5/1 botox 포스팅 7개 언어 번역 복구
+- Pixabay category 사이트별 분리, 쉘 스크립트 개선
+- 상태: [완료]
+
+### [2026-05-02 13:30] KBBG 내부 블로그 다국어 번역 활성화
+
+기존에 영어만 생성되던 내부 블로그를 한국어 포함 7개 언어로 확장했습니다.
+- auto-blog.mjs에 translateTitle + translateToKorean 추가
+- Anthropic API 자동 재충전 설정 완료
+- 상태: [완료]
+
+### [2026-05-02 13:00] 외부 블로그 3개 도메인 DNS 설정
+
+카페24 DNS + Vercel 도메인 연결을 완료했습니다.
+- kskindaily.com: A(76.76.21.21) + CNAME(www→cname.vercel-dns.com)
+- dailyhallyuwave.com: 동일 (www A→CNAME 권장방식 변경)
+- koreatravel365.com: 동일 (www A→CNAME 권장방식 변경)
+- Vercel 3개 프로젝트 도메인 연결 확인
+- 상태: [완료]
+
+---
+
 ### [2026-05-01 15:00] 미완료 작업 일괄 점검 + 마케팅 콘텐츠 생성
 
 KBBG 프로젝트의 미완료 작업들을 자동으로 처리할 수 있는 것부터 진행했습니다.
