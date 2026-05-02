@@ -178,6 +178,23 @@ ${contentEn}`,
   return response.content[0].text.trim();
 }
 
+// ─── 제목 번역 (Haiku로 빠르게) ──────────────────────────────────────
+async function translateTitle(titleEn, locale) {
+  const langNames = {
+    ko: "Korean", zh: "Simplified Chinese", ja: "Japanese", vi: "Vietnamese",
+    th: "Thai", ru: "Russian", mn: "Mongolian",
+  };
+  const response = await anthropic.messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 200,
+    messages: [{
+      role: "user",
+      content: `Translate this blog title to ${langNames[locale]}. Respond with ONLY the translated title, nothing else.\n\n${titleEn}`,
+    }],
+  });
+  return response.content[0].text.trim();
+}
+
 // ─── 한국어 콘텐츠 생성 ───────────────────────────────────────────
 async function translateToKorean(contentEn) {
   const response = await anthropic.messages.create({
@@ -204,6 +221,7 @@ async function main() {
   const { data: existing } = await supabase
     .from("blog_posts")
     .select("slug")
+    .eq("site", "kbbg")
     .gte("published_at", `${today}T00:00:00`)
     .lte("published_at", `${today}T23:59:59`);
 
@@ -236,18 +254,19 @@ async function main() {
   console.log("1/4 글 생성 중...");
   const article = await generateArticle(availableTopic);
 
-  // 2. 한국어 제외 — 외국인 전용 블로그 (한국어 포스팅 금지)
-  console.log("2/4 한국어 건너뜀 (외국인 전용)");
+  // 2. 다국어 번역 (제목 + 본문, 한국어 포함 7개 언어 병렬)
+  console.log("2/4 다국어 번역 중...");
+  const langCodes = ["ko", "zh", "ja", "vi", "th", "ru", "mn"];
+  const [titleResults, contentResults] = await Promise.all([
+    Promise.all(langCodes.map((l) => translateTitle(article.title_en, l))),
+    Promise.all(langCodes.map((l) => l === "ko" ? translateToKorean(article.content_en) : translateContent(article.content_en, l))),
+  ]);
 
-  // 3. 나머지 언어 번역 (병렬)
-  console.log("3/4 다국어 번역 중...");
+  const titles = {};
   const translations = {};
-  const langCodes = ["zh", "ja", "vi", "th", "ru", "mn"];
-  const translationResults = await Promise.all(
-    langCodes.map((lang) => translateContent(article.content_en, lang))
-  );
   langCodes.forEach((lang, i) => {
-    translations[`content_${lang}`] = translationResults[i];
+    titles[`title_${lang}`] = titleResults[i];
+    translations[`content_${lang}`] = contentResults[i];
   });
 
   // 4. Pixabay 이미지 3개 → Supabase Storage 업로드
@@ -273,17 +292,11 @@ async function main() {
   // Supabase에 저장
   const postData = {
     slug,
+    site: "kbbg",
     category: availableTopic.category,
     title_en: article.title_en,
-    title_ko: "", // 한국어 포스팅 금지
-    title_zh: article.title_zh,
-    title_ja: article.title_ja,
-    title_vi: article.title_vi,
-    title_th: article.title_th,
-    title_ru: article.title_ru,
-    title_mn: article.title_mn,
+    ...titles,
     content_en: contentWithImages,
-    content_ko: "",
     // 번역 콘텐츠에도 이미지 삽입 (<!--IMAGE--> 마커 제거 + 이미지 태그 삽입)
     ...Object.fromEntries(Object.entries(translations).map(([key, val]) => {
       let c = val;
@@ -298,7 +311,7 @@ async function main() {
       return [key, c];
     })),
     excerpt_en: article.excerpt_en,
-    excerpt_ko: article.excerpt_ko,
+    excerpt_ko: titles.title_ko ? `${titles.title_ko}에 대한 가이드입니다.` : "",
     image_url: images.length > 0 ? images[0].url : null,
     image_alt: images.length > 0 ? images[0].alt : null,
     tags: article.tags || [],
