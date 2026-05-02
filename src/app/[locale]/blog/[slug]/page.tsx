@@ -38,6 +38,7 @@ async function getPost(slug: string) {
     .select("*")
     .eq("slug", slug)
     .eq("is_published", true)
+    .eq("site", "kbbg")
     .single();
   return data;
 }
@@ -56,6 +57,7 @@ async function getRelatedPosts(category: string, currentSlug: string): Promise<R
     .from("blog_posts")
     .select("slug, title_ko, title_en, category, published_at")
     .eq("is_published", true)
+    .eq("site", "kbbg")
     .eq("category", category)
     .neq("slug", currentSlug)
     .order("published_at", { ascending: false })

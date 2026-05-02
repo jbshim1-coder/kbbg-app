@@ -46,7 +46,7 @@ async function fetchAndUploadImages(keyword, slug) {
       if (selected.length >= 3) break;
       const q = encodeURIComponent(searchQ);
       const res = await fetch(
-        `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${q}&image_type=photo&orientation=horizontal&per_page=20&safesearch=true&category=health,beauty,people,places`
+        `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${q}&image_type=photo&orientation=horizontal&per_page=20&safesearch=true&category=health`
       );
       const data = await res.json();
       if (!data.hits) continue;
@@ -133,7 +133,7 @@ Respond with ONLY a JSON object (no markdown wrapping):
 
   const response = await anthropic.messages.create({
     model: "claude-sonnet-4-20250514",
-    max_tokens: 4000,
+    max_tokens: 8000,
     messages: [{ role: "user", content: prompt }],
   });
 
@@ -143,15 +143,14 @@ Respond with ONLY a JSON object (no markdown wrapping):
     return JSON.parse(jsonStr);
   } catch {
     const titleMatch = jsonStr.match(/"title_en"\s*:\s*"([^"]+)"/);
+    const contentMatch = jsonStr.match(/"content_en"\s*:\s*"([\s\S]*?)(?:"\s*,\s*"excerpt|"\s*})/);
     return {
       title_en: titleMatch ? titleMatch[1] : topic.keyword,
-      title_ko: "",
-      title_zh: "", title_ja: "", title_vi: "", title_th: "", title_ru: "", title_mn: "",
-      content_en: `<h2>${topic.keyword}</h2><p>Comprehensive guide coming soon.</p>`,
-      excerpt_en: `A guide to ${topic.keyword}.`,
-      excerpt_ko: "",
+      content_en: contentMatch ? contentMatch[1].replace(/\\"/g, '"').replace(/\\n/g, "\n") : `<h2>${topic.keyword}</h2><p>Guide coming soon.</p>`,
+      excerpt_en: `A comprehensive guide to ${topic.keyword}.`,
       hashtags: ["#KBeauty", "#Korea"],
       tags: ["korea", "beauty"],
+      _fallback: true,
     };
   }
 }
@@ -254,19 +253,21 @@ async function main() {
   console.log("1/4 글 생성 중...");
   const article = await generateArticle(availableTopic);
 
-  // 2. 다국어 번역 (제목 + 본문, 한국어 포함 7개 언어 병렬)
+  // 2. 다국어 번역 (제목 + 본문, 한국어 포함 7개 언어 병렬, 부분 실패 허용)
   console.log("2/4 다국어 번역 중...");
   const langCodes = ["ko", "zh", "ja", "vi", "th", "ru", "mn"];
-  const [titleResults, contentResults] = await Promise.all([
-    Promise.all(langCodes.map((l) => translateTitle(article.title_en, l))),
-    Promise.all(langCodes.map((l) => l === "ko" ? translateToKorean(article.content_en) : translateContent(article.content_en, l))),
+  const [titleSettled, contentSettled] = await Promise.all([
+    Promise.allSettled(langCodes.map((l) => translateTitle(article.title_en, l))),
+    Promise.allSettled(langCodes.map((l) => l === "ko" ? translateToKorean(article.content_en) : translateContent(article.content_en, l))),
   ]);
 
   const titles = {};
   const translations = {};
   langCodes.forEach((lang, i) => {
-    titles[`title_${lang}`] = titleResults[i];
-    translations[`content_${lang}`] = contentResults[i];
+    titles[`title_${lang}`] = titleSettled[i].status === "fulfilled" ? titleSettled[i].value : "";
+    translations[`content_${lang}`] = contentSettled[i].status === "fulfilled" ? contentSettled[i].value : "";
+    if (titleSettled[i].status === "rejected") console.log(`⚠️ title_${lang} 번역 실패:`, titleSettled[i].reason?.message);
+    if (contentSettled[i].status === "rejected") console.log(`⚠️ content_${lang} 번역 실패:`, contentSettled[i].reason?.message);
   });
 
   // 4. Pixabay 이미지 3개 → Supabase Storage 업로드
@@ -297,9 +298,10 @@ async function main() {
     title_en: article.title_en,
     ...titles,
     content_en: contentWithImages,
-    // 번역 콘텐츠에도 이미지 삽입 (<!--IMAGE--> 마커 제거 + 이미지 태그 삽입)
+    // 번역 콘텐츠에도 이미지 삽입 (영어 본문과 동일한 이미지 태그를 h2 뒤에 삽입)
     ...Object.fromEntries(Object.entries(translations).map(([key, val]) => {
       let c = val;
+      // <!--IMAGE--> 마커가 남아있으면 교체
       let ii = 0;
       c = c.replace(/<!--IMAGE-->/g, () => {
         if (ii < images.length) {
@@ -308,15 +310,21 @@ async function main() {
         }
         return "";
       });
+      // 마커가 없었으면 첫 번째 h2 뒤에 대표 이미지 삽입
+      if (ii === 0 && images.length > 0) {
+        const heroImg = images[0];
+        const heroTag = `<div style="margin:24px 0"><img src="${heroImg.url}" alt="${heroImg.alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>`;
+        c = c.replace(/<\/h2>/, `</h2>${heroTag}`);
+      }
       return [key, c];
     })),
     excerpt_en: article.excerpt_en,
-    excerpt_ko: titles.title_ko ? `${titles.title_ko}에 대한 가이드입니다.` : "",
+    excerpt_ko: article.excerpt_ko || (titles.title_ko ? `${titles.title_ko}에 대한 가이드입니다.` : ""),
     image_url: images.length > 0 ? images[0].url : null,
     image_alt: images.length > 0 ? images[0].alt : null,
     tags: article.tags || [],
     hashtags: article.hashtags || [],
-    is_published: true,
+    is_published: !article._fallback,
     published_at: new Date().toISOString(),
   };
 

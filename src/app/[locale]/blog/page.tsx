@@ -75,8 +75,9 @@ export default async function BlogListPage({
 
   let query = getSupabase()
     .from("blog_posts")
-    .select("slug, category, title_ko, title_en, excerpt_ko, excerpt_en, image_url, published_at, tags")
+    .select("slug, category, title_ko, title_en, title_zh, title_ja, title_vi, title_th, title_ru, title_mn, excerpt_ko, excerpt_en, image_url, published_at, tags")
     .eq("is_published", true)
+    .eq("site", "kbbg")
     .order("published_at", { ascending: false })
     .range((currentPage - 1) * perPage, currentPage * perPage - 1);
 

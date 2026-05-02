@@ -36,6 +36,7 @@ const SITE_CONFIG = {
     topicsFile: "./topics-kskindaily.mjs",
     context: "You are a K-beauty and Korean skincare expert blogger for K Skin Daily.",
     cta: "Discover the best Korean beauty clinics with AI-powered recommendations at KBBG (kbeautybuyersguide.com).",
+    imageCategory: "health",
   },
   dailyhallyuwave: {
     name: "Daily Hallyu Wave",
@@ -43,6 +44,7 @@ const SITE_CONFIG = {
     topicsFile: "./topics-dailyhallyuwave.mjs",
     context: "You are a Korean culture expert blogger for Daily Hallyu Wave, covering K-pop, K-drama, K-food, and Korean lifestyle.",
     cta: "Planning a trip to Korea? Find the best beauty clinics with AI at KBBG (kbeautybuyersguide.com).",
+    imageCategory: "people",
   },
   koreatravel365: {
     name: "Korea Travel 365",
@@ -50,6 +52,7 @@ const SITE_CONFIG = {
     topicsFile: "./topics-koreatravel365.mjs",
     context: "You are a Korea travel and medical tourism expert blogger for Korea Travel 365.",
     cta: "Looking for trusted Korean clinics? Get AI-powered recommendations at KBBG (kbeautybuyersguide.com).",
+    imageCategory: "travel",
   },
 };
 
@@ -83,7 +86,7 @@ async function fetchAndUploadImages(keyword, slug) {
       if (selected.length >= 3) break;
       const q = encodeURIComponent(searchQ);
       const res = await fetch(
-        `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${q}&image_type=photo&orientation=horizontal&per_page=20&safesearch=true&category=health,beauty,people,places`
+        `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${q}&image_type=photo&orientation=horizontal&per_page=20&safesearch=true&category=${config.imageCategory || "health"}`
       );
       const data = await res.json();
       if (!data.hits) continue;
@@ -262,19 +265,21 @@ async function main() {
   console.log("1/4 글 생성 중...");
   const article = await generateArticle(availableTopic);
 
-  // 2. 다국어 번역 (한국어 제외, 병렬)
+  // 2. 다국어 번역 (한국어 제외, 병렬, 부분 실패 허용)
   console.log("2/4 다국어 번역 중...");
   const langCodes = ["zh", "ja", "vi", "th", "ru", "mn"];
-  const [titleResults, contentResults] = await Promise.all([
-    Promise.all(langCodes.map((l) => translateTitle(article.title_en, l))),
-    Promise.all(langCodes.map((l) => translateContent(article.content_en, l))),
+  const [titleSettled, contentSettled] = await Promise.all([
+    Promise.allSettled(langCodes.map((l) => translateTitle(article.title_en, l))),
+    Promise.allSettled(langCodes.map((l) => translateContent(article.content_en, l))),
   ]);
 
   const titles = {};
   const contents = {};
   langCodes.forEach((lang, i) => {
-    titles[`title_${lang}`] = titleResults[i];
-    contents[`content_${lang}`] = contentResults[i];
+    titles[`title_${lang}`] = titleSettled[i].status === "fulfilled" ? titleSettled[i].value : "";
+    contents[`content_${lang}`] = contentSettled[i].status === "fulfilled" ? contentSettled[i].value : "";
+    if (titleSettled[i].status === "rejected") console.log(`⚠️ title_${lang} 번역 실패:`, titleSettled[i].reason?.message);
+    if (contentSettled[i].status === "rejected") console.log(`⚠️ content_${lang} 번역 실패:`, contentSettled[i].reason?.message);
   });
 
   // 3. 이미지
@@ -306,7 +311,7 @@ async function main() {
     ...titles,
     content_en: contentWithImages,
     content_ko: "",
-    // 번역 콘텐츠에도 이미지 삽입
+    // 번역 콘텐츠에도 이미지 삽입 (마커 교체 + fallback으로 h2 뒤 삽입)
     ...Object.fromEntries(Object.entries(contents).map(([key, val]) => {
       let c = val;
       let ii = 0;
@@ -317,6 +322,11 @@ async function main() {
         }
         return "";
       });
+      if (ii === 0 && images.length > 0) {
+        const heroImg = images[0];
+        const heroTag = `<div style="margin:24px 0"><img src="${heroImg.url}" alt="${heroImg.alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>`;
+        c = c.replace(/<\/h2>/, `</h2>${heroTag}`);
+      }
       return [key, c];
     })),
     excerpt_en: article.excerpt_en,
