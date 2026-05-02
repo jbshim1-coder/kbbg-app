@@ -60,7 +60,7 @@ function buildProcedureListJsonLd(guides: ProcedureGuide[]) {
         name: guide.titleEn,
         alternateName: guide.title,
         description: guide.descriptionEn,
-        url: `${siteUrl}/en/guides/${guide.slug}`,
+        url: `${siteUrl}/en/procedures/${guide.slug}`,
       },
     })),
   };
