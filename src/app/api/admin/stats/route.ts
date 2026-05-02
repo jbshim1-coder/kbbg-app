@@ -9,44 +9,49 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const supabase = createServiceRoleClient();
+  try {
+    const supabase = createServiceRoleClient();
 
-  // 총 회원 수
-  const { data: usersData } = await (supabase as any).auth.admin.listUsers();
-  const totalUsers = usersData?.users?.length || 0;
+    // 총 회원 수
+    const { data: usersData } = await (supabase as any).auth.admin.listUsers();
+    const totalUsers = usersData?.users?.length || 0;
 
-  // 총 게시글 수
-  const { count: totalPosts } = await supabase
-    .from("posts")
-    .select("*", { count: "exact", head: true });
+    // 총 게시글 수
+    const { count: totalPosts } = await supabase
+      .from("posts")
+      .select("*", { count: "exact", head: true });
 
-  // 활성 병원 수
-  const { count: totalClinics } = await supabase
-    .from("clinics")
-    .select("*", { count: "exact", head: true })
-    .eq("is_active", true);
+    // 활성 병원 수
+    const { count: totalClinics } = await supabase
+      .from("clinics")
+      .select("*", { count: "exact", head: true })
+      .eq("is_active", true);
 
-  // 오늘 방문자 수 (KST 기준)
-  const today = new Date();
-  today.setHours(today.getHours() + 9);
-  const todayStr = today.toISOString().slice(0, 10);
-  const { data: visitorData } = await supabase
-    .from("daily_visitors")
-    .select("count")
-    .eq("date", todayStr)
-    .single() as { data: { count: number } | null };
+    // 오늘 방문자 수 (KST 기준)
+    const today = new Date();
+    today.setHours(today.getHours() + 9);
+    const todayStr = today.toISOString().slice(0, 10);
+    const { data: visitorData } = await supabase
+      .from("daily_visitors")
+      .select("count")
+      .eq("date", todayStr)
+      .single() as { data: { count: number } | null };
 
-  // 미처리 신고
-  const { count: pendingReports } = await supabase
-    .from("contact_inquiries")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "pending") as { count: number | null };
+    // 미처리 신고
+    const { count: pendingReports } = await supabase
+      .from("contact_inquiries")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "open") as { count: number | null };
 
-  return NextResponse.json({
-    totalUsers,
-    totalPosts: totalPosts || 0,
-    totalClinics: totalClinics || 0,
-    todayVisitors: visitorData?.count || 0,
-    pendingReports: pendingReports || 0,
-  });
+    return NextResponse.json({
+      totalUsers,
+      totalPosts: totalPosts || 0,
+      totalClinics: totalClinics || 0,
+      todayVisitors: visitorData?.count || 0,
+      pendingReports: pendingReports || 0,
+    });
+  } catch (err) {
+    console.error("[admin/stats]", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
