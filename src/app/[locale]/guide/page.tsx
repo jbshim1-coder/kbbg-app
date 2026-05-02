@@ -1,6 +1,8 @@
 // 이용 가이드 페이지 — 서버 컴포넌트, 사이트 사용법 안내
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "How to Use KBBG — User Guide",
@@ -9,6 +11,7 @@ export const metadata: Metadata = {
 
 export default async function GuidePage() {
   const t = await getTranslations();
+  const locale = await getLocale();
 
   // 이용 단계 데이터 — 번역 키 사용
   const STEPS = [
@@ -58,13 +61,13 @@ export default async function GuidePage() {
       <section className="border-t border-gray-100 px-4 py-12 text-center">
         <p className="text-gray-500">
           {t("guide.help_text")}{" "}
-          <a href="../faq" className="text-slate-700 hover:underline font-medium">
+          <Link href={`/${locale}/faq`} className="text-slate-700 hover:underline font-medium">
             {t("guide.faq_link")}
-          </a>{" "}
+          </Link>{" "}
           {t("guide.or")}{" "}
-          <a href="../contact" className="text-slate-700 hover:underline font-medium">
+          <Link href={`/${locale}/contact`} className="text-slate-700 hover:underline font-medium">
             {t("guide.contact_link")}
-          </a>.
+          </Link>.
         </p>
       </section>
     </main>

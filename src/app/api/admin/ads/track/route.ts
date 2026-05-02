@@ -20,7 +20,10 @@ export async function POST(req: NextRequest) {
     const supabase = createServiceRoleClient();
     const field = type === "click" ? "clicks" : "impressions";
 
-    // ads 테이블에서 현재 값을 읽고 +1 증가
+    // TODO(C7): 원자적 증가를 위해 Supabase DB에 increment_ad_counter(ad_id, field) RPC를 생성할 것.
+    // 현재는 read-then-write 패턴으로 동시 요청 시 카운트가 유실될 수 있음.
+    // RPC 예시: CREATE FUNCTION increment_ad_counter(ad_id uuid, field text)
+    //   RETURNS void AS $$ UPDATE ads SET {field} = {field} + 1 WHERE id = ad_id $$ LANGUAGE sql;
     const { data: ad } = await (supabase as any)
       .from("ads")
       .select(field)
