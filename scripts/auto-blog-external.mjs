@@ -326,6 +326,10 @@ async function main() {
     contentWithImages = `<div style="margin:0 0 24px"><img src="${images[0].url}" alt="${images[0].alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>` + contentWithImages;
   }
 
+  // 내부 링크 삽입 (Supabase 저장 전)
+  console.log("내부 링크 삽입 중...");
+  contentWithImages = await insertInternalLinks(contentWithImages, slug, siteId, supabase);
+
   // 4. 저장
   console.log("4/4 저장 중...");
   const postData = {

@@ -7,6 +7,7 @@ import { createClient } from "@supabase/supabase-js";
 import { existsSync } from "fs";
 import { TOPICS } from "./blog-topics.mjs";
 import { pingSitemaps, notifyGoogleIndexing } from "./google-index-notify.mjs";
+import { insertInternalLinks } from "./lib/internal-links.mjs";
 
 // PAA 주제 파일이 있으면 동적으로 로드 (없으면 무시)
 // blog-topics-paa.mjs가 생성된 경우에만 활성화됨
@@ -331,6 +332,10 @@ async function main() {
     const heroImg = images[0];
     contentWithImages = `<div style="margin:0 0 24px"><img src="${heroImg.url}" alt="${heroImg.alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>` + contentWithImages;
   }
+
+  // 내부 링크 삽입 (Supabase 저장 전)
+  console.log("내부 링크 삽입 중...");
+  contentWithImages = await insertInternalLinks(contentWithImages, slug, "kbbg", supabase);
 
   // Supabase에 저장
   const postData = {
