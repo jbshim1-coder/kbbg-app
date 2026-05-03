@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import sanitize from "sanitize-html";
 import { ShareButtons, FloatingShareButton } from "@/components/ShareButtons";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -170,6 +171,8 @@ export default async function BlogPostPage({
 
   return (
     <>
+      {/* AMP 버전 링크 — Google Discover 노출 및 모바일 빠른 로딩 */}
+      <link rel="amphtml" href={`${BASE_URL}/amp/blog/${slug}`} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -308,6 +311,11 @@ export default async function BlogPostPage({
           url={`${BASE_URL}/${locale}/blog/${slug}`}
         />
       </main>
+
+      {/* Exit intent popup — shows recommended articles when user tries to leave */}
+      {relatedPosts.length > 0 && (
+        <ExitIntentPopup locale={locale} relatedPosts={relatedPosts} />
+      )}
     </>
   );
 }
