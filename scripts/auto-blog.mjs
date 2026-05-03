@@ -4,10 +4,33 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 import { TOPICS } from "./blog-topics.mjs";
 import { pingSitemaps, notifyGoogleIndexing } from "./google-index-notify.mjs";
 import { insertInternalLinks } from "./lib/internal-links.mjs";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const TRENDING_CACHE_FILE = join(__dirname, "trending-cache.json");
+const TRENDING_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24시간
+
+// 트렌딩 캐시 읽기 (24시간 이내인 경우에만 사용)
+function loadTrendingKeywords() {
+  if (!existsSync(TRENDING_CACHE_FILE)) return [];
+  try {
+    const cache = JSON.parse(readFileSync(TRENDING_CACHE_FILE, "utf-8"));
+    const age = Date.now() - new Date(cache.updatedAt).getTime();
+    if (age > TRENDING_MAX_AGE_MS) {
+      console.log("트렌딩 캐시가 24시간 초과되어 무시합니다.");
+      return [];
+    }
+    return cache.keywords || [];
+  } catch {
+    // 캐시 파일 손상 시 무시
+    return [];
+  }
+}
 
 // PAA 주제 파일이 있으면 동적으로 로드 (없으면 무시)
 // blog-topics-paa.mjs가 생성된 경우에만 활성화됨
@@ -126,8 +149,15 @@ async function fetchAndUploadImages(keyword, slug) {
 
 // ─── Claude API로 글 생성 ───────────────────────────────────────────
 async function generateArticle(topic) {
+  // 트렌딩 키워드 캐시 로드 (24시간 이내 데이터만 사용)
+  const trendingKeywords = loadTrendingKeywords();
+  const trendingContext = trendingKeywords.length > 0
+    ? `\nCurrent trending topics (incorporate if relevant to your article): ${trendingKeywords.slice(0, 20).join(", ")}\n`
+    : "";
+
   const prompt = `You are a K-beauty and Korean medical tourism expert blogger.
 Write a blog article about: "${topic.keyword}"
+${trendingContext}
 
 RULES:
 - Write in HTML format (use <h2>, <h3>, <p>, <ul>, <li>, <strong> tags)
