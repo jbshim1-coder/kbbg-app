@@ -152,7 +152,7 @@ FORMATTING (very important for readability):
 
 Respond with ONLY a JSON object (no markdown wrapping):
 {
-  "title_en": "English title (SEO optimized, under 60 chars)",
+  "title_en": "Curiosity-driven, click-worthy English title (under 60 chars, see TITLE RULES below)",
   "title_ko": "한국어 제목",
   "title_zh": "中文标题",
   "title_ja": "日本語タイトル",
@@ -166,6 +166,21 @@ Respond with ONLY a JSON object (no markdown wrapping):
   "hashtags": ["#KBBG", "...1 brand tag (always #KBBG)", "#ProcedureNameKorea", "...3-4 mid-competition tags (10K-500K posts, combine procedure+location)", "#SpecificLongTail2026", "...2-3 niche/long-tail tags (include year, specific detail, or question format)"],
   "tags": ["skincare", "korea", "...3-5 tags"]
 }
+
+TITLE RULES (CRITICAL for click-through rate):
+- NEVER use boring "Complete Guide" or "Everything You Need to Know" patterns
+- Use ONE of these curiosity-triggering formulas (rotate randomly):
+  1. Number + Unexpected angle: "7 Things Korean Surgeons Won't Tell You About Rhinoplasty"
+  2. Comparison/VS: "Korean Nose Jobs vs USA: Why the $6,000 Gap Exists"
+  3. Personal story hook: "I Flew to Korea for Surgery — Here's My Honest Cost Breakdown"
+  4. Secret/Reveal: "The Hidden Reason Korean Filler Results Look More Natural"
+  5. Myth-busting: "Korean Plastic Surgery Myths That Could Cost You Thousands"
+  6. Controversial question: "Is Korean Plastic Surgery Actually Cheaper? (Real Numbers)"
+  7. Time-sensitive: "2026 Korean Clinic Prices: What Changed This Year"
+  8. Fear of missing out: "3 Korean Skincare Ingredients Going Viral (Before They Sell Out)"
+- Title MUST create an information gap — reader should NEED to click to get the answer
+- Include the main keyword naturally but make it irresistible to click
+- All translated titles (ko, zh, ja, etc.) should also use curiosity patterns in their language
 
 HASHTAG RULES (VERY IMPORTANT):
 - ALWAYS include #KBBG as the first hashtag (brand tag)

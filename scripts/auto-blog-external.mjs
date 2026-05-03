@@ -171,12 +171,26 @@ FORMATTING (very important for readability):
 
 Respond with ONLY a JSON object (no markdown wrapping):
 {
-  "title_en": "English title (SEO optimized, under 60 chars)",
+  "title_en": "Curiosity-driven, click-worthy English title (under 60 chars, see TITLE RULES below)",
   "content_en": "<h2>...</h2><p>...</p>...",
   "excerpt_en": "2-sentence summary in English",
   "hashtags": ["#SiteBrandTag", "...1 brand tag", "#TopicLocation", "...3-4 mid-competition tags", "#NicheLongTail2026", "...2-3 long-tail tags"],
   "tags": ["skincare", "korea", "...3-5 tags"]
 }
+
+TITLE RULES (CRITICAL for click-through rate):
+- NEVER use boring "Complete Guide" or "Ultimate Guide" patterns
+- Use ONE of these curiosity-triggering formulas (rotate randomly):
+  1. Number + Unexpected: "5 K-Pop Skincare Secrets That Actually Work (Backed by Dermatologists)"
+  2. VS/Comparison: "Korean Sunscreen vs Japanese: The Difference Nobody Talks About"
+  3. Story hook: "I Tried the 10-Step Korean Routine for 30 Days — Here's What Happened"
+  4. Secret/Reveal: "Why Korean Skin Looks Glass-Like (It's Not Just Genetics)"
+  5. Myth-busting: "The Korean Skincare Myth That's Ruining Your Skin"
+  6. Controversial: "Is the Korean 10-Step Routine Actually Necessary?"
+  7. Trending: "The 2026 K-Beauty Ingredient That's Replacing Retinol"
+  8. FOMO: "3 Korean Products Selling Out Worldwide Right Now"
+- Title MUST create an information gap — reader needs to click to learn more
+- Include the main keyword naturally but make it irresistible
 
 HASHTAG RULES (VERY IMPORTANT):
 - The FIRST hashtag MUST be the site brand tag: ${getBrandTag(siteId)}
