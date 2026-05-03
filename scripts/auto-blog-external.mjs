@@ -5,6 +5,8 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
+import { pingSitemaps, notifyGoogleIndexing } from "./google-index-notify.mjs";
+import { insertInternalLinks } from "./lib/internal-links.mjs";
 
 // 사이트별 주제 동적 import
 const siteId = process.argv[2];
@@ -371,6 +373,11 @@ async function main() {
 
   console.log(`✅ ${config.name} 게시 완료: "${article.title_en}"`);
   console.log(`   URL: ${config.domain}/${slug}`);
+
+  // Google에 새 URL 알림 (사이트맵 ping + Indexing API)
+  const postUrl = `${config.domain}/${slug}`;
+  await pingSitemaps(siteId);
+  await notifyGoogleIndexing(postUrl);
 }
 
 main().catch((err) => {

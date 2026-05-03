@@ -52,6 +52,22 @@ interface RelatedPost {
   [key: string]: string;
 }
 
+// h3 태그(질문 포함) + 다음 p 태그(답변)를 파싱하여 FAQPage 스키마 항목 생성
+function parseFaqItems(html: string): { question: string; answer: string }[] {
+  const items: { question: string; answer: string }[] = [];
+  const pattern = /<h3[^>]*>([\s\S]*?)<\/h3>\s*<p[^>]*>([\s\S]*?)<\/p>/gi;
+  let match: RegExpExecArray | null;
+  while ((match = pattern.exec(html)) !== null) {
+    const question = match[1].replace(/<[^>]+>/g, "").trim();
+    const answer = match[2].replace(/<[^>]+>/g, "").trim();
+    // "?" 포함된 h3만 FAQ로 간주
+    if (question.includes("?") && answer.length > 0) {
+      items.push({ question, answer });
+    }
+  }
+  return items;
+}
+
 async function getRelatedPosts(category: string, currentSlug: string): Promise<RelatedPost[]> {
   const { data } = await getSupabase()
     .from("blog_posts")
@@ -93,7 +109,11 @@ export async function generateMetadata({
     },
     twitter: { card: "summary_large_image", title, description },
     alternates: {
-      languages: Object.fromEntries(LOCALES.map((l) => [l, `${BASE_URL}/${l}/blog/${slug}`])),
+      canonical: `${BASE_URL}/${locale}/blog/${slug}`,
+      languages: {
+        ...Object.fromEntries(LOCALES.map((l) => [l, `${BASE_URL}/${l}/blog/${slug}`])),
+        "x-default": `${BASE_URL}/en/blog/${slug}`,
+      },
     },
   };
 }
@@ -114,6 +134,19 @@ export default async function BlogPostPage({
   const catLabel = CATEGORY_LABELS[post.category]?.[isKo ? "ko" : "en"] || post.category;
   const relatedPosts = await getRelatedPosts(post.category, slug);
 
+  const faqItems = parseFaqItems(rawContent);
+  const faqSchema = faqItems.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqItems.map(({ question, answer }) => ({
+          "@type": "Question",
+          name: question,
+          acceptedAnswer: { "@type": "Answer", text: answer },
+        })),
+      }
+    : null;
+
   // Article JSON-LD
   const articleSchema = {
     "@context": "https://schema.org",
@@ -133,6 +166,12 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       <main className="min-h-screen bg-stone-50">
         {/* 헤더 */}

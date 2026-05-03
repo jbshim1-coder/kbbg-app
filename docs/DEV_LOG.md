@@ -4,6 +4,18 @@
 
 ---
 
+### [2026-05-03 10:00] Google 자동 색인 알림 추가
+
+블로그 글이 올라갈 때마다 Google에 자동으로 새 URL이 생겼다고 알려주는 기능을 추가했습니다.
+- 방법 1 (즉시 적용): 글 저장 후 4개 사이트 사이트맵을 Google에 ping (인증 불필요)
+- 방법 2 (설정 시 적용): Google Indexing API로 특정 URL 즉시 색인 요청 (서비스 계정 키 필요)
+- 새 파일: `scripts/google-index-notify.mjs` (단독 실행 또는 import 가능)
+- 적용 대상: kbbg, kskindaily, koreatravel365, dailyhallyuwave 4개 사이트 모두
+
+[완료]
+
+---
+
 ### [2026-05-02 19:45] YouTube Shorts 자동화 완료
 
 AutoShorts.ai로 K-MEDI TV 채널에 매일 자동 쇼츠 업로드를 설정했습니다.

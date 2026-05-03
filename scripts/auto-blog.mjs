@@ -4,7 +4,42 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
+import { existsSync } from "fs";
 import { TOPICS } from "./blog-topics.mjs";
+import { pingSitemaps, notifyGoogleIndexing } from "./google-index-notify.mjs";
+
+// PAA 주제 파일이 있으면 동적으로 로드 (없으면 무시)
+// blog-topics-paa.mjs가 생성된 경우에만 활성화됨
+let PAA_TOPICS = [];
+const PAA_FILE = new URL("./blog-topics-paa.mjs", import.meta.url).pathname;
+if (existsSync(PAA_FILE)) {
+  try {
+    const { PAA_TOPICS: loaded } = await import("./blog-topics-paa.mjs");
+    PAA_TOPICS = loaded || [];
+    console.log(`PAA 주제 로드: ${PAA_TOPICS.length}개`);
+  } catch {
+    // PAA 파일 로드 실패 시 기본 주제만 사용
+  }
+}
+
+// 주제 풀 구성: PAA가 있으면 30% 확률로 PAA 주제 선택
+function buildTopicPool(usedSlugs) {
+  const available = TOPICS.filter(t => {
+    const slug = t.keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+    return !usedSlugs.has(slug);
+  });
+
+  if (PAA_TOPICS.length === 0) return available;
+
+  const availablePaa = PAA_TOPICS.filter(t => {
+    const slug = t.keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+    return !usedSlugs.has(slug);
+  });
+
+  // PAA 주제가 있으면 30% 확률로 PAA 풀에서 선택
+  const usePaa = availablePaa.length > 0 && Math.random() < 0.3;
+  return usePaa ? availablePaa : available;
+}
 
 // 환경변수
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
@@ -244,11 +279,9 @@ async function main() {
     .select("slug");
   const usedSlugs = new Set((usedPosts || []).map((p) => p.slug));
 
-  // 사용 안 된 주제 선택
-  const availableTopic = TOPICS.find((t) => {
-    const slug = t.keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
-    return !usedSlugs.has(slug);
-  });
+  // 사용 안 된 주제 선택 (PAA 있으면 30% 확률로 PAA 주제 사용)
+  const pool = buildTopicPool(usedSlugs);
+  const availableTopic = pool[0];
 
   if (!availableTopic) {
     console.log("모든 주제가 사용되었습니다. 주제 DB를 추가해주세요.");
@@ -345,6 +378,11 @@ async function main() {
 
   console.log(`✅ 게시 완료: "${article.title_en}" (${slug})`);
   console.log(`   URL: https://kbeautybuyersguide.com/en/blog/${slug}`);
+
+  // Google에 새 URL 알림 (사이트맵 ping + Indexing API)
+  const postUrl = `https://kbeautybuyersguide.com/en/blog/${slug}`;
+  await pingSitemaps("kbbg");
+  await notifyGoogleIndexing(postUrl);
 }
 
 main().catch((err) => {
