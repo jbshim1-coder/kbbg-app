@@ -62,6 +62,21 @@ if (!config) {
   process.exit(1);
 }
 
+// 사이트별 기본 해시태그 (AI 파싱 실패 시 fallback)
+function getFallbackHashtags(site) {
+  const map = {
+    kskindaily: ["#KSkinDaily", "#KBeauty", "#KoreanSkincareRoutine", "#KBeautyGuide", "#KoreanSkincare2026", "#SkincareKorea"],
+    dailyhallyuwave: ["#DailyHallyuWave", "#KPop", "#HallyuCulture", "#KoreanEntertainment", "#KPopNews2026", "#KDrama"],
+    koreatravel365: ["#KoreaTravel365", "#SeoulGuide", "#KoreaTravelTips", "#VisitKorea2026", "#SeoulTravel", "#KoreaTrip"],
+  };
+  return map[site] || ["#KBeauty", "#Korea", "#KoreanCulture", "#VisitKorea2026"];
+}
+
+function getBrandTag(site) {
+  const map = { kskindaily: "#KSkinDaily", dailyhallyuwave: "#DailyHallyuWave", koreatravel365: "#KoreaTravel365" };
+  return map[site] || "#KBeauty";
+}
+
 // 주제 로드
 const { TOPICS } = await import(config.topicsFile);
 
@@ -157,9 +172,18 @@ Respond with ONLY a JSON object (no markdown wrapping):
   "title_en": "English title (SEO optimized, under 60 chars)",
   "content_en": "<h2>...</h2><p>...</p>...",
   "excerpt_en": "2-sentence summary in English",
-  "hashtags": ["#KBeauty", "...5-8 hashtags"],
+  "hashtags": ["#SiteBrandTag", "...1 brand tag", "#TopicLocation", "...3-4 mid-competition tags", "#NicheLongTail2026", "...2-3 long-tail tags"],
   "tags": ["skincare", "korea", "...3-5 tags"]
-}`;
+}
+
+HASHTAG RULES (VERY IMPORTANT):
+- The FIRST hashtag MUST be the site brand tag: ${getBrandTag(siteId)}
+- Total 8-10 hashtags for maximum search visibility
+- Mix competition levels: 1 brand + 3-4 medium + 3-4 niche/long-tail
+- Medium tags: combine topic + location or category (e.g. #KoreanSkincareRoutine, #SeoulFoodGuide, #KPopConcert2026)
+- Niche tags: specific, searchable, include year or detail (e.g. #TWICEWorldTour2026, #HongdaeCafeHopping, #KBeautyForDrySkin)
+- NEVER use only generic tags — every tag must be something a real person would search
+- Include at least 2 trending or timely tags relevant to current events`;
 
   const response = await anthropic.messages.create({
     model: "claude-sonnet-4-20250514",
@@ -179,8 +203,8 @@ Respond with ONLY a JSON object (no markdown wrapping):
       title_en: titleMatch ? titleMatch[1] : topic.keyword,
       content_en: contentMatch ? contentMatch[1].replace(/\\"/g, '"').replace(/\\n/g, "\n") : `<h2>${topic.keyword}</h2><p>Guide coming soon.</p>`,
       excerpt_en: `A comprehensive guide to ${topic.keyword}.`,
-      hashtags: ["#KBeauty", "#Korea"],
-      tags: ["korea", "beauty"],
+      hashtags: getFallbackHashtags(siteId),
+      tags: ["korea", "beauty", "guide"],
     };
   }
 }

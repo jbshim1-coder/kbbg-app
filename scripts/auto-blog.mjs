@@ -127,9 +127,18 @@ Respond with ONLY a JSON object (no markdown wrapping):
   "content_en": "<h2>...</h2><p>...</p>...",
   "excerpt_en": "2-sentence summary in English",
   "excerpt_ko": "한국어 2문장 요약",
-  "hashtags": ["#KBeauty", "#KoreanSkincare", "...5-8 hashtags total"],
+  "hashtags": ["#KBBG", "...1 brand tag (always #KBBG)", "#ProcedureNameKorea", "...3-4 mid-competition tags (10K-500K posts, combine procedure+location)", "#SpecificLongTail2026", "...2-3 niche/long-tail tags (include year, specific detail, or question format)"],
   "tags": ["skincare", "korea", "...3-5 tags"]
-}`;
+}
+
+HASHTAG RULES (VERY IMPORTANT):
+- ALWAYS include #KBBG as the first hashtag (brand tag)
+- Total 8-10 hashtags for maximum reach
+- Mix competition levels: 1 brand + 3-4 medium + 3-4 niche/long-tail
+- Medium tags: combine topic + "Korea" or "Seoul" (e.g. #RhinoplastyKorea, #KoreanSkinClinic)
+- Niche tags: add year, specific detail, or format as question (e.g. #NoseJobKorea2026, #CheapPlasticSurgerySeoul)
+- NEVER use only generic tags like #KBeauty #Korea alone
+- Include at least 2 tags that someone would actually SEARCH for (think Google/Instagram search intent)`;
 
   const response = await anthropic.messages.create({
     model: "claude-sonnet-4-20250514",
@@ -148,8 +157,8 @@ Respond with ONLY a JSON object (no markdown wrapping):
       title_en: titleMatch ? titleMatch[1] : topic.keyword,
       content_en: contentMatch ? contentMatch[1].replace(/\\"/g, '"').replace(/\\n/g, "\n") : `<h2>${topic.keyword}</h2><p>Guide coming soon.</p>`,
       excerpt_en: `A comprehensive guide to ${topic.keyword}.`,
-      hashtags: ["#KBeauty", "#Korea"],
-      tags: ["korea", "beauty"],
+      hashtags: ["#KBBG", "#KBeauty", "#KoreanMedicalTourism", "#KoreaClinicGuide", "#PlasticSurgeryKorea", "#KBeautyGuide2026"],
+      tags: ["korea", "beauty", "medical tourism"],
       _fallback: true,
     };
   }
