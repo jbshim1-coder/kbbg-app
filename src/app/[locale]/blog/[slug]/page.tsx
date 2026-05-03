@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import sanitize from "sanitize-html";
+import { ShareButtons, FloatingShareButton } from "@/components/ShareButtons";
 
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -105,9 +106,16 @@ export async function generateMetadata({
       url: `${BASE_URL}/${locale}/blog/${slug}`,
       siteName: "KBBG",
       type: "article",
-      ...(post.image_url ? { images: [{ url: post.image_url }] } : {}),
+      ...(post.image_url ? { images: [{ url: post.image_url, width: 1200, height: 630, alt: title }] } : {}),
+      publishedTime: post.published_at,
+      section: post.category,
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(post.image_url ? { images: [post.image_url] } : {}),
+    },
     alternates: {
       canonical: `${BASE_URL}/${locale}/blog/${slug}`,
       languages: {
@@ -236,6 +244,17 @@ export default async function BlogPostPage({
             </div>
           )}
 
+          {/* Share buttons */}
+          <div className="bg-white rounded-2xl px-6 py-5 shadow-sm border border-stone-100">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+              Share this article
+            </p>
+            <ShareButtons
+              title={title}
+              url={`${BASE_URL}/${locale}/blog/${slug}`}
+            />
+          </div>
+
           {/* AI 추천 CTA */}
           <div className="bg-[#1d1d1f] rounded-2xl p-6 text-white text-center">
             <h2 className="text-lg font-bold mb-2">
@@ -282,6 +301,12 @@ export default async function BlogPostPage({
               : "This content was created with the assistance of AI."}
           </p>
         </div>
+
+        {/* Floating mobile share button */}
+        <FloatingShareButton
+          title={title}
+          url={`${BASE_URL}/${locale}/blog/${slug}`}
+        />
       </main>
     </>
   );

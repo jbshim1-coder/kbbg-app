@@ -4,6 +4,15 @@
 
 ---
 
+### [2026-05-03 14:00] 블로그 소셜 공유 기능 추가
+
+블로그 글 하단에 소셜 공유 버튼(WhatsApp, Telegram, Facebook, X, Pinterest, 링크 복사)을 추가했습니다.
+- 모바일에서 스크롤하면 오른쪽 하단에 플로팅 공유 버튼이 나타나며, Web Share API 지원 시 기기 기본 공유 창이 열립니다.
+- Open Graph 메타태그에 twitter:image, article:published_time, article:section을 추가하여 SNS 공유 시 미리보기가 더 풍부하게 표시됩니다.
+- 상태: [완료]
+
+---
+
 ### [2026-05-03 10:00] Google 자동 색인 알림 추가
 
 블로그 글이 올라갈 때마다 Google에 자동으로 새 URL이 생겼다고 알려주는 기능을 추가했습니다.
