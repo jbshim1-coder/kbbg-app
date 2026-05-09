@@ -341,12 +341,12 @@ async function main() {
   console.log("1/4 글 생성 중...");
   const article = await generateArticle(availableTopic);
 
-  // 2. 다국어 번역 (제목 + 본문, 한국어 포함 7개 언어 병렬, 부분 실패 허용)
+  // 2. 다국어 번역 (제목 + 본문, 6개 언어 병렬, 부분 실패 허용)
   console.log("2/4 다국어 번역 중...");
-  const langCodes = ["ko", "zh", "ja", "vi", "th", "ru", "mn"];
+  const langCodes = ["zh", "ja", "vi", "th", "ru", "mn"];
   const [titleSettled, contentSettled] = await Promise.all([
     Promise.allSettled(langCodes.map((l) => translateTitle(article.title_en, l))),
-    Promise.allSettled(langCodes.map((l) => l === "ko" ? translateToKorean(article.content_en) : translateContent(article.content_en, l))),
+    Promise.allSettled(langCodes.map((l) => translateContent(article.content_en, l))),
   ]);
 
   const titles = {};
