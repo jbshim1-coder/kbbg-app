@@ -225,10 +225,10 @@ HASHTAG RULES (VERY IMPORTANT):
   }
 }
 
-// ─── 다국어 번역 (한국어 제외) ──────────────────────────────────────
+// ─── 다국어 번역 ─────────────────────────────────────────────────────
 async function translateContent(contentEn, locale) {
   const langNames = {
-    zh: "Simplified Chinese", ja: "Japanese", vi: "Vietnamese",
+    ko: "Korean", zh: "Simplified Chinese", ja: "Japanese", vi: "Vietnamese",
     th: "Thai", ru: "Russian", mn: "Mongolian",
   };
   const response = await anthropic.messages.create({
@@ -249,7 +249,7 @@ ${contentEn}`,
 
 async function translateTitle(titleEn, locale) {
   const langNames = {
-    zh: "Simplified Chinese", ja: "Japanese", vi: "Vietnamese",
+    ko: "Korean", zh: "Simplified Chinese", ja: "Japanese", vi: "Vietnamese",
     th: "Thai", ru: "Russian", mn: "Mongolian",
   };
   const response = await anthropic.messages.create({
@@ -305,9 +305,9 @@ async function main() {
   console.log("1/4 글 생성 중...");
   const article = await generateArticle(availableTopic);
 
-  // 2. 다국어 번역 (한국어 제외, 병렬, 부분 실패 허용)
+  // 2. 다국어 번역 (병렬, 부분 실패 허용)
   console.log("2/4 다국어 번역 중...");
-  const langCodes = ["zh", "ja", "vi", "th", "ru", "mn"];
+  const langCodes = ["ko", "zh", "ja", "vi", "th", "ru", "mn"];
   const [titleSettled, contentSettled] = await Promise.all([
     Promise.allSettled(langCodes.map((l) => translateTitle(article.title_en, l))),
     Promise.allSettled(langCodes.map((l) => translateContent(article.content_en, l))),
@@ -374,7 +374,7 @@ async function main() {
       return [key, c];
     })),
     excerpt_en: article.excerpt_en,
-    excerpt_ko: "",
+    excerpt_ko: titles.title_ko ? `${titles.title_ko}에 대한 완벽한 가이드입니다.` : "",
     image_url: images.length > 0 ? images[0].url : null,
     image_alt: images.length > 0 ? images[0].alt : null,
     tags: article.tags || [],
