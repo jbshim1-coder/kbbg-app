@@ -6,6 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 import sanitize from "sanitize-html";
 import { ShareButtons, FloatingShareButton } from "@/components/ShareButtons";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -257,6 +258,9 @@ export default async function BlogPostPage({
               url={`${BASE_URL}/${locale}/blog/${slug}`}
             />
           </div>
+
+          {/* 뉴스레터 구독 */}
+          <NewsletterSignup locale={locale} />
 
           {/* AI 추천 CTA */}
           <div className="bg-[#1d1d1f] rounded-2xl p-6 text-white text-center">

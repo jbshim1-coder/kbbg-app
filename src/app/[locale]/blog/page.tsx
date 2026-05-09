@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -202,6 +203,11 @@ export default async function BlogListPage({
             </Link>
           </div>
         )}
+      </div>
+
+      {/* 뉴스레터 구독 */}
+      <div className="mx-auto max-w-3xl px-4 pb-8">
+        <NewsletterSignup locale={locale} />
       </div>
 
       {/* AI 활용 제작 표시 (한국 법 준수) */}
