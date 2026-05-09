@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import ImageUpload from "@/components/ImageUpload";
+import StarRating from "@/components/StarRating";
 import { useRecaptcha } from "@/lib/useRecaptcha";
 import { createClient } from "@/lib/supabase";
 import { checkSpam, markPosted } from "@/lib/spam-guard";
@@ -64,6 +65,7 @@ export default function NewPostPage() {
   const [postType, setPostType] = useState<PostType>("text");
   const [linkUrl, setLinkUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [rating, setRating] = useState(0);
   // 제출 중 상태 — 중복 제출 방지
   const [submitting, setSubmitting] = useState(false);
   const [recaptchaError, setRecaptchaError] = useState("");
@@ -165,6 +167,7 @@ export default function NewPostPage() {
         content: body,
         images: imageUrls.length > 0 ? imageUrls : null,
         flair: flair || null,
+        rating: flair === "review" && rating > 0 ? rating : null,
         post_type: postType,
         link_url: postType === "link" ? linkUrl || null : postType === "image" ? imageUrl || null : null,
       } as never)
@@ -245,7 +248,7 @@ export default function NewPostPage() {
             </label>
             <select
               value={flair}
-              onChange={(e) => setFlair(e.target.value as FlairType | "")}
+              onChange={(e) => { setFlair(e.target.value as FlairType | ""); setRating(0); }}
               className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-teal-400 bg-white"
             >
               <option value="">{t("community.no_flair")}</option>
@@ -256,6 +259,16 @@ export default function NewPostPage() {
               ))}
             </select>
           </div>
+
+          {/* 별점 — 리뷰 flair일 때만 표시 */}
+          {flair === "review" && (
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                {locale === "ko" ? "별점" : "Rating"}
+              </label>
+              <StarRating value={rating} onChange={setRating} />
+            </div>
+          )}
 
           {/* 이미지 URL 입력 (image 타입) */}
           {postType === "image" && (

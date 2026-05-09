@@ -34,6 +34,7 @@ export type DummyPost = {
   isPinned?: boolean;
   imageUrl?: string;  // image 타입 게시글의 이미지 URL
   linkUrl?: string;   // link 타입 게시글의 외부 링크 URL
+  rating?: number | null;
 };
 
 export const DUMMY_POSTS: DummyPost[] = [

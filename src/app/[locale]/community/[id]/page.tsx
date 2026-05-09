@@ -12,6 +12,7 @@ import { getDummyPost, type DummyComment, type FlairType } from "../data/posts";
 import { detectLanguage, getLangName } from "@/lib/detect-language";
 
 import { FLAIR_STYLE } from "@/lib/community-utils";
+import StarRating from "@/components/StarRating";
 
 // Supabase comments 테이블 행 타입
 type DbComment = {
@@ -63,7 +64,7 @@ export default function PostDetailPage({
     id: string; title: string; titleEn: string; content: string; contentEn: string;
     author: string; level: number; time: string; upvotes: number; downvotes: number;
     categoryKey: string; flair: FlairType | null; comments: DummyComment[];
-    imageUrl?: string;
+    imageUrl?: string; rating?: number | null;
   } | null>(null);
   const [dbLoading, setDbLoading] = useState(!post);
 
@@ -86,7 +87,8 @@ export default function PostDetailPage({
             upvotes: data.upvotes || 0,
             downvotes: data.downvotes || 0,
             categoryKey: "community.general",
-            flair: null,
+            flair: data.flair ?? null,
+            rating: data.rating ?? null,
             comments: [],
           });
         }
@@ -456,6 +458,13 @@ export default function PostDetailPage({
               );
             })()}
           </div>
+
+          {/* 별점 표시 — review flair이고 rating이 있을 때 */}
+          {displayPost.flair === "review" && displayPost.rating && (
+            <div className="mt-2">
+              <StarRating value={displayPost.rating} onChange={() => {}} max={5} readOnly />
+            </div>
+          )}
 
           {/* before_after 이미지 블러 처리 */}
           {displayPost.flair === "before_after" && displayPost.imageUrl && (
