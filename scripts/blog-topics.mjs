@@ -2,6 +2,38 @@
 // 카테고리: guide(월), cosmetics(화), faq(수), event(목), compare(금), ingredient(토), tips(일)
 
 export const TOPICS = [
+  // ─── 30-DAY HALLYU BURST (2026-05-09 ~ 2026-06-09) ─────────────────────────
+  { category: "tips", keyword: "Korean food diet secret why Koreans have clear skin" },
+  { category: "tips", keyword: "K-pop idol beauty secrets plastic surgery vs skincare truth" },
+  { category: "tips", keyword: "BTS members beauty routines Korean skincare habits" },
+  { category: "tips", keyword: "BLACKPINK Jennie Rosé Lisa beauty clinic secrets Korea" },
+  { category: "tips", keyword: "Korean actress IU no-makeup skin how she does it" },
+  { category: "guide", keyword: "medical tourism Korea complete guide for K-drama fans" },
+  { category: "tips", keyword: "kimchi fermented food Korean skin health science" },
+  { category: "tips", keyword: "Korean diet foods that give glass skin explained" },
+  { category: "guide", keyword: "Korea beauty trip plan 7 days clinic tour Gangnam" },
+  { category: "tips", keyword: "why Korean women look younger anti-aging secrets" },
+  { category: "compare", keyword: "K-pop idol before after plastic surgery vs makeup" },
+  { category: "guide", keyword: "Gangnam plastic surgery district tourist guide 2026" },
+  { category: "tips", keyword: "Korean sunscreen why it is better than Western brands" },
+  { category: "tips", keyword: "Korean beauty routine celebrities follow daily habits" },
+  { category: "guide", keyword: "skin clinic tour Seoul what to expect full guide" },
+  { category: "faq", keyword: "is plastic surgery safe in Korea for foreigners FAQ" },
+  { category: "tips", keyword: "Korean fermented skincare ginseng what science says" },
+  { category: "compare", keyword: "Korean botox vs US botox price quality difference" },
+  { category: "tips", keyword: "K-drama star skin how Korean actresses prep for filming" },
+  { category: "guide", keyword: "medical Korean language basics for beauty tourists" },
+  { category: "tips", keyword: "Korean beauty foods collagen ginseng what to eat" },
+  { category: "faq", keyword: "how to book a Korean clinic from overseas step by step" },
+  { category: "tips", keyword: "NewJeans Minji skin type routine K-beauty analysis" },
+  { category: "guide", keyword: "Korea beauty visa medical tourism how to apply 2026" },
+  { category: "tips", keyword: "K-pop idol glass skin vs natural beauty honest breakdown" },
+  { category: "compare", keyword: "Korean dermatology clinic vs spa difference explained" },
+  { category: "tips", keyword: "tteokbokki spicy food effects on skin Korean beauty myth" },
+  { category: "guide", keyword: "Itaewon Gangnam Apgujeong beauty district comparison" },
+  { category: "ingredient", keyword: "snail mucin why Korean celebrities swear by it" },
+  { category: "tips", keyword: "Korean beauty travel checklist what to buy at clinics" },
+
   // ═══════════════════════════════════════════════════════════════
   // GUIDE — 시술 가이드 (52개)
   // ═══════════════════════════════════════════════════════════════
