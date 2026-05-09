@@ -9,29 +9,35 @@ import { GoogleAuth } from "google-auth-library";
 const INDEXING_API_ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications:publish";
 const SCOPES = ["https://www.googleapis.com/auth/indexing"];
 
-// 사이트맵 ping URL 목록 (인증 불필요)
-const SITEMAP_PING_URLS = [
-  "http://www.google.com/ping?sitemap=https://kbeautybuyersguide.com/sitemap.xml",
-  "http://www.google.com/ping?sitemap=https://kskindaily.com/sitemap.xml",
-  "http://www.google.com/ping?sitemap=https://koreatravel365.com/sitemap.xml",
-  "http://www.google.com/ping?sitemap=https://dailyhallyuwave.com/sitemap.xml",
-];
+// IndexNow — Bing/Yandex 즉시 색인 프로토콜 (Google ping은 2023년 폐기됨)
+const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow";
 
-// ─── 사이트맵 ping (인증 없이 Google에 사이트맵 변경 알림) ───────────
+// 사이트별 도메인 → IndexNow 키 매핑
+// IndexNow 키는 https://www.indexnow.org/ 에서 발급 후 .env.local에 추가
+const SITE_INDEXNOW = {
+  "kbeautybuyersguide.com": process.env.INDEXNOW_KEY_KBBG,
+  "kskindaily.com":         process.env.INDEXNOW_KEY_KSKINDAILY,
+  "koreatravel365.com":     process.env.INDEXNOW_KEY_KOREATRAVEL,
+  "dailyhallyuwave.com":    process.env.INDEXNOW_KEY_HALLYU,
+};
+
+// ─── IndexNow (Bing/Yandex 즉시 색인 알림) ────────────────────────────
 export async function pingSitemaps(siteId) {
-  // siteId가 주어지면 해당 사이트 sitemap만 ping, 없으면 전체
-  const targets = siteId
-    ? SITEMAP_PING_URLS.filter((u) => u.includes(getSiteDomain(siteId)))
-    : SITEMAP_PING_URLS;
+  // 키 없으면 조용히 스킵 (설정 전까지 오류 없이 진행)
+  const domain = getSiteDomain(siteId || "kbbg");
+  const key = SITE_INDEXNOW[domain];
+  if (!key) return;
 
-  for (const url of targets) {
-    try {
-      const res = await fetch(url);
-      console.log(`Sitemap ping: ${url} → ${res.status}`);
-    } catch (e) {
-      // ping 실패는 치명적이지 않으므로 경고만 출력
-      console.log(`Sitemap ping failed (non-critical): ${e.message}`);
-    }
+  const sitemapUrl = `https://${domain}/sitemap.xml`;
+  try {
+    const res = await fetch(INDEXNOW_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ host: domain, key, urlList: [sitemapUrl] }),
+    });
+    console.log(`IndexNow ping: ${domain} → ${res.status}`);
+  } catch (e) {
+    console.log(`IndexNow ping failed (non-critical): ${e.message}`);
   }
 }
 
