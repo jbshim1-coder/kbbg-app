@@ -379,6 +379,7 @@ async function main() {
         const heroTag = `<div style="margin:24px 0"><img src="${heroImg.url}" alt="${heroImg.alt}" style="width:100%;border-radius:12px;max-height:400px;object-fit:cover" loading="lazy"/></div>`;
         c = c.replace(/<\/h2>/, `</h2>${heroTag}`);
       }
+      c += `\n<div style="margin:48px 0 24px;padding:28px 24px;background:#0a0a1a;border:1px solid #1d3a5f;border-radius:16px;text-align:center"><p style="color:#6ea8fe;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin:0 0 8px">K-POP QUIZ</p><p style="color:#ffffff;font-size:22px;font-weight:700;margin:0 0 8px">✨ Which K-Pop Idol Are You?</p><p style="color:#8a8a9a;font-size:14px;margin:0 0 20px">10 questions · 20 idols · BTS, BLACKPINK, IVE &amp; more</p><a href="https://kbeautybuyersguide.com/en/quiz" style="display:inline-block;background:#0071e3;color:#ffffff;padding:13px 30px;border-radius:50px;font-weight:600;text-decoration:none;font-size:15px">Find Your Idol Match →</a></div>`;
       return [key, c];
     })),
     excerpt_en: article.excerpt_en,
