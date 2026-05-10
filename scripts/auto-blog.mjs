@@ -382,6 +382,14 @@ async function main() {
   console.log("내부 링크 삽입 중...");
   contentWithImages = await insertInternalLinks(contentWithImages, slug, "kbbg", supabase);
 
+  // 퀴즈 CTA 삽입
+  contentWithImages += `\n<div style="margin:48px 0 24px;padding:28px 24px;background:#0a0a1a;border:1px solid #1d3a5f;border-radius:16px;text-align:center">
+  <p style="color:#6ea8fe;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin:0 0 8px">K-POP QUIZ</p>
+  <p style="color:#ffffff;font-size:22px;font-weight:700;margin:0 0 8px">✨ Which K-Pop Idol Are You?</p>
+  <p style="color:#8a8a9a;font-size:14px;margin:0 0 20px">10 questions · 20 idols · BTS, BLACKPINK, IVE & more</p>
+  <a href="https://kbeautybuyersguide.com/en/quiz" style="display:inline-block;background:#0071e3;color:#ffffff;padding:13px 30px;border-radius:50px;font-weight:600;text-decoration:none;font-size:15px">Find Your Idol Match →</a>
+</div>`;
+
   // Supabase에 저장
   const postData = {
     slug,
