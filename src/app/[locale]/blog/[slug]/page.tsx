@@ -7,6 +7,29 @@ import sanitize from "sanitize-html";
 import { ShareButtons, FloatingShareButton } from "@/components/ShareButtons";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import { localizeHashtags } from "@/lib/hashtag-translations";
+
+const BANNER_I18N: Record<string, { title: string; desc: string; cta: string }> = {
+  en: { title: "Find Your Perfect Clinic", desc: "Get personalized AI recommendations based on verified data", cta: "Get AI Recommendation" },
+  ko: { title: "나에게 맞는 클리닉 찾기", desc: "AI가 검증된 데이터를 기반으로 맞춤 추천해드립니다", cta: "AI 추천 받기" },
+  zh: { title: "找到您理想的诊所", desc: "基于验证数据的个性化AI推荐", cta: "获取AI推荐 →" },
+  ja: { title: "最適なクリニックを見つけましょう", desc: "検証済みデータに基づくパーソナライズAIレコメンド", cta: "AIレコメンドを受ける →" },
+  vi: { title: "Tìm Phòng Khám Phù Hợp Với Bạn", desc: "Đề xuất AI cá nhân hóa dựa trên dữ liệu đã xác minh", cta: "Nhận đề xuất AI →" },
+  th: { title: "ค้นหาคลินิกที่เหมาะกับคุณ", desc: "คำแนะนำ AI ส่วนตัวจากข้อมูลที่ผ่านการตรวจสอบ", cta: "รับคำแนะนำ AI →" },
+  ru: { title: "Найдите Идеальную Клинику", desc: "Персонализированные AI-рекомендации на основе проверенных данных", cta: "Получить рекомендации AI →" },
+  mn: { title: "Таны Хувьд Тохирох Эмнэлгийг Олоорой", desc: "Баталгаажсан мэдээлэлд суурилсан AI зөвлөмж", cta: "AI зөвлөмж авах →" },
+};
+
+function mergeImages(translated: string, en: string): string {
+  const enImgs = (en?.match(/<img\b/g) || []).length;
+  const trImgs = (translated?.match(/<img\b/g) || []).length;
+  if (trImgs >= enImgs || enImgs === 0) return translated;
+  const figures = [...en.matchAll(/<figure\b[\s\S]*?<\/figure>|<img\b[^>]*\/?>/gi)].map(m => m[0]);
+  if (!figures.length) return translated;
+  const idx = translated.indexOf('</p>');
+  if (idx === -1) return translated + figures.join('');
+  return translated.slice(0, idx + 4) + figures.join('') + translated.slice(idx + 4);
+}
 
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -140,7 +163,7 @@ export default async function BlogPostPage({
   const isKo = locale === "ko";
   const title = post[`title_${locale}`] || post.title_en;
   const rawContent = post[`content_${locale}`] || post.content_en || "<p>Content not available.</p>";
-  const content = sanitizeHtml(rawContent);
+  const content = mergeImages(sanitizeHtml(rawContent), sanitizeHtml(post.content_en || ""));
   const catLabel = CATEGORY_LABELS[post.category]?.[isKo ? "ko" : "en"] || post.category;
   const relatedPosts = await getRelatedPosts(post.category, slug);
 
@@ -240,7 +263,7 @@ export default async function BlogPostPage({
           {/* 해시태그 */}
           {post.hashtags && post.hashtags.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {post.hashtags.map((tag: string) => (
+              {localizeHashtags(post.hashtags, locale).map((tag: string) => (
                 <span key={tag} className="text-xs text-blue-500">
                   {tag}
                 </span>
@@ -265,18 +288,16 @@ export default async function BlogPostPage({
           {/* AI 추천 CTA */}
           <div className="bg-[#1d1d1f] rounded-2xl p-6 text-white text-center">
             <h2 className="text-lg font-bold mb-2">
-              {isKo ? "나에게 맞는 클리닉 찾기" : "Find Your Perfect Clinic"}
+              {(BANNER_I18N[locale] ?? BANNER_I18N.en).title}
             </h2>
             <p className="text-xs text-slate-300 mb-4">
-              {isKo
-                ? "AI가 검증된 데이터를 기반으로 맞춤 추천해드립니다"
-                : "Get personalized AI recommendations based on verified data"}
+              {(BANNER_I18N[locale] ?? BANNER_I18N.en).desc}
             </p>
             <Link
               href={`/${locale}/ai-search`}
               className="inline-block px-6 py-3 bg-white text-slate-800 text-sm font-semibold rounded-full hover:bg-slate-100 transition-colors"
             >
-              {isKo ? "AI 추천 받기" : "Get AI Recommendation"}
+              {(BANNER_I18N[locale] ?? BANNER_I18N.en).cta}
             </Link>
           </div>
 
