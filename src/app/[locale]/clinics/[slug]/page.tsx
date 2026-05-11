@@ -8,6 +8,7 @@ import { getGuideBySlug } from "@/data/procedure-guides";
 import { fetchHiraClinics } from "@/lib/hira-api";
 import type { HiraClinic } from "@/lib/hira-api";
 import { safeUrl } from "@/lib/safe-url";
+import ReviewSection from "./ReviewSection";
 
 const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"];
 const BASE_URL = "https://kbeautybuyersguide.com";
@@ -230,6 +231,13 @@ export default async function ClinicCombinationPage({
               </p>
             </div>
           )}
+
+          {/* 방문 후기 */}
+          <ReviewSection
+            entityId={slug}
+            entityName={isKo ? combo.titleKo : combo.titleEn}
+            locale={locale}
+          />
 
           {/* AI 추천 CTA */}
           <div className="bg-[#1d1d1f] rounded-2xl p-6 text-white text-center">

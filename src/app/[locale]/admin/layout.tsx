@@ -18,6 +18,8 @@ const NAV_ITEMS = [
   { path: "/admin/clinics", label: "병원 데이터", icon: "🏥" },
   { path: "/admin/inquiries", label: "추천 문의", icon: "💬" },
   { path: "/admin/bug-reports", label: "기능오류 신고", icon: "🐛" },
+  { path: "/admin/reviews", label: "리뷰관리", icon: "⭐" },
+  { path: "/admin/audit", label: "감사 로그", icon: "📋" },
 ];
 
 export default function AdminLayout({

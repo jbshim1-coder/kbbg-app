@@ -4,6 +4,19 @@
 
 ---
 
+### [2026-05-11 작업] 보안·안정성 3건 수정 + 텍스트 리뷰 시스템 추가
+
+**[완료]** 4가지 작업을 한 번에 처리했습니다.
+
+1. **감사 로그 (C3)**: Supabase에 `admin_audit_log` 테이블 SQL 마이그레이션 파일 작성 완료. 관리자 어드민에 "감사 로그" 메뉴 추가.
+2. **투표 Race Condition 수정 (C7/H3)**: 동시 투표 처리 시 중복 발생 문제를 PostgreSQL `toggle_post_vote` 함수(advisory lock)로 해결. 마이그레이션 전에는 기존 코드로 자동 폴백.
+3. **관리자 인증 강화 (H2)**: 미들웨어에서 Supabase JWT 쿠키를 직접 디코딩해 마스터 이메일 여부를 서버 레벨에서 검증. 일반 로그인 사용자도 `/admin` 접근 차단.
+4. **텍스트 리뷰 시스템**: 클리닉 페이지에 방문 후기 섹션 추가 (별점 1~5 + 텍스트). 로그인 사용자만 작성 가능, 관리자 승인 후 게시. 어드민에 "리뷰관리" 페이지 추가.
+
+**⚠️ Supabase SQL 실행 필요**: `supabase/migrations/20260511_audit_reviews_vote.sql` 파일 내용을 [Supabase SQL 편집기](https://supabase.com/dashboard/project/appqwvuseeenbmgoacrz/sql/new)에서 실행해야 리뷰/감사로그/투표RPC가 활성화됩니다.
+
+---
+
 ### [2026-05-09] 커뮤니티 리뷰 별점 시스템 구현
 
 게시글에 별점을 남길 수 있는 리뷰 기능을 추가했습니다.
