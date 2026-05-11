@@ -5,7 +5,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 1,
     brand: "-",
     name: "히메 메이크업 정리함 보관함 액세서리 헤어 화장품 벽걸이 및 스킨케어 진열장 선반",
-    nameEn: "Hime Makeup Organizer Storage Accessory Hair Cosmetics Wall-Mounted and Skincare Display Shelf",
+    nameEn: "Hime Makeup Organizer Storage Accessories Hair Cosmetics Wall-mounted and Skincare Display Shelf",
     category: "스킨케어",
     price: "47,180원"
   },
@@ -13,7 +13,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 2,
     brand: "-",
     name: "좋아요 자동차 립스틱 핑크 홀더 컴퓨터 사이드 정리 립밤 클립 케이스 장착 여성용 아크릴 SUV 2 디바이더 직장용 업라이트 액세서리",
-    nameEn: "Like Car Lipstick Pink Holder Computer Side Organizer Lip Balm Clip Case Mounted Acrylic SUV 2 Divider Workplace Upright Accessory",
+    nameEn: "Like Car Lipstick Pink Holder Computer Side Organizer Lip Balm Clip Case Mountable Women's Acrylic SUV 2 Divider Work Upright Accessory",
     category: "메이크업",
     price: "30,520원"
   },
@@ -21,7 +21,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 3,
     brand: "-",
     name: "좋아요 자동차 젓가락 직장용 홀더 정리 립밤 여성용 아크릴 사이드 장착 액세서리 컴퓨터 케이스 SUV 블랙 클립 업라이트 립스틱 Small 1-Divider Black",
-    nameEn: "Like Car Chopsticks Workplace Holder Organizer Lip Balm Women's Acrylic Side Mounted Accessory Computer Case SUV Black Clip Upright Lipstick Small 1-Divider Black",
+    nameEn: "Like Car Chopsticks Work Holder Organizer Lip Balm Women's Acrylic Side Mount Accessory Computer Case SUV Black Clip Upright Lipstick Small 1-Divider Black",
     category: "메이크업",
     price: "25,830원"
   },
@@ -37,7 +37,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 5,
     brand: "-",
     name: "서랍이 있는 Wisuce 대나무 용기 홀더 립스틱 정리함 뷰티 데스크 대형 메이크업 조리대 보관함 스킨케어 에센셜 화장품 Black",
-    nameEn: "Wisuce Drawer Bamboo Container Holder Lipstick Organizer Beauty Desk Large Makeup Countertop Storage Skincare Essentials Cosmetics Black",
+    nameEn: "Wisuce Bamboo Container Holder with Drawer Lipstick Organizer Beauty Desk Large Makeup Counter Storage Skincare Essential Cosmetics Black",
     category: "메이크업",
     price: "117,950원"
   },
@@ -45,7 +45,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 6,
     brand: "-",
     name: "유시오아트 대용량 회전 보관함 화장품 향수 서랍장용 360도 디스플레이 조절 아크릴 가능한 메이크업 주얼리 스킨케어 정리함",
-    nameEn: "YushioArt Large Capacity Rotating Storage Cosmetics Perfume Drawer 360 Degree Display Adjustable Acrylic Possible Makeup Jewelry Skincare Organizer",
+    nameEn: "Ushio Art Large Capacity Rotating Storage Cosmetics Perfume Drawer 360 Degree Display Adjustable Acrylic Possible Makeup Jewelry Skincare Organizer",
     category: "스킨케어",
     price: "32,970원"
   },
@@ -61,7 +61,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 8,
     brand: "-",
     name: "아이섀도 팔레트 및 정리용 욕실용 정리함 형광펜용 분할 메이크업 춘하이 진열 7 립스틱 섹션 스킨케어 케이스 화장품 1-Pack",
-    nameEn: "Eyeshadow Palette and Organizer Bathroom Organizer Highlighter Partition Makeup Chunhai Display 7 Lipstick Section Skincare Case Cosmetics 1-Pack",
+    nameEn: "Eyeshadow Palette and Organizer Bathroom Organizer Highlighter Partition Makeup Spring Summer Display 7 Lipstick Section Skincare Case Cosmetics 1-Pack",
     category: "메이크업",
     price: "32,900원"
   },
@@ -69,7 +69,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 9,
     brand: "-",
     name: "플라이트리얼 360 회전 아크릴 라지 향수 라운드 메이크업 오거나이저 로션 레이지 스킨케어 화장품 수잔 립스틱 클리어 책상 10인치 브러시용",
-    nameEn: "Flytrial 360 Degree Rotating Acrylic Large Perfume Round Makeup Organizer Lotion Lazy Skincare Cosmetics Susan Lipstick Clear Desk 10 Inch Brush",
+    nameEn: "Flightryal 360 Degree Rotating Acrylic Large Perfume Round Makeup Organizer Lotion Lazy Skincare Cosmetics Susan Lipstick Clear Desk 10-Inch Brush",
     category: "메이크업",
     price: "51,870원"
   },
@@ -77,7 +77,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 10,
     brand: "-",
     name: "포모홈 메이크업 오거나이저 스킨케어 베니티 아치 홀더가 듀얼 서랍 아크릴 브러시 스태커블 앰버 3피스 및 있는 스토리지 코스메틱",
-    nameEn: "Pomohome Makeup Organizer Skincare Vanity Arch Holder with Dual Drawer Acrylic Brush Stackable Amber 3-Piece and Storage Cosmetic",
+    nameEn: "Pomohome Makeup Organizer Skincare Vanity Arch Holder with Dual Drawers Acrylic Brush Stackable Amber 3-Piece and Storage Cosmetic",
     category: "스킨케어",
     price: "103,810원"
   },
@@ -101,7 +101,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 13,
     brand: "-",
     name: "자동차 공간 절약을 DIY 위한 업라이트 립밤 아크릴 립스틱 디자인 조합 칫솔용 위시 (1세트) 홀더 모듈 젓가락 립글로스 Single Slot",
-    nameEn: "Car Space-Saving DIY Upright Lip Balm Acrylic Lipstick Design Combination Toothbrush Wish (1 Set) Holder Module Chopstick Lip Gloss Single Slot",
+    nameEn: "Car Space Saving DIY Upright Lip Balm Acrylic Lipstick Design Combination Toothbrush Wish (1 Set) Holder Module Chopstick Lip Gloss Single Slot",
     category: "메이크업",
     price: "28,140원"
   },
@@ -109,7 +109,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 14,
     brand: "-",
     name: "배니티용 펠린 메이크업 브러시 대나무 홀더 정리함 욕실 헤어 조리대용 1 divider",
-    nameEn: "Pellin Makeup Brush Bamboo Holder Organizer for Vanity Bathroom Hair Countertop 1 Divider",
+    nameEn: "Pellin Makeup Brush Bamboo Holder Organizer for Vanity Bathroom Hair Countertop with 1 Divider",
     category: "스킨케어",
     price: "37,590원"
   },
@@ -117,7 +117,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 15,
     brand: "-",
     name: "GBSTORE 아크릴 플라워 메이크업 12개 공간 화장품 정리함 브러시 홀더 포함",
-    nameEn: "GBSTORE Acrylic Flower Makeup 12-Space Cosmetic Organizer Brush Holder Included",
+    nameEn: "GBSTORE Acrylic Flower Makeup 12-Compartment Cosmetics Organizer Includes Brush Holder",
     category: "스킨케어",
     price: "28,140원"
   },
@@ -125,7 +125,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 16,
     brand: "-",
     name: "모바일 비전 대나무 화장품 보관함 및 서랍 케이스 방지 파손 디스플레이 메이크업 정리함",
-    nameEn: "Mobile Vision Bamboo Cosmetic Storage and Drawer Case Shatter-Proof Display Makeup Organizer",
+    nameEn: "Mobile Vision Bamboo Cosmetics Storage and Drawer Case Shatterproof Display Makeup Organizer",
     category: "스킨케어",
     price: "82,460원"
   },
@@ -133,7 +133,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 17,
     brand: "-",
     name: "히사이즈 클리어 메이크업 브러시 카운터탑용 정리함 아크릴 6슬롯 홀더 화장품 보관 베니티",
-    nameEn: "Hisize Clear Makeup Brush Countertop Organizer Acrylic 6-Slot Holder Cosmetic Storage Vanity",
+    nameEn: "Hisize Clear Makeup Brush Countertop Organizer Acrylic 6-Slot Holder Cosmetics Storage Vanity",
     category: "스킨케어",
     price: "42,420원"
   },
@@ -141,7 +141,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 18,
     brand: "-",
     name: "순청파 네일 폴리시 메이크업 화장품 정리함 보관 보관함 투명 7겹 조립하기 쉬운 7",
-    nameEn: "Sooncheongpa Nail Polish Makeup Cosmetic Organizer Storage Box Transparent 7-Layer Easy to Assemble 7",
+    nameEn: "Sunchungpa Nail Polish Makeup Cosmetics Organizer Storage Container Transparent 7-Layer Easy to Assemble 7",
     category: "메이크업",
     price: "40,040원"
   },
@@ -149,7 +149,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 19,
     brand: "-",
     name: "에센셜 오일 홀더 3단 매니큐어 선반 보관함 정리함 및 병 선반용 컴팩트 메이크업 향수",
-    nameEn: "Essential Oil Holder 3-Tier Manicure Shelf Storage Organizer and Bottle Shelf for Compact Makeup Perfume",
+    nameEn: "Essential Oil Holder 3-Tier Manicure Shelf Storage Organizer and Bottle Shelf Compact Makeup Perfume",
     category: "스킨케어",
     price: "37,590원"
   },
@@ -157,7 +157,7 @@ export const glowpickTop20: ManualCosmeticsItem[] = [
     rank: 20,
     brand: "퍼스트픽",
     name: "백탁 끈적임없는 선 썬 크림 나이아신아마이드 10프로",
-    nameEn: "Matte Non-Sticky Sunscreen Niacinamide 10%",
+    nameEn: "White Cast Non-Sticky Sun Cream Niacinamide 10%",
     category: "스킨케어",
     price: "14,400원"
   }
