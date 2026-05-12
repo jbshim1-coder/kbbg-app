@@ -1,6 +1,9 @@
 // 클리닉 텍스트 리뷰 API
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient, createServiceRoleClient } from "@/lib/supabase";
+import { verifyAdminFromRequest } from "@/lib/admin-auth";
+
+const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim();
 
 export async function GET(req: NextRequest) {
   const entityId = req.nextUrl.searchParams.get("entityId");
@@ -26,8 +29,15 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const body = await req.json();
-  const { entityId, entityName, rating, content, authorName } = body;
+  let body: Record<string, unknown>;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+  const { entityId, entityName, rating, content: rawContent, authorName: rawAuthor } = body as Record<string, string | number>;
+  const content = stripHtml(String(rawContent ?? ""));
+  const authorName = stripHtml(String(rawAuthor ?? ""));
 
   if (!entityId || !rating || !content) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -56,7 +66,6 @@ export async function POST(req: NextRequest) {
 
 // 관리자 전용: 리뷰 상태 변경 (approve / reject)
 export async function PATCH(req: NextRequest) {
-  const { verifyAdminFromRequest } = await import("@/lib/admin-auth");
   const adminEmail = await verifyAdminFromRequest();
   if (!adminEmail) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 

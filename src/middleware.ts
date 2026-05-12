@@ -3,46 +3,36 @@
 import createIntlMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 import { NextRequest, NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
 
 const intlMiddleware = createIntlMiddleware(routing);
 
-// ADMIN_EMAILS env가 없을 때 기본값
+// 서명 검증 없이 이메일을 추출할 수 없으므로 Supabase 서버 검증 사용
 const MASTER_EMAILS = new Set(
-  (process.env.ADMIN_EMAILS || 'admin@kbeautybuyersguide.com,jbshim1@gmail.com')
-    .split(',').map((e) => e.trim())
+  (process.env.ADMIN_EMAILS || '')
+    .split(',').map((e) => e.trim()).filter(Boolean)
 );
 
-// Supabase 쿠키에서 JWT payload의 email 추출 (네트워크 호출 없이 로컬 디코딩)
-function getEmailFromCookies(request: NextRequest): string | null {
+async function getVerifiedEmail(request: NextRequest): Promise<string | null> {
   try {
-    const tokenCookies = request.cookies.getAll()
-      .filter((c) => c.name.startsWith('sb-') && c.name.includes('-auth-token'))
-      .sort((a, b) => a.name.localeCompare(b.name));
-
-    for (const cookie of tokenCookies) {
-      try {
-        let value = cookie.value;
-        // @supabase/ssr가 JSON으로 감쌀 때 access_token 추출
-        try {
-          const parsed = JSON.parse(decodeURIComponent(value));
-          const at = parsed?.access_token ?? parsed?.[0]?.access_token;
-          if (at) value = at;
-        } catch { /* not JSON */ }
-
-        const parts = value.split('.');
-        if (parts.length !== 3) continue;
-        const pad = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-        const payload = JSON.parse(atob(pad));
-        if (payload?.email) return payload.email as string;
-      } catch { /* skip malformed */ }
-    }
-    return null;
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return request.cookies.getAll(); },
+          setAll() { /* middleware는 읽기 전용 */ },
+        },
+      }
+    );
+    const { data: { user } } = await supabase.auth.getUser();
+    return user?.email ?? null;
   } catch {
     return null;
   }
 }
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // /admin 직접 접근 차단 → locale 기반 관리자 페이지로 리다이렉트
@@ -59,8 +49,8 @@ export default function middleware(request: NextRequest) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = `/${locale}/admin/login`;
 
-    const email = getEmailFromCookies(request);
-    // 쿠키 없음 또는 마스터 어드민 아님 → 로그인으로
+    const email = await getVerifiedEmail(request);
+    // 토큰 검증 실패 또는 마스터 어드민 아님 → 로그인으로
     if (!email || !MASTER_EMAILS.has(email)) {
       return NextResponse.redirect(loginUrl);
     }

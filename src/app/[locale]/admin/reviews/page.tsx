@@ -31,13 +31,19 @@ export default function AdminReviewsPage() {
 
   async function updateStatus(id: string, status: "approved" | "rejected") {
     setUpdating(id);
-    await fetch("/api/reviews", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, status }),
-    });
-    setReviews((prev) => prev.filter((r) => r.id !== id));
-    setUpdating(null);
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setReviews((prev) => prev.filter((r) => r.id !== id));
+    } catch {
+      alert("상태 변경에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setUpdating(null);
+    }
   }
 
   const tabs: { key: typeof filter; label: string }[] = [
