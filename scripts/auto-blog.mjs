@@ -343,7 +343,7 @@ async function main() {
 
   // 2. 다국어 번역 (제목 + 본문, 6개 언어 병렬, 부분 실패 허용)
   console.log("2/4 다국어 번역 중...");
-  const langCodes = ["zh", "ja", "vi", "th", "ru", "mn"];
+  const langCodes = ["ko", "zh", "ja", "vi", "th", "ru", "mn"];
   const [titleSettled, contentSettled] = await Promise.all([
     Promise.allSettled(langCodes.map((l) => translateTitle(article.title_en, l))),
     Promise.allSettled(langCodes.map((l) => translateContent(article.content_en, l))),
@@ -396,6 +396,7 @@ async function main() {
     site: "kbbg",
     category: availableTopic.category,
     title_en: article.title_en,
+    title_ko: article.title_ko || "",
     ...titles,
     content_en: contentWithImages,
     // 번역 콘텐츠에도 이미지 삽입 (영어 본문과 동일한 이미지 태그를 h2 뒤에 삽입)
