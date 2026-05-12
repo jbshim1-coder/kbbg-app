@@ -125,7 +125,7 @@ async function processSite(siteId, accessToken) {
   for (const post of posts) {
     const url = await postToBlogger(accessToken, blogId, post, siteId);
     if (url) await markAsPosted(post.id, url);
-    await new Promise(r => setTimeout(r, 1000)); // API rate limit 방지
+    await new Promise(r => setTimeout(r, 5000)); // API rate limit 방지
   }
 }
 
