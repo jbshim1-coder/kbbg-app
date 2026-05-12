@@ -9,8 +9,8 @@ import { createClient } from "@supabase/supabase-js";
 // 프로덕션 도메인
 const BASE_URL = "https://kbeautybuyersguide.com";
 
-// 지원 locale 목록 (routing.ts와 동기화)
-const LOCALES = ["en", "ko", "zh", "ja", "ru", "vi", "th", "mn"] as const;
+// 사이트맵 대상 locale — ko는 noindex 설정이라 제외 (크롤 예산 낭비 방지)
+const LOCALES = ["en", "zh", "ja", "ru", "vi", "th", "mn"] as const;
 
 // locale prefix가 붙는 정적 페이지 경로
 const LOCALE_PAGES = [
