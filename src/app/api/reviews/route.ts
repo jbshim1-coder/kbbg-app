@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
-  const { entityId, entityName, rating, content: rawContent, authorName: rawAuthor } = body as Record<string, string | number>;
+  const { entityId, entityName, content: rawContent, authorName: rawAuthor } = body as Record<string, unknown>;
+  const rating = Number((body as Record<string, unknown>).rating);
   const content = stripHtml(String(rawContent ?? ""));
   const authorName = stripHtml(String(rawAuthor ?? ""));
 
