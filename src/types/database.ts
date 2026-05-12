@@ -81,6 +81,28 @@ export interface Clinic {
   review_count: number         // 누적 리뷰 수
   created_at: string
   updated_at: string
+  // HIRA 심평원 데이터 컬럼
+  ykiho: string | null
+  cl_cd: string | null
+  cl_cd_nm: string | null
+  dgsbjt_cd: string | null
+  dgsbjt_cd_nm: string | null
+  dr_tot_cnt: number
+  sdr_cnt: number | null
+  google_rating: number | null
+  google_review_count: number | null
+  synced_at: string | null
+  sido_cd: string | null
+  sido_cd_nm: string | null
+  sggu_cd_nm: string | null
+  google_place_id: string | null
+  procedure_scores: Record<string, number> | null
+  review_analyzed_at: string | null
+  naver_blog_mentions: number | null
+  naver_positive_ratio: number | null
+  naver_reputation_score: number | null
+  naver_analyzed_at: string | null
+  naver_query: string | null
 }
 
 // 의사 정보 — 병원 소속
