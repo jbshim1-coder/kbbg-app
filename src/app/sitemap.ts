@@ -3,6 +3,7 @@
 import type { MetadataRoute } from "next";
 import { procedureGuides } from "@/data/procedure-guides";
 import { seoCombinations } from "@/data/seo-combinations";
+import { getAllAreaSlugs } from "@/data/clinic-areas";
 import { createClient } from "@supabase/supabase-js";
 
 // 프로덕션 도메인
@@ -132,5 +133,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  return [...localeEntries, ...policyEntries, ...procedureEntries, ...comboEntries, ...blogEntries];
+  // 지역별 클리닉 페이지 (189개 지역 × 8개 언어 = 1,512 URL)
+  const areaEntries = LOCALES.flatMap((locale) =>
+    getAllAreaSlugs().map((slug) => ({
+      url: `${BASE_URL}/${locale}/clinics/area/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+      alternates: {
+        languages: Object.fromEntries(
+          LOCALES.map((l) => [l, `${BASE_URL}/${l}/clinics/area/${slug}`])
+        ),
+      },
+    }))
+  );
+
+  return [...localeEntries, ...policyEntries, ...procedureEntries, ...comboEntries, ...areaEntries, ...blogEntries];
 }
