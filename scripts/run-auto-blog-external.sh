@@ -5,3 +5,4 @@ set -e
 cd /home/ubuntu/kbbg-app
 set -a; source .env.local; set +a
 node scripts/auto-blog-external.mjs "$1" >> /tmp/kbbg-auto-blog-$1.log 2>&1
+node scripts/auto-blogger.mjs "$1" >> /tmp/kbbg-auto-blog-$1.log 2>&1 || true
