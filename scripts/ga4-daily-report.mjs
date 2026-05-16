@@ -10,7 +10,7 @@ import { createClient } from "@supabase/supabase-js";
 const GA4_PROPERTY_ID = process.env.GA4_PROPERTY_ID;
 const GA4_CLIENT_ID = process.env.GA4_CLIENT_ID;
 const GA4_CLIENT_SECRET = process.env.GA4_CLIENT_SECRET;
-const REPORT_EMAIL = process.env.GA4_REPORT_EMAIL || "help@2bstory.com";
+const REPORT_EMAILS = [process.env.GA4_REPORT_EMAIL || "help@2bstory.com", "katieblue@naver.com"];
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -252,7 +252,7 @@ async function main() {
 
   const { error } = await resend.emails.send({
     from: "KBBG Report <onboarding@resend.dev>",
-    to: REPORT_EMAIL,
+    to: REPORT_EMAILS,
     subject: `📊 KBBG Daily Report — ${ga4.yesterday}`,
     html,
   });
@@ -262,7 +262,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`✅ 리포트 전송 완료 → ${REPORT_EMAIL}`);
+  console.log(`✅ 리포트 전송 완료 → ${REPORT_EMAILS.join(", ")}`);
 }
 
 main().catch((err) => {

@@ -10,7 +10,7 @@ import Anthropic from "@anthropic-ai/sdk";
 const GA4_PROPERTY_ID = process.env.GA4_PROPERTY_ID;
 const GA4_CLIENT_ID = process.env.GA4_CLIENT_ID;
 const GA4_CLIENT_SECRET = process.env.GA4_CLIENT_SECRET;
-const REPORT_EMAIL = process.env.GA4_REPORT_EMAIL || "help@2bstory.com";
+const REPORT_EMAILS = [process.env.GA4_REPORT_EMAIL || "help@2bstory.com", "katieblue@naver.com"];
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -383,7 +383,7 @@ async function main() {
   console.log("📧 이메일 발송 중...");
   const { error } = await resend.emails.send({
     from: "KBBG AI Brief <onboarding@resend.dev>",
-    to: REPORT_EMAIL,
+    to: REPORT_EMAILS,
     subject: `🤖 KBBG AI 마케팅 브리핑 — ${today}`,
     html,
   });
@@ -393,7 +393,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`✅ AI 브리핑 발송 완료 → ${REPORT_EMAIL}`);
+  console.log(`✅ AI 브리핑 발송 완료 → ${REPORT_EMAILS.join(", ")}`);
 }
 
 main().catch((err) => {
