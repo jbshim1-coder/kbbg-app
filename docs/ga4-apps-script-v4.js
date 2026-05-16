@@ -38,18 +38,29 @@ function sendDailyReport() {
   MailApp.sendEmail({ to: REPORT_EMAIL, subject: '[KBBG] Daily Report - ' + yesterdayStr, htmlBody: html });
 }
 
-// ── GSC ──────────────────────────────────────────────
+// ── GSC (UrlFetchApp 방식 — Advanced Service 불필요) ──
 function getGscData(siteUrl, startDate, endDate, dimensions, limit) {
   try {
-    var request = {
+    var token = ScriptApp.getOAuthToken();
+    var encodedSite = encodeURIComponent(siteUrl);
+    var url = 'https://searchconsole.googleapis.com/webmasters/v3/sites/' + encodedSite + '/searchAnalytics/query';
+    var payload = JSON.stringify({
       startDate: startDate,
       endDate: endDate,
       dimensions: dimensions,
       rowLimit: limit || 20,
       dataState: 'final'
-    };
-    var response = SearchConsole.Searchanalytics.query(siteUrl, request);
-    return response.rows || [];
+    });
+    var response = UrlFetchApp.fetch(url, {
+      method: 'post',
+      contentType: 'application/json',
+      headers: { Authorization: 'Bearer ' + token },
+      payload: payload,
+      muteHttpExceptions: true
+    });
+    var result = JSON.parse(response.getContentText());
+    if (result.error) { Logger.log('GSC API error: ' + JSON.stringify(result.error)); return []; }
+    return result.rows || [];
   } catch (e) {
     Logger.log('GSC error: ' + e.message);
     return [];
