@@ -15,7 +15,7 @@ async function sendEmail({ to, subject, html }) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "KBBG Monitor <onboarding@resend.dev>",
+      from: "KBBG Monitor <help@2bstory.com>",
       to,
       subject,
       html,
@@ -25,7 +25,7 @@ async function sendEmail({ to, subject, html }) {
   return res.json();
 }
 
-const NOTIFY_EMAILS = ["jbshim1@gmail.com"];
+const NOTIFY_EMAILS = ["jbshim1@gmail.com", "katieblue@naver.com"];
 const KBBG_URL = "https://kbeautybuyersguide.com";
 
 // ── Reddit 검색 설정 ──────────────────────────────────────────────
