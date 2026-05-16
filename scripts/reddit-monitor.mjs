@@ -270,7 +270,7 @@ async function main() {
 
   await sendEmail({
     to: NOTIFY_EMAILS,
-    subject: `[KBBG] Reddit ${redditPosts.length}개 + Quora ${quoraPosts.length}개 발견 — ${date}`,
+    subject: `[KBBG-커뮤니티] Reddit ${redditPosts.length}개 + Quora ${quoraPosts.length}개 발견 — ${date}`,
     html,
   });
 
