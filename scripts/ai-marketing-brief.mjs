@@ -382,7 +382,7 @@ async function main() {
 
   console.log("📧 이메일 발송 중...");
   const { error } = await resend.emails.send({
-    from: "KBBG AI Brief <help@2bstory.com>",
+    from: "KBBG AI Brief <onboarding@resend.dev>",
     to: REPORT_EMAIL,
     subject: `🤖 KBBG AI 마케팅 브리핑 — ${today}`,
     html,
