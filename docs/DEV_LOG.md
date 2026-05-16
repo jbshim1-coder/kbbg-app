@@ -4,6 +4,14 @@
 
 ---
 
+### [2026-05-16 07:00] Reddit + Quora 통합 커뮤니티 모니터링
+
+Reddit 5개 제한 제거 → 전체 표시 (최대 20개 AI 초안). Quora 토픽 RSS 모니터링 추가.
+이메일 제목: "[KBBG] Reddit N개 + Quora N개 발견", Reddit/Quora 섹션 분리 표시.
+Quora RSS 응답 없는 날은 "오늘 새 질문 없음"으로 표시. [완료]
+
+---
+
 ### [2026-05-16 06:00] AI 브리핑 → 블로그 주제 자동 조정 연동
 
 AI 브리핑이 GA4 분석 후 4개 블로그(KBBG/kskindaily/dailyhallyuwave/koreatravel365)별 주제 3개씩 자동 생성.
