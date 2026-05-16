@@ -15,12 +15,14 @@
     "@types/sanitize-html": "^2.16.1",
     "docx": "^9.6.1",
     "google-auth-library": "^10.6.2",
+    "googleapis": "^171.4.0",
     "isomorphic-dompurify": "^3.10.0",
     "lucide-react": "^1.0.1",
     "next": "^16.2.4",
     "next-intl": "^4.8.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "resend": "^6.12.3",
     "sanitize-html": "^2.17.3"
   },
   "devDependencies": {
