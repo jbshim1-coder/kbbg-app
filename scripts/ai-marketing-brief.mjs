@@ -207,8 +207,54 @@ ${blogStats.recentTitles.join("\n")}
   return message.content[0].text;
 }
 
+// ── 블로그별 오늘의 AI 주제 생성 ────────────────────────────────
+async function generateTopicsForBlogs(ga4, analysis) {
+  const topPagesText = ga4.pages.slice(0, 5).map(r =>
+    `${r.dimensionValues[0].value} (방문자: ${r.metricValues[0].value})`
+  ).join("\n");
+
+  const topCountriesText = ga4.countries.slice(0, 3).map(r =>
+    `${r.dimensionValues[0].value}: ${r.metricValues[0].value}명`
+  ).join(", ");
+
+  const prompt = `당신은 K-Beauty 마케팅 전문가입니다.
+아래 GA4 데이터를 바탕으로 오늘 4개 블로그에 발행할 주제를 생성해주세요.
+
+인기 페이지: ${topPagesText}
+방문 국가: ${topCountriesText}
+마케팅 분석 요약: ${analysis.slice(0, 400)}
+
+블로그 소개:
+- kbbg: 의료관광/클리닉 가이드 (category: guide/faq/compare/ingredient/tips)
+- kskindaily: 한국 스킨케어 (category: routine/ingredient/product/compare/tips)
+- dailyhallyuwave: 한류/K-pop 뷰티 (category: celebrity/trend/culture/music/drama)
+- koreatravel365: 한국 여행/뷰티 관광 (category: itinerary/food/culture/shopping/tips)
+
+반드시 아래 JSON 형식으로만 응답 (마크다운 코드블록 없이 순수 JSON):
+{"kbbg":[{"category":"guide","keyword":"영어 키워드"},{"category":"faq","keyword":"영어 키워드"},{"category":"tips","keyword":"영어 키워드"}],"kskindaily":[{"category":"routine","keyword":"영어 키워드"},{"category":"ingredient","keyword":"영어 키워드"},{"category":"product","keyword":"영어 키워드"}],"dailyhallyuwave":[{"category":"celebrity","keyword":"영어 키워드"},{"category":"trend","keyword":"영어 키워드"},{"category":"culture","keyword":"영어 키워드"}],"koreatravel365":[{"category":"itinerary","keyword":"영어 키워드"},{"category":"food","keyword":"영어 키워드"},{"category":"tips","keyword":"영어 키워드"}]}`;
+
+  const message = await anthropic.messages.create({
+    model: "claude-sonnet-4-6",
+    max_tokens: 800,
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  const text = message.content[0].text.trim();
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error("AI 주제 JSON 파싱 실패");
+
+  const topics = JSON.parse(jsonMatch[0]);
+  topics.date = new Date().toISOString().slice(0, 10);
+
+  const outPath = new URL("./ai-brief-topics.json", import.meta.url);
+  writeFileSync(outPath.pathname, JSON.stringify(topics, null, 2));
+  console.log("✅ AI 주제 저장 완료:", outPath.pathname);
+
+  return topics;
+}
+
 // ── HTML 이메일 빌드 ─────────────────────────────────────────────
-function buildEmail(ga4, analysis, today) {
+function buildEmail(ga4, analysis, today, aiTopics) {
   const totalUsers = ga4.daily.reduce((s, r) => s + parseInt(r.metricValues[0].value || 0), 0);
   const yesterdayRow = ga4.daily[ga4.daily.length - 1];
   const yesterdayUsers = yesterdayRow ? parseInt(yesterdayRow.metricValues[0].value || 0) : 0;
@@ -289,6 +335,20 @@ function buildEmail(ga4, analysis, today) {
     </table>
   </div>
 
+  <!-- 오늘 예약된 주제 -->
+  ${aiTopics ? `
+  <div style="background:white;border-radius:16px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+    <h2 style="font-size:15px;margin:0 0 14px;color:#2d3436;">📋 오늘 예약된 블로그 주제 (AI 자동 선정)</h2>
+    ${['kbbg','kskindaily','dailyhallyuwave','koreatravel365'].map(site => {
+      const topics = aiTopics[site] || [];
+      const siteLabel = {kbbg:'KBBG 내부',kskindaily:'K Skin Daily',dailyhallyuwave:'Daily Hallyu Wave',koreatravel365:'Korea Travel 365'}[site];
+      return `<div style="margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:700;color:#667eea;margin-bottom:4px;">${siteLabel}</div>
+        ${topics.map(t => `<div style="font-size:12px;color:#2d3436;padding:3px 0 3px 10px;border-left:2px solid #e0e3ff;">[${t.category}] ${t.keyword}</div>`).join('')}
+      </div>`;
+    }).join('')}
+  </div>` : ''}
+
   <!-- 푸터 -->
   <div style="text-align:center;padding:16px;font-size:11px;color:#b2bec3;">
     🤖 Auto-generated at 5:00 AM KST by KBBG AI Marketing Advisor<br>
@@ -309,8 +369,16 @@ async function main() {
   console.log("🤖 Claude AI 분석 중...");
   const analysis = await analyzeWithClaude(ga4, blogStats);
 
+  console.log("📋 오늘의 블로그 주제 생성 중...");
+  let aiTopics = null;
+  try {
+    aiTopics = await generateTopicsForBlogs(ga4, analysis);
+  } catch (e) {
+    console.error("주제 생성 실패 (무시):", e.message);
+  }
+
   const today = new Date().toISOString().slice(0, 10);
-  const html = buildEmail(ga4, analysis, today);
+  const html = buildEmail(ga4, analysis, today, aiTopics);
 
   console.log("📧 이메일 발송 중...");
   const { error } = await resend.emails.send({

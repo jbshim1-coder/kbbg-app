@@ -4,6 +4,14 @@
 
 ---
 
+### [2026-05-16 06:00] AI 브리핑 → 블로그 주제 자동 조정 연동
+
+AI 브리핑이 GA4 분석 후 4개 블로그(KBBG/kskindaily/dailyhallyuwave/koreatravel365)별 주제 3개씩 자동 생성.
+`scripts/ai-brief-topics.json`에 날짜 포함 저장, auto-blog 스크립트가 오늘자 AI 주제를 70% 우선 선택.
+이메일에 "오늘 예약된 블로그 주제" 섹션 포함. [완료]
+
+---
+
 ### [2026-05-16 05:00] AI 마케팅 브리핑 자동화 (새벽 5시 KST)
 
 GA4 7일치 데이터를 Claude AI가 분석해 매일 새벽 5시 jbshim1@gmail.com으로 마케팅 브리핑 이메일 발송.

@@ -46,23 +46,35 @@ if (existsSync(PAA_FILE)) {
   }
 }
 
-// 주제 풀 구성: PAA가 있으면 30% 확률로 PAA 주제 선택
+// AI 브리핑이 오늘 생성한 주제 로드
+let AI_TOPICS_TODAY = [];
+const AI_BRIEF_FILE = new URL("./ai-brief-topics.json", import.meta.url).pathname;
+if (existsSync(AI_BRIEF_FILE)) {
+  try {
+    const brief = JSON.parse(readFileSync(AI_BRIEF_FILE, "utf-8"));
+    const today = new Date().toISOString().slice(0, 10);
+    if (brief.date === today && Array.isArray(brief.kbbg)) {
+      AI_TOPICS_TODAY = brief.kbbg;
+      console.log(`AI 브리핑 주제 로드: ${AI_TOPICS_TODAY.length}개`);
+    }
+  } catch {
+    // 파싱 실패 무시
+  }
+}
+
+// 주제 풀 구성: AI 주제(오늘) 70% > PAA 20% > 기본 10%
 function buildTopicPool(usedSlugs) {
-  const available = TOPICS.filter(t => {
-    const slug = t.keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
-    return !usedSlugs.has(slug);
-  });
+  const toSlug = kw => kw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
 
-  if (PAA_TOPICS.length === 0) return available;
+  const available = TOPICS.filter(t => !usedSlugs.has(toSlug(t.keyword)));
 
-  const availablePaa = PAA_TOPICS.filter(t => {
-    const slug = t.keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
-    return !usedSlugs.has(slug);
-  });
+  const availableAi = AI_TOPICS_TODAY.filter(t => !usedSlugs.has(toSlug(t.keyword)));
+  if (availableAi.length > 0 && Math.random() < 0.7) return availableAi;
 
-  // PAA 주제가 있으면 30% 확률로 PAA 풀에서 선택
-  const usePaa = availablePaa.length > 0 && Math.random() < 0.3;
-  return usePaa ? availablePaa : available;
+  const availablePaa = PAA_TOPICS.filter(t => !usedSlugs.has(toSlug(t.keyword)));
+  if (availablePaa.length > 0 && Math.random() < 0.3) return availablePaa;
+
+  return available;
 }
 
 // 환경변수

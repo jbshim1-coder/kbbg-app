@@ -5,6 +5,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
+import { existsSync, readFileSync } from "fs";
 import { pingSitemaps, notifyGoogleIndexing } from "./google-index-notify.mjs";
 import { insertInternalLinks } from "./lib/internal-links.mjs";
 
@@ -81,6 +82,22 @@ function getBrandTag(site) {
 
 // 주제 로드
 const { TOPICS } = await import(config.topicsFile);
+
+// AI 브리핑이 오늘 생성한 사이트별 주제 로드
+let AI_TOPICS_TODAY = [];
+const AI_BRIEF_FILE = new URL("./ai-brief-topics.json", import.meta.url).pathname;
+if (existsSync(AI_BRIEF_FILE)) {
+  try {
+    const brief = JSON.parse(readFileSync(AI_BRIEF_FILE, "utf-8"));
+    const today = new Date().toISOString().slice(0, 10);
+    if (brief.date === today && Array.isArray(brief[siteId])) {
+      AI_TOPICS_TODAY = brief[siteId];
+      console.log(`AI 브리핑 주제 로드 (${siteId}): ${AI_TOPICS_TODAY.length}개`);
+    }
+  } catch {
+    // 파싱 실패 무시
+  }
+}
 
 // ─── Pixabay → Supabase Storage 업로드 ──────────────────────────────
 async function fetchAndUploadImages(keyword, slug) {
@@ -288,17 +305,21 @@ async function main() {
     .eq("site", siteId);
   const usedSlugs = new Set((usedPosts || []).map((p) => p.slug));
 
-  const availableTopic = TOPICS.find((t) => {
-    const slug = `${siteId}-${t.keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "")}`;
-    return !usedSlugs.has(slug);
-  });
+  const toSlug = kw => `${siteId}-${kw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "")}`;
+
+  // AI 주제(오늘) 70% 우선, 나머지는 기존 주제 풀
+  const availableAi = AI_TOPICS_TODAY.filter(t => !usedSlugs.has(toSlug(t.keyword)));
+  const useAi = availableAi.length > 0 && Math.random() < 0.7;
+  const candidatePool = useAi ? availableAi : TOPICS;
+
+  const availableTopic = candidatePool.find((t) => !usedSlugs.has(toSlug(t.keyword)));
 
   if (!availableTopic) {
     console.log("모든 주제 소진됨");
     return;
   }
 
-  const slug = `${siteId}-${availableTopic.keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "")}`;
+  const slug = toSlug(availableTopic.keyword);
   console.log(`주제: ${availableTopic.keyword} (${slug})`);
 
   // 1. 글 생성
