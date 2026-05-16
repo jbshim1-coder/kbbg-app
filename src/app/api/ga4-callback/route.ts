@@ -14,6 +14,6 @@ export async function GET(request: NextRequest) {
       <div style="background:#f0f0f0;padding:16px;border-radius:8px;word-break:break-all;font-family:monospace;font-size:14px;margin:20px 0">${code.replace(/[<>&"']/g, (c: string) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c] || c))}</div>
       <p style="color:#666;font-size:13px">이 창을 닫아도 됩니다.</p>
     </body></html>`,
-    { headers: { "Content-Type": "text/html" } }
+    { headers: { "Content-Type": "text/html; charset=utf-8" } }
   );
 }
