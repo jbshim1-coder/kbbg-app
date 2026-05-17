@@ -312,7 +312,12 @@ async function main() {
   console.log(`Reddit ${redditPosts.length}개 + Quora ${quoraPosts.length}개 + YouTube ${youtubePosts.length}개 발견`);
   console.log("AI 초안 생성 중...");
 
-  const allPosts = [...redditPosts, ...quoraPosts, ...youtubePosts].slice(0, 25);
+  // 플랫폼별 최대치 설정 → YouTube가 Reddit 물량에 밀리지 않게
+  const allPosts = [
+    ...redditPosts.slice(0, 15),
+    ...quoraPosts.slice(0, 5),
+    ...youtubePosts.slice(0, 5),
+  ];
   const drafts = await Promise.allSettled(allPosts.map(p => generateDraft(p)));
 
   const draftMap = new Map();
