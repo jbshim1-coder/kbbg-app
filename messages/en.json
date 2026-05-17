@@ -1079,5 +1079,16 @@
     "title": "Something went wrong",
     "description": "An unexpected error occurred. Please try again.",
     "retry": "Try again"
+  },
+  "planner": {
+    "title": "3-Day Korea Medical Trip Planner",
+    "subtitle": "Get a personalized itinerary powered by AI",
+    "step1_title": "What procedures are you interested in?",
+    "step2_title": "When are you visiting & what's your budget?",
+    "generate_btn": "Generate My Itinerary",
+    "generating": "Creating your personalized itinerary...",
+    "save_share": "Save & Share",
+    "copy_link": "Copy Link",
+    "copied": "Copied!"
   }
 }

@@ -91,6 +91,7 @@ export default function Header() {
   // 메뉴 순서: 사용자 유입 + 체류시간 극대화 구조
   const NAV_LINKS = [
     { href: "/ai-search", labelKey: "nav.ai_search" },
+    { href: "/planner", labelKey: "nav.planner" },
     { href: "/#face-analysis", labelKey: "nav.ai_face" },
     { href: "/hospitals", labelKey: "nav.hospital_search" },
     { href: "/community", labelKey: "nav.community" },
