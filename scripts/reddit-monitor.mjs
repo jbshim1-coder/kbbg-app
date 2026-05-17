@@ -1,5 +1,5 @@
-// Reddit + Quora + YouTube 키워드 모니터링 → 이메일 알림
-// 매일 1회 실행: 지난 24시간~7일 내 관련 스레드/질문/댓글 감지 + AI 초안 생성
+// Reddit + YouTube 키워드 모니터링 → 이메일 알림
+// 매일 1회 실행: 지난 24시간~7일 내 관련 스레드/댓글 감지 + AI 초안 생성
 // cron: node scripts/reddit-monitor.mjs
 
 import Anthropic from "@anthropic-ai/sdk";
@@ -50,20 +50,10 @@ const YOUTUBE_KEYWORDS = [
   "double eyelid surgery korea",
 ];
 
-// 답변 가치 있는 댓글 판단 키워드
 const YOUTUBE_REPLY_TRIGGERS = [
   "recommend", "suggestion", "which clinic", "where to go", "any good",
   "how do i", "how to find", "safe to", "anyone know", "can you", "should i",
   "cost", "price", "how much", "?",
-];
-
-// ── Quora 토픽 RSS 설정 ───────────────────────────────────────────
-const QUORA_TOPICS = [
-  "Korean-Plastic-Surgery",
-  "Medical-Tourism-in-South-Korea",
-  "K-Beauty",
-  "Korean-Cosmetic-Surgery",
-  "Korea-Travel",
 ];
 
 // ── Reddit RSS 파서 ───────────────────────────────────────────────
@@ -95,33 +85,6 @@ function parseRedditRss(xml, subreddit) {
   return entries;
 }
 
-// ── Quora RSS 파서 ────────────────────────────────────────────────
-function parseQuoraRss(xml, topic) {
-  const items = [];
-  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
-  let m;
-  while ((m = itemRegex.exec(xml)) !== null) {
-    const block = m[1];
-    const title = (block.match(/<title><!\[CDATA\[([^\]]+)\]\]><\/title>/) || block.match(/<title>([^<]+)<\/title>/) || [])[1] || "";
-    const link = (block.match(/<link>([^<]+)<\/link>/) || [])[1] || "";
-    const pubDate = (block.match(/<pubDate>([^<]+)<\/pubDate>/) || [])[1] || "";
-    const desc = (block.match(/<description><!\[CDATA\[([^\]]*)\]\]><\/description>/) || block.match(/<description>([^<]*)<\/description>/) || [])[1] || "";
-    const text = desc.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 300);
-    if (!title || !link) continue;
-    const id = link.replace(/[^a-z0-9]/gi, "").slice(-20);
-    items.push({
-      source: "quora",
-      title: title.trim(),
-      url: link.trim(),
-      topic,
-      text,
-      created: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
-      id,
-    });
-  }
-  return items;
-}
-
 async function searchReddit(query, subreddit) {
   const url = `https://www.reddit.com/r/${subreddit}/search.rss?q=${encodeURIComponent(query)}&sort=new&limit=10&restrict_sr=1&t=week`;
   try {
@@ -135,7 +98,6 @@ async function searchReddit(query, subreddit) {
 async function fetchYoutubeComments(keyword) {
   if (!YOUTUBE_API_KEY) return [];
   try {
-    // 최근 7일 영상 검색 (최대 3개)
     const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
     const searchRes = await fetch(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(keyword)}&type=video&order=viewCount&publishedAfter=${since}&maxResults=3&key=${YOUTUBE_API_KEY}`
@@ -161,17 +123,15 @@ async function fetchYoutubeComments(keyword) {
         const c = item.snippet.topLevelComment.snippet;
         const text = c.textDisplay.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
         const lower = text.toLowerCase();
-        const isReplyWorthy = YOUTUBE_REPLY_TRIGGERS.some(t => lower.includes(t));
-        if (!isReplyWorthy) continue;
+        if (!YOUTUBE_REPLY_TRIGGERS.some(t => lower.includes(t))) continue;
 
         const id = item.id;
-        const commentUrl = `${videoUrl}&lc=${id}`;
         comments.push({
           source: "youtube",
           id,
           title: videoTitle,
           videoUrl,
-          commentUrl,
+          commentUrl: `${videoUrl}&lc=${id}`,
           text: text.slice(0, 400),
           author: c.authorDisplayName,
           likeCount: c.likeCount || 0,
@@ -180,41 +140,19 @@ async function fetchYoutubeComments(keyword) {
         });
       }
     }
-    // 좋아요 많은 순 정렬 후 최대 3개
     return comments.sort((a, b) => b.likeCount - a.likeCount).slice(0, 3);
-  } catch { return []; }
-}
-
-async function fetchQuoraTopic(topic) {
-  const url = `https://www.quora.com/rss/topic/${topic}`;
-  try {
-    const res = await fetch(url, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; KBBG-Monitor/1.0)",
-        "Accept": "application/rss+xml, application/xml, text/xml",
-      },
-    });
-    if (!res.ok) return [];
-    return parseQuoraRss(await res.text(), topic);
   } catch { return []; }
 }
 
 // ── AI 초안 생성 ──────────────────────────────────────────────────
 async function generateDraft(post) {
-  const isQuora = post.source === "quora";
-  const platform = isQuora ? "Quora" : "Reddit";
-  const location = isQuora ? `topic: ${post.topic}` : `r/${post.subreddit}`;
-
   const isYoutube = post.source === "youtube";
 
-  let contextBlock = "";
-  if (isYoutube) {
-    contextBlock = `Video title: "${post.title}"\nComment by ${post.author}: "${post.text}"`;
-  } else {
-    contextBlock = `${isQuora ? "Question" : "Post"} title: "${post.title}"\nContent: "${post.text}"\n${platform} ${location}`;
-  }
+  const contextBlock = isYoutube
+    ? `Video title: "${post.title}"\nComment by ${post.author}: "${post.text}"`
+    : `Post title: "${post.title}"\nContent: "${post.text}"\nr/${post.subreddit}`;
 
-  const prompt = `You are a helpful Korean medical tourism expert. Write a genuine, non-spammy ${isYoutube ? "YouTube" : platform} reply.
+  const prompt = `You are a helpful Korean medical tourism expert. Write a genuine, non-spammy ${isYoutube ? "YouTube" : "Reddit"} reply.
 
 ${contextBlock}
 
@@ -236,13 +174,10 @@ Reply only with the comment text, no intro or explanation.`;
 
 // ── 이메일 카드 HTML ─────────────────────────────────────────────
 function postCard(post, draft) {
-  const isQuora = post.source === "quora";
   const isYoutube = post.source === "youtube";
-  const accentColor = isYoutube ? "#FF0000" : isQuora ? "#b92b27" : "#ff4500";
-  const label = isYoutube
-    ? `YouTube · ${post.keyword}`
-    : isQuora ? `Quora · ${post.topic.replace(/-/g, " ")}` : `r/${post.subreddit}`;
-  const actionLabel = isYoutube ? "YouTube에서 댓글 달기 →" : isQuora ? "Quora에서 답변 달기 →" : "Reddit에서 댓글 달기 →";
+  const accentColor = isYoutube ? "#FF0000" : "#ff4500";
+  const label = isYoutube ? `YouTube · ${post.keyword}` : `r/${post.subreddit}`;
+  const actionLabel = isYoutube ? "YouTube에서 댓글 달기 →" : "Reddit에서 댓글 달기 →";
   const actionUrl = isYoutube ? post.commentUrl : post.url;
   const displayText = isYoutube ? `💬 ${post.author}: "${post.text}"` : post.text;
 
@@ -265,11 +200,10 @@ function postCard(post, draft) {
 
 // ── 메인 ─────────────────────────────────────────────────────────
 async function main() {
-  console.log("Reddit + Quora + YouTube 모니터링 시작...");
+  console.log("Reddit + YouTube 모니터링 시작...");
 
-  const [redditResults, quoraResults, youtubeResults] = await Promise.all([
+  const [redditResults, youtubeResults] = await Promise.all([
     Promise.allSettled(REDDIT_SEARCHES.map(s => searchReddit(s.q, s.sub))),
-    Promise.allSettled(QUORA_TOPICS.map(t => fetchQuoraTopic(t))),
     YOUTUBE_API_KEY
       ? Promise.allSettled(YOUTUBE_KEYWORDS.map(k => fetchYoutubeComments(k)))
       : Promise.resolve([]),
@@ -277,19 +211,12 @@ async function main() {
 
   const seen = new Set();
   const redditPosts = [];
-  const quoraPosts = [];
   const youtubePosts = [];
 
   for (const r of redditResults) {
     if (r.status !== "fulfilled") continue;
     for (const p of r.value) {
       if (!seen.has(p.id)) { seen.add(p.id); redditPosts.push(p); }
-    }
-  }
-  for (const r of quoraResults) {
-    if (r.status !== "fulfilled") continue;
-    for (const p of r.value) {
-      if (!seen.has(p.id)) { seen.add(p.id); quoraPosts.push(p); }
     }
   }
   for (const r of youtubeResults) {
@@ -300,22 +227,19 @@ async function main() {
   }
 
   redditPosts.sort((a, b) => new Date(b.created) - new Date(a.created));
-  quoraPosts.sort((a, b) => new Date(b.created) - new Date(a.created));
   youtubePosts.sort((a, b) => b.likeCount - a.likeCount);
 
-  const totalFound = redditPosts.length + quoraPosts.length + youtubePosts.length;
+  const totalFound = redditPosts.length + youtubePosts.length;
   if (totalFound === 0) {
-    console.log("새 스레드/질문/댓글 없음 — 오늘은 이메일 발송 안 함");
+    console.log("새 스레드/댓글 없음 — 오늘은 이메일 발송 안 함");
     return;
   }
 
-  console.log(`Reddit ${redditPosts.length}개 + Quora ${quoraPosts.length}개 + YouTube ${youtubePosts.length}개 발견`);
+  console.log(`Reddit ${redditPosts.length}개 + YouTube ${youtubePosts.length}개 발견`);
   console.log("AI 초안 생성 중...");
 
-  // 플랫폼별 최대치 설정 → YouTube가 Reddit 물량에 밀리지 않게
   const allPosts = [
     ...redditPosts.slice(0, 15),
-    ...quoraPosts.slice(0, 5),
     ...youtubePosts.slice(0, 5),
   ];
   const drafts = await Promise.allSettled(allPosts.map(p => generateDraft(p)));
@@ -334,37 +258,27 @@ async function main() {
        ${redditPosts.filter(p => draftMap.has(p.id)).map(p => postCard(p, draftMap.get(p.id))).join("")}`
     : `<p style="color:#999;font-size:13px">오늘 Reddit 새 스레드 없음</p>`;
 
-  const quoraSection = quoraPosts.length > 0
-    ? `<h2 style="font-size:16px;color:#b92b27;margin:28px 0 4px;border-bottom:2px solid #b92b27;padding-bottom:6px">
-        ❓ Quora — ${quoraPosts.length}개
-       </h2>
-       ${quoraPosts.filter(p => draftMap.has(p.id)).map(p => postCard(p, draftMap.get(p.id))).join("")}`
-    : `<p style="color:#999;font-size:13px">오늘 Quora 새 질문 없음</p>`;
-
   const youtubeSection = youtubePosts.length > 0
     ? `<h2 style="font-size:16px;color:#FF0000;margin:28px 0 4px;border-bottom:2px solid #FF0000;padding-bottom:6px">
         ▶️ YouTube — ${youtubePosts.length}개
        </h2>
        ${youtubePosts.filter(p => draftMap.has(p.id)).map(p => postCard(p, draftMap.get(p.id))).join("")}`
-    : !YOUTUBE_API_KEY
-      ? `<p style="color:#999;font-size:13px">YouTube API 키 미설정 (YOUTUBE_API_KEY 환경변수 필요)</p>`
-      : `<p style="color:#999;font-size:13px">오늘 YouTube 답변할 댓글 없음</p>`;
+    : `<p style="color:#999;font-size:13px">오늘 YouTube 답변할 댓글 없음</p>`;
 
   const html = `
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
 <body style="font-family:-apple-system,sans-serif;max-width:660px;margin:0 auto;padding:20px;color:#333">
-  <div style="background:linear-gradient(135deg,#ff4500,#b92b27);color:#fff;padding:18px 22px;border-radius:10px 10px 0 0">
+  <div style="background:linear-gradient(135deg,#ff4500,#CC0000);color:#fff;padding:18px 22px;border-radius:10px 10px 0 0">
     <h1 style="margin:0;font-size:20px">🔍 KBBG 커뮤니티 모니터링</h1>
-    <p style="margin:6px 0 0;font-size:13px;opacity:0.9">${date} · Reddit ${redditPosts.length}개 + Quora ${quoraPosts.length}개 + YouTube ${youtubePosts.length}개 발견</p>
+    <p style="margin:6px 0 0;font-size:13px;opacity:0.9">${date} · Reddit ${redditPosts.length}개 + YouTube ${youtubePosts.length}개 발견</p>
   </div>
   <div style="border:1px solid #e0e0e0;border-top:none;padding:20px 24px;border-radius:0 0 10px 10px">
     <p style="margin:0 0 16px;font-size:14px;color:#555">
-      아래 스레드/질문/댓글에 AI 초안을 복사해서 답변하면 KBBG로 자연스러운 유입을 만들 수 있습니다.
+      아래 스레드/댓글에 AI 초안을 복사해서 답변하면 KBBG로 자연스러운 유입을 만들 수 있습니다.
     </p>
     ${redditSection}
-    ${quoraSection}
     ${youtubeSection}
     <hr style="border:none;border-top:1px solid #eee;margin:28px 0 16px">
     <p style="font-size:11px;color:#aaa;margin:0">
@@ -376,12 +290,12 @@ async function main() {
 
   await sendEmail({
     to: NOTIFY_EMAILS,
-    subject: `[KBBG-커뮤니티] Reddit ${redditPosts.length}개 + Quora ${quoraPosts.length}개 + YouTube ${youtubePosts.length}개 — ${date}`,
+    subject: `[KBBG-커뮤니티] Reddit ${redditPosts.length}개 + YouTube ${youtubePosts.length}개 — ${date}`,
     html,
   });
 
   console.log(`✅ 이메일 발송 완료 → ${NOTIFY_EMAILS.join(", ")}`);
-  console.log(`   Reddit: ${redditPosts.length}개 / Quora: ${quoraPosts.length}개 / YouTube: ${youtubePosts.length}개`);
+  console.log(`   Reddit: ${redditPosts.length}개 / YouTube: ${youtubePosts.length}개`);
 }
 
 main().catch((e) => {
