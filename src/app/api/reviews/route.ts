@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     const supabase = createServiceRoleClient();
     const { data } = await (supabase as any)
       .from("clinic_reviews")
-      .select("id, author_name, rating, content, created_at")
+      .select("id, author_name, rating, content, photos, created_at")
       .eq("entity_id", entityId)
       .eq("status", "approved")
       .order("created_at", { ascending: false })
@@ -35,10 +35,11 @@ export async function POST(req: NextRequest) {
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
-  const { entityId, entityName, content: rawContent, authorName: rawAuthor } = body as Record<string, unknown>;
+  const { entityId, entityName, content: rawContent, authorName: rawAuthor, photos: rawPhotos } = body as Record<string, unknown>;
   const rating = Number((body as Record<string, unknown>).rating);
   const content = stripHtml(String(rawContent ?? ""));
   const authorName = stripHtml(String(rawAuthor ?? ""));
+  const photos = Array.isArray(rawPhotos) ? (rawPhotos as unknown[]).filter((u): u is string => typeof u === "string").slice(0, 3) : [];
 
   if (!entityId || !rating || !content) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -58,6 +59,7 @@ export async function POST(req: NextRequest) {
     author_name: authorName || user.email?.split("@")[0] || "Anonymous",
     rating,
     content,
+    photos,
     status: "pending",
   });
 
