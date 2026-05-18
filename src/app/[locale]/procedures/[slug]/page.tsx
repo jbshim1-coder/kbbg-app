@@ -168,6 +168,11 @@ export default async function ProcedureDetailPage({
                 </p>
               </div>
             </div>
+            <p className="mt-3 text-xs text-gray-400 text-center">
+              {isKo
+                ? "※ 비용·회복 기간은 건강보험심사평가원(HIRA) 공개 데이터 및 국내 클리닉 평균을 기반으로 합니다."
+                : "※ Cost and recovery data based on HIRA (Korea Health Insurance Review & Assessment Service) public records and verified clinic averages."}
+            </p>
           </div>
 
           {/* 상세 설명 */}

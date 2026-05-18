@@ -118,12 +118,10 @@ export async function GET(request: NextRequest) {
       blogReviewCount: blogMap.get(c.name as string) || null,
     }));
 
-    return NextResponse.json({
-      clinics,
-      totalCount,
-      pageNo: page,
-      source: usedRpc ? "rpc" : "db",
-    });
+    return NextResponse.json(
+      { clinics, totalCount, pageNo: page, source: usedRpc ? "rpc" : "db" },
+      { headers: { "Cache-Control": "public, s-maxage=120, stale-while-revalidate=60" } }
+    );
   } catch (error) {
     console.error("[clinics/search] Search failed:", error);
     return NextResponse.json({

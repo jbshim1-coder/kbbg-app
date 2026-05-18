@@ -1,7 +1,25 @@
 // 클리닉 텍스트 리뷰 API
 import { NextRequest, NextResponse } from "next/server";
+import { unstable_cache } from "next/cache";
 import { createServerSupabaseClient, createServiceRoleClient } from "@/lib/supabase";
 import { verifyAdminFromRequest } from "@/lib/admin-auth";
+
+const getCachedReviews = unstable_cache(
+  async (entityId: string) => {
+    const supabase = createServiceRoleClient();
+    const { data, error } = await (supabase as any)
+      .from("clinic_reviews")
+      .select("id, author_name, rating, content, photos, created_at")
+      .eq("entity_id", entityId)
+      .eq("status", "approved")
+      .order("created_at", { ascending: false })
+      .limit(20);
+    if (error) throw new Error(error.message);
+    return data || [];
+  },
+  ["clinic-reviews"],
+  { revalidate: 300, tags: ["reviews"] }
+);
 
 const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim();
 
@@ -10,17 +28,11 @@ export async function GET(req: NextRequest) {
   if (!entityId) return NextResponse.json({ reviews: [] });
 
   try {
-    const supabase = createServiceRoleClient();
-    const { data } = await (supabase as any)
-      .from("clinic_reviews")
-      .select("id, author_name, rating, content, photos, created_at")
-      .eq("entity_id", entityId)
-      .eq("status", "approved")
-      .order("created_at", { ascending: false })
-      .limit(20);
-    return NextResponse.json({ reviews: data || [] });
-  } catch {
-    return NextResponse.json({ reviews: [] });
+    const reviews = await getCachedReviews(entityId);
+    return NextResponse.json({ reviews });
+  } catch (err) {
+    console.error("[reviews] GET failed:", err);
+    return NextResponse.json({ reviews: [], error: "Database unavailable" }, { status: 503 });
   }
 }
 
