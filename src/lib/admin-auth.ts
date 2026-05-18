@@ -30,3 +30,25 @@ export async function verifyAdminFromRequest(): Promise<string | null> {
   if (!isMaster(data.user.email)) return null;
   return data.user.email;
 }
+
+// 서버: 관리자 액션 감사 로그 기록 (실패 무시)
+export async function logAudit(
+  adminEmail: string,
+  action: string,
+  targetType?: string,
+  targetId?: string,
+  details?: string
+): Promise<void> {
+  try {
+    const { createServiceRoleClient } = await import("@/lib/supabase");
+    const supabase = createServiceRoleClient();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase as any).from("admin_audit_log").insert({
+      admin_email: adminEmail,
+      action,
+      target_type: targetType ?? null,
+      target_id: targetId ?? null,
+      details: details ?? null,
+    });
+  } catch { /* 감사 로그 실패는 운영 중단 없이 무시 */ }
+}

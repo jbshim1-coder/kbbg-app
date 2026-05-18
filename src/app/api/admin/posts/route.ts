@@ -4,7 +4,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
-import { verifyAdminFromRequest } from "@/lib/admin-auth";
+import { verifyAdminFromRequest, logAudit } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
   const adminEmail = await verifyAdminFromRequest();
@@ -91,6 +91,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "Failed to update post" }, { status: 500 });
     }
 
+    await logAudit(adminEmail, `post_${action}`, "post", postId);
     return NextResponse.json({ success: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

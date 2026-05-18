@@ -81,12 +81,25 @@ export async function DELETE(
 
   const { id: postId } = await ctx.params;
 
+  // RPC로 원자적 취소 처리 — advisory lock으로 race condition 방지
+  const { data: rpcResult, error: rpcErr } = await supabase.rpc("cancel_post_vote" as never, {
+    p_post_id: postId,
+    p_user_id: user.id,
+  } as never) as { data: { upvotes: number; downvotes: number } | null; error: unknown };
+
+  if (!rpcErr && rpcResult) {
+    return NextResponse.json({
+      success: true,
+      data: { postId, upvotes: rpcResult.upvotes, downvotes: rpcResult.downvotes, userVote: null },
+    });
+  }
+
+  // RPC 미생성 시 폴백
   const { error: delErr } = await supabase.from("post_votes" as never).delete().eq("post_id", postId).eq("user_id", user.id);
   if (delErr) return NextResponse.json({ error: "Failed to cancel vote" }, { status: 500 });
 
   const { count: upCount } = await supabase.from("post_votes" as never).select("*", { count: "exact", head: true }).eq("post_id", postId).eq("vote_type", "up");
   const { count: downCount } = await supabase.from("post_votes" as never).select("*", { count: "exact", head: true }).eq("post_id", postId).eq("vote_type", "down");
-
   await supabase.from("posts").update({ upvotes: upCount || 0, downvotes: downCount || 0 } as never).eq("id", postId);
 
   return NextResponse.json({

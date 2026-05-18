@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { unstable_cache } from "next/cache";
 import { createServerSupabaseClient, createServiceRoleClient } from "@/lib/supabase";
-import { verifyAdminFromRequest } from "@/lib/admin-auth";
+import { verifyAdminFromRequest, logAudit } from "@/lib/admin-auth";
 
 const getCachedReviews = unstable_cache(
   async (entityId: string) => {
@@ -96,5 +96,6 @@ export async function PATCH(req: NextRequest) {
     .eq("id", id);
 
   if (error) return NextResponse.json({ error: "Failed to update" }, { status: 500 });
+  await logAudit(adminEmail, `review_${status}`, "review", id);
   return NextResponse.json({ success: true });
 }

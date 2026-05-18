@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
-import { verifyAdminFromRequest } from "@/lib/admin-auth";
+import { verifyAdminFromRequest, logAudit } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
   // 관리자 인증 체크
@@ -92,6 +92,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
     }
 
+    await logAudit(adminEmail, `user_${action}`, "user", userId);
     return NextResponse.json({ success: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
@@ -126,6 +127,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
     }
 
+    await logAudit(adminEmail, "user_delete", "user", userId);
     return NextResponse.json({ success: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

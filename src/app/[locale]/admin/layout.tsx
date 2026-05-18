@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase";
-import { isMaster } from "@/lib/level-system";
 
 // 사이드바 네비게이션 항목
 const NAV_ITEMS = [
@@ -42,16 +41,17 @@ export default function AdminLayout({
       return;
     }
 
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
-      const email = data.user?.email;
-      if (!email || !isMaster(email)) {
-        router.replace(`/${locale}/admin/login`);
-      } else {
-        setAdminEmail(email);
-        setAuthChecked(true);
-      }
-    });
+    fetch("/api/admin/me")
+      .then((r) => r.json())
+      .then(({ isAdmin, email }: { isAdmin: boolean; email: string }) => {
+        if (!isAdmin) {
+          router.replace(`/${locale}/admin/login`);
+        } else {
+          setAdminEmail(email);
+          setAuthChecked(true);
+        }
+      })
+      .catch(() => router.replace(`/${locale}/admin/login`));
   }, [pathname, locale, router]);
 
   const handleLogout = async () => {
