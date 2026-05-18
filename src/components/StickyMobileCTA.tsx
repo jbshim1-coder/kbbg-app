@@ -25,7 +25,7 @@ export default function StickyMobileCTA() {
   return (
     <div
       className="fixed bottom-0 left-0 right-0 z-40 md:hidden"
-      style={{ backgroundColor: "#1d1d1f" }}
+      style={{ backgroundColor: "#1d1d1f", paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <Link
         href={`/${locale}/ai-search`}

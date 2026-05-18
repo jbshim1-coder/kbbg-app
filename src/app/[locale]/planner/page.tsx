@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 const PROCEDURES = [
@@ -48,6 +49,7 @@ const SFT = "'SF Pro Text','SF Pro Icons','Helvetica Neue',Helvetica,Arial,sans-
 
 export default function PlannerPage() {
   const t = useTranslations("planner");
+  const { locale } = useParams<{ locale: string }>();
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedProcedures, setSelectedProcedures] = useState<string[]>([]);
@@ -120,7 +122,7 @@ export default function PlannerPage() {
 
   async function copyShareLink() {
     if (!shareToken) return;
-    const url = `${window.location.origin}/planner/${shareToken}`;
+    const url = `${window.location.origin}/${locale}/planner/${shareToken}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -493,8 +495,8 @@ export default function PlannerPage() {
                         </p>
                         <code style={{ display: "block", fontFamily: "monospace", background: "#f5f5f7", borderRadius: 8, padding: "10px 14px", fontSize: 12, color: "#1d1d1f", wordBreak: "break-all", marginBottom: 16 }}>
                           {typeof window !== "undefined"
-                            ? `${window.location.origin}/planner/${shareToken}`
-                            : `/planner/${shareToken}`}
+                            ? `${window.location.origin}/${locale}/planner/${shareToken}`
+                            : `/${locale}/planner/${shareToken}`}
                         </code>
                         <button
                           onClick={copyShareLink}

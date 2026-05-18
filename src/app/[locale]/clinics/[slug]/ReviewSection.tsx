@@ -32,7 +32,9 @@ function StarRow({ value, onChange }: { value: number; onChange?: (n: number) =>
             fontSize: 20,
             lineHeight: 1,
             color: n <= value ? "#FF9500" : "rgba(0,0,0,0.2)",
-            padding: "2px 1px",
+            padding: "12px 6px",
+            minWidth: 44,
+            minHeight: 44,
           }}
         >
           ★
@@ -65,6 +67,14 @@ export default function ReviewSection({
   const [authorName, setAuthorName] = useState("");
   const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const previewsRef = useRef<string[]>([]);
+
+  // 컴포넌트 언마운트 시 모든 blob URL 해제
+  useEffect(() => {
+    return () => { previewsRef.current.forEach((u) => URL.revokeObjectURL(u)); };
+  }, []);
+
+  useEffect(() => { previewsRef.current = photoPreviews; }, [photoPreviews]);
 
   useEffect(() => {
     fetch(`/api/reviews?entityId=${encodeURIComponent(entityId)}`)
@@ -84,15 +94,17 @@ export default function ReviewSection({
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selected = Array.from(e.target.files || []);
-    const combined = [...photoFiles, ...selected].slice(0, 3);
-    setPhotoFiles(combined);
-    setPhotoPreviews(combined.map((f) => URL.createObjectURL(f)));
+    const remaining = 3 - photoFiles.length;
+    const toAdd = selected.slice(0, remaining);
+    const newUrls = toAdd.map((f) => URL.createObjectURL(f));
+    setPhotoFiles((prev) => [...prev, ...toAdd]);
+    setPhotoPreviews((prev) => [...prev, ...newUrls]);
   }
 
   function removePhoto(idx: number) {
-    const updated = photoFiles.filter((_, i) => i !== idx);
-    setPhotoFiles(updated);
-    setPhotoPreviews(updated.map((f) => URL.createObjectURL(f)));
+    URL.revokeObjectURL(photoPreviews[idx]);
+    setPhotoFiles((prev) => prev.filter((_, i) => i !== idx));
+    setPhotoPreviews((prev) => prev.filter((_, i) => i !== idx));
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -132,6 +144,7 @@ export default function ReviewSection({
         setSubmitted(true);
         setContent("");
         setRating(0);
+        photoPreviews.forEach((u) => URL.revokeObjectURL(u));
         setPhotoFiles([]);
         setPhotoPreviews([]);
       } else {
@@ -279,13 +292,18 @@ export default function ReviewSection({
                         type="button"
                         onClick={() => removePhoto(i)}
                         style={{
-                          position: "absolute", top: 3, right: 3,
-                          background: "rgba(0,0,0,0.55)", border: "none", borderRadius: "50%",
-                          width: 18, height: 18, cursor: "pointer", color: "#fff",
-                          fontSize: 11, lineHeight: "18px", textAlign: "center", padding: 0,
+                          position: "absolute", top: 0, right: 0,
+                          background: "transparent", border: "none",
+                          width: 32, height: 32, cursor: "pointer",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          padding: 0,
                         }}
                       >
-                        ×
+                        <span style={{
+                          background: "rgba(0,0,0,0.6)", borderRadius: "50%",
+                          width: 18, height: 18, display: "flex", alignItems: "center",
+                          justifyContent: "center", color: "#fff", fontSize: 11,
+                        }}>×</span>
                       </button>
                     </div>
                   ))}

@@ -2,7 +2,7 @@
 // 테이블 미존재 등 graceful error 처리
 
 import { NextRequest, NextResponse } from "next/server";
-import { createServiceRoleClient } from "@/lib/supabase";
+import { createServerSupabaseClient, createServiceRoleClient } from "@/lib/supabase";
 
 interface SaveRequest {
   procedures: string[];
@@ -14,6 +14,12 @@ interface SaveRequest {
 
 export async function POST(req: NextRequest) {
   try {
+    const authSupabase = await createServerSupabaseClient();
+    const { data: { user } } = await authSupabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Sign in to save your trip plan", shareToken: null }, { status: 401 });
+    }
+
     const body = (await req.json()) as SaveRequest;
     const { procedures, arrivalDate, itinerary, preferences, locale } = body || ({} as SaveRequest);
 
@@ -35,6 +41,7 @@ export async function POST(req: NextRequest) {
     const { data, error } = await (supabase as any)
       .from("trip_plans")
       .insert({
+        user_id: user.id,
         procedures,
         arrival_date: arrivalDate,
         departure_date: departureDate,
