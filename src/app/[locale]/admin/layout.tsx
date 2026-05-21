@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   { path: "/admin/bug-reports", label: "기능오류 신고", icon: "🐛" },
   { path: "/admin/reviews", label: "리뷰관리", icon: "⭐" },
   { path: "/admin/audit", label: "감사 로그", icon: "📋" },
+  { path: "/admin/influencers", label: "인플루언서 제휴", icon: "🤝" },
 ];
 
 export default function AdminLayout({

@@ -31,21 +31,12 @@ export default function InfluencerPage() {
     setError("");
 
     try {
-      const { createClient } = await import("@/lib/supabase");
-      const supabase = createClient();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { error: dbError } = await (supabase as any)
-        .from("influencer_applications")
-        .insert({
-          name,
-          email,
-          sns_url: sns,
-          followers,
-          message,
-          status: "pending",
-        });
-
-      if (dbError) throw dbError;
+      const res = await fetch("/api/influencer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, sns_url: sns, followers, message }),
+      });
+      if (!res.ok) throw new Error("Failed");
       setSubmitted(true);
     } catch {
       setError(t("influencer.error_msg"));
