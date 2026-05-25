@@ -1,7 +1,7 @@
 // 댓글 관리 API — GET: 전체 댓글 목록 (최신순, 페이지네이션), DELETE: 댓글 삭제
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
-import { verifyAdminFromRequest } from "@/lib/admin-auth";
+import { verifyAdminFromRequest, logAudit } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
   const adminEmail = await verifyAdminFromRequest();
@@ -60,6 +60,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    await logAudit(adminEmail, "comment_delete", "comment", commentId);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Failed to delete comment" }, { status: 500 });

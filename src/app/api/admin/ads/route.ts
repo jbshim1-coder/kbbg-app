@@ -4,7 +4,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
-import { verifyAdminFromRequest } from "@/lib/admin-auth";
+import { verifyAdminFromRequest, logAudit } from "@/lib/admin-auth";
 
 // 광고 데이터 구조 (Supabase 컬럼명: snake_case)
 export interface Ad {
@@ -81,6 +81,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    await logAudit(adminEmail, "ad_create", "ad", data.id);
     return NextResponse.json({ ad: data }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
@@ -130,6 +131,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Ad not found" }, { status: 404 });
     }
 
+    await logAudit(adminEmail, "ad_update", "ad", body.id);
     return NextResponse.json({ ad: data });
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
@@ -157,5 +159,6 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  await logAudit(adminEmail, "ad_delete", "ad", id);
   return NextResponse.json({ success: true });
 }

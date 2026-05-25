@@ -4,6 +4,15 @@
 
 ---
 
+### [2026-05-25 21:30] 감사 로그 + Race Condition RPC + 서버사이드 인증 보안 강화
+
+3개 AI(Claude+Codex+Gemini) 병렬 분석 후 admin API 3가지 보안 작업 완료.
+① 감사 로그(logAudit) 누락된 3곳(clinics PATCH, comments DELETE, ads POST/PUT/DELETE) 모두 추가.
+② 병원 상태 변경 시 동시 요청 충돌 방지 — Supabase RPC(admin_set_clinic_status, advisory lock) 적용. ③ 서버사이드 관리자 인증은 이미 verifyAdminFromRequest()로 구현됨을 확인(추가 작업 불필요). [완료]
+⚠️ Supabase Dashboard > SQL Editor에서 supabase/migrations/20260525_clinic_status_rpc.sql 실행 필요.
+
+---
+
 ### [2026-05-18 00:00] CCG 전수 점검 + 전체 수정, 리뷰 시스템, 플래너 재작성
 
 3개 AI(Claude+Codex+Gemini) 병렬 점검으로 프론트/디자인/보안/백엔드/모바일/PC/마케팅/블로그 전 영역 검사.

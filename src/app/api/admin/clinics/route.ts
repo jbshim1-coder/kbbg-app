@@ -4,7 +4,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase";
-import { verifyAdminFromRequest } from "@/lib/admin-auth";
+import { verifyAdminFromRequest, logAudit } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
   const adminEmail = await verifyAdminFromRequest();
@@ -63,28 +63,23 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
 
-    const supabase = createServiceRoleClient();
-    let update: Record<string, boolean> = {};
-
-    if (action === "activate") update = { is_active: true };
-    else if (action === "deactivate") update = { is_active: false };
-    else if (action === "verify") update = { is_verified: true };
-    else if (action === "unverify") update = { is_verified: false };
-    else {
+    if (!["activate", "deactivate", "verify", "unverify"].includes(action)) {
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
     }
 
+    const supabase = createServiceRoleClient();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase as any)
-      .from("clinics")
-      .update(update)
-      .eq("id", clinicId);
+    const { error } = await (supabase as any).rpc("admin_set_clinic_status", {
+      p_clinic_id: clinicId,
+      p_action: action,
+    });
 
     if (error) {
       console.error("[admin/clinics PATCH]", error.message);
       return NextResponse.json({ error: "Failed to update clinic" }, { status: 500 });
     }
 
+    await logAudit(adminEmail, `clinic_${action}`, "clinic", clinicId);
     return NextResponse.json({ success: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
