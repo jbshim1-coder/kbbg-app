@@ -33,7 +33,7 @@ if (!YOUTUBE_KEY) {
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // 최소 구독자 수 기준
-const MIN_SUBSCRIBERS = 10000;
+const MIN_SUBSCRIBERS = 1000;
 
 // 국가별 검색 설정
 const TARGETS = [

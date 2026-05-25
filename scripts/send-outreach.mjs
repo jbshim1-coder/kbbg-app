@@ -126,6 +126,7 @@ async function main() {
       const { data, error: sendErr } = await resend.emails.send({
         from: FROM_EMAIL,
         to: p.email,
+        reply_to: 'jbshim1@gmail.com',
         subject,
         html: buildHtml(body),
       });
