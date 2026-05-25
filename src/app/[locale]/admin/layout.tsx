@@ -20,6 +20,7 @@ const NAV_ITEMS = [
   { path: "/admin/reviews", label: "리뷰관리", icon: "⭐" },
   { path: "/admin/audit", label: "감사 로그", icon: "📋" },
   { path: "/admin/influencers", label: "인플루언서 제휴", icon: "🤝" },
+  { path: "/admin/outreach", label: "아웃리치 발송", icon: "📨" },
 ];
 
 export default function AdminLayout({

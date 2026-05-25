@@ -4,6 +4,14 @@
 
 ---
 
+### [2026-05-25 22:00] 인플루언서 아웃리치 자동화 시스템 구축
+
+구글 검색으로 전 세계 뷰티 인플루언서 공개 이메일 수집 → Claude가 각 국가 언어로 무료시술 협업 제안 이메일 생성 → Resend로 자동 발송 → 오픈/클릭 추적. [완료]
+scripts/find-influencers.mjs (16개국 검색), scripts/send-outreach.mjs (Claude+Resend), /admin/outreach 관리 페이지.
+⚠️ 실행 전 .env.local에 GOOGLE_SEARCH_API_KEY + GOOGLE_SEARCH_CX 추가, Supabase에서 20260525_influencer_outreach_v2.sql 실행 필요.
+
+---
+
 ### [2026-05-25 21:30] 감사 로그 + Race Condition RPC + 서버사이드 인증 보안 강화
 
 3개 AI(Claude+Codex+Gemini) 병렬 분석 후 admin API 3가지 보안 작업 완료.
