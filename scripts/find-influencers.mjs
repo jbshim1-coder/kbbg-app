@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// 구글 Custom Search로 뷰티 인플루언서 공개 이메일 수집
+// YouTube Data API로 뷰티 인플루언서 수집 (구독자 수 검증)
+// 기준: 구독자 10,000명 이상 + 채널 설명에 공개 이메일
 // 사용: node scripts/find-influencers.mjs [국가코드 예: JP]
 
 import { createClient } from '@supabase/supabase-js';
@@ -20,86 +21,100 @@ function loadEnv() {
 }
 loadEnv();
 
+const YOUTUBE_KEY = process.env.YOUTUBE_API_KEY;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const GOOGLE_KEY = process.env.GOOGLE_SEARCH_API_KEY;
-const GOOGLE_CX = process.env.GOOGLE_SEARCH_CX;
 
-if (!GOOGLE_KEY || !GOOGLE_CX) {
-  console.error('❌ GOOGLE_SEARCH_API_KEY 또는 GOOGLE_SEARCH_CX 환경변수 없음');
-  console.error('   .env.local에 추가 후 다시 실행하세요');
+if (!YOUTUBE_KEY) {
+  console.error('❌ YOUTUBE_API_KEY 환경변수 없음');
   process.exit(1);
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// 국가별 검색 대상
+// 최소 구독자 수 기준
+const MIN_SUBSCRIBERS = 10000;
+
+// 국가별 검색 설정
 const TARGETS = [
-  { country: 'JP', language: 'ja', query: 'k-beauty blogger japan contact email' },
-  { country: 'TH', language: 'th', query: 'k-beauty blogger thailand contact email' },
-  { country: 'VN', language: 'vi', query: '"korean beauty" blogger vietnam contact email' },
-  { country: 'CN', language: 'zh', query: 'k-beauty blogger china contact email' },
-  { country: 'US', language: 'en', query: 'k-beauty influencer usa contact email' },
-  { country: 'GB', language: 'en', query: 'k-beauty blogger uk contact email' },
-  { country: 'AU', language: 'en', query: 'k-beauty blogger australia contact email' },
-  { country: 'PH', language: 'en', query: '"korean beauty" blogger philippines contact email' },
-  { country: 'ID', language: 'id', query: '"korean beauty" blogger indonesia contact email' },
-  { country: 'MY', language: 'ms', query: 'k-beauty blogger malaysia contact email' },
-  { country: 'SG', language: 'en', query: 'k-beauty blogger singapore contact email' },
-  { country: 'FR', language: 'fr', query: 'k-beauty blogger france contact email' },
-  { country: 'DE', language: 'de', query: 'k-beauty blogger germany contact email' },
-  { country: 'BR', language: 'pt', query: '"korean beauty" blogger brasil contato email' },
-  { country: 'MX', language: 'es', query: 'k-beauty blogger mexico contacto email' },
-  { country: 'RU', language: 'ru', query: 'k-beauty blogger russia contact email' },
+  { country: 'JP', language: 'ja', queries: ['k-beauty Japan', 'korean skincare Japan', 'k뷰티 일본'] },
+  { country: 'TH', language: 'th', queries: ['k-beauty Thailand', 'korean skincare Thailand', 'เคบิวตี้'] },
+  { country: 'VN', language: 'vi', queries: ['k-beauty Vietnam', 'korean skincare Vietnam', 'làm đẹp Hàn Quốc'] },
+  { country: 'US', language: 'en', queries: ['k-beauty USA', 'korean skincare routine', 'korean beauty review'] },
+  { country: 'GB', language: 'en', queries: ['k-beauty UK', 'korean skincare UK', 'korean beauty blogger UK'] },
+  { country: 'ID', language: 'id', queries: ['k-beauty Indonesia', 'skincare korea Indonesia', 'kecantikan korea'] },
+  { country: 'MY', language: 'ms', queries: ['k-beauty Malaysia', 'skincare korea Malaysia', 'kecantikan Korea'] },
+  { country: 'PH', language: 'en', queries: ['k-beauty Philippines', 'korean skincare Philippines'] },
+  { country: 'AU', language: 'en', queries: ['k-beauty Australia', 'korean skincare Australia'] },
+  { country: 'FR', language: 'fr', queries: ['k-beauty France', 'soin coréen', 'beauté coréenne'] },
+  { country: 'DE', language: 'de', queries: ['k-beauty Deutschland', 'koreanische Hautpflege'] },
+  { country: 'BR', language: 'pt', queries: ['k-beauty Brasil', 'skincare coreano', 'beleza coreana'] },
 ];
 
 const EMAIL_RE = /\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b/g;
-const SKIP_DOMAINS = new Set(['example.com','test.com','domain.com','sentry.io','github.com','cloudflare.com','w3schools.com','schema.org']);
-const SKIP_PREFIXES = new Set(['noreply','no-reply','donotreply','unsubscribe','bounce','postmaster','abuse','webmaster','mailer-daemon']);
+const SKIP_DOMAINS = new Set(['example.com','gmail.com','youtube.com','google.com','noreply.com']);
+const SKIP_PREFIXES = new Set(['noreply','no-reply','donotreply','support','info','hello','contact','team']);
 
-function isValidEmail(email) {
-  const at = email.lastIndexOf('@');
-  const domain = email.slice(at + 1).toLowerCase();
-  const prefix = email.slice(0, at).toLowerCase();
-  if (SKIP_DOMAINS.has(domain)) return false;
-  if (SKIP_PREFIXES.has(prefix)) return false;
-  if (!domain.includes('.')) return false;
-  return true;
+function extractEmails(text) {
+  if (!text) return [];
+  return [...new Set(
+    [...text.matchAll(EMAIL_RE)]
+      .map(m => m[0].toLowerCase())
+      .filter(email => {
+        const [prefix, domain] = email.split('@');
+        // 개인 연락처 이메일만 (info@, support@ 등도 허용 - 협업 문의는 이런 주소로)
+        if (SKIP_DOMAINS.has(domain)) return false;
+        if (['noreply','no-reply','donotreply','postmaster','abuse','mailer'].includes(prefix)) return false;
+        return true;
+      })
+  )];
 }
 
-async function googleSearch(query) {
-  const url = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(query)}&num=10`;
+function formatSubscribers(count) {
+  if (count >= 1000000) return `${(count/1000000).toFixed(1)}M`;
+  if (count >= 1000) return `${(count/1000).toFixed(0)}K`;
+  return String(count);
+}
+
+// YouTube 채널 검색
+async function searchChannels(query, maxResults = 20) {
+  const url = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_KEY}&q=${encodeURIComponent(query)}&type=channel&part=snippet&maxResults=${maxResults}&relevanceLanguage=en`;
   const res = await fetch(url);
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.error?.message || `HTTP ${res.status}`);
   }
   const json = await res.json();
+  return (json.items || []).map(item => item.snippet.channelId).filter(Boolean);
+}
+
+// 채널 상세 정보 (구독자 수 + 설명 포함)
+async function getChannelDetails(channelIds) {
+  if (!channelIds.length) return [];
+  const ids = channelIds.slice(0, 50).join(',');
+  const url = `https://www.googleapis.com/youtube/v3/channels?key=${YOUTUBE_KEY}&id=${ids}&part=snippet,statistics,brandingSettings&maxResults=50`;
+  const res = await fetch(url);
+  if (!res.ok) return [];
+  const json = await res.json();
   return json.items || [];
 }
 
-async function fetchPage(url) {
-  try {
-    const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 8000);
-    const res = await fetch(url, {
-      signal: ctrl.signal,
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; KBBGBot/1.0; +https://kbeautybuyersguide.com)' },
-    });
-    clearTimeout(t);
-    if (!res.ok) return '';
-    const text = await res.text();
-    return text.slice(0, 80000);
-  } catch {
-    return '';
-  }
-}
-
-async function saveProspect({ name, email, platform, channelUrl, countryCode, language, sourceUrl }) {
+async function saveProspect({ name, email, channelUrl, countryCode, language, subscribers, channelId }) {
   const { error } = await supabase
     .from('influencer_outreach')
     .upsert(
-      { name: name || email.split('@')[0], email, platform: platform || 'blog', channel_url: channelUrl || sourceUrl, country_code: countryCode, language, source_url: sourceUrl, status: 'found' },
+      {
+        name,
+        email,
+        platform: 'youtube',
+        channel_url: channelUrl,
+        subscribers: subscribers,
+        country_code: countryCode,
+        language,
+        source_url: channelUrl,
+        niche: 'k-beauty',
+        status: 'found',
+      },
       { onConflict: 'email', ignoreDuplicates: true }
     );
   if (error && !error.message?.includes('duplicate') && !error.message?.includes('unique')) {
@@ -109,57 +124,68 @@ async function saveProspect({ name, email, platform, channelUrl, countryCode, la
   return true;
 }
 
-async function sleep(ms) {
-  return new Promise(r => setTimeout(r, ms));
-}
-
 async function processTarget(target) {
-  console.log(`\n🔍 [${target.country}] ${target.query}`);
+  console.log(`\n🔍 [${target.country}] YouTube 인플루언서 검색`);
 
-  let items;
-  try {
-    items = await googleSearch(target.query);
-  } catch (err) {
-    console.error(`  검색 실패: ${err.message}`);
-    return 0;
+  const allChannelIds = new Set();
+
+  for (const query of target.queries) {
+    try {
+      const ids = await searchChannels(query);
+      ids.forEach(id => allChannelIds.add(id));
+      await new Promise(r => setTimeout(r, 3000)); // 분당 할당량 방지
+    } catch (err) {
+      console.warn(`  검색 실패 (${query}): ${err.message}`);
+    }
   }
-  console.log(`  ${items.length}개 페이지 발견`);
 
+  console.log(`  채널 ${allChannelIds.size}개 발견, 상세 조회 중...`);
+
+  const channels = await getChannelDetails([...allChannelIds]);
   let saved = 0;
-  for (const item of items) {
-    await sleep(2500);
-    console.log(`  📄 ${item.link.slice(0, 70)}`);
 
-    const html = await fetchPage(item.link);
-    if (!html) continue;
+  for (const ch of channels) {
+    const subscriberCount = parseInt(ch.statistics?.subscriberCount || '0');
+    const isHidden = ch.statistics?.hiddenSubscriberCount;
 
-    const emails = [...new Set(
-      [...html.matchAll(EMAIL_RE)]
-        .map(m => m[0].toLowerCase())
-        .filter(isValidEmail)
-    )];
+    // 구독자 수 기준 미달 스킵
+    if (!isHidden && subscriberCount < MIN_SUBSCRIBERS) continue;
+
+    const name = ch.snippet?.title || '';
+    const description = ch.snippet?.description || '';
+    const channelUrl = `https://www.youtube.com/channel/${ch.id}`;
+    const subLabel = isHidden ? '비공개' : formatSubscribers(subscriberCount);
+
+    // 채널 설명에서 이메일 추출
+    const emails = extractEmails(description);
+
+    if (!emails.length) continue;
+
+    console.log(`  ✓ ${name} (구독자 ${subLabel})`);
 
     for (const email of emails) {
       const ok = await saveProspect({
-        name: (item.title || '').split(/[-|·]/)[0].trim().slice(0, 80),
+        name,
         email,
-        platform: 'blog',
-        channelUrl: item.link,
+        channelUrl,
         countryCode: target.country,
         language: target.language,
-        sourceUrl: item.link,
+        subscribers: subLabel,
+        channelId: ch.id,
       });
       if (ok) {
         saved++;
-        console.log(`  ✅ ${email}`);
+        console.log(`    📧 ${email}`);
       }
     }
   }
+
   return saved;
 }
 
 async function main() {
-  console.log('🌏 인플루언서 이메일 수집 시작\n');
+  console.log(`🎥 YouTube 인플루언서 이메일 수집 시작 (구독자 ${formatSubscribers(MIN_SUBSCRIBERS)} 이상)\n`);
+
   const countryArg = process.argv[2]?.toUpperCase();
   const targets = countryArg ? TARGETS.filter(t => t.country === countryArg) : TARGETS;
 
@@ -171,9 +197,10 @@ async function main() {
   let total = 0;
   for (const target of targets) {
     total += await processTarget(target);
-    await sleep(3000);
+    await new Promise(r => setTimeout(r, 1000));
   }
-  console.log(`\n🎉 완료: 총 ${total}개 저장`);
+
+  console.log(`\n🎉 완료: 총 ${total}개 저장 (구독자 ${formatSubscribers(MIN_SUBSCRIBERS)} 이상 + 이메일 공개)`);
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
