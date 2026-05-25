@@ -12,7 +12,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 1,
     brand: "-",
     name: "연어크림 앰플 PDRN 리페어 재생 크림 올리브영 베스트 판매 상품",
-    nameEn: "Salmon Cream Ampoule PDRN Repair Regeneration Cream Olive Young Best Seller",
+    nameEn: "Salmon Cream Ampoule PDRN Repair Regeneration Cream Olive Young Best Selling Product",
     category: "스킨케어",
     price: "19,900원"
   },
@@ -20,7 +20,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 2,
     brand: "-",
     name: "눈밑 꺼짐·주름 집중 케어 수분 아이크림 올리브영 베스트 3개",
-    nameEn: "Under Eye Darkness & Wrinkle Intensive Care Hydrating Eye Cream Olive Young Best 3",
+    nameEn: "Under Eye Concave·Wrinkle Intensive Care Moisture Eye Cream Olive Young Best 3",
     category: "메이크업",
     price: "34,900원"
   },
@@ -28,7 +28,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 3,
     brand: "라에스테",
     name: "베스트 광채 미스트) 셀워터샷 샤인미스트 온천수 물광 광채 수분 올리브영 승무원 휴대용 라에스테  2개  100ml",
-    nameEn: "Best Radiance Mist) Cell Water Shot Shine Mist Spa Water Dewy Radiance Hydration Olive Young Flight Attendant Portable Laesthe 2 pcs 100ml",
+    nameEn: "Best Radiance Mist) Cell Water Shot Shine Mist Spa Water Moist Glowing Moisture Olive Young Crew Portable Laesthet 2 pcs 100ml",
     category: "클렌징",
     price: "117,500원"
   },
@@ -36,7 +36,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 4,
     brand: "3CE",
     name: "올리브영 3CE 미스티 립 베어 4.6g 튤립 퍼즈(쿨 베스트)+미스티 틴트 링",
-    nameEn: "Olive Young 3CE Misty Lip Bear 4.6g Tulip Puffs (Cool Best) + Misty Tint Ring",
+    nameEn: "Olive Young 3CE Misty Lip Bear 4.6g Tulip Fuzz (Cool Best)+Misty Tint Ring",
     category: "메이크업",
     price: "21,000원"
   },
@@ -44,7 +44,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 5,
     brand: "르브와",
     name: "[르브와 베스트셀러]르브와 7609D 컨실러 브러쉬",
-    nameEn: "[Levoie Best Seller] Levoie 7609D Concealer Brush",
+    nameEn: "[Levois Best Seller] Levois 7609D Concealer Brush",
     category: "스킨케어",
     price: "5,000원"
   },
@@ -60,7 +60,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 7,
     brand: "화홍엠",
     name: "[화홍엠 베스트셀러/베이스착붙템] 화홍엠 163 파운데이션 브러쉬",
-    nameEn: "[Hwahae Best Seller/Base Stick Item] Hwahae 163 Foundation Brush",
+    nameEn: "[Hwahaeng M Best Seller/Base Adhesive Item] Hwahaeng M 163 Foundation Brush",
     category: "메이크업",
     price: "22,000원"
   }
