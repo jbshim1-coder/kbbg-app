@@ -21,15 +21,15 @@ export const hwahaeTop20: ManualCosmeticsItem[] = [
     rank: 3,
     brand: "이엔코스",
     name: "이엔코스 알부틴 B3 시카 토너 120ml, 1개",
-    nameEn: "E&Co's Arbutin B3 Cica Toner 120ml, 1 piece",
+    nameEn: "ENCOURSE Arbutin B3 Cica Toner 120ml, 1 piece",
     category: "스킨케어",
-    price: "30,530원"
+    price: "31,200원"
   },
   {
     rank: 4,
     brand: "-",
     name: "epicuren DISCOVERY 스킨 컨디셔너 엔자임 토너 60ml 2팩",
-    nameEn: "Epicuren DISCOVERY Skin Conditioner Enzyme Toner 60ml 2 packs",
+    nameEn: "epicuren DISCOVERY Skin Conditioner Enzyme Toner 60ml 2 pack",
     category: "스킨케어",
     price: "164,800원"
   },
@@ -43,14 +43,6 @@ export const hwahaeTop20: ManualCosmeticsItem[] = [
   },
   {
     rank: 6,
-    brand: "-",
-    name: "[성분에디터] 그린토마토 NMN 포어 하이드로 수딩 토너 350ml",
-    nameEn: "[Ingredient Editor] Green Tomato NMN Pore Hydro Soothing Toner 350ml",
-    category: "스킨케어",
-    price: "16,900원"
-  },
-  {
-    rank: 7,
     brand: "랑끄",
     name: "[화해 파운데이션부분 카테코리별 랭킹 1위] 워터팡 누드스킨 프라이머 크림 UV 50g (투명한 버전)",
     nameEn: "[Hwahae Foundation Category Ranking No. 1] Waterpang Nude Skin Primer Cream UV 50g (Transparent Version)",
@@ -58,42 +50,50 @@ export const hwahaeTop20: ManualCosmeticsItem[] = [
     price: "30,000원"
   },
   {
-    rank: 8,
-    brand: "뉴베리프",
-    name: "[화해 어워드 피부과 재생선크림] 뉴베리프 백합 리커버리 선크림 SPF 50+ 75ml, 1개",
-    nameEn: "[Hwahae Award Dermatology Recovery Sunscreen] Newberif Lily Recovery Sunscreen SPF 50+ 75ml, 1 piece",
-    category: "선케어",
-    price: "34,900원"
-  },
-  {
-    rank: 9,
+    rank: 7,
     brand: "땡큐파머",
     name: "[화해1위] 땡큐파머 선프로젝트 스킨 릴리프 논코메도제닉 선크림 50ml",
     nameEn: "[Hwahae No. 1] Thank You Farmer Sun Project Skin Relief Non-Comedogenic Sunscreen 50ml",
     category: "선케어",
-    price: "14,820원"
+    price: "15,600원"
   },
   {
-    rank: 10,
+    rank: 8,
     brand: "뉴베리프",
     name: "뉴베리프 백합 리커버리 선크림 75ml SPF 50+/PA++++ 화해 어워드 피부과 재생선크림",
-    nameEn: "Newberif Lily Recovery Sunscreen 75ml SPF 50+/PA++++ Hwahae Award Dermatology Recovery Sunscreen",
+    nameEn: "Newberief Lily Recovery Sunscreen 75ml SPF 50+/PA++++ Hwahae Award Dermatological Regenerative Sunscreen",
     category: "선케어",
     price: "22,540원"
   },
   {
-    rank: 11,
+    rank: 9,
     brand: "싸이닉",
     name: "scinic 싸이닉 엔조이 슈퍼 액티브 에어리 썬스틱 15g 3개 SPF50 PA 화해 어",
-    nameEn: "Scinic Enjoy Super Active Airy Sunstick 15g 3 pieces SPF50 PA Hwahae",
+    nameEn: "scinic Enjoy Super Active Airy Sun Stick 15g 3 pieces SPF50 PA Hwahae Oh",
     category: "선케어",
-    price: "33,000원"
+    price: "35,100원"
+  },
+  {
+    rank: 10,
+    brand: "아이레놀",
+    name: "화해 1위 아이레놀 쌩얼 톤업 선크림  1개  쌩얼크림 3.0 (24호 이상)",
+    nameEn: "Hwahae No. 1 Irenol Bare Face Tone-Up Sunscreen 1 piece Bare Face Cream 3.0 (24 Shade or More)",
+    category: "선케어",
+    price: "21,000원"
+  },
+  {
+    rank: 11,
+    brand: "뉴베리프",
+    name: "[화해 어워드 피부과 재생선크림] 뉴베리프 백합 리커버리 선크림 SPF 50+ 75ml, 1개",
+    nameEn: "[Hwahae Award Dermatological Regenerative Sunscreen] Newberief Lily Recovery Sunscreen SPF 50+ 75ml, 1 piece",
+    category: "선케어",
+    price: "31,900원"
   },
   {
     rank: 12,
     brand: "-",
     name: "[화해 어워드] 어바웃미 비 클린 릴리프 비건 유기자차 선 에센스 EX 50ml",
-    nameEn: "[Hwahae Award] About Me Be Clean Relief Vegan Organic Sun Essence EX 50ml",
+    nameEn: "[Hwahae Award] About Me Be Clean Relief Vegan Organic Sunscreen Essence EX 50ml",
     category: "스킨케어",
     price: "19,500원"
   }
