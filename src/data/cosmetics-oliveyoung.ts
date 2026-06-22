@@ -20,7 +20,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 2,
     brand: "-",
     name: "눈밑 꺼짐·주름 집중 케어 수분 아이크림 올리브영 베스트 3개",
-    nameEn: "Eye Area Puffiness & Wrinkle Intensive Care Moisturizing Eye Cream Olive Young Best 3",
+    nameEn: "Under-eye Dark Circle and Wrinkle Concentrated Care Hydrating Eye Cream Olive Young Best 3",
     category: "메이크업",
     price: "34,900원"
   },
@@ -36,24 +36,24 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 4,
     brand: "르브와",
     name: "[르브와 베스트셀러]르브와 7609D 컨실러 브러쉬",
-    nameEn: "[LeBouwa Bestseller] LeBouwa 7609D Concealer Brush",
+    nameEn: "[Le Brow Bestsellers] Le Brow 7609D Concealer Brush",
     category: "스킨케어",
     price: "4,800원"
   },
   {
     rank: 5,
-    brand: "화홍엠",
-    name: "[화홍엠 베스트셀러/베이스착붙템] 화홍엠 163 파운데이션 브러쉬",
-    nameEn: "[Hwahongm Bestseller/Base Essential Item] Hwahongm 163 Foundation Brush",
-    category: "메이크업",
-    price: "19,800원"
-  },
-  {
-    rank: 6,
     brand: "더툴랩",
     name: "[하이라이터 베스트]더툴랩 160 블러셔 팬 하이라이터 파우더 치크 브러쉬",
     nameEn: "[Highlighter Best] The Tool Lab 160 Blusher Fan Highlighter Powder Cheek Brush",
     category: "메이크업",
     price: "25,200원"
+  },
+  {
+    rank: 6,
+    brand: "화홍엠",
+    name: "[화홍엠 베스트셀러/베이스착붙템] 화홍엠 163 파운데이션 브러쉬",
+    nameEn: "[Hwa Hong M Bestsellers/Base Adhesive Item] Hwa Hong M 163 Foundation Brush",
+    category: "메이크업",
+    price: "19,800원"
   }
 ];
