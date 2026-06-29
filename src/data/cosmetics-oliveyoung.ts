@@ -20,7 +20,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 2,
     brand: "-",
     name: "눈밑 꺼짐·주름 집중 케어 수분 아이크림 올리브영 베스트 3개",
-    nameEn: "Under-eye Dark Circle and Wrinkle Concentrated Care Hydrating Eye Cream Olive Young Best 3",
+    nameEn: "Eye Cream for Dark Circles and Wrinkles Concentrated Hydration - Olive Young Best 3",
     category: "메이크업",
     price: "34,900원"
   },
@@ -36,7 +36,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 4,
     brand: "르브와",
     name: "[르브와 베스트셀러]르브와 7609D 컨실러 브러쉬",
-    nameEn: "[Le Brow Bestsellers] Le Brow 7609D Concealer Brush",
+    nameEn: "[Leubois Bestseller] Leubois 7609D Concealer Brush",
     category: "스킨케어",
     price: "4,800원"
   },
@@ -52,7 +52,7 @@ export const oliveyoungTop20: ManualCosmeticsItem[] = [
     rank: 6,
     brand: "화홍엠",
     name: "[화홍엠 베스트셀러/베이스착붙템] 화홍엠 163 파운데이션 브러쉬",
-    nameEn: "[Hwa Hong M Bestsellers/Base Adhesive Item] Hwa Hong M 163 Foundation Brush",
+    nameEn: "[Hwahongm Bestseller/Base Adherence Item] Hwahongm 163 Foundation Brush",
     category: "메이크업",
     price: "19,800원"
   }
